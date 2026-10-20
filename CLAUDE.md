@@ -1,48 +1,58 @@
 Stair Tree Choir
 
-Fourteen lip-syncing pixel Christmas trees, cut from the oak treads of a removed spiral staircase. They're grouped into seven identical pair kits. Each kit drives two trees, and any site can run one, two or three kits.
+Fourteen lip-syncing pixel Christmas trees, cut from the oak treads of a removed spiral staircase. Every tree is self-contained: its own ESP32 pixel controller on the back, fed with 12V. Each site has one show player (a Pi running FPP) that plays the audio and streams the frames to its trees over Wi-Fi. Any site can run any number of trees.
 
-This file is the project brief for Claude Code. It records what has been decided, what has been bought, and what still needs building. Before changing a decision, raise it with Rob. Everything marked unverified has to be checked against a primary source (FPP or xLights source code, a datasheet, or Rob measuring the real part) before you rely on it.
+This file is the project brief for Claude Code. It records what has been decided, what has been bought, and what still needs building. Before changing a decision, raise it with Rob. Everything marked unverified has to be checked against a primary source (FPP, WLED or xLights source code, a datasheet, or Rob measuring the real part) before you rely on it.
 
-Original build pack (claude.ai artifact): https://claude.ai/artifact/X9tCyDmTd4q82MWGGNtpmc
+Original build pack (claude.ai artifact): https://claude.ai/artifact/X9tCyDmTd4q82MWGGNtpmc. It describes the earlier "pair kit" design (a Pi in every box driving two trees from GPIO); that was replaced on 20 Oct 2026 (§2).
 
 1. Goals
 14 trees, all identical, each with an outline, two eyes and a multi-shape mouth that lip-syncs to music.
-Sites: Rob's front lawn (4 or 6 trees), Rob's parents (4 trees), and friends (2 trees each).
+Sites: Rob's front lawn (4 or 6 trees), Rob's parents (4 trees), and two friends (2 trees each).
 Every site plays the same sequences. A song is sequenced once, for a 6-tree layout.
 Target: running by early December 2026.
-Rob builds the hardware himself. He has a CNC router, a 3D printer (PETG/TPU), soldering kit and a bench supply.
-2. System architecture
-xLights (Rob's PC)  ── sequence once for 6 trees ──►  .fseq + audio
-                                                          │ upload
-          ┌───────────────────────────────────────────────┼──────────────────────┐
-     Pair kit 1 (MASTER)                             Pair kit 2 (REMOTE)     Pair kit 3 (REMOTE)
-     Pi + FPP, plays audio                           Pi + FPP                Pi + FPP
-     DPI Pixels → trees 1,2                          → trees 3,4             → trees 5,6
-          └──────────── FPP MultiSync over Wi-Fi (sync packets only) ───────────┘
-Player: Falcon Player (FPP) on a Raspberry Pi in every kit. Use the 64-bit Pi image (FPP 10.x line).
-Pixel output: FPP's DPI Pixels driver, driving WS2811 straight from the Pi's GPIO through a 74AHCT125 level shifter. There are no ESP32s in this design. (In FPP 10, Pi string outputs moved from rpi_ws281x to DPIPixels.)
-Multi-kit sync: FPP MultiSync. One kit is master and plays the audio. Remotes play their local copy of the same .fseq, locked to the master.
-Kit position: each kit has a "pair position" (1, 2 or 3) that sets which two trees of the 6-tree sequence it outputs. A single kit at a friend's house runs as master at position 1.
-Audio: USB sound card → PAM8610 amp → speaker. Every kit has an amp fitted, but only the master's speaker is connected.
+Rob builds the hardware himself. He has a CNC router, a 3D printer (Bambu P1S; PETG/TPU), soldering kit and a bench supply.
+
+2. System architecture (decided by Rob, 20 Oct 2026: ESP32 per tree, one player per site)
+
+xLights (Rob's PC) ── sequence once for 6 trees ──► .fseq + audio
+                                                      │ upload
+Site (e.g. lawn, 6 trees)                             ▼
+  Show player: Pi + FPP, USB audio → amp → speaker
+      │ DDP over the site's own Wi-Fi (frames only, ~90 kbit/s per tree)
+      ▼
+  Site router (dedicated, same SSID and addressing at every site)
+      │
+  Tree ESP32s (WLED): stairtree-01 … stairtree-14, one per tree
+
+Show player: Falcon Player (FPP 10.x, 64-bit Pi image) on one Raspberry Pi per site. It plays the .fseq and audio and sends each tree's channels as DDP to that tree's IP. Rob's Pi 3 and Pi 5 are two of the four; any Pi works because no GPIO pixel output is used. Rob's PC can stand in during development (xLights output or xSchedule).
+Tree controller: an ESP32 on each tree running WLED, receiving DDP (realtime mode) and driving the tree's 92 pixels through a 74AHCT125 level shifter. The data lead from ESP32 to first pixel is short (≈30cm), so no long outdoor data runs.
+Network: each site has a dedicated travel router (e.g. GL.iNet Mango), configured identically everywhere, so trees never join a host's home Wi-Fi. Fallback: the Pi as its own hotspot. Traffic is tiny; the router is for reliability, a quiet channel and fixed addressing, not bandwidth.
+Fallback if Wi-Fi streaming jitters in testing: ESPixelStick firmware in FPP Remote mode (sequence stored on the ESP's SD card, sync packets only). Needs SD-equipped ESP32s, so decide before buying boards.
+Audio: USB sound card → PAM8610 amp → speaker, at the player.
+
+Addressing
+Tree IDs 1–14 are physical: hostname stairtree-NN, fixed IP 192.168.8.(100+NN) (GL.iNet default subnet; confirm on the router). Same on every site router.
+Sequence slots 1–6 are the 6 trees in the xLights sequence. Each site's config maps slots to tree IDs (data/sites.json, M5); a 2-tree site uses slots 1–2, a 4-tree site slots 1–4.
+
 Channel map (6-tree sequence)
     Value
 Pixels per tree    92 (RGB, so 276 channels)
-Channels per kit    552
-Tree t (1 to 6) start channel    (t-1) × 276 + 1
-Kit at position p, output A    trees 2p-1
-Kit at position p, output B    trees 2p
+Slot s (1 to 6) start channel    (s-1) × 276 + 1
 Whole sequence    1,656 channels
+FPP output per tree    DDP to the tree's IP, start channel of its slot, 276 channels
+
 3. The tree
 Blank: the existing treads are symmetric tapered boards (not triangles): about 92mm across the narrow end, 382mm across the wide end, 894mm long, 30mm thick, corners rounded ~15–20mm. Measured from photos on 20 Oct 2026 (§9); Rob to confirm with a tape. The narrow end is the top of the tree. The shape lives in data/blank.json, not in code.
-Existing holes: each tread has four old stair-fixing holes in the BACK face, 17mm diameter × 23mm deep (7mm of oak left in front), two about 33mm from the narrow end (±37mm from the centreline) and two about 44mm from the wide end (±170mm), plus small screw pilot holes beside them. Decision (Rob, 20 Oct 2026): pixels keep at least a 5mm wall from them (Params.hole_wall); the back channel keeps 3mm from the 17mm holes but may mill through the pilots. The old holes may later carry 3D-printed feet or stake mounts.
-Pixels: 12mm bullet pixels push-fitted into 12mm through-holes. Rob must test-fit one on an offcut before cutting all 14.
+Existing holes: each tread has four old stair-fixing holes in the BACK face, 17mm diameter × 23mm deep (7mm of oak left in front), two about 33mm from the narrow end (±37mm from the centreline) and two about 44mm from the wide end (±170mm), plus small screw pilot holes beside them. Decision (Rob, 20 Oct 2026): pixels keep at least a 5mm wall from them (Params.hole_wall); the back channel keeps 3mm from the 17mm holes but may mill through the pilots. The wide-end holes carry the printed boots.
+Pixels: 12mm bullet pixels push-fitted into 12mm through-holes, probably with a back counterbore (size TBC when the pixels arrive; Params.back_counterbore_dia/depth). Rob must test-fit one on an offcut before cutting all 14.
 Layout: 92 nodes, minimum centre spacing 24.4mm, outline inset 22mm from the edge. Face option C (Rob, 20 Oct 2026): eyes centred 450mm and lip line 645mm below the top; the mouth can't go higher at its current width.
-Back face: routed channel about 15mm wide × 12mm deep, following the data order, with room to coil the lead between closely spaced pixels.
-Mounting: two 3D-printed PETG boots per tree (feet/, rough-in done 20 Oct 2026; cartoon boots the tree stands in, hollow to save material across 28). Each plugs into one of the old 17mm fixing holes at the wide end, screws into the old pilot hole, holds the bottom edge 50mm off the grass, and is pegged with two 8mm × 200mm nails. This replaces the steel stakes in the original plan.
+Back face: routed channel about 15mm wide × 12mm deep, following the data order, with room to coil the lead between closely spaced pixels. Data-in pocket 25mm at node 1 (base-left).
+Tree controller box: small printed box on the back of the tree near node 1 (or inside a boot shaft): ESP32, level shifter, 5V buck, fuse. 12V comes in on one lead; the pixel lead is short. Design in M3.
+Mounting: two 3D-printed PETG boots per tree (feet/, rough-in done 20 Oct 2026; cartoon boots the tree stands in, hollow to save material across 28). Each plugs into one of the old 17mm fixing holes at the wide end, screws into the old pilot hole, holds the bottom edge 50mm off the grass, and is pegged with two 8mm × 200mm nails.
 Finish: exterior oil (e.g. Osmo UV), 2–3 coats, including the end grain.
 
-Canonical layout data: data/tree-layout.json, generated by tools/tree_layout.py from data/blank.json (the only hand-edited input). The node order is the wiring order. Every downstream artefact (CNC files, xLights model, FPP config) must be generated from this file, never hand-copied.
+Canonical layout data: data/tree-layout.json, generated by tools/tree_layout.py from data/blank.json (the only hand-edited input). The node order is the wiring order. Every downstream artefact (CNC files, xLights model, controller config) must be generated from this file, never hand-copied.
 
 Group    Nodes    Notes
 outline    1–59    Starts at the base-left corner, runs along the base, up the right edge, over the apex and down the left edge
@@ -60,40 +70,43 @@ etc, FV, L, E    lip + mouth_small
 AI    lip + mouth_wide
 O, U, WQ    mouth_small + mouth_wide
 
-cad/stair-tree-cnc-layout.svg and .dxf are generated by tools/gen_cnc.py. Layers: BLANK, FRONT_HOLES, BACK_CHANNEL (mirrored, detours round the old holes), BACK_POCKET (mirrored), EXISTING (reference only, mirrored), STAKE_HOLES (only once the spacing is known), and REG (DXF only: spoilboard dowels on the flip axis). Don't edit them by hand.
+cad/stair-tree-cnc-layout.svg and .dxf are generated by tools/gen_cnc.py. Layers: BLANK, FRONT_HOLES, BACK_COUNTERBORE (when set), BACK_CHANNEL (mirrored, detours round the old holes), BACK_POCKET (mirrored), EXISTING (reference only, mirrored), STAKE_HOLES (unused now the boots use the old holes), and REG (DXF only: spoilboard dowels on the flip axis). Don't edit them by hand.
 
-4. Pair kit hardware (decided)
+4. Hardware (decided unless marked TBC)
 Part    Decision
-Computer    Raspberry Pi 3 Model A+ for the kits (6 to buy). The Pi Zero 2 W was the original plan but is sold out until 2027. Rob's existing Pi 3 is the first kit and the dev board. His Pi 5 stays indoors as a spare or test machine.
-Level shifter    74AHCT125N (DIP-14, in a socket) on 5×7cm stripboard. Two channels used, with a 33Ω series resistor on each data line.
-Pi power    Mini560 fixed 5V buck (12V in), wired to the Pi header 5V pins (2 or 4) and GND (pin 6). It also powers the 74AHCT125. 100µF capacitor across 5V.
-Pixel power    12V direct to each tree through its own inline 5A blade fuse
-Mains PSU    Mean Well LPV-100-12 (genuine, from a UK distributor), IP67. It sits outside the box. Mains never enters the enclosure. Plug into an RCD-protected outdoor socket.
-Audio    USB sound card (plugs straight into the A+'s USB-A port) → PAM8610 2×15W board (12V) → speaker
-Tree leads    Permanently fixed to the box: 3m of 3-core 0.75mm² outdoor flex (outer diameter < 8mm) through a PG9 gland, wired inside to the level shifter and fuse. The far end has an xConnect female flat pigtail, soldered and covered in adhesive-lined heatshrink. The tree's male xConnect plugs into it.
-Other entries    PG7 glands for the 12V lead in and the speaker cable. All entries on the bottom face.
-Enclosure    3D printed in PETG by Rob (see M3)
+Tree controller    ESP32 running WLED, one per tree (14). Board TBC: DIY ESP32-WROOM-32U dev board with external antenna (~£5) on stripboard with the parts already bought, or a ready-made 12V WLED board with level shifting (QuinLED Dig-Uno, GledOpto). Prototype with any spare ESP32 first.
+ESP32 data pin    TBC. Pick a pin that is safe at boot (not a strapping pin) and supported by WLED's LED output; verify from WLED docs/source before wiring.
+Level shifter    74AHCT125N (DIP-14, in a socket), one channel used per tree, 33Ω series resistor on the data line, 100µF across 5V, 0.1µF at the chip.
+Tree logic power    Mini560 fixed 5V buck (12V in) for the ESP32 and level shifter.
+Pixel power    12V to each tree through its own inline 5A blade fuse.
+Mains PSU    Mean Well LPV-100-12 (genuine, UK distributor), IP67, one per two trees (≈56W), with a fused 12V split to each tree. Sits outside any box; mains never enters a printed enclosure; RCD-protected outdoor socket. TBC: one LPV-60-12 per tree instead, if separate placement matters more than fewer mains points.
+12V leads    3-core 0.75mm² outdoor flex (outer diameter < 8mm) through PG7/PG9 glands; xConnect pigtails for the pixel string.
+Show player    One Raspberry Pi per site running FPP (4 sites): Rob's Pi 3 and Pi 5, plus 2 to buy (Pi 3 A+ is fine). TBC: indoors (mains, cabled to the router, speaker cable run outside) or outdoors in a site box.
+Site network    One dedicated travel router per site (GL.iNet Mango, ~£27) unless the Pi hotspot proves good enough. Same SSID, password and subnet everywhere.
+Audio    USB sound card → PAM8610 2×15W (12V) → speaker, one set per site.
 
-Pixel power: about 0.3W per pixel at full white → about 28W (2.3A) per tree, about 56W per kit. A 100W supply has headroom.
+Pixel power: about 0.3W per pixel at full white → about 28W (2.3A) per tree. Voltage drop over 5m of 0.75mm² at 2.3A is about 0.6V, fine at 12V.
 
 5. Bought
-See docs/bom.md (kept current). Ordered from AliExpress 18 Oct 2026, £277.80, due 25–31 Oct.
+See docs/bom.md (kept current). Ordered from AliExpress 18 Oct 2026, £277.80, due 25–31 Oct. With the ESP32-per-tree design some of it is spare (amps, sound cards, OTG cables, pin headers).
 
 6. Repo layout
 CLAUDE.md
 data/blank.json                # hand-edited input: measured tread outline
 data/tree-layout.json          # canonical, generated
+data/sites.json                # hand-edited input: sites, slot → tree ID (M5)
 tools/tree_layout.py           # layout generator (source of truth)
 tools/gen_cnc.py               # -> cad/*.svg, cad/*.dxf
 tools/gen_xmodel.py            # -> xlights/StairTree.xmodel (M2)
-tools/gen_fpp_config.py        # -> fpp/kit-<n>/... per-kit config (M5)
+tools/gen_site_config.py       # -> fpp/<site>/ outputs, wled/stairtree-NN.json (M5)
 tools/build.py                 # python -m tools.build regenerates everything
 cad/                           # CNC outputs
-docs/research.md               # what already exists (FPP pins, xLights, HA integrations)
-enclosure/                     # OpenSCAD source + exported STLs (kit box)
-feet/                          # OpenSCAD tree feet + exported STLs
-electronics/                   # level-shifter stripboard layout, wiring diagram, pinout table
-fpp/                           # config templates, provisioning notes/scripts
+docs/research.md               # what already exists (FPP, xLights, ESP32/WLED, HA integrations)
+enclosure/                     # OpenSCAD: tree controller box, site box
+feet/                          # OpenSCAD tree boots + exported STLs
+electronics/                   # tree controller stripboard layout, wiring diagram, pin table
+fpp/                           # per-site player config, provisioning notes
+wled/                          # per-tree WLED config
 xlights/                       # model files, layout notes
 docs/                          # build guide, BOM, test checklist
 tests/                         # pytest for generators
@@ -101,110 +114,65 @@ photos/                        # measurement photos (§9)
 
 Milestones (in order)
 
-M1. Layout and CNC files (first pass done; waiting on the measured blank, stake spacing and the hole test)
+M0. Prototype the architecture (next, needs no new parts beyond a spare ESP32)
+Flash WLED onto a spare ESP32; FPP on Rob's Pi 3 (or xLights on the PC) sends DDP to it. When the pixels arrive, drive one 92-pixel string through a 74AHCT125 and check frame timing with a fast mouth sequence over Wi-Fi. This decides WLED streaming vs ESPixelStick FPP Remote before 14 boards are bought.
 
-Keep tools/tree_layout.py as the single source of truth. Parameters for hole size and inset are in Params.
-Generate:
-a front-face drilling file (12mm holes)
-a back-face channel toolpath centreline, mirrored
-a blank outline
-registration marks so the front and back operations line up
-Output both SVG (mm units) and DXF (ezdxf).
-Add a pocket at the data-in point (base-left corner) for the lead to exit, and two stake-mount bolt holes on the back. Ask Rob for the stake bolt spacing.
-Tests:
-node count is 92
-no two holes closer than 24mm centre to centre
-every hole is at least 16mm from the blank edge
-the SVG viewBox matches the blank size
+M1. Layout and CNC files (done for the measured blank; waiting on the hole/counterbore test)
+Keep tools/tree_layout.py as the single source of truth. Front holes, mirrored back channel, data-in pocket, existing-hole reference layer, registration dowels. SVG (mm) and DXF (ezdxf). Tests: 92 nodes; spacing ≥ 24mm; holes ≥ 16mm from the edge; clear of the old holes; SVG viewBox = blank size; deterministic output.
 
 M2. xLights model
-
-Generate a Custom Model .xmodel from the layout JSON. Scale it to a grid (for example 1 cell = 10mm, giving 40×90) with node numbers in wiring order.
+Generate a Custom Model .xmodel from the layout JSON. Scale it to a grid (for example 1 cell = 10mm) with node numbers in wiring order.
 Include a face definition mapping the phonemes in §3 to node ranges, plus eyes-open/closed if useful.
-Unverified: the exact .xmodel XML schema and the face-definition attribute names. Confirm them from the xLights source on GitHub, or ask Rob to export a sample custom model with a face from his xLights install. Don't guess the format.
-Add a short doc explaining how to import the model, copy it to 6 trees, and set the start channels from §2.
+Unverified: the exact .xmodel XML schema and the face-definition attribute names. Confirm them from the xLights source on GitHub, or ask Rob to export a sample custom model with a face from his xLights install (xLights 2026.18 installed 20 Oct 2026). Don't guess the format.
+Add a short doc: import the model, copy it to 6 trees (slots), set start channels per §2, and set up each tree as a DDP/WLED controller for testing from the PC.
 
-M3. Enclosure (OpenSCAD, parametric)
-
-PETG print with 2mm+ walls (4+ perimeters).
-Gasket: tongue-and-groove lid sealed with a printed TPU gasket or 3mm silicone cord. Lid fixed with M3 stainless screws into heat-set inserts. Not siliconed shut.
-The lid overhangs the joint so rain can't sit on the seam.
-All cable entries on the bottom face:
-2 × PG9 (tree leads)
-1 × PG7 (12V in)
-1 × PG7 (speaker)
-Allow for gland thread and nut clearance. Ask Rob for measured gland dimensions.
-One small drip/vent hole at the lowest point, and room for a silica gel sachet.
-Internal standoffs for:
-Pi 3 A+ (65×56mm; use the official mechanical drawing hole positions)
-5×7cm stripboard
-PAM8610 board
-Mini560
-two inline fuse holders
-Ask Rob to measure the PAM8610 and Mini560 boards rather than assuming their sizes.
-A mount for a ground stake, so the box sits off the grass.
-Export STLs. Keep every dimension as a named parameter at the top of the file.
+M3. Enclosures (OpenSCAD, parametric)
+Tree controller box (14): small, PETG, 2mm+ walls, gasketed lid (TPU or 3mm silicone cord), M3 screws into heat-set inserts, drip/vent hole, entries on the bottom face (12V in, pixel lead out; PG7/PG9). Mounts on the tree back near node 1 or inside a boot shaft. Standoffs for the chosen ESP32 board, the stripboard, Mini560 and a fuse holder. Ask Rob to measure the boards rather than assuming sizes.
+Site box (if the player lives outdoors): Pi, USB sound card, PAM8610, Mini560 or USB supply, router if wanted. Mains stays outside.
+Every dimension a named parameter at the top of the file. Export STLs.
 
 M3b. Tree boots (rough-in done)
-
-feet/stair-tree-foot.scad, left and right STLs. Printed upright on a Bambu P1S, no supports, ~140–170g each. Next: Rob test-fits one pair on a tread, then tune spigot fit, shelf height and wing length. Consider whether the box (M3) can share the same nail-peg idea instead of its own stake mount.
+feet/stair-tree-foot.scad, left and right STLs. Printed upright on the P1S, no supports, ~145–175g each. Next: Rob test-fits one pair on a tread, then tune spigot fit, shelf height and wing length.
 
 M4. Electronics documentation
+Tree controller stripboard layout (diagram plus connection table): ESP32 data pin → 74AHCT125 (powered at 5V, unused inputs tied to GND, /OE of the used channel tied low) → 33Ω → pixel data; 100µF across 5V; 0.1µF at the chip; Mini560 from 12V; inline 5A fuse on pixel 12V. Optional TVS diode on the data line at the box.
+Site wiring diagram: PSU → fused splits → trees; player, amp, speaker.
 
-Level-shifter stripboard layout (a diagram, plus a connection table):
-74AHCT125 powered at 5V; unused inputs tied to GND
-/OE pins of used channels tied low
-33Ω series resistor on each output
-100µF across 5V
-0.1µF decoupling at the chip
-Full kit wiring diagram, and a pin table for the Pi header.
-VERIFIED from FPP source (docs/research.md): cape "PiHat", driver PiHat-DPIPixels. Output 1 (tree A) = header pin 12 / GPIO18, output 2 (tree B) = header pin 35 / GPIO19. No licence needed for two full-length strings in FPP 10.1+. Only GPIO18/19 are claimed; the rest of the header stays free. Bench check: 92 pixels on output 2 with no licence, and KMS DPI comes up on the Pi 3 A+.
-
-M5. FPP configuration and provisioning
-
-Per-kit config generated from a single template. Inputs:
-kit number 1–7 → hostname stairtree-<n>
-pair position 1–3 → start channels per §2
-role: master or remote
-Output:
-the DPI Pixels channel output config: 2 strings, 92 nodes each, RGB order to be confirmed on the first string
-MultiSync settings
-a nightly schedule that stops the show cleanly
-Unverified: FPP's config file names and JSON schema. Read them from the FPP source or from a config backup exported off Rob's running Pi 3. Prefer generating an FPP settings backup/restore file or documented API calls over writing files into the Pi's filesystem.
-A provisioning checklist: flash SD → first boot → apply kit config → test pattern → join site Wi-Fi.
+M5. Site and tree configuration
+data/sites.json lists the sites and maps sequence slots to tree IDs. tools/gen_site_config.py generates:
+per tree: WLED config (hostname stairtree-NN, static IP, LED count 92, data pin, colour order TBC from first light, realtime/DDP receive enabled, site Wi-Fi credentials kept out of git)
+per site: FPP channel outputs (one DDP output per tree: IP, start channel of its slot, 276 channels), playlist and a nightly schedule that stops the show cleanly
+Unverified: WLED's config JSON schema and FPP's channel output JSON schema. Read them from the source or from a backup exported from a running device. Prefer WLED's /json/cfg backup/restore and FPP's settings backup or API over writing files into filesystems.
+A provisioning checklist: flash ESP32 → apply config → join site router → test pattern; flash Pi → apply site config → audio test.
 
 M6. Docs and test checklist
-
-docs/build-guide.md: tree cutting → finishing → pixel fitting → kit assembly → enclosure → site setup.
-docs/bom.md: §4 and §5, kept current.
-docs/test-checklist.md, covering:
-checking every Mini560 reads 5.0V before a Pi is connected
-testing each 74AHCT125 in a socket
-first-light test pattern
-node order matching the xLights model
-full-white current per tree
-a MultiSync drift check across 3 kits
-a rain/soak test of one printed enclosure
+docs/build-guide.md: tree cutting → finishing → pixel fitting → controller box → boots → site setup.
+docs/bom.md: kept current.
+docs/test-checklist.md: every Mini560 reads 5.0V before the ESP32 is connected; each 74AHCT125 in a socket; first-light test pattern; node order matches the xLights model; full-white current per tree; Wi-Fi frame timing with all 6 trees streaming; rain/soak test of one printed enclosure.
 
 M7. Home Assistant link (later)
-Rob's Home Assistant config lives in a separate repo (C:\Users\User\Documents\HA\Homeassistant, Node-RED flows there too). Plan: start/stop the show and pick playlists from HA/Node-RED (e.g. at sunset, only when someone is home), and show what's playing on the hall board. Use the existing koolsb/ha-fpp HACS integration (FPP as a media player) rather than writing one; see docs/research.md.
+Rob's Home Assistant config lives in a separate repo (C:\Users\User\Documents\HA\Homeassistant, Node-RED flows there too). Plan: start/stop the show and pick playlists from HA/Node-RED (e.g. at sunset, only when someone is home), and show what's playing on the hall board. Use the existing koolsb/ha-fpp HACS integration (FPP as a media player) rather than writing one; see docs/research.md. WLED trees also appear in HA natively, which helps for testing.
 
 7. Constraints and conventions
-Python 3.11+, with dependencies in requirements.txt (ezdxf, pytest). OpenSCAD for the enclosure. Local venv in .venv (not committed).
+Python 3.11+, with dependencies in requirements.txt (ezdxf, pytest). OpenSCAD for enclosures and boots. Local venv in .venv (not committed).
 Generators are deterministic. Generated files are committed so Rob can use them without running code, and are rebuilt by a single make all (or python -m tools.build).
 Units are mm everywhere. Coordinates are viewed from the front of the tree unless a file says it is mirrored.
 Never hand-edit generated files. Change the generator and regenerate.
-Mains safety: no design in this repo may put mains voltage inside the printed enclosure.
-You can't test the hardware. Say plainly what Rob needs to verify on the bench, and ask before deciding anything in §4.
+Mains safety: no design in this repo may put mains voltage inside a printed enclosure.
+No Wi-Fi passwords or other secrets in git.
+You can't test the hardware. Say plainly what Rob needs to verify on the bench, and ask before deciding anything marked TBC in §4.
+
 8. Open questions for Rob
 Tape-check the photo measurements: narrow end ~92mm, wide end ~382mm, length ~894mm.
-The 30mm data-in pocket at node 1 overlaps the bottom-left old fixing hole by about 1mm. Shrink the pocket, move it, or use that hole for the lead exit?
-Feet: test-fit the first printed pair (spigot fit, screw size for the old pilot holes, 50mm clearance enough?).
-Pixel back counterbore size, once the pixels arrive (Params.back_counterbore_dia/depth, currently off).
+Tree controller board: DIY ESP32-32U on stripboard, or a ready-made WLED board? (Decide after M0.)
+WLED streaming (DDP) or ESPixelStick FPP Remote? (Decide after M0.)
+Show player indoors or outdoors at each site? Dedicated router or Pi hotspot?
+Power: one LPV-100-12 per two trees, or one LPV-60-12 per tree?
+Boots: test-fit the first printed pair (spigot fit, screw size for the old pilot holes, 50mm clearance enough?).
+Pixel back counterbore size, once the pixels arrive.
 The lead length between pixels on the Ray Wu strings, once they arrive. It decides the back-channel width and depth.
 Does a pixel push-fit a 12mm hole, or does it need 12.2–12.5mm?
-Measured sizes: PAM8610 board, Mini560 board, the PG7 and PG9 glands, and the outer diameter of the outdoor flex.
-Stake/mount for the box.
+Measured sizes: chosen ESP32 board, Mini560, PAM8610, PG7/PG9 glands, outer diameter of the outdoor flex.
 How front and back are registered on the CNC (spoilboard dowels on the flip axis are the current assumption).
 The pixel colour order (RGB, GRB and so on), from the first-light test.
 Which song to sequence first.
@@ -219,4 +187,4 @@ Rob photographs a tread; Claude reads the photos and writes data/blank.json. Don
 Claude fixes scale and perspective from the A4 corners or ruler marks, describes the outline as points in mm (curves as several points with corner=false), and gives the numbers back for Rob to check against the tape before regenerating. Expect about ±2–3mm from a photo: fine for the outline inset, not for hole fit (that comes from the offcut test). The generator only handles convex outlines so far; a notch at the narrow end would need it extending.
 
 10. Long term ideas (not started)
-Script writing for the songs/skits, animation beyond the phoneme faces, and voice generation for spoken parts.
+Script writing for the songs/skits, animation beyond the phoneme faces, and voice generation for spoken parts. Sequencing help: JohnBreault/xlights-mcp-server (docs/research.md), once the tree models are in the xLights show folder.

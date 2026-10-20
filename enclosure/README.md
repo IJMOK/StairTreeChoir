@@ -1,1 +1,1 @@
-OpenSCAD enclosure source and exported STLs (milestone M3).
+OpenSCAD tree controller box and site box (milestone M3).
