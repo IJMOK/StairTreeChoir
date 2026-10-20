@@ -31,10 +31,10 @@ class Params:
     hole_wall: float = 5.0          # minimum wood between a pixel hole and an existing hole
     outline_nodes: int = 59
     # Face, relative to the blank's centreline (cx) and its top (y = 0).
-    eye_y: float = 555.0
+    eye_y: float = 450.0           # face option C (Rob, 20 Oct 2026)
     eye_dx: float = 42.0            # each eye centre this far either side of cx
     eye_r: float = 26.0             # hexagon of 6 nodes
-    mouth_y: float = 690.0          # lip line
+    mouth_y: float = 645.0          # lip line; the mouth can't go higher at this width
     mouth_pitch: float = 26.0       # horizontal spacing of mouth nodes
     lip_nodes: int = 7
     mouth_wide_nodes: int = 9
