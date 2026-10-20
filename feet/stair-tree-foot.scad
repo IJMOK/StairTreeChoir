@@ -139,8 +139,13 @@ module boot() {
         intersection() {
             union() {
                 difference() { outer(); cavities(); }
-                // solid tubes round the nails, up to their seats
-                translate([toe_nail[0], toe_nail[1], 0]) cylinder(d = nail_d + 2 * nail_boss, h = toe_h - 6);
+                // solid post round the toe nail, filling up to the toe roof so it joins the shell
+                // (wider than the head seat, or the seat cuts it free)
+                intersection() {
+                    outer();
+                    translate([toe_nail[0], toe_nail[1], 0]) cylinder(d = nail_head_d + 2 * nail_boss, h = toe_h + 10);
+                }
+                // heel nail goes through the solid spur
                 translate([heel_nail[0], heel_nail[1], 0]) cylinder(d = nail_d + 2 * nail_boss, h = sole_t);
                 translate([0, tree_t, zh]) rotate([90, 0, 0]) spigot();
             }
