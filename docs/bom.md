@@ -15,7 +15,7 @@ Kept current from CLAUDE.md §4. 14 trees, each with its own ESP32 controller; o
 | 15 | Micro-USB OTG cables | Spares |
 | 10 | 2×20 pin headers | Spares |
 | 10 | Mini560 5V buck | One per tree controller; 4 more needed |
-| 20 + 20 | PG7 and PG9 cable glands | |
+| 20 + 20 | PG7 and PG9 cable glands | PG9: 12V flex into each tree box (14) + site boxes. PG7: pixel lead out of each tree box (14, via a short round tail, since the flat xConnect pigtail won't seal) + speaker cables (4). Enough. |
 
 ## Rob already has
 
