@@ -89,6 +89,7 @@ tools/gen_xmodel.py            # -> xlights/StairTree.xmodel (M2)
 tools/gen_fpp_config.py        # -> fpp/kit-<n>/... per-kit config (M5)
 tools/build.py                 # python -m tools.build regenerates everything
 cad/                           # CNC outputs
+docs/research.md               # what already exists (FPP pins, xLights, HA integrations)
 enclosure/                     # OpenSCAD source + exported STLs (kit box)
 feet/                          # OpenSCAD tree feet + exported STLs
 electronics/                   # level-shifter stripboard layout, wiring diagram, pinout table
@@ -157,7 +158,7 @@ Level-shifter stripboard layout (a diagram, plus a connection table):
 100µF across 5V
 0.1µF decoupling at the chip
 Full kit wiring diagram, and a pin table for the Pi header.
-Unverified and critical: which GPIO pins FPP's DPI Pixels driver uses for string outputs 1 and 2. Find this in the FPP source (FalconChristmas/fpp, DPIPixels output and the Pi string/cape definitions). Cite the file and line in the docs. DPI takes over many GPIOs, so confirm nothing else in the kit needs them.
+VERIFIED from FPP source (docs/research.md): cape "PiHat", driver PiHat-DPIPixels. Output 1 (tree A) = header pin 12 / GPIO18, output 2 (tree B) = header pin 35 / GPIO19. No licence needed for two full-length strings in FPP 10.1+. Only GPIO18/19 are claimed; the rest of the header stays free. Bench check: 92 pixels on output 2 with no licence, and KMS DPI comes up on the Pi 3 A+.
 
 M5. FPP configuration and provisioning
 
@@ -186,7 +187,7 @@ a MultiSync drift check across 3 kits
 a rain/soak test of one printed enclosure
 
 M7. Home Assistant link (later)
-Rob's Home Assistant config lives in a separate repo (C:\Users\User\Documents\HA\Homeassistant, Node-RED flows there too). Plan: start/stop the show and pick playlists through FPP's REST API or MQTT from HA/Node-RED (e.g. at sunset, only when someone is home), and show what's playing on the hall board. Verify FPP's API/MQTT topics from the FPP source before writing anything.
+Rob's Home Assistant config lives in a separate repo (C:\Users\User\Documents\HA\Homeassistant, Node-RED flows there too). Plan: start/stop the show and pick playlists from HA/Node-RED (e.g. at sunset, only when someone is home), and show what's playing on the hall board. Use the existing koolsb/ha-fpp HACS integration (FPP as a media player) rather than writing one; see docs/research.md.
 
 7. Constraints and conventions
 Python 3.11+, with dependencies in requirements.txt (ezdxf, pytest). OpenSCAD for the enclosure. Local venv in .venv (not committed).
