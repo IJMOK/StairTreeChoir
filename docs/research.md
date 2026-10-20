@@ -37,3 +37,14 @@ Source: FalconChristmas/fpp `master` at commit db22d69 (20 Oct 2026).
 ## xLights install
 
 - Installed xLights 2026.18 on Rob's PC via `winget install xLightsSequencer.xLights` (20 Oct 2026), at `C:\Program Files\xLights`.
+
+## Kit computer and pixel output options (20 Oct 2026)
+
+Why: the Pi Zero 2 W is sold out (Pimoroni out of stock in Sep 2026; Raspberry Pi reports ~1M Zero-family units on back order, no official restock date). The kits currently plan Pi 3 A+ boards driving pixels straight off GPIO.
+
+- **Pi 3 Model A+:** in stock at The Pi Hut, about £24 (PriceSpy from ~£22.86). Its original production guarantee ran to Jan 2023 and has expired, so buy all 6 now rather than later. Same SoC family as Rob's Pi 3, so a bench test on the Pi 3 is representative.
+- **Pi 4 1GB:** still $35 list after the Dec 2025 RAM price rises; works with FPP and DPIPixels but needs a 3A supply and runs hotter. No real gain for 2 strings.
+- **Pi 5 1GB:** launched Dec 2025 at $45; FPP supports DPIPixels on RP1. More cost and power than needed.
+- **FPP 10 dropped the old rpi_ws281x driver** (commit e791964, Jul 2026). On FPP 10 the only way to drive pixels from Pi GPIO is DPIPixels, so the Pi 3 / A+ DPI path must be bench-tested before buying 6.
+- **Direct GPIO through a 74AHCT125 is the standard approach,** not a hack: it's what FPP's own PiHat/PiCap configuration expects, with only GPIO18/19 used. The real risks are (1) DPI not coming up on the Pi 3 A+, and (2) ESD/surges on 3m outdoor data leads. Mitigation for (2): 33Ω series resistor at the buffer (planned) plus optionally a small TVS diode on each data line at the box.
+- **ESP32 pixel controllers as an alternative for remote pairs:** e.g. QuinLED Dig-Uno (ESP32, 2 outputs, built-in 74AHCT level shifting, 5/12/24V input, ships with WLED). FPP can stream DDP to it over Wi-Fi; 552 channels per kit is tiny. Community reports say Wi-Fi streaming can lag or jitter, which matters for lip-sync; ESPixelStick firmware has an FPP Remote mode (sequence on the ESP's SD card, sync packets only) that avoids that, but needs an SD-equipped ESP32 and may need compiling. ESPs have no audio, so every site still needs one FPP Pi as master.
