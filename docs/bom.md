@@ -33,5 +33,6 @@ DIP sockets, inline blade fuse holders and 5A fuses, M3 heat-set inserts and sta
 | – | PETG, plus TPU or 3mm silicone cord | Enclosures and gaskets |
 | 3 | Speakers | Master kits only |
 | – | 0.1µF capacitors | Level-shifter decoupling (M4) |
-| 28 | Steel ground stakes | Two per tree; type TBC |
+| 56 | 8mm × 200mm nails | Two per printed foot, 28 feet (feet/) |
+| 28 | 4mm stainless wood screws, ~25mm | Foot into the old pilot hole; length TBC on test-fit |
 | – | Exterior oil (e.g. Osmo UV) | |
