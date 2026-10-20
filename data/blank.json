@@ -1,10 +1,24 @@
 {
-  "_comment": "Hand-edited INPUT: the tread blank outline in mm, front view, x right, y down. Points are listed in wiring order starting at the data-in corner (base-left). corner=false marks a point on a curve (not a node corner). Placeholder 400x900 isosceles triangle until the real tread is measured.",
-  "measured": false,
+  "_comment": "Hand-edited INPUT: the tread blank in mm, FRONT view, x right, y down, narrow end at the top. Points in wiring order from the data-in corner (base-left). corner=false marks a point on a curve. Measured 2026-10-20 from photos/PXL_20261020_180309936.jpg (front) and PXL_20261020_180347632.jpg (back), scaled from an A4 sheet; the two photos agree within ~5mm. Symmetric tapered board, corners rounded ~15-20mm radius. Rob to confirm with a tape: top width, bottom width, length.",
+  "measured": true,
   "thickness": 30,
+  "corner_radius": 18,
   "points": [
-    {"x": 0, "y": 900, "name": "base_left"},
-    {"x": 400, "y": 900, "name": "base_right"},
-    {"x": 200, "y": 0, "name": "apex"}
+    {"x": 0, "y": 894, "name": "base_left"},
+    {"x": 382, "y": 894, "name": "base_right"},
+    {"x": 237, "y": 0, "name": "top_right"},
+    {"x": 145, "y": 0, "name": "top_left"}
+  ],
+  "_existing_holes": "Old stair fixings, drilled into the BACK face (not through). Positions are front-view coordinates. Pilot hole diameter and depth are guesses.",
+  "existing_holes": [
+    {"x": 154.3, "y": 32.6, "dia": 17, "depth": 23, "name": "fixing_top_left"},
+    {"x": 227.7, "y": 32.6, "dia": 17, "depth": 23, "name": "fixing_top_right"},
+    {"x": 20.5, "y": 849.9, "dia": 17, "depth": 23, "name": "fixing_bottom_left"},
+    {"x": 361.5, "y": 849.9, "dia": 17, "depth": 23, "name": "fixing_bottom_right"},
+    {"x": 170.2, "y": 33.2, "dia": 5, "depth": 23, "name": "pilot_top_left"},
+    {"x": 211.8, "y": 33.2, "dia": 5, "depth": 23, "name": "pilot_top_right"},
+    {"x": 47.0, "y": 850.0, "dia": 5, "depth": 23, "name": "pilot_bottom_left"},
+    {"x": 335.0, "y": 850.0, "dia": 5, "depth": 23, "name": "pilot_bottom_right"},
+    {"x": 191.0, "y": 848.8, "dia": 5, "depth": 23, "name": "pilot_bottom_middle"}
   ]
 }

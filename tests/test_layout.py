@@ -44,7 +44,23 @@ def test_edge_clearance(layout):
 
 def test_outline_starts_base_left(layout):
     first = layout["nodes"][0]
-    assert (first["x"], first["y"]) == (27.4, 878.0)
+    w, h = layout["blank"]["width"], layout["blank"]["height"]
+    assert first["x"] < w * 0.2 and first["y"] > h * 0.9
+
+
+def test_clear_of_existing_holes(layout):
+    p = layout["params"]
+    for hole in layout["blank"]["existing_holes"]:
+        for n in layout["nodes"]:
+            wall = math.dist((n["x"], n["y"]), (hole["x"], hole["y"])) - p["hole_dia"] / 2 - hole["dia"] / 2
+            assert wall >= p["hole_wall"] - 0.1, (hole["name"], n)
+
+
+def test_symmetric_blank_gives_symmetric_outline(layout):
+    w = layout["blank"]["width"]
+    xs = sorted(round(n["x"], 0) for n in layout["nodes"])
+    mirrored = sorted(round(w - n["x"], 0) for n in layout["nodes"])
+    assert max(abs(a - b) for a, b in zip(xs, mirrored)) <= 1.0
 
 
 def test_deterministic():

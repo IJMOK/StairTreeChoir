@@ -25,6 +25,7 @@ class Params:
     hole_dia: float = 12.0          # pixel bullet hole; confirm with the offcut test
     edge_inset: float = 22.0        # outline node centres from the blank edge
     min_spacing: float = 24.4       # minimum node centre spacing
+    hole_wall: float = 5.0          # minimum wood between a pixel hole and an existing hole
     outline_nodes: int = 59
     # Face, relative to the blank's centreline (cx) and its top (y = 0).
     eye_y: float = 555.0
@@ -63,6 +64,7 @@ def load_blank(path: Path = BLANK_FILE) -> dict:
     miny = min(y for _, y in pts)
     blank["polygon"] = [(x - minx, y - miny) for x, y in pts]
     blank["corners"] = [p.get("corner", True) for p in blank["points"]]
+    blank["holes"] = [{**h, "x": h["x"] - minx, "y": h["y"] - miny} for h in blank.get("existing_holes", [])]
     return blank
 
 
@@ -124,55 +126,93 @@ def path_length(path: list[Point]) -> float:
     return sum(math.dist(a, b) for a, b in zip(path, path[1:]))
 
 
-def outline_nodes(inset: list[Point], corners: list[bool], p: Params) -> list[Point]:
+def forbidden_spans(path: list[Point], keepouts: list[tuple[Point, float]], step: float = 0.25) -> list[tuple[float, float]]:
+    """Stretches of the path (as distances along it) where a node centre would
+    come closer to an existing hole than its keep-out radius."""
+    total = path_length(path)
+    spans, start = [], None
+    for k in range(int(total / step) + 2):
+        s = min(k * step, total)
+        q = point_along(path, s)
+        bad = any(math.dist(q, c) < r for c, r in keepouts)
+        if bad and start is None:
+            start = s
+        elif not bad and start is not None:
+            spans.append((start, s))
+            start = None
+    if start is not None:
+        spans.append((start, total))
+    return spans
+
+
+def outline_nodes(inset: list[Point], corners: list[bool], p: Params,
+                  keepouts: list[tuple[Point, float]] = ()) -> list[Point]:
     """Nodes on every corner, the rest spread along the sides between corners.
 
     Near an acute corner the first node on each side is pushed back far enough
     that the two neighbours of the corner node are still min_spacing apart.
+    Keep-outs (existing holes) split a side: no node inside one, and the nodes
+    either side sit on its boundary. A corner inside a keep-out is dropped.
     """
     n = len(inset)
-    cidx = [i for i in range(n) if corners[i]]
-    clearance = {}
-    for i in cidx:
-        theta = interior_angle(inset[i - 1], inset[i], inset[(i + 1) % n])
-        clearance[i] = max(p.min_spacing, p.min_spacing / (2 * math.sin(theta / 2)))
+    if not corners[0]:
+        raise ValueError("the first blank point (data-in) must be a corner")
+    path = inset + [inset[0]]
+    pos = [0.0]
+    for a, b in zip(path, path[1:]):
+        pos.append(pos[-1] + math.dist(a, b))
+    total = pos[-1]
+    spans = forbidden_spans(path, list(keepouts))
 
-    sides = []
-    for k, start in enumerate(cidx):
-        end = cidx[(k + 1) % len(cidx)]
-        idx = [start]
-        j = start
-        while j != end:
-            j = (j + 1) % n
-            idx.append(j)
-        path = [inset[i] for i in idx]
-        sides.append((start, end, path, path_length(path)))
+    def blocked(s: float) -> bool:
+        return any(a <= s <= b for a, b in spans)
 
-    # Share the non-corner nodes between sides by length (largest remainder).
-    spare = p.outline_nodes - len(cidx)
-    total = sum(s[3] for s in sides)
-    raw = [spare * s[3] / total for s in sides]
+    if blocked(0.0):
+        raise ValueError("the data-in corner is inside an existing hole's keep-out")
+
+    # Events along the closed path: kept corners, and keep-out boundaries.
+    events = []  # (distance, kind, clearance)
+    for i in range(n):
+        if corners[i] and not blocked(pos[i]):
+            theta = interior_angle(inset[i - 1], inset[i], inset[(i + 1) % n])
+            events.append((pos[i], "corner", max(p.min_spacing, p.min_spacing / (2 * math.sin(theta / 2)))))
+    for a, b in spans:
+        events += [(a, "enter", 0.0), (b, "leave", 0.0)]
+    events.sort()
+    events.append((total, *events[0][1:]))
+
+    segments = [(e0, e1) for e0, e1 in zip(events, events[1:]) if e0[1] != "enter"]
+    n_corners = sum(1 for e in events[:-1] if e[1] == "corner")
+
+    # Share the non-corner nodes between segments by length (largest remainder).
+    spare = p.outline_nodes - n_corners
+    lengths = [e1[0] - e0[0] for e0, e1 in segments]
+    raw = [spare * length / sum(lengths) for length in lengths]
     counts = [math.floor(r) for r in raw]
-    order = sorted(range(len(sides)), key=lambda i: (-(raw[i] - counts[i]), i))
+    order = sorted(range(len(segments)), key=lambda i: (-(raw[i] - counts[i]), i))
     for i in order[: spare - sum(counts)]:
         counts[i] += 1
 
-    nodes = []
-    for (start, end, path, length), m in zip(sides, counts):
-        nodes.append(inset[start])
+    dists = []
+    for ((s0, k0, c0), (s1, k1, c1)), m in zip(segments, counts):
+        if k0 == "corner":
+            dists.append(s0)
         if m == 0:
             continue
-        ca, cb = clearance[start], clearance[end]
-        step = length / (m + 1)
-        if step >= max(ca, cb):
-            dists = [step * (k + 1) for k in range(m)]
-        elif m == 1:
-            dists = [(ca + length - cb) / 2]
+        length = s1 - s0
+        at_start, at_end = k0 == "leave", k1 == "enter"  # nodes sit on keep-out boundaries
+        gaps = m + 1 - at_start - at_end
+        step = length / gaps if gaps else math.inf
+        first = 0 if at_start else 1
+        if not gaps:
+            rel = [length / 2]
+        elif step >= max(c0, c1):
+            rel = [step * (first + k) for k in range(m)]
         else:
-            span = length - ca - cb
-            dists = [ca + span * k / (m - 1) for k in range(m)]
-        nodes.extend(point_along(path, d) for d in dists)
-    return nodes
+            lo, hi = c0, length - c1
+            rel = [(lo + hi) / 2] if m == 1 else [lo + (hi - lo) * k / (m - 1) for k in range(m)]
+        dists += [s0 + r for r in rel]
+    return [point_along(path, d) for d in dists]
 
 
 def face_nodes(cx: float, p: Params) -> dict[str, list[Point]]:
@@ -206,7 +246,9 @@ def build_layout(blank: dict, p: Params = Params()) -> dict:
     width, height = max(xs), max(y for _, y in poly)
     cx = width / 2
 
-    groups = {"outline": outline_nodes(inset, blank["corners"], p), **face_nodes(cx, p)}
+    holes = blank.get("holes", [])
+    keepouts = [((h["x"], h["y"]), p.hole_dia / 2 + h["dia"] / 2 + p.hole_wall) for h in holes]
+    groups = {"outline": outline_nodes(inset, blank["corners"], p, keepouts), **face_nodes(cx, p)}
     nodes, ranges, n = [], {}, 1
     for g in GROUP_ORDER:
         pts = groups[g]
@@ -224,7 +266,9 @@ def build_layout(blank: dict, p: Params = Params()) -> dict:
             "width": round(width, 1),
             "height": round(height, 1),
             "thickness": blank.get("thickness"),
+            "corner_radius": blank.get("corner_radius", 0),
             "polygon": [[round(x, 1), round(y, 1)] for x, y in poly],
+            "existing_holes": [{k: h[k] for k in ("name", "x", "y", "dia", "depth")} for h in holes],
         },
         "params": asdict(p),
         "node_count": len(nodes),
@@ -237,9 +281,11 @@ def build_layout(blank: dict, p: Params = Params()) -> dict:
 def dumps(layout: dict) -> str:
     """JSON with one node per line, so diffs stay readable."""
     head = {k: v for k, v in layout.items() if k != "nodes"}
-    head["blank"] = {**head["blank"], "polygon": "@POLY@"}
+    head["blank"] = {**head["blank"], "polygon": "@POLY@", "existing_holes": "@HOLES@"}
     text = json.dumps(head, indent=2)[:-2]
     text = text.replace('"@POLY@"', json.dumps(layout["blank"]["polygon"]))
+    holes = ",\n".join("      " + json.dumps(h) for h in layout["blank"]["existing_holes"])
+    text = text.replace('"@HOLES@"', f"[\n{holes}\n    ]" if holes else "[]")
     rows = ",\n".join("    " + json.dumps(nd) for nd in layout["nodes"])
     return f'{text},\n  "nodes": [\n{rows}\n  ]\n}}\n'
 

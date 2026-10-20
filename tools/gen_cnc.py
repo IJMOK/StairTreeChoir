@@ -5,11 +5,14 @@ Layers (same names in both files):
   FRONT_HOLES   pixel through-holes, drilled from the front
   BACK_CHANNEL  wiring channel centreline in node order, MIRRORED for the back
   BACK_POCKET   data-in pocket and exit slot to the nearest edge, MIRRORED
+  EXISTING      reference only, do not cut: the old stair fixing holes in the back, MIRRORED
   STAKE_HOLES   only when stake bolt positions are set (spacing still TBC)
   REG           DXF only: dowel holes on the flip axis, outside the blank, for the spoilboard
 
 The back operations are mirrored about the blank's vertical centreline, so
 flipping the blank left-to-right about that axis puts them behind the holes.
+The channel runs node to node, with extra waypoints where it would otherwise
+cut into an existing hole.
 """
 
 from __future__ import annotations
@@ -32,6 +35,8 @@ DXF_FILE = CAD_DIR / "stair-tree-cnc-layout.dxf"
 class CncParams:
     channel_width: float = 15.0     # for reference in the CAM setup; centreline only is drawn
     channel_depth: float = 12.0
+    channel_hole_wall: float = 3.0  # wood left between the channel and an existing hole
+    channel_avoid_min_dia: float = 10.0  # smaller holes (old screw pilots) may be milled through
     pocket_dia: float = 30.0        # data-in pocket at node 1
     reg_dowel_dia: float = 6.0
     reg_offset: float = 30.0        # dowels this far beyond the blank's top and bottom
@@ -57,6 +62,30 @@ def nearest_edge_point(poly: list[list[float]], p: tuple[float, float]) -> tuple
     return best
 
 
+def route_channel(pts: list[tuple[float, float]], holes: list[dict], cp: CncParams) -> list[tuple[float, float]]:
+    """Node-to-node polyline, bent out around existing holes."""
+    holes = [h for h in holes if h["dia"] >= cp.channel_avoid_min_dia]
+    route = [pts[0]]
+    for b in pts[1:]:
+        route += detour(route[-1], b, holes, cp, depth=3)
+    return route
+
+
+def detour(a, b, holes, cp, depth):
+    for h in holes:
+        c = (h["x"], h["y"])
+        need = h["dia"] / 2 + cp.channel_width / 2 + cp.channel_hole_wall
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        t = max(0.0, min(1.0, ((c[0] - a[0]) * dx + (c[1] - a[1]) * dy) / (dx * dx + dy * dy)))
+        q = (a[0] + dx * t, a[1] + dy * t)
+        d = math.dist(q, c)
+        if d < need - 1e-6 and 0 < t < 1 and depth:
+            ux, uy = ((q[0] - c[0]) / d, (q[1] - c[1]) / d) if d > 1e-9 else (-dy / math.hypot(dx, dy), dx / math.hypot(dx, dy))
+            w = (c[0] + ux * (need + 1), c[1] + uy * (need + 1))  # +1 keeps the chords outside too
+            return detour(a, w, holes, cp, depth - 1) + detour(w, b, holes, cp, depth - 1)
+    return [b]
+
+
 def geometry(layout: dict, cp: CncParams = CncParams()) -> dict:
     blank = layout["blank"]
     w, h = blank["width"], blank["height"]
@@ -66,6 +95,7 @@ def geometry(layout: dict, cp: CncParams = CncParams()) -> dict:
     def mirror(p):
         return (w - p[0], p[1])
 
+    holes = blank.get("existing_holes", [])
     start = pts[0]
     exit_pt = nearest_edge_point(poly, start)
     return {
@@ -74,7 +104,8 @@ def geometry(layout: dict, cp: CncParams = CncParams()) -> dict:
         "blank": [tuple(p) for p in poly],
         "holes": pts,
         "hole_dia": layout["params"]["hole_dia"],
-        "channel": [mirror(p) for p in pts],
+        "channel": [mirror(p) for p in route_channel(pts, holes, cp)],
+        "existing": [(mirror((h["x"], h["y"])), h["dia"]) for h in holes],
         "pocket": mirror(start),
         "exit": [mirror(start), mirror(exit_pt)],
         "stakes": [mirror(p) for p in cp.stake_holes],
@@ -112,6 +143,12 @@ def write_svg(g: dict, cp: CncParams, path: Path = SVG_FILE) -> None:
         poly(g["exit"], False),
         "</g>",
     ]
+    if g["existing"]:
+        lines += [
+            '<g id="EXISTING" inkscape:groupmode="layer" inkscape:label="EXISTING (reference only, mirrored)" fill="none" stroke="#999" stroke-width="0.5" stroke-dasharray="2 1">',
+            *(circle(p, d) for p, d in g["existing"]),
+            "</g>",
+        ]
     if g["stakes"]:
         lines += [
             '<g id="STAKE_HOLES" inkscape:groupmode="layer" inkscape:label="STAKE_HOLES (mirrored)" fill="none" stroke="#080" stroke-width="0.5">',
@@ -127,7 +164,7 @@ def write_dxf(g: dict, cp: CncParams, path: Path = DXF_FILE) -> None:
     doc = ezdxf.new("R2010", setup=False)
     doc.units = ezdxf.units.MM
     doc.header["$MEASUREMENT"] = 1
-    colours = {"BLANK": 7, "FRONT_HOLES": 1, "BACK_CHANNEL": 5, "BACK_POCKET": 6, "STAKE_HOLES": 3, "REG": 2}
+    colours = {"BLANK": 7, "FRONT_HOLES": 1, "BACK_CHANNEL": 5, "BACK_POCKET": 6, "STAKE_HOLES": 3, "REG": 2, "EXISTING": 8}
     for name, colour in colours.items():
         doc.layers.add(name, color=colour)
     msp = doc.modelspace()
@@ -142,6 +179,8 @@ def write_dxf(g: dict, cp: CncParams, path: Path = DXF_FILE) -> None:
     msp.add_lwpolyline([up(p) for p in g["channel"]], dxfattribs={"layer": "BACK_CHANNEL"})
     msp.add_circle(up(g["pocket"]), cp.pocket_dia / 2, dxfattribs={"layer": "BACK_POCKET"})
     msp.add_lwpolyline([up(p) for p in g["exit"]], dxfattribs={"layer": "BACK_POCKET"})
+    for p, d in g["existing"]:
+        msp.add_circle(up(p), d / 2, dxfattribs={"layer": "EXISTING"})
     for p in g["stakes"]:
         msp.add_circle(up(p), cp.stake_hole_dia / 2, dxfattribs={"layer": "STAKE_HOLES"})
     for p in g["reg"]:

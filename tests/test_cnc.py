@@ -1,3 +1,4 @@
+import math
 import re
 
 import ezdxf
@@ -16,17 +17,33 @@ def generate(tmp_path):
 
 
 def test_svg_viewbox_is_blank_size(tmp_path):
-    _, svg, _ = generate(tmp_path)
+    g, svg, _ = generate(tmp_path)
     text = svg.read_text()
-    assert 'viewBox="0 0 400 900"' in text
-    assert 'width="400mm" height="900mm"' in text
+    w, h = gen_cnc.fmt(g["width"]), gen_cnc.fmt(g["height"])
+    assert f'viewBox="0 0 {w} {h}"' in text
+    assert f'width="{w}mm" height="{h}mm"' in text
     assert len(re.findall(r'<g id="FRONT_HOLES".*?</g>', text, re.S)[0].split("<circle")) - 1 == 92
 
 
-def test_back_is_mirrored(tmp_path):
+def test_back_channel_visits_every_hole_mirrored_in_order(tmp_path):
     g, _, _ = generate(tmp_path)
-    for (hx, hy), (cx, cy) in zip(g["holes"], g["channel"]):
-        assert abs(hx + cx - g["width"]) < 1e-9 and hy == cy
+    remaining = iter(g["channel"])
+    for hx, hy in g["holes"]:
+        assert any(abs(hx + cx - g["width"]) < 1e-9 and hy == cy for cx, cy in remaining)
+
+
+def test_channel_clear_of_existing_holes(tmp_path):
+    g, _, _ = generate(tmp_path)
+    cp = gen_cnc.CncParams()
+    for (c, dia) in g["existing"]:
+        if dia < cp.channel_avoid_min_dia:
+            continue
+        for a, b in zip(g["channel"], g["channel"][1:]):
+            dx, dy = b[0] - a[0], b[1] - a[1]
+            t = max(0.0, min(1.0, ((c[0] - a[0]) * dx + (c[1] - a[1]) * dy) / (dx * dx + dy * dy)))
+            d = math.dist(c, (a[0] + dx * t, a[1] + dy * t))
+            # Channel ends at a node; only the far side of a node's own hole can come close.
+            assert d - dia / 2 - cp.channel_width / 2 >= cp.channel_hole_wall - 0.1 or t in (0.0, 1.0), (c, a, b)
 
 
 def test_dxf_layers_and_units(tmp_path):
