@@ -120,7 +120,7 @@ Flash WLED onto a spare ESP32; FPP on Rob's Pi 3 (or xLights on the PC) sends DD
 M1. Layout and CNC files (done for the measured blank; waiting on the hole/counterbore test)
 Keep tools/tree_layout.py as the single source of truth. Front holes, mirrored back channel, data-in pocket, existing-hole reference layer, registration dowels. SVG (mm) and DXF (ezdxf). Tests: 92 nodes; spacing ≥ 24mm; holes ≥ 16mm from the edge; clear of the old holes; SVG viewBox = blank size; deterministic output.
 
-M2. xLights model
+M2. xLights model (generator done 20 Oct 2026: tools/gen_xmodel.py → xlights/StairTree.xmodel, format checked against xLights source 75c3e11; next: Rob imports it into xLights 2026.18 to confirm)
 Generate a Custom Model .xmodel from the layout JSON. Scale it to a grid (for example 1 cell = 10mm) with node numbers in wiring order.
 Include a face definition mapping the phonemes in §3 to node ranges, plus eyes-open/closed if useful.
 Unverified: the exact .xmodel XML schema and the face-definition attribute names. Confirm them from the xLights source on GitHub, or ask Rob to export a sample custom model with a face from his xLights install (xLights 2026.18 installed 20 Oct 2026). Don't guess the format.
