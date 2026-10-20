@@ -1,0 +1,10 @@
+{
+  "_comment": "Hand-edited INPUT: the tread blank outline in mm, front view, x right, y down. Points are listed in wiring order starting at the data-in corner (base-left). corner=false marks a point on a curve (not a node corner). Placeholder 400x900 isosceles triangle until the real tread is measured.",
+  "measured": false,
+  "thickness": 30,
+  "points": [
+    {"x": 0, "y": 900, "name": "base_left"},
+    {"x": 400, "y": 900, "name": "base_right"},
+    {"x": 200, "y": 0, "name": "apex"}
+  ]
+}

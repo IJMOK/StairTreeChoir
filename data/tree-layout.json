@@ -1,0 +1,190 @@
+{
+  "generated_by": "tools/tree_layout.py",
+  "units": "mm",
+  "view": "front, x right, y down, origin top-left of blank bounding box",
+  "blank": {
+    "measured": false,
+    "width": 400.0,
+    "height": 900.0,
+    "thickness": 30,
+    "polygon": [[0.0, 900.0], [400.0, 900.0], [200.0, 0.0]]
+  },
+  "params": {
+    "hole_dia": 12.0,
+    "edge_inset": 22.0,
+    "min_spacing": 24.4,
+    "outline_nodes": 59,
+    "eye_y": 555.0,
+    "eye_dx": 42.0,
+    "eye_r": 26.0,
+    "mouth_y": 690.0,
+    "mouth_pitch": 26.0,
+    "lip_nodes": 7,
+    "mouth_wide_nodes": 9,
+    "mouth_wide_depth": 92.0,
+    "mouth_small_nodes": 5,
+    "mouth_small_depth": 44.0,
+    "mouth_small_half_width": 78.0
+  },
+  "node_count": 92,
+  "groups": {
+    "outline": [
+      1,
+      59
+    ],
+    "mouth_wide": [
+      60,
+      68
+    ],
+    "mouth_small": [
+      69,
+      73
+    ],
+    "lip": [
+      74,
+      80
+    ],
+    "eye_right": [
+      81,
+      86
+    ],
+    "eye_left": [
+      87,
+      92
+    ]
+  },
+  "phonemes": {
+    "rest": [
+      "lip"
+    ],
+    "MBP": [
+      "lip"
+    ],
+    "etc": [
+      "lip",
+      "mouth_small"
+    ],
+    "FV": [
+      "lip",
+      "mouth_small"
+    ],
+    "L": [
+      "lip",
+      "mouth_small"
+    ],
+    "E": [
+      "lip",
+      "mouth_small"
+    ],
+    "AI": [
+      "lip",
+      "mouth_wide"
+    ],
+    "O": [
+      "mouth_small",
+      "mouth_wide"
+    ],
+    "U": [
+      "mouth_small",
+      "mouth_wide"
+    ],
+    "WQ": [
+      "mouth_small",
+      "mouth_wide"
+    ]
+  },
+  "nodes": [
+    {"n": 1, "group": "outline", "x": 27.4, "y": 878.0},
+    {"n": 2, "group": "outline", "x": 58.8, "y": 878.0},
+    {"n": 3, "group": "outline", "x": 90.2, "y": 878.0},
+    {"n": 4, "group": "outline", "x": 121.6, "y": 878.0},
+    {"n": 5, "group": "outline", "x": 152.9, "y": 878.0},
+    {"n": 6, "group": "outline", "x": 184.3, "y": 878.0},
+    {"n": 7, "group": "outline", "x": 215.7, "y": 878.0},
+    {"n": 8, "group": "outline", "x": 247.1, "y": 878.0},
+    {"n": 9, "group": "outline", "x": 278.4, "y": 878.0},
+    {"n": 10, "group": "outline", "x": 309.8, "y": 878.0},
+    {"n": 11, "group": "outline", "x": 341.2, "y": 878.0},
+    {"n": 12, "group": "outline", "x": 372.6, "y": 878.0},
+    {"n": 13, "group": "outline", "x": 367.3, "y": 854.2},
+    {"n": 14, "group": "outline", "x": 360.2, "y": 822.5},
+    {"n": 15, "group": "outline", "x": 353.2, "y": 790.7},
+    {"n": 16, "group": "outline", "x": 346.1, "y": 759.0},
+    {"n": 17, "group": "outline", "x": 339.1, "y": 727.3},
+    {"n": 18, "group": "outline", "x": 332.0, "y": 695.6},
+    {"n": 19, "group": "outline", "x": 325.0, "y": 663.9},
+    {"n": 20, "group": "outline", "x": 317.9, "y": 632.1},
+    {"n": 21, "group": "outline", "x": 310.9, "y": 600.4},
+    {"n": 22, "group": "outline", "x": 303.8, "y": 568.7},
+    {"n": 23, "group": "outline", "x": 296.8, "y": 537.0},
+    {"n": 24, "group": "outline", "x": 289.7, "y": 505.2},
+    {"n": 25, "group": "outline", "x": 282.7, "y": 473.5},
+    {"n": 26, "group": "outline", "x": 275.6, "y": 441.8},
+    {"n": 27, "group": "outline", "x": 268.6, "y": 410.1},
+    {"n": 28, "group": "outline", "x": 261.5, "y": 378.4},
+    {"n": 29, "group": "outline", "x": 254.5, "y": 346.6},
+    {"n": 30, "group": "outline", "x": 247.4, "y": 314.9},
+    {"n": 31, "group": "outline", "x": 240.4, "y": 283.2},
+    {"n": 32, "group": "outline", "x": 233.3, "y": 251.5},
+    {"n": 33, "group": "outline", "x": 226.3, "y": 219.8},
+    {"n": 34, "group": "outline", "x": 219.2, "y": 188.0},
+    {"n": 35, "group": "outline", "x": 212.2, "y": 156.3},
+    {"n": 36, "group": "outline", "x": 200.0, "y": 101.4},
+    {"n": 37, "group": "outline", "x": 187.8, "y": 156.3},
+    {"n": 38, "group": "outline", "x": 180.8, "y": 188.0},
+    {"n": 39, "group": "outline", "x": 173.7, "y": 219.8},
+    {"n": 40, "group": "outline", "x": 166.7, "y": 251.5},
+    {"n": 41, "group": "outline", "x": 159.6, "y": 283.2},
+    {"n": 42, "group": "outline", "x": 152.6, "y": 314.9},
+    {"n": 43, "group": "outline", "x": 145.5, "y": 346.6},
+    {"n": 44, "group": "outline", "x": 138.5, "y": 378.4},
+    {"n": 45, "group": "outline", "x": 131.4, "y": 410.1},
+    {"n": 46, "group": "outline", "x": 124.4, "y": 441.8},
+    {"n": 47, "group": "outline", "x": 117.3, "y": 473.5},
+    {"n": 48, "group": "outline", "x": 110.3, "y": 505.2},
+    {"n": 49, "group": "outline", "x": 103.2, "y": 537.0},
+    {"n": 50, "group": "outline", "x": 96.2, "y": 568.7},
+    {"n": 51, "group": "outline", "x": 89.1, "y": 600.4},
+    {"n": 52, "group": "outline", "x": 82.1, "y": 632.1},
+    {"n": 53, "group": "outline", "x": 75.0, "y": 663.9},
+    {"n": 54, "group": "outline", "x": 68.0, "y": 695.6},
+    {"n": 55, "group": "outline", "x": 60.9, "y": 727.3},
+    {"n": 56, "group": "outline", "x": 53.9, "y": 759.0},
+    {"n": 57, "group": "outline", "x": 46.8, "y": 790.7},
+    {"n": 58, "group": "outline", "x": 39.8, "y": 822.5},
+    {"n": 59, "group": "outline", "x": 32.7, "y": 854.2},
+    {"n": 60, "group": "mouth_wide", "x": 96.0, "y": 690.0},
+    {"n": 61, "group": "mouth_wide", "x": 122.0, "y": 730.2},
+    {"n": 62, "group": "mouth_wide", "x": 148.0, "y": 759.0},
+    {"n": 63, "group": "mouth_wide", "x": 174.0, "y": 776.2},
+    {"n": 64, "group": "mouth_wide", "x": 200.0, "y": 782.0},
+    {"n": 65, "group": "mouth_wide", "x": 226.0, "y": 776.2},
+    {"n": 66, "group": "mouth_wide", "x": 252.0, "y": 759.0},
+    {"n": 67, "group": "mouth_wide", "x": 278.0, "y": 730.2},
+    {"n": 68, "group": "mouth_wide", "x": 304.0, "y": 690.0},
+    {"n": 69, "group": "mouth_small", "x": 252.0, "y": 714.4},
+    {"n": 70, "group": "mouth_small", "x": 226.0, "y": 729.1},
+    {"n": 71, "group": "mouth_small", "x": 200.0, "y": 734.0},
+    {"n": 72, "group": "mouth_small", "x": 174.0, "y": 729.1},
+    {"n": 73, "group": "mouth_small", "x": 148.0, "y": 714.4},
+    {"n": 74, "group": "lip", "x": 122.0, "y": 690.0},
+    {"n": 75, "group": "lip", "x": 148.0, "y": 690.0},
+    {"n": 76, "group": "lip", "x": 174.0, "y": 690.0},
+    {"n": 77, "group": "lip", "x": 200.0, "y": 690.0},
+    {"n": 78, "group": "lip", "x": 226.0, "y": 690.0},
+    {"n": 79, "group": "lip", "x": 252.0, "y": 690.0},
+    {"n": 80, "group": "lip", "x": 278.0, "y": 690.0},
+    {"n": 81, "group": "eye_right", "x": 242.0, "y": 529.0},
+    {"n": 82, "group": "eye_right", "x": 264.5, "y": 542.0},
+    {"n": 83, "group": "eye_right", "x": 264.5, "y": 568.0},
+    {"n": 84, "group": "eye_right", "x": 242.0, "y": 581.0},
+    {"n": 85, "group": "eye_right", "x": 219.5, "y": 568.0},
+    {"n": 86, "group": "eye_right", "x": 219.5, "y": 542.0},
+    {"n": 87, "group": "eye_left", "x": 158.0, "y": 529.0},
+    {"n": 88, "group": "eye_left", "x": 180.5, "y": 542.0},
+    {"n": 89, "group": "eye_left", "x": 180.5, "y": 568.0},
+    {"n": 90, "group": "eye_left", "x": 158.0, "y": 581.0},
+    {"n": 91, "group": "eye_left", "x": 135.5, "y": 568.0},
+    {"n": 92, "group": "eye_left", "x": 135.5, "y": 542.0}
+  ]
+}
