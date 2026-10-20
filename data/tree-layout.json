@@ -23,6 +23,8 @@
   },
   "params": {
     "hole_dia": 12.0,
+    "back_counterbore_dia": 0.0,
+    "back_counterbore_depth": 0.0,
     "edge_inset": 22.0,
     "min_spacing": 24.4,
     "hole_wall": 5.0,

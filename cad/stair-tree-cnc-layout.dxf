@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-A4
+A5
   9
 $SURFTAB1
  70
@@ -1549,7 +1549,7 @@ LAYER
 100
 AcDbSymbolTable
  70
-9
+10
   0
 LAYER
   5
@@ -1769,6 +1769,30 @@ Continuous
 347
 21
   0
+LAYER
+  5
+36
+330
+1
+100
+AcDbSymbolTableRecord
+100
+AcDbLayerTableRecord
+  2
+BACK_COUNTERBORE
+ 70
+0
+ 62
+30
+  6
+Continuous
+370
+-3
+390
+13
+347
+21
+  0
 ENDTAB
   0
 TABLE
@@ -1869,7 +1893,7 @@ ACAD
   0
 APPID
   5
-A1
+A2
 330
 3
 100
@@ -1883,7 +1907,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-A2
+A3
 330
 3
 100
@@ -2193,7 +2217,7 @@ ENTITIES
   0
 LWPOLYLINE
   5
-36
+37
 330
 17
 100
@@ -2225,7 +2249,7 @@ AcDbPolyline
   0
 CIRCLE
   5
-37
+38
 330
 17
 100
@@ -2245,7 +2269,7 @@ AcDbCircle
   0
 CIRCLE
   5
-38
+39
 330
 17
 100
@@ -2265,7 +2289,7 @@ AcDbCircle
   0
 CIRCLE
   5
-39
+3A
 330
 17
 100
@@ -2285,7 +2309,7 @@ AcDbCircle
   0
 CIRCLE
   5
-3A
+3B
 330
 17
 100
@@ -2305,7 +2329,7 @@ AcDbCircle
   0
 CIRCLE
   5
-3B
+3C
 330
 17
 100
@@ -2325,7 +2349,7 @@ AcDbCircle
   0
 CIRCLE
   5
-3C
+3D
 330
 17
 100
@@ -2345,7 +2369,7 @@ AcDbCircle
   0
 CIRCLE
   5
-3D
+3E
 330
 17
 100
@@ -2365,7 +2389,7 @@ AcDbCircle
   0
 CIRCLE
   5
-3E
+3F
 330
 17
 100
@@ -2385,7 +2409,7 @@ AcDbCircle
   0
 CIRCLE
   5
-3F
+40
 330
 17
 100
@@ -2405,7 +2429,7 @@ AcDbCircle
   0
 CIRCLE
   5
-40
+41
 330
 17
 100
@@ -2425,7 +2449,7 @@ AcDbCircle
   0
 CIRCLE
   5
-41
+42
 330
 17
 100
@@ -2445,7 +2469,7 @@ AcDbCircle
   0
 CIRCLE
   5
-42
+43
 330
 17
 100
@@ -2465,7 +2489,7 @@ AcDbCircle
   0
 CIRCLE
   5
-43
+44
 330
 17
 100
@@ -2485,7 +2509,7 @@ AcDbCircle
   0
 CIRCLE
   5
-44
+45
 330
 17
 100
@@ -2505,7 +2529,7 @@ AcDbCircle
   0
 CIRCLE
   5
-45
+46
 330
 17
 100
@@ -2525,7 +2549,7 @@ AcDbCircle
   0
 CIRCLE
   5
-46
+47
 330
 17
 100
@@ -2545,7 +2569,7 @@ AcDbCircle
   0
 CIRCLE
   5
-47
+48
 330
 17
 100
@@ -2565,7 +2589,7 @@ AcDbCircle
   0
 CIRCLE
   5
-48
+49
 330
 17
 100
@@ -2585,7 +2609,7 @@ AcDbCircle
   0
 CIRCLE
   5
-49
+4A
 330
 17
 100
@@ -2605,7 +2629,7 @@ AcDbCircle
   0
 CIRCLE
   5
-4A
+4B
 330
 17
 100
@@ -2625,7 +2649,7 @@ AcDbCircle
   0
 CIRCLE
   5
-4B
+4C
 330
 17
 100
@@ -2645,7 +2669,7 @@ AcDbCircle
   0
 CIRCLE
   5
-4C
+4D
 330
 17
 100
@@ -2665,7 +2689,7 @@ AcDbCircle
   0
 CIRCLE
   5
-4D
+4E
 330
 17
 100
@@ -2685,7 +2709,7 @@ AcDbCircle
   0
 CIRCLE
   5
-4E
+4F
 330
 17
 100
@@ -2705,7 +2729,7 @@ AcDbCircle
   0
 CIRCLE
   5
-4F
+50
 330
 17
 100
@@ -2725,7 +2749,7 @@ AcDbCircle
   0
 CIRCLE
   5
-50
+51
 330
 17
 100
@@ -2745,7 +2769,7 @@ AcDbCircle
   0
 CIRCLE
   5
-51
+52
 330
 17
 100
@@ -2765,7 +2789,7 @@ AcDbCircle
   0
 CIRCLE
   5
-52
+53
 330
 17
 100
@@ -2785,7 +2809,7 @@ AcDbCircle
   0
 CIRCLE
   5
-53
+54
 330
 17
 100
@@ -2805,7 +2829,7 @@ AcDbCircle
   0
 CIRCLE
   5
-54
+55
 330
 17
 100
@@ -2825,7 +2849,7 @@ AcDbCircle
   0
 CIRCLE
   5
-55
+56
 330
 17
 100
@@ -2845,7 +2869,7 @@ AcDbCircle
   0
 CIRCLE
   5
-56
+57
 330
 17
 100
@@ -2865,7 +2889,7 @@ AcDbCircle
   0
 CIRCLE
   5
-57
+58
 330
 17
 100
@@ -2885,7 +2909,7 @@ AcDbCircle
   0
 CIRCLE
   5
-58
+59
 330
 17
 100
@@ -2905,7 +2929,7 @@ AcDbCircle
   0
 CIRCLE
   5
-59
+5A
 330
 17
 100
@@ -2925,7 +2949,7 @@ AcDbCircle
   0
 CIRCLE
   5
-5A
+5B
 330
 17
 100
@@ -2945,7 +2969,7 @@ AcDbCircle
   0
 CIRCLE
   5
-5B
+5C
 330
 17
 100
@@ -2965,7 +2989,7 @@ AcDbCircle
   0
 CIRCLE
   5
-5C
+5D
 330
 17
 100
@@ -2985,7 +3009,7 @@ AcDbCircle
   0
 CIRCLE
   5
-5D
+5E
 330
 17
 100
@@ -3005,7 +3029,7 @@ AcDbCircle
   0
 CIRCLE
   5
-5E
+5F
 330
 17
 100
@@ -3025,7 +3049,7 @@ AcDbCircle
   0
 CIRCLE
   5
-5F
+60
 330
 17
 100
@@ -3045,7 +3069,7 @@ AcDbCircle
   0
 CIRCLE
   5
-60
+61
 330
 17
 100
@@ -3065,7 +3089,7 @@ AcDbCircle
   0
 CIRCLE
   5
-61
+62
 330
 17
 100
@@ -3085,7 +3109,7 @@ AcDbCircle
   0
 CIRCLE
   5
-62
+63
 330
 17
 100
@@ -3105,7 +3129,7 @@ AcDbCircle
   0
 CIRCLE
   5
-63
+64
 330
 17
 100
@@ -3125,7 +3149,7 @@ AcDbCircle
   0
 CIRCLE
   5
-64
+65
 330
 17
 100
@@ -3145,7 +3169,7 @@ AcDbCircle
   0
 CIRCLE
   5
-65
+66
 330
 17
 100
@@ -3165,7 +3189,7 @@ AcDbCircle
   0
 CIRCLE
   5
-66
+67
 330
 17
 100
@@ -3185,7 +3209,7 @@ AcDbCircle
   0
 CIRCLE
   5
-67
+68
 330
 17
 100
@@ -3205,7 +3229,7 @@ AcDbCircle
   0
 CIRCLE
   5
-68
+69
 330
 17
 100
@@ -3225,7 +3249,7 @@ AcDbCircle
   0
 CIRCLE
   5
-69
+6A
 330
 17
 100
@@ -3245,7 +3269,7 @@ AcDbCircle
   0
 CIRCLE
   5
-6A
+6B
 330
 17
 100
@@ -3265,7 +3289,7 @@ AcDbCircle
   0
 CIRCLE
   5
-6B
+6C
 330
 17
 100
@@ -3285,7 +3309,7 @@ AcDbCircle
   0
 CIRCLE
   5
-6C
+6D
 330
 17
 100
@@ -3305,7 +3329,7 @@ AcDbCircle
   0
 CIRCLE
   5
-6D
+6E
 330
 17
 100
@@ -3325,7 +3349,7 @@ AcDbCircle
   0
 CIRCLE
   5
-6E
+6F
 330
 17
 100
@@ -3345,7 +3369,7 @@ AcDbCircle
   0
 CIRCLE
   5
-6F
+70
 330
 17
 100
@@ -3365,7 +3389,7 @@ AcDbCircle
   0
 CIRCLE
   5
-70
+71
 330
 17
 100
@@ -3385,7 +3409,7 @@ AcDbCircle
   0
 CIRCLE
   5
-71
+72
 330
 17
 100
@@ -3405,7 +3429,7 @@ AcDbCircle
   0
 CIRCLE
   5
-72
+73
 330
 17
 100
@@ -3425,7 +3449,7 @@ AcDbCircle
   0
 CIRCLE
   5
-73
+74
 330
 17
 100
@@ -3445,7 +3469,7 @@ AcDbCircle
   0
 CIRCLE
   5
-74
+75
 330
 17
 100
@@ -3465,7 +3489,7 @@ AcDbCircle
   0
 CIRCLE
   5
-75
+76
 330
 17
 100
@@ -3485,7 +3509,7 @@ AcDbCircle
   0
 CIRCLE
   5
-76
+77
 330
 17
 100
@@ -3505,7 +3529,7 @@ AcDbCircle
   0
 CIRCLE
   5
-77
+78
 330
 17
 100
@@ -3525,7 +3549,7 @@ AcDbCircle
   0
 CIRCLE
   5
-78
+79
 330
 17
 100
@@ -3545,7 +3569,7 @@ AcDbCircle
   0
 CIRCLE
   5
-79
+7A
 330
 17
 100
@@ -3565,7 +3589,7 @@ AcDbCircle
   0
 CIRCLE
   5
-7A
+7B
 330
 17
 100
@@ -3585,7 +3609,7 @@ AcDbCircle
   0
 CIRCLE
   5
-7B
+7C
 330
 17
 100
@@ -3605,7 +3629,7 @@ AcDbCircle
   0
 CIRCLE
   5
-7C
+7D
 330
 17
 100
@@ -3625,7 +3649,7 @@ AcDbCircle
   0
 CIRCLE
   5
-7D
+7E
 330
 17
 100
@@ -3645,7 +3669,7 @@ AcDbCircle
   0
 CIRCLE
   5
-7E
+7F
 330
 17
 100
@@ -3665,7 +3689,7 @@ AcDbCircle
   0
 CIRCLE
   5
-7F
+80
 330
 17
 100
@@ -3685,7 +3709,7 @@ AcDbCircle
   0
 CIRCLE
   5
-80
+81
 330
 17
 100
@@ -3705,7 +3729,7 @@ AcDbCircle
   0
 CIRCLE
   5
-81
+82
 330
 17
 100
@@ -3725,7 +3749,7 @@ AcDbCircle
   0
 CIRCLE
   5
-82
+83
 330
 17
 100
@@ -3745,7 +3769,7 @@ AcDbCircle
   0
 CIRCLE
   5
-83
+84
 330
 17
 100
@@ -3765,7 +3789,7 @@ AcDbCircle
   0
 CIRCLE
   5
-84
+85
 330
 17
 100
@@ -3785,7 +3809,7 @@ AcDbCircle
   0
 CIRCLE
   5
-85
+86
 330
 17
 100
@@ -3805,7 +3829,7 @@ AcDbCircle
   0
 CIRCLE
   5
-86
+87
 330
 17
 100
@@ -3825,7 +3849,7 @@ AcDbCircle
   0
 CIRCLE
   5
-87
+88
 330
 17
 100
@@ -3838,26 +3862,6 @@ AcDbCircle
 233.0
  20
 365.0
- 30
-0.0
- 40
-6.0
-  0
-CIRCLE
-  5
-88
-330
-17
-100
-AcDbEntity
-  8
-FRONT_HOLES
-100
-AcDbCircle
- 10
-255.5
- 20
-352.0
  30
 0.0
  40
@@ -3877,7 +3881,7 @@ AcDbCircle
  10
 255.5
  20
-326.0
+352.0
  30
 0.0
  40
@@ -3886,6 +3890,26 @@ AcDbCircle
 CIRCLE
   5
 8A
+330
+17
+100
+AcDbEntity
+  8
+FRONT_HOLES
+100
+AcDbCircle
+ 10
+255.5
+ 20
+326.0
+ 30
+0.0
+ 40
+6.0
+  0
+CIRCLE
+  5
+8B
 330
 17
 100
@@ -3905,7 +3929,7 @@ AcDbCircle
   0
 CIRCLE
   5
-8B
+8C
 330
 17
 100
@@ -3925,7 +3949,7 @@ AcDbCircle
   0
 CIRCLE
   5
-8C
+8D
 330
 17
 100
@@ -3945,7 +3969,7 @@ AcDbCircle
   0
 CIRCLE
   5
-8D
+8E
 330
 17
 100
@@ -3965,7 +3989,7 @@ AcDbCircle
   0
 CIRCLE
   5
-8E
+8F
 330
 17
 100
@@ -3985,7 +4009,7 @@ AcDbCircle
   0
 CIRCLE
   5
-8F
+90
 330
 17
 100
@@ -4005,7 +4029,7 @@ AcDbCircle
   0
 CIRCLE
   5
-90
+91
 330
 17
 100
@@ -4025,7 +4049,7 @@ AcDbCircle
   0
 CIRCLE
   5
-91
+92
 330
 17
 100
@@ -4045,7 +4069,7 @@ AcDbCircle
   0
 CIRCLE
   5
-92
+93
 330
 17
 100
@@ -4065,7 +4089,7 @@ AcDbCircle
   0
 LWPOLYLINE
   5
-93
+94
 330
 17
 100
@@ -4469,7 +4493,7 @@ AcDbPolyline
   0
 CIRCLE
   5
-94
+95
 330
 17
 100
@@ -4485,11 +4509,11 @@ AcDbCircle
  30
 0.0
  40
-15.0
+12.5
   0
 LWPOLYLINE
   5
-95
+96
 330
 17
 100
@@ -4513,7 +4537,7 @@ AcDbPolyline
   0
 CIRCLE
   5
-96
+97
 330
 17
 100
@@ -4533,7 +4557,7 @@ AcDbCircle
   0
 CIRCLE
   5
-97
+98
 330
 17
 100
@@ -4553,7 +4577,7 @@ AcDbCircle
   0
 CIRCLE
   5
-98
+99
 330
 17
 100
@@ -4573,7 +4597,7 @@ AcDbCircle
   0
 CIRCLE
   5
-99
+9A
 330
 17
 100
@@ -4593,7 +4617,7 @@ AcDbCircle
   0
 CIRCLE
   5
-9A
+9B
 330
 17
 100
@@ -4613,7 +4637,7 @@ AcDbCircle
   0
 CIRCLE
   5
-9B
+9C
 330
 17
 100
@@ -4633,7 +4657,7 @@ AcDbCircle
   0
 CIRCLE
   5
-9C
+9D
 330
 17
 100
@@ -4653,7 +4677,7 @@ AcDbCircle
   0
 CIRCLE
   5
-9D
+9E
 330
 17
 100
@@ -4673,7 +4697,7 @@ AcDbCircle
   0
 CIRCLE
   5
-9E
+9F
 330
 17
 100
@@ -4693,7 +4717,7 @@ AcDbCircle
   0
 CIRCLE
   5
-9F
+A0
 330
 17
 100
@@ -4713,7 +4737,7 @@ AcDbCircle
   0
 CIRCLE
   5
-A0
+A1
 330
 17
 100
@@ -5721,7 +5745,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-A3
+A4
   0
 DICTIONARYVAR
   5
@@ -5737,7 +5761,7 @@ DictionaryVariables
   0
 DICTIONARYVAR
   5
-A3
+A4
 330
 2D
 100

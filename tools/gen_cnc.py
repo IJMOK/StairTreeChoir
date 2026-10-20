@@ -4,6 +4,7 @@ Layers (same names in both files):
   BLANK         blank outline, front view
   FRONT_HOLES   pixel through-holes, drilled from the front
   BACK_CHANNEL  wiring channel centreline in node order, MIRRORED for the back
+  BACK_COUNTERBORE  pixel counterbores from the back, MIRRORED (only when set in Params)
   BACK_POCKET   data-in pocket and exit slot to the nearest edge, MIRRORED
   EXISTING      reference only, do not cut: the old stair fixing holes in the back, MIRRORED
   STAKE_HOLES   only when stake bolt positions are set (spacing still TBC)
@@ -37,7 +38,7 @@ class CncParams:
     channel_depth: float = 12.0
     channel_hole_wall: float = 3.0  # wood left between the channel and an existing hole
     channel_avoid_min_dia: float = 10.0  # smaller holes (old screw pilots) may be milled through
-    pocket_dia: float = 30.0        # data-in pocket at node 1
+    pocket_dia: float = 25.0        # data-in pocket at node 1
     reg_dowel_dia: float = 6.0
     reg_offset: float = 30.0        # dowels this far beyond the blank's top and bottom
     # TODO(Rob): stake bolt spacing. List of (x, y) front-view positions; empty = layer omitted.
@@ -104,6 +105,8 @@ def geometry(layout: dict, cp: CncParams = CncParams()) -> dict:
         "blank": [tuple(p) for p in poly],
         "holes": pts,
         "hole_dia": layout["params"]["hole_dia"],
+        "counterbore": [mirror(p) for p in pts] if layout["params"]["back_counterbore_dia"] else [],
+        "counterbore_dia": layout["params"]["back_counterbore_dia"],
         "channel": [mirror(p) for p in route_channel(pts, holes, cp)],
         "existing": [(mirror((h["x"], h["y"])), h["dia"]) for h in holes],
         "pocket": mirror(start),
@@ -134,6 +137,11 @@ def write_svg(g: dict, cp: CncParams, path: Path = SVG_FILE) -> None:
         '<g id="FRONT_HOLES" inkscape:groupmode="layer" inkscape:label="FRONT_HOLES" fill="none" stroke="#c00" stroke-width="0.5">',
         *(circle(p, g["hole_dia"]) for p in g["holes"]),
         "</g>",
+        *([
+            '<g id="BACK_COUNTERBORE" inkscape:groupmode="layer" inkscape:label="BACK_COUNTERBORE (mirrored)" fill="none" stroke="#c60" stroke-width="0.5">',
+            *(circle(p, g["counterbore_dia"]) for p in g["counterbore"]),
+            "</g>",
+        ] if g["counterbore"] else []),
         f'<g id="BACK_CHANNEL" inkscape:groupmode="layer" inkscape:label="BACK_CHANNEL (mirrored, {fmt(cp.channel_width)}w x {fmt(cp.channel_depth)}d)" '
         'fill="none" stroke="#06c" stroke-width="0.5">',
         poly(g["channel"], False),
@@ -164,7 +172,7 @@ def write_dxf(g: dict, cp: CncParams, path: Path = DXF_FILE) -> None:
     doc = ezdxf.new("R2010", setup=False)
     doc.units = ezdxf.units.MM
     doc.header["$MEASUREMENT"] = 1
-    colours = {"BLANK": 7, "FRONT_HOLES": 1, "BACK_CHANNEL": 5, "BACK_POCKET": 6, "STAKE_HOLES": 3, "REG": 2, "EXISTING": 8}
+    colours = {"BLANK": 7, "FRONT_HOLES": 1, "BACK_CHANNEL": 5, "BACK_POCKET": 6, "STAKE_HOLES": 3, "REG": 2, "EXISTING": 8, "BACK_COUNTERBORE": 30}
     for name, colour in colours.items():
         doc.layers.add(name, color=colour)
     msp = doc.modelspace()
@@ -176,6 +184,8 @@ def write_dxf(g: dict, cp: CncParams, path: Path = DXF_FILE) -> None:
     msp.add_lwpolyline([up(p) for p in g["blank"]], close=True, dxfattribs={"layer": "BLANK"})
     for p in g["holes"]:
         msp.add_circle(up(p), g["hole_dia"] / 2, dxfattribs={"layer": "FRONT_HOLES"})
+    for p in g["counterbore"]:
+        msp.add_circle(up(p), g["counterbore_dia"] / 2, dxfattribs={"layer": "BACK_COUNTERBORE"})
     msp.add_lwpolyline([up(p) for p in g["channel"]], dxfattribs={"layer": "BACK_CHANNEL"})
     msp.add_circle(up(g["pocket"]), cp.pocket_dia / 2, dxfattribs={"layer": "BACK_POCKET"})
     msp.add_lwpolyline([up(p) for p in g["exit"]], dxfattribs={"layer": "BACK_POCKET"})

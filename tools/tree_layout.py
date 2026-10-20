@@ -23,6 +23,9 @@ LAYOUT_FILE = ROOT / "data" / "tree-layout.json"
 @dataclass(frozen=True)
 class Params:
     hole_dia: float = 12.0          # pixel bullet hole; confirm with the offcut test
+    # TODO(Rob): pixels will probably need a counterbore from the back; size TBC when they arrive. 0 = none.
+    back_counterbore_dia: float = 0.0
+    back_counterbore_depth: float = 0.0
     edge_inset: float = 22.0        # outline node centres from the blank edge
     min_spacing: float = 24.4       # minimum node centre spacing
     hole_wall: float = 5.0          # minimum wood between a pixel hole and an existing hole
@@ -247,7 +250,8 @@ def build_layout(blank: dict, p: Params = Params()) -> dict:
     cx = width / 2
 
     holes = blank.get("holes", [])
-    keepouts = [((h["x"], h["y"]), p.hole_dia / 2 + h["dia"] / 2 + p.hole_wall) for h in holes]
+    pixel_r = max(p.hole_dia, p.back_counterbore_dia) / 2
+    keepouts = [((h["x"], h["y"]), pixel_r + h["dia"] / 2 + p.hole_wall) for h in holes]
     groups = {"outline": outline_nodes(inset, blank["corners"], p, keepouts), **face_nodes(cx, p)}
     nodes, ranges, n = [], {}, 1
     for g in GROUP_ORDER:

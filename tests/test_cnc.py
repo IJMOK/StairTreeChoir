@@ -62,3 +62,10 @@ def test_outputs_deterministic(tmp_path):
     _, svg2, dxf2 = generate(tmp_path / "b")
     assert svg1.read_bytes() == svg2.read_bytes()
     assert dxf1.read_bytes() == dxf2.read_bytes()
+
+
+def test_pocket_clear_of_existing_holes(tmp_path):
+    g, _, _ = generate(tmp_path)
+    cp = gen_cnc.CncParams()
+    for c, dia in g["existing"]:
+        assert math.dist(c, g["pocket"]) - dia / 2 - cp.pocket_dia / 2 > 0
