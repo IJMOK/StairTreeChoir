@@ -1,7 +1,8 @@
 """Check a rendered sequence against its arrangement: python -m tools.check_render data/songs/<song>.json
 
 Reads the sequence's .fseq (FSEQ v2, zstd or uncompressed) from the show folder and,
-for every lyric line, lists which trees' mouths change shape during it. Those must
+for every lyric line, lists which trees sing during it (mouth changes shape, or
+shows anything but the closed-lip rest). Those must
 be exactly the trees the arrangement gives the line. Also reports each tree's mouth
 shape counts. Needs zstandard (requirements-lyrics.txt).
 """
@@ -20,6 +21,7 @@ from tools.tree_layout import LAYOUT_FILE, ROOT
 
 TREE_CHANNELS = 276
 MOUTH = ("mouth_wide", "mouth_small", "lip")
+REST = (0, 0, 1)  # lip line only
 
 
 def read_fseq(path: Path) -> tuple[bytes, int, int, int]:
@@ -66,7 +68,10 @@ def main(argv: list[str] | None = None) -> None:
     for i, seg in enumerate(timing["segments"], 1):
         # Inside the line only: one frame of slack at each end for snapping to frames.
         f0, f1 = int(seg["start_time"] * 1000 / step) + 1, int(seg["end_time"] * 1000 / step) - 1
-        moving = [t for t in TREES if len({shape(f, t) for f in range(f0, min(f1, frames))}) > 1]
+        # Singing: the mouth changes, or shows anything but the closed-lip rest
+        # (a short line can hold one open shape).
+        shapes = {t: {shape(f, t) for f in range(f0, min(f1, frames))} for t in TREES}
+        moving = [t for t in TREES if len(shapes[t]) > 1 or shapes[t] - {REST}]
         want = arr["groups"][arr["lines"][str(i)]]
         if moving != want:
             bad.append((i, moving, want))

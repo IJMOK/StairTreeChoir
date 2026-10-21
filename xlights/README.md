@@ -65,3 +65,13 @@ Automation quirks seen: `POST /xlDoAutomation` returned "No command" for `newSeq
 Beats: `librosa.beat.beat_track` on the MP3 → `Audio/beats.json` (Rockin': steady 72 BPM, 143 beats).
 
 Rockin' arrangement (21 Oct 2026): verses call-and-response between StairTree1–3 and 4–6; bridges build from the outer pair (or inner pair the second time) to the full choir; refrain and finale all six. Outlines: green verses, gold bridges, red/green refrains, a one-tree-per-beat ripple through the intro and sax break, singers bright and resting trees dim. Verified from the render: on all 22 lines exactly the arranged trees' mouths move.
+
+### Per-song checklist (as of the second song, Dominick the Donkey, 21 Oct 2026)
+
+1. `python -m tools.lyric_timing "<mp3>" --artist ... --title ... --track <Name> --model small.en` → `Audio/<Name>.json` (+ `.lyrics.txt`, `.lrc`). Use a distinct `--track` per song. It strips brackets from words (backing vocals stay bracketed in the line text), falls back to LRCLIB timing on lines Whisper loses (donkey brays), removes overlaps and gives every word ≥ 0.1s so xLights can break it down. Add any words it lists to `Documents\xLights\user_dictionary`, then **restart xLights** (it loads dictionaries once).
+2. `python -m tools.beats "<mp3>"` → `<mp3 stem>.beats.json`.
+3. New sequence (click through Sequence Settings), save as `<song>.xsq`. Import `<Name>.json` (Eleven Labs type), Breakdown Words, save.
+4. Write `data/songs/<song>.json` and `--dry-run` it to check the balance of who sings how much.
+5. `python -m tools.arrange_song data/songs/<song>.json`, then `python -m tools.check_render data/songs/<song>.json`: every line's singers must match the arrangement.
+
+Back-to-back lines (Dominick) taught two rules now in `arrange_song`: a singer's lead-in/tail stops halfway to the neighbouring line, and windows merge only across silence, never across someone else's line.
