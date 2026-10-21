@@ -32,7 +32,7 @@ MARKER = ".public-snapshot"  # only directories carrying this are ever wiped
 AUTHOR = "IJMOK <1636330+IJMOK@users.noreply.github.com>"  # GitHub user id 1636330
 FORBIDDEN = re.compile(r"(\.lrc|\.lyrics\.txt|\.mp3|\.wav|\.m4a)$", re.I)
 # Words in prose, not code (".parents[1]", "parents=True").
-PERSONAL = re.compile(r"(?<![.\w])(parents|friends?|front lawn|my house|home address)\b(?!\s*[=\[(])", re.I)
+PERSONAL = re.compile(r"(?<![.\w])(parents|friends?|front lawn|my house|home address)\b(?![\[(])(?!\s*=)", re.I)
 IMAGE = re.compile(r"\.(jpe?g|png|heic|tiff?)$", re.I)
 
 
