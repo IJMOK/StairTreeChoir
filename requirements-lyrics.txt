@@ -1,6 +1,8 @@
-# Optional: tools/lyric_timing.py (Whisper lyric alignment on the CPU).
+# Optional: tools/lyric_timing.py (Whisper lyric alignment on the CPU), beat detection (librosa), reading .fseq renders (zstandard).
 # Install PyTorch from the CPU index first (the PC's Quadro K4000 is too old for CUDA builds):
 #   .venv/Scripts/python -m pip install --index-url https://download.pytorch.org/whl/cpu torch
 #   .venv/Scripts/python -m pip install -r requirements-lyrics.txt
 stable-ts>=2.19
 av>=12
+librosa>=0.11
+zstandard>=0.22
