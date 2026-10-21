@@ -114,7 +114,7 @@ photos/                        # measurement photos (§9)
 
 Milestones (in order)
 
-M0. Prototype the architecture (next, needs no new parts beyond a spare ESP32)
+M0. Prototype the architecture (first half done 21 Oct 2026: WLED 16.0.1 on Rob's spare ESP32-WROOM-32 mini at 192.168.0.72, 92 LEDs on GPIO16, receiving DDP from xLights on the PC as controller StairTree1; see wled/README.md. Waiting on the pixels for the rest)
 Flash WLED onto a spare ESP32; FPP on Rob's Pi 3 (or xLights on the PC) sends DDP to it. When the pixels arrive, drive one 92-pixel string through a 74AHCT125 and check frame timing with a fast mouth sequence over Wi-Fi. This decides WLED streaming vs ESPixelStick FPP Remote before 14 boards are bought.
 
 M1. Layout and CNC files (done for the measured blank; waiting on the hole/counterbore test)
