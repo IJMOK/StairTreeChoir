@@ -29,7 +29,8 @@ from tools.tree_layout import ROOT
 MARKER = ".public-snapshot"  # only directories carrying this are ever wiped
 AUTHOR = "IJMOK <1636330+IJMOK@users.noreply.github.com>"  # GitHub user id 1636330
 FORBIDDEN = re.compile(r"(\.lrc|\.lyrics\.txt|\.mp3|\.wav|\.m4a)$", re.I)
-PERSONAL = re.compile(r"\b(Rob's parents|parents|friends?|front lawn|my house|home address)\b", re.I)
+# Words in prose, not code (".parents[1]", "parents=True").
+PERSONAL = re.compile(r"(?<![.\w])(parents|friends?|front lawn|my house|home address)\b(?!\s*[=\[(])", re.I)
 IMAGE = re.compile(r"\.(jpe?g|png|heic|tiff?)$", re.I)
 
 
@@ -85,7 +86,7 @@ def main(argv: list[str] | None = None) -> None:
         if private_email and private_email in text:
             hard.append(f"{rel(p)}: contains the private email address")
         for n, line in enumerate(text.splitlines(), 1):
-            if PERSONAL.search(line):
+            if PERSONAL.search(line) and rel(p) != "tools/make_public.py":
                 review.append(f"{rel(p)}:{n}: {line.strip()[:110]}")
 
     if hard:
