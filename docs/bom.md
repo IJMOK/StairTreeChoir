@@ -10,7 +10,7 @@ Kept current from CLAUDE.md §4. 14 trees, each with its own ESP32 controller; o
 | 2 lots (20 pairs) | Ray Wu xConnect 3-core 18AWG flat pigtails, 20cm | |
 | 10 | PAM8610 amp boards | 4 needed (one per site); 6 spare |
 | 10 | 74AHCT125N DIP-14 | One per tree; 4 more needed |
-| – | Prototype boards, 5×7cm | |
+| – | Prototype boards, 5×7cm | Tree controller boards (count TBC on arrival) |
 | 7 | USB sound cards | 4 needed (one per site player); 3 spare |
 | 15 | Micro-USB OTG cables | Spares |
 | 10 | 2×20 pin headers | Spares |
@@ -23,13 +23,20 @@ DIP sockets, inline blade fuse holders and 5A fuses, M3 heat-set inserts and sta
 
 ## Still to buy
 
-Decide the tree controller board after the M0 prototype before buying the ESP32s.
+Tree controller: DIY boards (Rob, 21 Oct 2026). See electronics/README.md.
 
 | Qty | Item | Notes |
 |---|---|---|
-| 14 | ESP32 tree controllers | DIY: ESP32-WROOM-32U dev board + external antenna, ~£5–6 each. Or ready-made 12V WLED boards with level shifting (QuinLED Dig-Uno, GledOpto), ~£15–30 each. TBC after M0. |
-| 4 | 74AHCT125N DIP-14 | Only if DIY boards (10 already bought) |
-| 4 | Mini560 5V buck | Only if DIY boards (10 already bought) |
+| 16 | ESP32-DevKitC-32U (or -32UE) dev board, 38-pin | 14 + 2 spare. Espressif DevKitC pin layout (IO16 on J3 pin 12). Any USB chip (CP2102 or CH340). |
+| 16 | 2.4GHz antenna: U.FL (IPEX-1) to RP-SMA bulkhead pigtail, 10–15cm, + RP-SMA dipole | The WROOM-32U has no antenna of its own; check the listing includes both parts |
+| 6 | 74AHCT125N DIP-14 | 10 already bought; 16 boards |
+| 6 | Mini560 5V buck (fixed 5V version) | 10 already bought; 16 boards |
+| 16 | 1×40 2.54mm female header strip | Cut two 1×19 per board for the ESP32 |
+| 16 | DIP-14 socket | Unless Rob has enough |
+| 32 | 2-way 5.08mm PCB screw terminal | JP (12V in) and JD (data out) |
+| 16 | 10kΩ resistor | R2 data pull-down, unless Rob has them |
+| 28 | Wago 221-413 (3-way) | 12V and GND split in each tree box |
+| 16 | 5×7cm prototype boards | Unless the bought pack has enough |
 | 2 | Raspberry Pi 3 Model A+ (or any Pi) | Show players for two sites; Rob's Pi 3 and Pi 5 are the other two. The Pi Hut, about £24. |
 | 4 | High-endurance microSD | One per player. UK retailer, not AliExpress |
 | 4 | Travel router (GL.iNet Mango, ~£27) | One per site, optional (Pi hotspot fallback) |
