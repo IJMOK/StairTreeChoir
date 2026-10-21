@@ -18,8 +18,10 @@ from __future__ import annotations
 
 import argparse
 import io
+import os
 import re
 import shutil
+import stat
 import subprocess
 import tarfile
 from pathlib import Path
@@ -32,6 +34,14 @@ FORBIDDEN = re.compile(r"(\.lrc|\.lyrics\.txt|\.mp3|\.wav|\.m4a)$", re.I)
 # Words in prose, not code (".parents[1]", "parents=True").
 PERSONAL = re.compile(r"(?<![.\w])(parents|friends?|front lawn|my house|home address)\b(?!\s*[=\[(])", re.I)
 IMAGE = re.compile(r"\.(jpe?g|png|heic|tiff?)$", re.I)
+
+
+def remove_tree(path: Path) -> None:
+    """rmtree that also deletes git's read-only object files on Windows."""
+    def make_writable(func, p, _exc):
+        os.chmod(p, stat.S_IWRITE)
+        func(p)
+    shutil.rmtree(path, onexc=make_writable)
 
 
 def git(*args: str, cwd: Path = ROOT) -> str:
@@ -66,7 +76,7 @@ def main(argv: list[str] | None = None) -> None:
     if target.exists():
         if not (target / MARKER).exists():
             raise SystemExit(f"{target} exists and isn't a previous public snapshot; not touching it.")
-        shutil.rmtree(target)
+        remove_tree(target)
     target.mkdir(parents=True)
 
     files = export_head(target)
@@ -90,7 +100,7 @@ def main(argv: list[str] | None = None) -> None:
                 review.append(f"{rel(p)}:{n}: {line.strip()[:110]}")
 
     if hard:
-        shutil.rmtree(target)
+        remove_tree(target)
         raise SystemExit("Not built:\n  " + "\n  ".join(hard))
 
     (target / MARKER).write_text("Built by tools/make_public.py from the private repo; rebuilt on each run.\n",
