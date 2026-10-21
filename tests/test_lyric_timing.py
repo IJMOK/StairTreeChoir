@@ -38,3 +38,25 @@ def test_lrc_fallback_replaces_only_bad_lines():
     assert s2["start_time"] == 2.9 and s2["end_time"] > 3.4
     assert s2["words"][0]["end_time"] == s2["words"][1]["start_time"]
     assert data["segments"][0]["start_time"] == 1.0  # good line untouched
+
+
+def test_tidy_fixes_overlaps_and_tiny_words():
+    w = lambda a, b: {"text": "w", "start_time": a, "end_time": b}
+    data = {"segments": [
+        {"text": "a", "start_time": 1.0, "end_time": 3.0, "words": [w(1.0, 2.0), w(2.0, 3.0)]},
+        {"text": "b", "start_time": 2.0, "end_time": 2.6, "words": [w(2.0, 2.02), w(2.3, 2.6)]},
+    ]}
+    lt.tidy(data)
+    a, b = data["segments"]
+    assert a["end_time"] == 2.0 and a["words"][-1]["end_time"] == 2.0  # squeezed to b's start
+    assert all(x["end_time"] - x["start_time"] >= 0.1 - 1e-9 for s in (a, b) for x in s["words"])
+    assert b["words"][0]["end_time"] <= b["words"][1]["start_time"]
+
+
+def test_tidy_borrows_from_the_next_word_for_a_first_word():
+    w = lambda a, b: {"text": "w", "start_time": a, "end_time": b}
+    data = {"segments": [{"text": "a", "start_time": 5.0, "end_time": 5.5,
+                          "words": [w(5.0, 5.0), w(5.0, 5.5)]}]}
+    lt.tidy(data)
+    first, second = data["segments"][0]["words"]
+    assert (first["start_time"], first["end_time"], second["start_time"]) == (5.0, 5.1, 5.1)

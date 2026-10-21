@@ -1,0 +1,83 @@
+"""Check a rendered sequence against its arrangement: python -m tools.check_render data/songs/<song>.json
+
+Reads the sequence's .fseq (FSEQ v2, zstd or uncompressed) from the show folder and,
+for every lyric line, lists which trees' mouths change shape during it. Those must
+be exactly the trees the arrangement gives the line. Also reports each tree's mouth
+shape counts. Needs zstandard (requirements-lyrics.txt).
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import struct
+import sys
+from collections import Counter
+from pathlib import Path
+
+from tools.arrange_song import SHOW_FOLDER, TREES
+from tools.tree_layout import LAYOUT_FILE, ROOT
+
+TREE_CHANNELS = 276
+MOUTH = ("mouth_wide", "mouth_small", "lip")
+
+
+def read_fseq(path: Path) -> tuple[bytes, int, int, int]:
+    """(frame data, channels per frame, frame count, step ms)."""
+    b = path.read_bytes()
+    if b[:4] != b"PSEQ" or b[7] != 2:
+        raise SystemExit(f"{path} is not an FSEQ v2 file")
+    data_off = struct.unpack_from("<H", b, 4)[0]
+    channels, frames = struct.unpack_from("<II", b, 10)
+    step, compression = b[18], b[20] & 0x0F
+    blocks = b[21] | ((b[20] >> 4) << 8)
+    if compression == 0:
+        return b[data_off:data_off + channels * frames], channels, frames, step
+    if compression != 1:
+        raise SystemExit("only zstd or uncompressed FSEQ is supported")
+    import zstandard
+
+    out, pos, d = bytearray(), data_off, zstandard.ZstdDecompressor()
+    for i in range(blocks):
+        _, size = struct.unpack_from("<II", b, 32 + 8 * i)
+        if size:
+            out += d.decompress(b[pos:pos + size], max_output_size=channels * frames)
+            pos += size
+    return bytes(out), channels, frames, step
+
+
+def main(argv: list[str] | None = None) -> None:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("arrangement", type=Path)
+    args = ap.parse_args(argv)
+    arr = json.loads((ROOT / args.arrangement).read_text(encoding="utf-8"))
+    raw, channels, frames, step = read_fseq(SHOW_FOLDER / f"{arr['sequence']}.fseq")
+    timing = json.loads((SHOW_FOLDER / arr["lyrics_timing"]).read_text(encoding="utf-8"))
+    groups: dict[str, list[int]] = {}
+    for n in json.loads(LAYOUT_FILE.read_text(encoding="utf-8"))["nodes"]:
+        groups.setdefault(n["group"], []).append(n["n"])
+
+    def shape(frame: int, tree: int) -> tuple[int, ...]:
+        base = frame * channels + (tree - 1) * TREE_CHANNELS
+        return tuple(int(any(raw[base + (k - 1) * 3:base + k * 3] != b"\0\0\0" for k in groups[g]))
+                     for g in MOUTH)
+
+    bad = []
+    for i, seg in enumerate(timing["segments"], 1):
+        # Inside the line only: one frame of slack at each end for snapping to frames.
+        f0, f1 = int(seg["start_time"] * 1000 / step) + 1, int(seg["end_time"] * 1000 / step) - 1
+        moving = [t for t in TREES if len({shape(f, t) for f in range(f0, min(f1, frames))}) > 1]
+        want = arr["groups"][arr["lines"][str(i)]]
+        if moving != want:
+            bad.append((i, moving, want))
+    for t in TREES:
+        counts = Counter(shape(f, t) for f in range(frames))
+        print(f"StairTree{t} (wide, small, lip) frames: {dict(sorted(counts.items()))}")
+    for i, moving, want in bad:
+        print(f"line {i}: mouths moving on {moving}, arranged for {want}")
+    print(f"{len(timing['segments']) - len(bad)}/{len(timing['segments'])} lines match the arrangement")
+    sys.exit(1 if bad else 0)
+
+
+if __name__ == "__main__":
+    main()

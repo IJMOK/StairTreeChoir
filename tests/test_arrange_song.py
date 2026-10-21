@@ -20,6 +20,15 @@ def test_windows_follow_the_arrangement():
     assert ars.singing_windows(ARR, LINES, 4) == [(2400, 4650)]  # lines 2 and 3 merge (gap < 400ms)
 
 
+def test_back_to_back_lines_dont_bleed():
+    arr = {**ARR, "lines": {"1": "A", "2": "B", "3": "A"}}
+    lines = [(1.0, 2.0), (2.0, 2.6), (2.6, 3.5)]  # no gaps, like Dominick's chorus
+    a = ars.singing_windows(arr, lines, 1)
+    b = ars.singing_windows(arr, lines, 4)
+    assert a == [(900, 2000), (2600, 3650)]  # not merged across B's line
+    assert b == [(2000, 2600)]
+
+
 def test_faces_cover_the_song_back_to_back():
     plan = ars.faces_plan(ARR, LINES, 1, 6000)
     assert plan[0][0] == 0 and plan[-1][1] == 6000

@@ -23,6 +23,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -46,20 +48,32 @@ def snap(ms: float) -> int:
 
 
 def singing_windows(arr: dict, line_times: list[tuple[float, float]], tree: int) -> list[tuple[int, int]]:
-    """Merged [start, end) ms windows in which this tree sings."""
+    """Merged [start, end) ms windows in which this tree sings.
+
+    Each line's window opens LEAD_MS early and closes TAIL_MS late, but never past the
+    midpoint to the neighbouring line, so a tree doesn't mouth the next singer's first
+    syllable. Windows merge only across silence (consecutive lines both sung by this
+    tree), never across a line someone else sings."""
+    n = len(line_times)
     windows = []
     for number, group in sorted(arr["lines"].items(), key=lambda kv: int(kv[0])):
         if tree not in arr["groups"][group]:
             continue
-        start, end = line_times[int(number) - 1]
-        windows.append([snap(start * 1000 - LEAD_MS), snap(end * 1000 + TAIL_MS)])
+        i = int(number) - 1
+        start, end = line_times[i]
+        lo, hi = start * 1000 - LEAD_MS, end * 1000 + TAIL_MS
+        if i > 0:
+            lo = max(lo, (line_times[i - 1][1] + start) * 500)
+        if i < n - 1:
+            hi = min(hi, (end + line_times[i + 1][0]) * 500)
+        windows.append([snap(lo), snap(hi), i])
     merged = []
     for w in windows:
-        if merged and w[0] - merged[-1][1] < MERGE_GAP_MS:
-            merged[-1][1] = max(merged[-1][1], w[1])
+        if merged and w[2] == merged[-1][2] + 1 and w[0] - merged[-1][1] < MERGE_GAP_MS:
+            merged[-1][1], merged[-1][2] = max(merged[-1][1], w[1]), w[2]
         else:
             merged.append(w)
-    return [(max(0, a), b) for a, b in merged]
+    return [(max(0, a), b) for a, b, _ in merged]
 
 
 def faces_plan(arr: dict, line_times, tree: int, song_ms: int) -> list[tuple[int, int, str]]:
@@ -119,8 +133,14 @@ def outline_plan(arr: dict, beats: list[float], tree: int, song_ms: int,
 def call(cmd: dict) -> dict:
     req = urllib.request.Request(API, data=json.dumps(cmd, separators=(",", ":")).encode(),
                                  headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        return json.loads(resp.read().decode() or "{}")
+    for attempt in range(10):  # xLights answers 503 while it's busy (rendering, saving)
+        try:
+            with urllib.request.urlopen(req, timeout=120) as resp:
+                return json.loads(resp.read().decode() or "{}")
+        except urllib.error.HTTPError as e:
+            if e.code != 503 or attempt == 9:
+                raise
+            time.sleep(2)
 
 
 def clear(model: str) -> None:

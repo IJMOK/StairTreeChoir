@@ -145,6 +145,42 @@ def apply_lrc_fallback(data: dict, starts: list[float], song_end: float,
     return fixed
 
 
+def tidy(data: dict, min_word: float = 0.1) -> None:
+    """Make the timing safe for xLights' word breakdown: lines don't overlap (a line that
+    runs into the next is squeezed to end where it starts), and every word lasts at
+    least min_word where its neighbours allow. A word shorter than a frame gets no
+    phonemes, so the mouth would hold its last shape through it."""
+    segs = data["segments"]
+    for a, b in zip(segs, segs[1:]):
+        if a["end_time"] > b["start_time"] > a["start_time"]:
+            s0, old, new = a["start_time"], a["end_time"], b["start_time"]
+            scale = (new - s0) / (old - s0)
+            for w in a["words"]:
+                w["start_time"] = round(s0 + (w["start_time"] - s0) * scale, 3)
+                w["end_time"] = round(s0 + (w["end_time"] - s0) * scale, 3)
+            a["end_time"] = new
+    for seg in segs:
+        words = seg["words"]
+        for k, w in enumerate(words):
+            if w["end_time"] - w["start_time"] >= min_word:
+                continue
+            limit = words[k + 1]["start_time"] if k + 1 < len(words) else seg["end_time"]
+            w["end_time"] = round(min(w["start_time"] + min_word, max(limit, w["end_time"])), 3)
+            if w["end_time"] - w["start_time"] < min_word and k + 1 < len(words):
+                nxt = words[k + 1]  # borrow from the next word if it can spare it
+                cut = round(w["start_time"] + min_word, 3)
+                if nxt["end_time"] - cut >= min_word and nxt["start_time"] <= cut:
+                    w["end_time"] = nxt["start_time"] = cut
+            if w["end_time"] - w["start_time"] < min_word and k > 0:
+                prev = words[k - 1]
+                start = max(prev["start_time"] + min_word, w["end_time"] - min_word)
+                if start < w["start_time"]:
+                    w["start_time"] = round(start, 3)
+                    prev["end_time"] = min(prev["end_time"], w["start_time"])
+        seg["start_time"] = min(seg["start_time"], words[0]["start_time"])
+        seg["end_time"] = max(seg["end_time"], words[-1]["end_time"])
+
+
 def to_xlights(result) -> dict:
     """stable-ts WhisperResult -> xLights ElevenLabs-import JSON."""
     segments = []
@@ -210,6 +246,7 @@ def main(argv: list[str] | None = None) -> None:
         fixed = apply_lrc_fallback(data, lrc_starts(lrc.read_text(encoding="utf-8")), duration)
         if fixed:
             print("Alignment looked wrong on lines", fixed, "- used LRCLIB's timing there")
+    tidy(data)
     out.write_text(json.dumps(data, indent=1, ensure_ascii=False), encoding="utf-8")
     n_words = sum(len(s["words"]) for s in data["segments"])
     print(f"Wrote {out}: {len(data['segments'])} phrases, {n_words} words")
