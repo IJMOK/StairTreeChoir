@@ -1,0 +1,35 @@
+{
+  "sequence": "Rockin Around the Christmas Tree",
+  "audio": "Audio/Brenda Lee - Rockin' Around The Christmas Tree (Remastered).mp3",
+  "lyrics_timing": "Audio/Choir.json",
+  "lyrics_track": "Choir_1",
+  "beats": "Audio/beats.json",
+  "groups": {
+    "A": [1, 2, 3],
+    "B": [4, 5, 6],
+    "outer": [1, 6],
+    "outer+middle": [1, 2, 5, 6],
+    "inner": [3, 4],
+    "inner+middle": [2, 3, 4, 5],
+    "all": [1, 2, 3, 4, 5, 6]
+  },
+  "lines": {
+    "1": "A", "2": "B", "3": "A", "4": "B",
+    "5": "B", "6": "A", "7": "B", "8": "A",
+    "9": "outer", "10": "outer+middle", "11": "all",
+    "12": "all", "13": "all", "14": "all", "15": "all",
+    "16": "inner", "17": "inner+middle", "18": "all",
+    "19": "all", "20": "all", "21": "all", "22": "all"
+  },
+  "sections": [
+    {"name": "intro", "until": 7.0, "outline": "ripple", "colours": ["#00FF00", "#FF0000"]},
+    {"name": "verses", "until": 33.0, "outline": "pulse", "colours": ["#00FF00"]},
+    {"name": "bridge", "until": 47.3, "outline": "pulse", "colours": ["#FFB000"]},
+    {"name": "refrain", "until": 59.5, "outline": "pulse", "colours": ["#FF0000", "#00FF00"]},
+    {"name": "sax", "until": 86.2, "outline": "ripple", "colours": ["#FF0000", "#00FF00", "#FFB000"]},
+    {"name": "bridge2", "until": 101.3, "outline": "pulse", "colours": ["#FFB000"]},
+    {"name": "finale", "until": 115.5, "outline": "pulse", "colours": ["#FF0000", "#00FF00"]},
+    {"name": "outro", "until": 999, "outline": "hold", "colours": ["#00FF00"]}
+  ],
+  "notes": "Lines are numbered as in the lyric timing (1-22); lyrics themselves stay in the show folder. A = StairTree1-3, B = StairTree4-6: call and response in the verses, then the bridges build up from the outer (or inner) pair to the full choir."
+}

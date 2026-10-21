@@ -57,3 +57,11 @@ Verified 21 Oct 2026: `getControllers` reports Slot1–6 at 1/277/553/829/1105/1
 6. Check the render from the `.fseq` (v2, zstd): every tree uses all four mouth shapes, rests on the lip during instrumentals, blinks.
 
 Automation quirks seen: `POST /xlDoAutomation` returned "No command" for `newSequence` with a media path and for `exportModel`; the GET forms work. `newSequence` returns before the Sequence Settings dialog is closed, and nothing can be saved until it is.
+
+### Arranging: parts and beat lighting
+
+`data/songs/<song>.json` says which tree group sings each lyric line (by number, no lyrics in git) and how the outlines light per section; `python -m tools.arrange_song data/songs/<song>.json` (sequence open in xLights) replaces each tree's effects: Faces segments (lyric track while singing, "rest" otherwise; Faces outline off) and one On effect per beat on `StairTreeN/Outline` (sub-model effects render over the model's). `--dry-run` prints the plan. Re-run after any change; it takes ~20s.
+
+Beats: `librosa.beat.beat_track` on the MP3 → `Audio/beats.json` (Rockin': steady 72 BPM, 143 beats).
+
+Rockin' arrangement (21 Oct 2026): verses call-and-response between StairTree1–3 and 4–6; bridges build from the outer pair (or inner pair the second time) to the full choir; refrain and finale all six. Outlines: green verses, gold bridges, red/green refrains, a one-tree-per-beat ripple through the intro and sax break, singers bright and resting trees dim. Verified from the render: on all 22 lines exactly the arranged trees' mouths move.
