@@ -9,12 +9,12 @@ Kept current from CLAUDE.md §4. 14 trees, each with its own ESP32 controller; o
 | 14 | Ray Wu 12V WS2811 12mm bullet strings, 100 pixels, resistor type, black 18AWG, xConnect ends | One per tree. Cut the surplus 8 off each and keep as repair spares. Lead spacing not yet confirmed (probably 3–4 inch). |
 | 2 lots (20 pairs) | Ray Wu xConnect 3-core 18AWG flat pigtails, 20cm | |
 | 10 | PAM8610 amp boards | 4 needed (one per site); 6 spare |
-| 10 | 74AHCT125N DIP-14 | One per tree; 4 more needed |
+| 10 | 74AHCT125N DIP-14 | One per tree; 6 more for 16 boards |
 | – | Prototype boards, 5×7cm | Tree controller boards (count TBC on arrival) |
 | 7 | USB sound cards | 4 needed (one per site player); 3 spare |
 | 15 | Micro-USB OTG cables | Spares |
 | 10 | 2×20 pin headers | Spares |
-| 10 | Mini560 5V buck | One per tree controller; 4 more needed |
+| 10 | Mini560 5V buck | One per tree controller; 6 more for 16 boards |
 | 20 + 20 | PG7 and PG9 cable glands | PG9: 12V flex into each tree box (14) + site boxes. PG7: pixel lead out of each tree box (14, via a short round tail, since the flat xConnect pigtail won't seal) + speaker cables (4). Enough. |
 
 ## Rob already has
