@@ -45,3 +45,15 @@ Show folder `Documents\xLights`, models StairTree1–6 (not Tree1–6 as above).
 - **Automation**: Preferences → Output → API Port = Port A (49913). xLights then answers the REST/xlDo commands and MCP (`POST /mcp`) on 127.0.0.1:49913. It can't edit controllers, model channels or groups; those need the layout files edited with xLights closed. Only one xLights may run: a second copy can't take the port and the first may save over edited files.
 
 Verified 21 Oct 2026: `getControllers` reports Slot1–6 at 1/277/553/829/1105/1381, and a sequence with an effect on StairTree1 played to the ESP32 (WLED live, DDP from the PC).
+
+## Sequencing a song (first done 21 Oct 2026: Rockin' Around the Christmas Tree)
+
+1. Put the MP3 in `Documents\xLights\Audio\`.
+2. Lyric timing on the PC (no paid service): `.venv/Scripts/python -m tools.lyric_timing "<mp3>" --artist "..." --title "..." --model small.en`. It downloads the lyrics from LRCLIB into `<mp3>.lyrics.txt` (fix and rerun if needed), aligns every word with Whisper (about 1 min for a 2-minute song on the CPU), writes `Audio\Choir.json`, and lists words missing from xLights' dictionaries. Add those to `Documents\xLights\user_dictionary` (CMU phonemes; xLights reads the show folder's copy first).
+   Sanity check: compare line starts with LRCLIB's synced timestamps. For the first song all lines agreed within 1.6s except one LRCLIB had put at the start of the sax break; a cold Whisper transcription of that window confirmed no singing there, so the alignment was right.
+3. New sequence (automation `GET /newSequence?media=<url-encoded path>&frameMS=50&view=All%20Models`, or File → New): xLights then shows Sequence Settings, which needs a click. 50ms frames.
+4. Import the timing: right-click the timing area → Import Timing Track(s) → type "Eleven Labs (*.json)" → `Choir.json`. Right-click the track → Breakdown Words. (It may be named `Choir_1` if a Choir track existed.)
+5. Faces effect on every tree (automation `addEffect` on StairTree1, then `cloneModelEffects` to 2–6): `E_CHOICE_Faces_TimingTrack=<track>, E_CHOICE_Faces_FaceDefinition=StairTree, E_CHOICE_Faces_Eyes=Auto, E_CHOICE_Faces_EyeBlinkFrequency=Normal, E_CHECKBOX_Faces_Outline=1` (keys from xLights `FacesEffect.cpp`). Render, save.
+6. Check the render from the `.fseq` (v2, zstd): every tree uses all four mouth shapes, rests on the lip during instrumentals, blinks.
+
+Automation quirks seen: `POST /xlDoAutomation` returned "No command" for `newSequence` with a media path and for `exportModel`; the GET forms work. `newSequence` returns before the Sequence Settings dialog is closed, and nothing can be saved until it is.
