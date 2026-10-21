@@ -8,7 +8,7 @@ Original build pack (claude.ai artifact): https://claude.ai/artifact/X9tCyDmTd4q
 
 1. Goals
 14 trees, all identical, each with an outline, two eyes and a multi-shape mouth that lip-syncs to music.
-Sites: Rob's front lawn (4 or 6 trees), Rob's parents (4 trees), and two friends (2 trees each).
+Sites: four, one with 4 or 6 trees, one with 4 trees and two with 2 trees each.
 Every site plays the same sequences. A song is sequenced once, for a 6-tree layout.
 Target: running by early December 2026.
 Rob builds the hardware himself. He has a CNC router, a 3D printer (Bambu P1S; PETG/TPU), soldering kit and a bench supply.
