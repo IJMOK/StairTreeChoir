@@ -14,7 +14,9 @@ ProcessElevenLabsTimingFiles in src-core/import_export/TimingImport.cpp, xLights
 "start_time", "end_time"}]}]}, times in seconds.
 
 Lyrics come from LRCLIB (lrclib.net) unless --lyrics is given, and are saved as
-<audio>.lyrics.txt, one sung line per line. Fix that file and run again: an
+<audio>.lyrics.txt, one sung line per line, plus LRCLIB's line-synced <audio>.lrc.
+Lines where the alignment fails (squashed, or >1.5s from the LRC start; e.g. donkey
+brays) fall back to the LRC line timing with the words spread evenly. Fix that file and run again: an
 existing .lyrics.txt is used instead of downloading. Lyrics stay in the show
 folder, never in git.
 
@@ -28,6 +30,8 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -65,24 +69,37 @@ def lyric_lines(text: str) -> list[str]:
     return lines
 
 
-def fetch_lyrics(artist: str, title: str, duration: float) -> str:
-    """Plain lyrics from LRCLIB; picks the result whose length is closest to the audio."""
+def fetch_lyrics(artist: str, title: str, duration: float) -> dict:
+    """LRCLIB record whose length is closest to the audio (plainLyrics, syncedLyrics)."""
     query = urllib.parse.urlencode({"artist_name": artist, "track_name": title})
     req = urllib.request.Request(f"https://lrclib.net/api/search?{query}",
                                  headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=20) as resp:
-        results = json.load(resp)
+    for attempt in range(4):  # LRCLIB sometimes answers 503 for a moment
+        try:
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                results = json.load(resp)
+            break
+        except urllib.error.HTTPError as e:
+            if e.code < 500 or attempt == 3:
+                raise
+            time.sleep(5)
     results = [r for r in results if r.get("plainLyrics") or r.get("syncedLyrics")]
     if not results:
         raise SystemExit(f"LRCLIB has no lyrics for {artist} - {title}; pass --lyrics.")
     best = min(results, key=lambda r: abs((r.get("duration") or 0) - duration))
     print(f"LRCLIB: {best.get('artistName')} - {best.get('trackName')} "
           f"({best.get('duration')}s; audio {duration:.0f}s)")
-    return best.get("plainLyrics") or best["syncedLyrics"]
+    return best
+
+
+def clean_word(word: str) -> str:
+    """A word as exported. Brackets mark backing vocals in the line text, but xLights
+    doesn't strip them before the dictionary lookup, so they come off the words."""
+    return word.strip().replace("(", "").replace(")", "")
 
 
 def xlights_word_key(word: str) -> str:
-    return "".join(c for c in word if c not in XL_STRIP).upper()
+    return "".join(c for c in clean_word(word) if c not in XL_STRIP).upper()
 
 
 def dictionary_words(search_dirs: list[Path]) -> set[str]:
@@ -100,12 +117,40 @@ def dictionary_words(search_dirs: list[Path]) -> set[str]:
     return words
 
 
+def lrc_starts(synced: str) -> list[float]:
+    """Line start times (s) from LRC text, for lines with words."""
+    return [int(m) * 60 + float(sec) for m, sec in re.findall(r"^\[(\d+):(\d+(?:\.\d+)?)\]\s*\S", synced, re.M)]
+
+
+def apply_lrc_fallback(data: dict, starts: list[float], song_end: float,
+                       max_shift: float = 1.5, min_len: float = 0.3) -> list[int]:
+    """Where alignment failed on a line (squashed, or far from LRCLIB's start), use the LRC
+    line start and spread its words evenly. Returns the 1-based lines replaced."""
+    segs = data["segments"]
+    if len(starts) != len(segs):
+        print(f"LRC has {len(starts)} lines, timing has {len(segs)}: no fallback")
+        return []
+    fixed = []
+    for i, seg in enumerate(segs):
+        start = starts[i]
+        if abs(seg["start_time"] - start) <= max_shift and seg["end_time"] - seg["start_time"] >= min_len:
+            continue
+        nxt = starts[i + 1] if i + 1 < len(starts) else song_end
+        end = min(nxt - 0.05, start + max(0.6, 0.4 * len(seg["words"])))
+        step = (end - start) / len(seg["words"])
+        for k, w in enumerate(seg["words"]):
+            w["start_time"], w["end_time"] = round(start + k * step, 3), round(start + (k + 1) * step, 3)
+        seg["start_time"], seg["end_time"] = round(start, 3), round(end, 3)
+        fixed.append(i + 1)
+    return fixed
+
+
 def to_xlights(result) -> dict:
     """stable-ts WhisperResult -> xLights ElevenLabs-import JSON."""
     segments = []
     for seg in result.segments:
-        words = [{"text": w.word.strip(), "start_time": round(w.start, 3), "end_time": round(w.end, 3)}
-                 for w in seg.words if w.word.strip()]
+        words = [{"text": clean_word(w.word), "start_time": round(w.start, 3), "end_time": round(w.end, 3)}
+                 for w in seg.words if clean_word(w.word)]
         if not words:
             continue
         segments.append({"text": seg.text.strip(), "start_time": round(seg.start, 3),
@@ -126,6 +171,12 @@ def main(argv: list[str] | None = None) -> None:
     audio = load_audio(args.audio)
     duration = len(audio) / SAMPLE_RATE
     saved = args.audio.with_suffix(".lyrics.txt")
+    lrc = args.audio.with_suffix(".lrc")
+    record = None
+    if not args.lyrics and (not saved.exists() or not lrc.exists()) and args.artist and args.title:
+        record = fetch_lyrics(args.artist, args.title, duration)
+        if record.get("syncedLyrics") and not lrc.exists():
+            lrc.write_text(record["syncedLyrics"], encoding="utf-8")
     if args.lyrics:
         text = args.lyrics.read_text(encoding="utf-8-sig")
     elif saved.exists():
@@ -134,7 +185,7 @@ def main(argv: list[str] | None = None) -> None:
     else:
         if not (args.artist and args.title):
             raise SystemExit("Give --artist and --title (or --lyrics).")
-        text = fetch_lyrics(args.artist, args.title, duration)
+        text = record.get("plainLyrics") or record["syncedLyrics"]
     lines = lyric_lines(text)
     saved.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -155,6 +206,10 @@ def main(argv: list[str] | None = None) -> None:
 
     out = args.audio.with_name(f"{args.track}.json")
     data = to_xlights(result)
+    if lrc.exists() and not args.lyrics:
+        fixed = apply_lrc_fallback(data, lrc_starts(lrc.read_text(encoding="utf-8")), duration)
+        if fixed:
+            print("Alignment looked wrong on lines", fixed, "- used LRCLIB's timing there")
     out.write_text(json.dumps(data, indent=1, ensure_ascii=False), encoding="utf-8")
     n_words = sum(len(s["words"]) for s in data["segments"])
     print(f"Wrote {out}: {len(data['segments'])} phrases, {n_words} words")

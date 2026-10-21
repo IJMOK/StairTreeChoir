@@ -1,0 +1,229 @@
+{
+  "sequence": "Dominick the Donkey",
+  "audio": "Audio/01 - Dominick the Donkey (The Italian Christmas Donkey).mp3",
+  "lyrics_timing": "Audio/Dominick.json",
+  "lyrics_track": "Dominick",
+  "beats": "Audio/01 - Dominick the Donkey (The Italian Christmas Donkey).beats.json",
+  "groups": {
+    "A": [
+      1,
+      2,
+      3
+    ],
+    "B": [
+      4,
+      5,
+      6
+    ],
+    "outer": [
+      1,
+      6
+    ],
+    "inner": [
+      3,
+      4
+    ],
+    "inner+middle": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "t1": [
+      1
+    ],
+    "t2": [
+      2
+    ],
+    "t3": [
+      3
+    ],
+    "t4": [
+      4
+    ],
+    "t5": [
+      5
+    ],
+    "t6": [
+      6
+    ]
+  },
+  "lines": {
+    "1": "all",
+    "2": "outer",
+    "3": "all",
+    "4": "all",
+    "5": "outer",
+    "6": "all",
+    "7": "inner+middle",
+    "8": "all",
+    "9": "t1",
+    "10": "t2",
+    "11": "t3",
+    "12": "t4",
+    "13": "t5",
+    "14": "t6",
+    "15": "A",
+    "16": "B",
+    "17": "all",
+    "18": "outer",
+    "19": "all",
+    "20": "all",
+    "21": "outer",
+    "22": "all",
+    "23": "inner+middle",
+    "24": "all",
+    "25": "t6",
+    "26": "t5",
+    "27": "t4",
+    "28": "t3",
+    "29": "t2",
+    "30": "t1",
+    "31": "B",
+    "32": "A",
+    "33": "all",
+    "34": "outer",
+    "35": "all",
+    "36": "all",
+    "37": "outer",
+    "38": "all",
+    "39": "inner+middle",
+    "40": "all",
+    "41": "A",
+    "42": "A",
+    "43": "B",
+    "44": "B",
+    "45": "outer",
+    "46": "inner",
+    "47": "all",
+    "48": "A",
+    "49": "B",
+    "50": "all",
+    "51": "outer",
+    "52": "all",
+    "53": "all",
+    "54": "outer",
+    "55": "all",
+    "56": "inner+middle",
+    "57": "all",
+    "58": "all",
+    "59": "t1",
+    "60": "t2",
+    "61": "t3",
+    "62": "t4",
+    "63": "t5",
+    "64": "t6"
+  },
+  "sections": [
+    {
+      "name": "intro",
+      "until": 6.0,
+      "outline": "ripple",
+      "colours": [
+        "#009246",
+        "#FFFFFF",
+        "#CE2B37"
+      ]
+    },
+    {
+      "name": "chorus1",
+      "until": 25.5,
+      "outline": "pulse",
+      "colours": [
+        "#009246",
+        "#FFFFFF",
+        "#CE2B37"
+      ]
+    },
+    {
+      "name": "verse1",
+      "until": 43.1,
+      "outline": "pulse",
+      "colours": [
+        "#FFB000"
+      ]
+    },
+    {
+      "name": "chorus2",
+      "until": 62.5,
+      "outline": "pulse",
+      "colours": [
+        "#009246",
+        "#FFFFFF",
+        "#CE2B37"
+      ]
+    },
+    {
+      "name": "verse2",
+      "until": 80.5,
+      "outline": "pulse",
+      "colours": [
+        "#FFB000"
+      ]
+    },
+    {
+      "name": "chorus3",
+      "until": 101.1,
+      "outline": "pulse",
+      "colours": [
+        "#009246",
+        "#FFFFFF",
+        "#CE2B37"
+      ]
+    },
+    {
+      "name": "verse3",
+      "until": 117.3,
+      "outline": "pulse",
+      "colours": [
+        "#FFB000"
+      ]
+    },
+    {
+      "name": "chorus4",
+      "until": 135.2,
+      "outline": "pulse",
+      "colours": [
+        "#009246",
+        "#FFFFFF",
+        "#CE2B37"
+      ]
+    },
+    {
+      "name": "buon-natale",
+      "until": 140.5,
+      "outline": "pulse",
+      "colours": [
+        "#CE2B37",
+        "#009246"
+      ]
+    },
+    {
+      "name": "brays",
+      "until": 147.5,
+      "outline": "ripple",
+      "colours": [
+        "#009246",
+        "#FFFFFF",
+        "#CE2B37"
+      ]
+    },
+    {
+      "name": "end",
+      "until": 999,
+      "outline": "hold",
+      "colours": [
+        "#009246"
+      ]
+    }
+  ],
+  "notes": "Lines numbered as in Audio/Dominick.json (1-64). Choruses: lead lines all six, the bracketed hee-haws by the outer pair (the donkeys), the first la-la line by the middle four and the second by everyone. Verses tell the story: verse 1 passes it tree to tree 1->6, verse 2 back 6->1, verse 3 between the trios. Final six hee-haws go round the choir one tree each. Outlines in the Italian tricolour on the choruses, gold on the verses."
+}
