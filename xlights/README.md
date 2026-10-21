@@ -33,3 +33,15 @@ Format checked against the xLights source (commit 75c3e11, 20 Oct 2026). **Not y
 7. Make a group "All Trees" with Tree1–Tree6 for whole-show effects.
 
 Later, the per-site FPP config (M5) sends each slot's channels to the right tree by IP.
+
+## Rob's show folder as set up (21 Oct 2026)
+
+Show folder `Documents\xLights`, models StairTree1–6 (not Tree1–6 as above).
+
+- **Six controllers, one per sequence slot**: Slot1 … Slot6, Ethernet, DDP, 276 channels each, in that order, so their global ranges are 1, 277, 553, 829, 1105, 1381 whatever else is added. Slot1 points at the prototype ESP32 (192.168.0.72) and is Active; Slot2–6 have placeholder IPs (192.168.0.202–206) and are Inactive (they hold their channels but send nothing). Set a slot Active with a real IP when its tree controller exists.
+- **Each tree is pinned to its slot**: StairTreeN has Controller `SlotN` and start channel `!SlotN:1` (channel 1 of controller SlotN; syntax from xLights `Model.cpp`). Plain DDP controllers without a vendor aren't auto-laid-out by xLights (`ModelManager::ReworkStartChannel`), so these stay put.
+  Why: with one controller and the others "No Controller", xLights had moved the trees to absolute channels 277…1657, so sequence data for StairTree1 fell outside the ESP32's range.
+- **Group** `Choir` = StairTree1–6, for whole-choir effects.
+- **Automation**: Preferences → Output → API Port = Port A (49913). xLights then answers the REST/xlDo commands and MCP (`POST /mcp`) on 127.0.0.1:49913. It can't edit controllers, model channels or groups; those need the layout files edited with xLights closed. Only one xLights may run: a second copy can't take the port and the first may save over edited files.
+
+Verified 21 Oct 2026: `getControllers` reports Slot1–6 at 1/277/553/829/1105/1381, and a sequence with an effect on StairTree1 played to the ESP32 (WLED live, DDP from the PC).
