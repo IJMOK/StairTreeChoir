@@ -6,8 +6,8 @@
 // lands on the work. PETG, printed on its side (slot vertical) so the layers run along
 // the bar and don't split under the bolt.
 //
-// Rob's bed (23 Oct 2026): MDF topper with the strut set in grooves, strut top ~4mm
-// below the topper; M6 bolts into strut channel nuts. The tread sits on a sacrificial
+// Rob's bed (23 Oct 2026): MDF topper with 41x21 lipped steel strut (Unistrut type,
+// 2.5mm wall) set in grooves, strut top ~4mm below the topper; M6 bolts into strut channel nuts. The tread sits on a sacrificial
 // sheet (the holes go through), the heel stands on the topper beside it.
 // Bolt length: printed with the clamp's console echo (M6 x that, or the next size up).
 
@@ -17,7 +17,8 @@ bolt_d     = 6.5;        // M6 clearance
 tree_t     = 30;         // tread
 spoil_t    = 6;          // sacrificial sheet under the tread (set to yours)
 strut_drop = 4;          // strut top below the topper
-nut_t      = 6;          // channel nut, plus a couple of threads past it
+strut_lip  = 2.5;        // strut wall: the channel nut sits under the lips
+nut_t      = 6;          // M6 spring channel nut
 work_h     = tree_t + spoil_t;   // top of the tread above the topper
 bar_l      = 110;
 bar_w      = 24;
@@ -28,10 +29,12 @@ heel_l     = 18;
 slot_from_nose = 30;     // slot starts this far from the nose end
 slot_len   = 34;         // adjustment along the bar
 washer_od  = 18;
+washer_t   = 4;
 
 $fn = 48;
 
-echo(bolt_len = ceil(work_h + bar_t + 2 + strut_drop + nut_t));   // + 2 for the washer
+// head on the washer, through the bar, down the groove, past the lip, through the nut
+echo(bolt_len = ceil(washer_t + bar_t + work_h + strut_drop + strut_lip + nut_t));
 
 module clamp() {
     difference() {
@@ -56,8 +59,8 @@ module clamp() {
 
 module washer() {
     difference() {
-        cylinder(d = washer_od, h = 4);
-        translate([0, 0, -1]) cylinder(d = bolt_d, h = 6);
+        cylinder(d = washer_od, h = washer_t);
+        translate([0, 0, -1]) cylinder(d = bolt_d, h = washer_t + 2);
     }
 }
 
