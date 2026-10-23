@@ -13,6 +13,10 @@ ProcessElevenLabsTimingFiles in src-core/import_export/TimingImport.cpp, xLights
 75c3e11): {"segments": [{"text", "start_time", "end_time", "words": [{"text",
 "start_time", "end_time"}]}]}, times in seconds.
 
+With --transcribe (no published lyrics, e.g. a carol recording of unknown origin)
+Whisper first transcribes the song, one line per sung phrase, into <audio>.lyrics.txt;
+check that file (carols get misheard), fix it if needed and run again without the flag.
+
 Lyrics come from LRCLIB (lrclib.net) unless --lyrics is given, and are saved as
 <audio>.lyrics.txt, one sung line per line, plus LRCLIB's line-synced <audio>.lrc.
 Lines where the alignment fails (squashed, or >1.5s from the LRC start; e.g. donkey
@@ -202,6 +206,8 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--lyrics", type=Path, help="lyrics text file, one sung line per line")
     ap.add_argument("--track", default="Choir", help="timing track name (the output file's name)")
     ap.add_argument("--model", default="medium.en", help="Whisper model (small.en is faster)")
+    ap.add_argument("--transcribe", action="store_true",
+                    help="no published lyrics: transcribe the song into <audio>.lyrics.txt first")
     args = ap.parse_args(argv)
 
     audio = load_audio(args.audio)
@@ -213,6 +219,14 @@ def main(argv: list[str] | None = None) -> None:
         record = fetch_lyrics(args.artist, args.title, duration)
         if record.get("syncedLyrics") and not lrc.exists():
             lrc.write_text(record["syncedLyrics"], encoding="utf-8")
+    if args.transcribe and not saved.exists():
+        import stable_whisper
+
+        print(f"Transcribing {duration:.0f}s with {args.model} on the CPU (no published lyrics)...")
+        heard = stable_whisper.load_model(args.model, device="cpu").transcribe(audio, language="en", vad=True)
+        phrases = [seg.text.strip() for seg in heard.segments if seg.text.strip()]
+        saved.write_text("\n".join(phrases) + "\n", encoding="utf-8")
+        print(f"Wrote {saved} ({len(phrases)} lines): check it against the song")
     if args.lyrics:
         text = args.lyrics.read_text(encoding="utf-8-sig")
     elif saved.exists():
@@ -220,7 +234,7 @@ def main(argv: list[str] | None = None) -> None:
         text = saved.read_text(encoding="utf-8-sig")
     else:
         if not (args.artist and args.title):
-            raise SystemExit("Give --artist and --title (or --lyrics).")
+            raise SystemExit("Give --artist and --title, --lyrics, or --transcribe.")
         text = record.get("plainLyrics") or record["syncedLyrics"]
     lines = lyric_lines(text)
     saved.write_text("\n".join(lines) + "\n", encoding="utf-8")
