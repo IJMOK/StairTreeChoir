@@ -15,7 +15,7 @@ Outside 96 × 99 × 37mm (116mm wide with the ears); inside 91 × 92 × 30mm.
 - **Below the board**: the Mini560 and the two Wago 221-413s (foam tape), and the gland nuts.
 - **Floor**: PG9 (12V flex in) and PG7 (pixel lead tail out), both pointing down into the boot tower, and a 3mm drip hole.
 - **Roof**: RP-SMA bulkhead for the antenna, so the dipole stands up behind the tree.
-- **Lid** on the back: six M3 screws into heat-set inserts near the rim's outer edge; 2.7mm rubber cord in a groove in the lid (`seal.scad`: 3.8 × 2.05mm, ~25% squeeze, superglue the butt joint) presses on the flat rim inside the screws; a rain skirt hangs over the joint. The rim opening is 72 × 79mm, so the 70mm board goes in flat.
+- **Lid** on the back: six M3 screws into heat-set inserts near the rim's outer edge; 2.7mm rubber cord in a groove in the lid (`seal.scad`: 3.8 × 2.05mm, ~25% squeeze, superglue the butt joint) presses on the flat rim inside the screws; a rain skirt hangs over the joint. The rim opening is 72 × 73mm, so the 70 × 50mm board goes in flat.
 - **Ears**: four M3 screws down into inserts in the boot tower's posts.
 
 No fuse in the box: each tree's 12V is fused at the site box, where the run starts (CLAUDE.md §4).
