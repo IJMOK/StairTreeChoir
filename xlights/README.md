@@ -75,3 +75,24 @@ Rockin' arrangement (21 Oct 2026): verses call-and-response between StairTree1â€
 5. `python -m tools.arrange_song data/songs/<song>.json`, then `python -m tools.check_render data/songs/<song>.json`: every line's singers must match the arrangement.
 
 Back-to-back lines (Dominick) taught two rules now in `arrange_song`: a singer's lead-in/tail stops halfway to the neighbouring line, and windows merge only across silence, never across someone else's line.
+
+## Looks: the effects library (23 Oct 2026)
+
+Each section in `data/songs/<song>.json` names a **look** (tools/fx.py) instead of just outline colours:
+
+```json
+{"name": "verses", "until": 33.0, "look": "chase", "palette": "rainbow",
+ "accent": "colour_hit", "accent_every": 2, "eyes": "follow"}
+```
+
+- **Per-tree looks** on `StairTreeN/Outline`, bright on the singers and dimmed on the rest: `chase`, `marquee`, `candy`, `rainbow_wash`, `twinkle`, `shimmer`, `fire`, `spiral`, `butterfly`, `plasma`, `snow`, `strobe`, and the original `pulse`, `ripple`, `hold`. `meteors` exists but reads as scattered dots on a thin outline.
+- **Whole-choir looks** on the `Outlines` group, one picture across all six trees: `choir_rainbow`, `choir_butterfly`, `choir_curtain`, `choir_galaxy`, `choir_spiral`, `choir_fire`, `choir_meteors`, `choir_snow`, `choir_shockwave` (too thin to see at choir scale so far).
+- **Palettes**: `rainbow` (turns one step per tree, so hues run across the choir), `xmas`, `candy`, `ice`, `white`, or a list of colours.
+- **Accents** on the layer above, on the beat: `flash`, `colour_hit`, `sparkle_hit`; `accent_every` thins them.
+- **Eyes** on `StairTreeN/Eyes`: `blink` (default, Faces does it), `follow` (trees that aren't singing look at the ones that are), `roll`, `rainbow` (spinning), `sparkle`. The Faces effect's eyes are switched off wherever an eye move runs.
+
+What goes where, and why, was settled by experiment (tools/fx.py docstring): never put effects on `Choir` (the whole trees), because the Faces effect's black is see-through and the colour opens the mouths. The `Outlines` group (the six Outline sub-models) was added to the layout on 23 Oct 2026 for that reason; existing sequences need it listed: `python -m tools.xsq "<sequence>"` with the sequence closed (Rockin' and Dominick done).
+
+Settings keys come from `data/xlights-effects.json`, built from the xLights 2026.18 source by `python -m tools.xl_keys <source checkout>`; `tools/fx.py` refuses unknown keys, out-of-range values and unknown choices before anything reaches xLights. Decimal settings go in the text-box key (`E_TEXTCTRL_â€¦`).
+
+**See it without xLights**: `python -m tools.preview_render data/songs/<song>.json --start 30 --end 45` writes an animated GIF of the six trees to `previews/` (not committed); `--sheet 0:120:10` writes a contact sheet.

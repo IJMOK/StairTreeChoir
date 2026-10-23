@@ -126,72 +126,87 @@
     {
       "name": "intro",
       "until": 6.0,
-      "outline": "ripple",
-      "colours": [
+      "look": "choir_curtain",
+      "palette": [
         "#009246",
         "#FFFFFF",
         "#CE2B37"
-      ]
+      ],
+      "eyes": "roll"
     },
     {
       "name": "chorus1",
       "until": 25.5,
-      "outline": "pulse",
-      "colours": [
+      "look": "marquee",
+      "palette": [
         "#009246",
         "#FFFFFF",
         "#CE2B37"
-      ]
+      ],
+      "params": {
+        "band": 4,
+        "skip": 0,
+        "speed": 8
+      },
+      "accent": "colour_hit",
+      "accent_every": 2
     },
     {
       "name": "verse1",
       "until": 43.1,
-      "outline": "pulse",
-      "colours": [
-        "#FFB000"
-      ]
+      "look": "chase",
+      "palette": [
+        "#FFB000",
+        "#FFE680"
+      ],
+      "params": {
+        "colors": "Palette",
+        "chases": 3
+      },
+      "eyes": "follow"
     },
     {
       "name": "chorus2",
       "until": 62.5,
-      "outline": "pulse",
-      "colours": [
-        "#009246",
-        "#FFFFFF",
-        "#CE2B37"
-      ]
+      "look": "choir_rainbow",
+      "params": {
+        "dir": "Right"
+      },
+      "accent": "flash",
+      "accent_every": 2
     },
     {
       "name": "verse2",
       "until": 80.5,
-      "outline": "pulse",
-      "colours": [
-        "#FFB000"
-      ]
+      "look": "rainbow_wash",
+      "palette": "rainbow",
+      "eyes": "follow"
     },
     {
       "name": "chorus3",
       "until": 101.1,
-      "outline": "pulse",
-      "colours": [
+      "look": "spiral",
+      "palette": [
         "#009246",
         "#FFFFFF",
         "#CE2B37"
-      ]
+      ],
+      "accent": "sparkle_hit",
+      "accent_every": 2
     },
     {
       "name": "verse3",
       "until": 117.3,
-      "outline": "pulse",
-      "colours": [
-        "#FFB000"
-      ]
+      "look": "chase",
+      "palette": "rainbow",
+      "eyes": "follow"
     },
     {
       "name": "chorus4",
       "until": 135.2,
-      "outline": "pulse",
-      "colours": [
+      "look": "choir_butterfly",
+      "accent": "colour_hit",
+      "palette": [
         "#009246",
         "#FFFFFF",
         "#CE2B37"
@@ -200,30 +215,34 @@
     {
       "name": "buon-natale",
       "until": 140.5,
-      "outline": "pulse",
-      "colours": [
+      "look": "shimmer",
+      "palette": [
         "#CE2B37",
         "#009246"
-      ]
+      ],
+      "eyes": "rainbow"
     },
     {
       "name": "brays",
       "until": 147.5,
-      "outline": "ripple",
-      "colours": [
+      "look": "ripple",
+      "palette": [
         "#009246",
         "#FFFFFF",
         "#CE2B37"
-      ]
+      ],
+      "eyes": "roll"
     },
     {
       "name": "end",
       "until": 999,
-      "outline": "hold",
-      "colours": [
-        "#009246"
+      "look": "choir_galaxy",
+      "palette": [
+        "#009246",
+        "#FFFFFF",
+        "#CE2B37"
       ]
     }
   ],
-  "notes": "Lines numbered as in Audio/Dominick.json (1-64). Choruses: lead lines all six, the bracketed hee-haws by the outer pair (the donkeys), the first la-la line by the middle four and the second by everyone. Verses tell the story: verse 1 passes it tree to tree 1->6, verse 2 back 6->1, verse 3 between the trios. Final six hee-haws go round the choir one tree each. Outlines in the Italian tricolour on the choruses, gold on the verses."
+  "notes": "Lines numbered as in Audio/Dominick.json (1-64). Choruses: lead lines all six, the bracketed hee-haws by the outer pair (the donkeys), the first la-la line by the middle four and the second by everyone. Verses tell the story: verse 1 passes it tree to tree 1->6, verse 2 back 6->1, verse 3 between the trios. Final six hee-haws go round the choir one tree each. Looks (tools/fx.py, 23 Oct 2026): Italian tricolour running through, with rainbow sweeps; the resting trees watch whoever tells the story in the verses; spinning rainbow eyes on Buon Natale, rolling eyes on the hee-haws."
 }

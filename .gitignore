@@ -6,3 +6,4 @@ __pycache__/
 xlights/**/*.xbkp
 xlights/Backup/
 xlights/**/*.fseq
+previews/

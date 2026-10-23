@@ -3,6 +3,7 @@ import json
 import pytest
 
 from tools import arrange_song as ars
+from tools import fx
 from tools.tree_layout import ROOT
 
 ARR = {
@@ -38,31 +39,74 @@ def test_faces_cover_the_song_back_to_back():
     assert all("Faces_Outline=0" in s for _, _, s in plan)
 
 
+def outline(effects, tree):
+    return sorted((e for e in effects if e.target == f"StairTree{tree}/Outline"), key=lambda e: e.start)
+
+
 def test_outline_dims_only_while_others_sing():
     beats = [1.0, 2.0, 3.0, 4.0, 4.5]
-    anyone = [w for t in range(1, 7) for w in ars.singing_windows(ARR, LINES, t)]
-    p1 = ars.outline_plan(ARR, beats, 1, 6000, ars.singing_windows(ARR, LINES, 1), anyone)
-    by_start = {a: (colour, hi) for a, _, colour, hi, _ in p1}
+    _, effects, _ = ars.plan_song(ARR, LINES, beats, 6000)
+    by_start = {e.start: (e.colours[0], e.settings["Eff_On_Start"]) for e in outline(effects, 1)}
     assert by_start[0][1] == 100  # nobody sings yet
     assert by_start[1000] == ("#00FF00", 100)  # tree 1 sings, colours alternate per beat
     assert by_start[3000][1] == int(100 * ars.REST_SCALE)  # B sings line 2, tree 1 rests
-    assert all(a < b for a, b, *_ in p1)
+    assert all(e.start < e.end for e in outline(effects, 1))
 
 
 def test_ripple_lights_one_tree_per_beat():
+    arr = {**ARR, "sections": [{"until": 999, "outline": "ripple", "colours": ["#0000FF"]}]}
     beats = [5.0 + 0.5 * k for k in range(12)]
-    plans = [ars.outline_plan(ARR, beats, t, 11500, [], []) for t in range(1, 7)]
-    for k in range(1, 12):  # beat k starts at edges[k]
-        bright = [t for t, plan in enumerate(plans, 1)
-                  if any(a == 5000 + 500 * (k - 1) and hi == 100 for a, _, _, hi, _ in plan)]
+    _, effects, _ = ars.plan_song(arr, LINES, beats, 11500)
+    for k in range(1, 12):
+        start = 5000 + 500 * (k - 1)
+        bright = [t for t in range(1, 7)
+                  if any(e.start == start and e.settings["Eff_On_Start"] == 100 for e in outline(effects, t))]
         assert len(bright) == 1
 
 
-def test_real_arrangement_is_consistent():
-    arr = json.loads((ROOT / "data/songs/rockin-around.json").read_text(encoding="utf-8"))
+def test_eye_moves_switch_the_faces_eyes_off():
+    arr = {**ARR, "sections": [{"until": 999, "look": "chase", "palette": "rainbow", "eyes": "follow"}]}
+    faces, effects, sing = ars.plan_song(arr, LINES, [1.0, 2.0, 3.0, 4.0], 6000)
+    eyes4 = [e for e in effects if e.target == "StairTree4/Eyes"]
+    assert eyes4 and all(not ars.inside(e.start, sing[4]) for e in eyes4)   # watches only while resting
+    assert eyes4[0].settings["Skips_StartPos"] == fx.EYE_POS["left"]       # A (trees 1-3) sings line 1
+    for a, b, s in faces[4]:
+        off = any(e.start <= a < e.end for e in eyes4)
+        assert ("Faces_Eyes=(off)" in s) == off
+
+
+def test_gaze_points_at_the_singers():
+    sing = {t: [] for t in range(1, 7)}
+    sing[6] = [(0, 1000)]
+    assert ars.gaze_pieces(0, 1000, 2, sing) == [(0, 1000, "right")]
+    assert ars.gaze_pieces(0, 1000, 6, sing) == []
+
+
+@pytest.mark.parametrize("song", ["rockin-around", "dominick"])
+def test_real_arrangement_is_consistent(song):
+    arr = json.loads((ROOT / f"data/songs/{song}.json").read_text(encoding="utf-8"))
     assert sorted(int(k) for k in arr["lines"]) == list(range(1, len(arr["lines"]) + 1))
     assert all(g in arr["groups"] for g in arr["lines"].values())
     assert all(set(m) <= set(range(1, 7)) for m in arr["groups"].values())
     untils = [s["until"] for s in arr["sections"]]
     assert untils == sorted(untils)
-    assert {s["outline"] for s in arr["sections"]} <= {"pulse", "ripple", "hold"}
+    # every look, palette, accent and eye move builds valid settings
+    beats = [10000 + 500 * k for k in range(8)]
+    for sec in arr["sections"]:
+        look = sec.get("look") or sec["outline"]
+        spec = sec.get("palette", sec.get("colours", "xmas"))
+        if look.startswith("choir_"):
+            out = fx.look_choir(look, 10000, 14000, beats, fx.colours_for(spec), sec.get("params", {}))
+        elif look in ("pulse", "ripple", "hold"):
+            out = ars.beat_pulses(look, 10000, 14000, beats, 1, fx.colours_for(spec), [], [], 0)
+        else:
+            out = fx.look_per_tree(look, "StairTree1/Outline", 10000, 14000, beats, 1, fx.colours_for(spec, 1), 35,
+                                   sec.get("params", {}))
+        if sec.get("accent"):
+            out += fx.accents(sec["accent"], "Outlines", 10000, 14000, beats, fx.colours_for(spec))
+        if sec.get("eyes", "blink") not in ("blink", "follow"):
+            out += fx.eyes(sec["eyes"], 1, 10000, 14000, beats, fx.colours_for(spec))
+        assert out
+        for e in out:
+            e.settings_string()
+            assert e.start < e.end
