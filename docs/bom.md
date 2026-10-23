@@ -40,7 +40,7 @@ Tree controller: DIY boards (Rob, 21 Oct 2026). See electronics/README.md.
 | 2 | Raspberry Pi 3 Model A+ (or any Pi) | Show players for two sites; Rob's Pi 3 and Pi 5 are the other two. The Pi Hut, about £24. |
 | 4 | High-endurance microSD | One per player. UK retailer, not AliExpress |
 | 4 | Travel router (GL.iNet Mango, ~£27) | One per site, optional (Pi hotspot fallback) |
-| 4 | Mean Well LPV-12, one per site | Genuine, UK distributor: 1 × LPV-200-12 (6-tree site), 1 × LPV-150-12 (4-tree site), 2 × LPV-100-12 (2-tree sites). Replaces 7 × LPV-100-12 (23 Oct 2026) |
+| 8 | Mean Well LPV-100-12 (12V 8.5A, IP67) | One per pair of trees, all at the site box; 7 + 1 spare. Genuine, UK distributor: ~£28 ex VAT, in stock at Future House Store (checked 23 Oct 2026) |
 | ~60m | 3-core 0.75mm² outdoor flex | 12V runs to the trees; outer diameter < 8mm for the glands |
 | – | Adhesive-lined heatshrink | |
 | – | PETG, plus TPU or 3mm silicone cord | Enclosures, boots and gaskets |

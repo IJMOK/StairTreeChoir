@@ -79,7 +79,7 @@ ESP32 data pin    GPIO16 (not a strapping pin; proven in the M0 prototype with W
 Level shifter    74AHCT125N (DIP-14, in a socket), one channel used per tree, 33Ω series resistor on the data line, 10k pull-down on its input, 100µF across 5V, 0.1µF at the chip.
 Tree logic power    Mini560 fixed 5V buck (12V in) for the ESP32 and level shifter.
 Pixel power    12V to each tree on its own run from the site box, fused 5A at the site box (decided 23 Oct 2026).
-Mains PSU    One Mean Well LPV-12 (genuine, UK distributor, IP67) per site, beside the site box: LPV-200-12 for 6 trees, LPV-150-12 for 4, LPV-100-12 for 2 (decided 23 Oct 2026; electronics/README.md has the sums). Mains never enters a printed enclosure; RCD-protected outdoor socket. 0.75mm² runs up to ~8m, 1.5mm² beyond.
+Mains PSU    Mean Well LPV-100-12 (genuine, UK distributor, IP67, 12V 8.5A), one per pair of trees, all beside the site box; PSU 1 also runs the player (decided 23 Oct 2026). 7 + 1 spare. electronics/site-wiring.md (generated from data/sites.json) has every run, fuse and load. Mains never enters a printed enclosure; RCD-protected outdoor socket. 0.75mm² flex up to ~7m, 1.5mm² beyond.
 12V leads    3-core 0.75mm² outdoor flex (outer diameter < 8mm) through PG7/PG9 glands; xConnect pigtails for the pixel string.
 Show player    One Raspberry Pi per site running FPP (4 sites): Rob's Pi 3 and Pi 5, plus 2 to buy (Pi 3 A+ is fine). Outdoors in a site box (decided 23 Oct 2026) with the amp, a 5V buck, the tree fuse block and optionally the router.
 Site network    One dedicated travel router per site (GL.iNet Mango, ~£27) unless the Pi hotspot proves good enough. Same SSID, password and subnet everywhere.
@@ -94,7 +94,8 @@ See docs/bom.md (kept current). Ordered from AliExpress 18 Oct 2026, £277.80, d
 CLAUDE.md
 data/blank.json                # hand-edited input: measured tread outline
 data/tree-layout.json          # canonical, generated
-data/sites.json                # hand-edited input: sites, slot → tree ID (M5)
+data/sites.json                # hand-edited input: sites, slot → tree ID, 12V run lengths (defaults until Rob confirms)
+tools/gen_site_wiring.py       # -> electronics/site-wiring.md, electronics/<site>.svg
 tools/tree_layout.py           # layout generator (source of truth)
 tools/gen_cnc.py               # -> cad/*.svg, cad/*.dxf
 tools/gen_xmodel.py            # -> xlights/StairTree.xmodel (M2)

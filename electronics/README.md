@@ -70,26 +70,19 @@ Full-white current per tree and the soak test belong in docs/test-checklist.md (
 
 ## Site wiring
 
-Decided 23 Oct 2026: one PSU per site, star-wired from an outdoor site box.
+Decided 23 Oct 2026: PSUs beside an outdoor site box, star-wired from it. **Per-site tables and diagrams: [site-wiring.md](site-wiring.md)** (generated from data/sites.json).
 
 ```
-Mains (RCD socket) ── Mean Well LPV-xxx-12 (IP67, outside any box, beside the site box)
+Mains (RCD socket) ── Mean Well LPV-100-12 per pair of trees (IP67, outside any box, beside the site box)
                          │ 12V
-                    Site box ─┬─ 5A fuse ── 3-core flex ──► Tree 1 boot/box ── pixels
-                              ├─ 5A fuse ── 3-core flex ──► Tree 2 boot/box ── pixels
-                              ├─ ...  one fused run per tree
-                              ├─ PAM8610 (12V) ── speaker
-                              └─ 12V→5V buck ── Pi (FPP) ── USB sound card ── PAM8610
-                                                  │ Ethernet
-                                             Site router ·····Wi-Fi·····► every tree's ESP32 (DDP)
+                    Site box ─┬─ 5A fuse ── 3-core flex ──► Tree boot/box ── pixels   (one run per tree)
+                              ├─ 5A fuse ── 3-core flex ──► Tree boot/box ── pixels
+                              └─ 3A fuse ── 12V→5V buck ── Pi (FPP) ── USB sound card ── PAM8610 ── speaker
+                                            (PSU 1 only)       │ Ethernet
+                                                          Site router ·····Wi-Fi·····► every tree's ESP32 (DDP)
 ```
 
-| Site | Load at full white (2.3A per tree + ~1.5A amp/Pi) | PSU |
-|---|---|---|
-| 6 trees | ~15.5A | LPV-200-12 (16.7A) |
-| 4 trees | ~11A | LPV-150-12 (12.5A) |
-| 2 trees | ~6A | LPV-100-12 (8.5A) |
-
-- Voltage drop: 2.3A over 5m of 0.75mm² flex (10m of conductor, ~0.26Ω) is about 0.6V, so a tree sees ~11.4V; fine for 12V pixels. Past about 8m use 1.5mm² flex.
+- One LPV-100-12 (12V 8.5A) per pair of trees: 4.6A at full white, 6.1A on the PSU that also runs the player. Same part at every site, so one spare covers all. Checked 23 Oct 2026: the LPV series stops at LPV-150-12 (10A), which can't take 4 trees plus the player (10.7A); a single 16A HLG-240H-12A for 6 trees costs more and sits at its limit.
+- Voltage drop: 2.3A over 5m of 0.75mm² flex (10m of conductor, ~0.27Ω) is about 0.55V, so a tree sees ~11.5V; fine for 12V pixels. The generator moves a run to 1.5mm² past about 7m.
 - The fuse sits where each run starts, so it protects the flex (a fuse at the tree end would not). 0.75mm² flex is good for ~6A; 5A fuses suit it.
 - Mains never enters a printed box. A Pi 5 in the site box needs a 5V 5A buck; a Pi 3 is happy with 2.5A.
