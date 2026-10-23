@@ -4,15 +4,15 @@
 // Box coordinates: x across (0 = outer left), y from the front wall (towards the
 // tree, y = 0) to the lid at the back, z up as fitted (0 = underside of the floor).
 
-box_in_w      = 76;      // inside width: 70mm prototype board + 3mm each side
+box_in_w      = 91;      // inside width: the 70mm board must pass the rim opening (91 - 2 x 9.5 = 72)
 box_in_h      = 92;      // inside height: board (50) at the top, Wagos/Mini560/gland nuts below
 box_in_d      = 30;      // inside depth, front wall to rim: ESP32 on headers stands ~22mm proud of the board
 box_wall      = 2.5;     // side walls
 box_floor_t   = 3.5;     // floor and roof (they carry the glands and the antenna bulkhead)
 box_front_t   = 3;       // wall towards the tree, carries the board standoffs
-box_rim       = 8;       // rim width at the lid face: gasket land + lid screws
-box_gasket_t  = 1.5;     // printed TPU gasket
-box_lid_t     = 3;
+box_rim       = 12;      // rim width at the lid face: lid screws, then the cord groove (seal.scad)
+box_gasket_t  = 0;       // cord sits in a groove in the lid; lid lands on the rim
+box_lid_t     = 4;       // room for the 2.05mm groove
 box_ear_w     = 10;      // mounting ears either side of the floor
 box_ear_t     = 5;
 box_ear_front = 6;       // ear screw centres from the box front ...

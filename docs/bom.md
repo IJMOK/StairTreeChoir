@@ -43,7 +43,7 @@ Tree controller: DIY boards (Rob, 21 Oct 2026). See electronics/README.md.
 | 8 | Mean Well LPV-100-12 (12V 8.5A, IP67) | One per pair of trees, all at the site box; 7 + 1 spare. Genuine, UK distributor: ~£28 ex VAT, in stock at Future House Store (checked 23 Oct 2026) |
 | ~60m | 3-core 0.75mm² outdoor flex | 12V runs to the trees; outer diameter < 8mm for the glands |
 | – | Adhesive-lined heatshrink | |
-| – | PETG, plus TPU or 3mm silicone cord | Enclosures, boots and gaskets |
+| – | PETG; 2.7mm rubber cord (Rob has it) | Boots and enclosures; the cord seals the box lids (~0.4m per tree box, ~0.8m per site box) |
 | 4 | Speakers | One per site |
 | – | 0.1µF capacitors | Level-shifter decoupling (M4) |
 | 14 | Small TVS diodes (optional) | Data line protection at each tree controller |

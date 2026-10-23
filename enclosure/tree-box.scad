@@ -1,4 +1,4 @@
-// Tree controller box (M3). PETG box + flat lid, printed TPU gasket.
+// Tree controller box (M3). PETG box + flat lid sealed with 2.7mm rubber cord (seal.scad).
 // Holds the 5x7cm controller board (electronics/), the Mini560, two Wago 221-413
 // and the ends of the 12V flex and pixel lead. Sits on the tower of the control
 // boot (feet/), behind the tree, with a gap to the oak; four M3 screws through its
@@ -9,21 +9,22 @@
 // from the tree. Drip hole in the floor.
 //
 // Printing: box on its front face (open side up), no supports: the rim ledge and
-// the lid screw bosses have 45 degree undersides. Lid and gasket flat.
+// the lid screw bosses have 45 degree undersides. Lid flat, groove up.
 //
 // UNVERIFIED until the parts arrive: board hole positions (pb_*), the gland and
 // bulkhead thread sizes, and that the ESP32 on its headers clears box_in_d.
 // Sizes shared with the boot are in tree-box-params.scad.
 
 include <tree-box-params.scad>
+include <seal.scad>
 
-part = "assembly";       // "box", "lid", "gasket" or "assembly"
+part = "assembly";       // "box", "lid" or "assembly"
 
 // Board: 5x7cm prototype board, M2 screws into the standoffs
 pb_w          = 70;
 pb_h          = 50;
 pb_hole_in    = 2.5;     // hole centres from the board edges
-pb_top_gap    = 2;       // board top edge below the roof
+pb_top_gap    = 12;      // board top edge below the roof: clear of the rim ledge
 standoff_h    = 5;       // room for the underside joins
 standoff_d    = 6;
 standoff_hole = 1.8;     // M2 self-tapping
@@ -39,8 +40,9 @@ ant_d         = 6.6;     // RP-SMA bulkhead (1/4"-36)
 ant_x         = box_w - 18;
 
 // Lid
-lid_screw_in  = 4.5;     // lid screw centres from the outer edges
-boss_d        = 8;
+lid_screw_in  = 3.5;     // lid screw centres from the outer edges; the cord runs inside them
+groove_in     = 8;       // cord groove centreline from the outer edges
+boss_d        = 7;       // flush with the outer wall at lid_screw_in
 boss_len      = 10;      // screw bosses run this far in from the rim face
 skirt_t       = 1.6;     // rain skirt round the lid, over the gasket line
 skirt_gap     = 0.4;
@@ -122,25 +124,16 @@ module lid() {
             }
         }
         lid_screw_holes(box_lid_t);
-    }
-}
-
-module gasket() {
-    difference() {
-        cube([box_w, box_h, box_gasket_t]);
-        translate([box_rim, box_rim, -1]) cube([box_w - 2 * box_rim, box_h - 2 * box_rim, box_gasket_t + 2]);
-        lid_screw_holes(box_gasket_t);
+        translate([0, 0, box_lid_t - groove_d]) cord_groove(box_w, box_h, groove_in);
     }
 }
 
 // Everything in box coordinates, as fitted.
 module tree_box_assembly() {
     color("SteelBlue") box();
-    color("Black") translate([0, box_body_d, 0]) rotate([90, 0, 0]) mirror([0, 0, 1]) gasket();
     color("LightSteelBlue") translate([0, box_d, 0]) rotate([90, 0, 0]) lid();   // skirt towards the front
 }
 
 if (part == "box") rotate([90, 0, 0]) box();   // front face on the bed, open side up
 else if (part == "lid") lid();
-else if (part == "gasket") gasket();
 else if (part == "assembly") tree_box_assembly();

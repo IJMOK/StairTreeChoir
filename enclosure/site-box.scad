@@ -15,14 +15,16 @@
 // Floor glands, left to right: PSU inputs, tree runs, speaker (PG7). Unused tree
 // holes for smaller sites: export with trees = 4 or 2.
 //
-// Printing (P1S, 256mm bed): box on its back, open side up, no supports; lid and
-// TPU gasket flat. Outside 236 x 196mm.
+// Printing (P1S, 255mm bed): box on its back, open side up, no supports; lid flat,
+// groove up. Outside 236 x 196mm. Lid sealed with 2.7mm rubber cord (seal.scad).
 //
 // UNVERIFIED: PG9/PG7 thread sizes, M3 insert hole, that everything fits the
 // 64mm depth with the router on its side. Lay the real parts out on the back wall
 // before printing.
 
-part   = "assembly";     // "box", "lid", "gasket", "assembly"
+include <seal.scad>
+
+part   = "assembly";     // "box", "lid", "assembly"
 trees  = 6;              // glands for this many tree runs (6, 4 or 2)
 psus   = ceil(trees / 2);
 
@@ -30,9 +32,10 @@ in_w     = 230;          // inside, across
 in_h     = 190;          // inside, up
 in_d     = 64;           // inside, back wall to rim
 wall     = 3;
-rim      = 9;            // rim width at the lid face
-gasket_t = 1.5;
-lid_t    = 3.5;
+rim      = 12;           // rim width at the lid face: lid screws, then the cord groove
+gasket_t = 0;            // cord in the lid groove; lid lands on the rim
+lid_t    = 4;
+groove_in = 8;           // cord groove centreline from the outer edges
 
 pg9_d    = 15.6;
 pg7_d    = 12.9;
@@ -49,8 +52,8 @@ anchor_slot  = [5, 2.2]; // tie width x thickness it takes
 m3_clear = 3.4;
 m3_insert_d = 4.0;
 m3_insert_len = 6;
-screw_in = 5;            // lid screw centres from the outer edges
-boss_d   = 9;
+screw_in = 3.5;          // lid screw centres from the outer edges
+boss_d   = 7;
 boss_len = 12;
 skirt_t  = 1.6;
 skirt_gap = 0.4;
@@ -135,22 +138,13 @@ module lid() {               // flat on the bed, outer face down; x across, y = 
             }
         }
         for (s = all_screws) translate([s[0], s[1], -1]) cylinder(d = m3_clear, h = lid_t + 2);
-    }
-}
-
-module gasket() {
-    difference() {
-        cube([W, H, gasket_t]);
-        translate([rim, rim, -1]) cube([W - 2 * rim, H - 2 * rim, gasket_t + 2]);
-        for (s = all_screws) translate([s[0], s[1], -1]) cylinder(d = m3_clear, h = gasket_t + 2);
+        translate([0, 0, lid_t - groove_d]) cord_groove(W, H, groove_in);
     }
 }
 
 if (part == "box") rotate([90, 0, 0]) box();   // back face on the bed, open side up
 else if (part == "lid") lid();
-else if (part == "gasket") gasket();
 else {
     color("SteelBlue") box();
-    color("Black") translate([0, D, 0]) rotate([90, 0, 0]) mirror([0, 0, 1]) gasket();
     color("LightSteelBlue", 0.5) translate([0, D + gasket_t + lid_t, 0]) rotate([90, 0, 0]) lid();
 }
