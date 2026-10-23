@@ -6,15 +6,19 @@
 // lands on the work. PETG, printed on its side (slot vertical) so the layers run along
 // the bar and don't split under the bolt.
 //
-// Bolts: M6 into strut channel nuts (Rob, 23 Oct 2026).
-// work_h is the top of the tread above whatever the heel stands on: 30mm if the heel
-// stands on the same MDF sheet as the tread; 30 + the MDF thickness if the heel
-// stands on the strut and the tread on MDF laid between/over the struts.
+// Rob's bed (23 Oct 2026): MDF topper with the strut set in grooves, strut top ~4mm
+// below the topper; M6 bolts into strut channel nuts. The tread sits on a sacrificial
+// sheet (the holes go through), the heel stands on the topper beside it.
+// Bolt length: printed with the clamp's console echo (M6 x that, or the next size up).
 
 part = "clamp";          // "clamp" or "washer"
 
 bolt_d     = 6.5;        // M6 clearance
-work_h     = 30;         // tread thickness above the heel's footing
+tree_t     = 30;         // tread
+spoil_t    = 6;          // sacrificial sheet under the tread (set to yours)
+strut_drop = 4;          // strut top below the topper
+nut_t      = 6;          // channel nut, plus a couple of threads past it
+work_h     = tree_t + spoil_t;   // top of the tread above the topper
 bar_l      = 110;
 bar_w      = 24;
 bar_t      = 16;         // bar thickness above the work
@@ -26,6 +30,8 @@ slot_len   = 34;         // adjustment along the bar
 washer_od  = 18;
 
 $fn = 48;
+
+echo(bolt_len = ceil(work_h + bar_t + 2 + strut_drop + nut_t));   // + 2 for the washer
 
 module clamp() {
     difference() {

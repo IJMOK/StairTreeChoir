@@ -7,4 +7,4 @@ openscad -o step-clamp.stl step-clamp.scad
 openscad -o step-clamp-washer.stl -D 'part="washer"' step-clamp.scad
 ```
 
-`work_h` (30) is the top of the tread above whatever the heel stands on. If the heel stands on the strut and the tread sits on an MDF sheet, add the MDF thickness. The nose grips 12mm of the edge; the pixel holes start 16mm in. How the clamps are used: docs/cnc-cutting.md.
+The heel stands on the MDF topper; the tread sits on a sacrificial sheet (`spoil_t`, default 6mm: set yours before printing). The strut is ~4mm below the topper; the console echo gives the M6 bolt length (64mm for a 6mm sheet: use M6 × 65). The nose grips 12mm of the edge; the pixel holes start 16mm in. How the clamps are used: docs/cnc-cutting.md.
