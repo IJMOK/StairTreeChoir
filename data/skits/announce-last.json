@@ -1,0 +1,22 @@
+{
+  "name": "announce-last",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Hello everyone! We're the Stair Tree Choir!"
+    },
+    {
+      "who": "Ivy",
+      "say": "Our last show of the night starts at nine o'clock!"
+    },
+    {
+      "who": "Bramble",
+      "say": "And then bed. Lovely, lovely bed."
+    },
+    {
+      "who": "Holly",
+      "say": "Don't miss it!"
+    }
+  ],
+  "look": "choir_butterfly"
+}

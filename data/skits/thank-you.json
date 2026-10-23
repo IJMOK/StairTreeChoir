@@ -1,0 +1,22 @@
+{
+  "name": "thank-you",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Thank you for listening! We've been the Stair Tree Choir!"
+    },
+    {
+      "who": "Pip",
+      "say": "Our next show is soon! Stay warm!"
+    },
+    {
+      "who": "Jingle",
+      "say": "Merry Christmas!"
+    },
+    {
+      "who": "Ivy",
+      "say": "Merry Christmas!"
+    }
+  ],
+  "look": "choir_rainbow"
+}

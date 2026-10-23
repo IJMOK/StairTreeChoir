@@ -6,3 +6,4 @@ stable-ts>=2.19
 av>=12
 librosa>=0.11
 zstandard>=0.22
+piper-tts>=1.8  # skit voices (tools/skit.py); voice models go in the show folder's Voices/

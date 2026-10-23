@@ -1,0 +1,19 @@
+{
+  "name": "bramble-sleeps",
+  "lines": [
+    {
+      "who": "Bramble",
+      "say": "Is it nearly the end?"
+    },
+    {
+      "who": "Holly",
+      "say": "It's the second song, Bramble."
+    },
+    {
+      "who": "Bramble",
+      "say": "Zzzzzz. Zzzzzz.",
+      "pause": 0.5
+    }
+  ],
+  "look": "snow"
+}

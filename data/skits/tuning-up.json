@@ -1,0 +1,41 @@
+{
+  "name": "tuning-up",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Places, everyone! Places!"
+    },
+    {
+      "who": "Noel",
+      "say": "Mi mi mi mi miiiiii!"
+    },
+    {
+      "who": "Holly",
+      "say": "Thank you, Noel."
+    },
+    {
+      "who": "Noel",
+      "say": "Miiiiiiiiiiii!"
+    },
+    {
+      "who": "Holly",
+      "say": "THANK you, Noel.",
+      "pause": 0.3
+    },
+    {
+      "who": "Holly",
+      "say": "Bramble? Bramble!",
+      "pause": 0.4
+    },
+    {
+      "who": "Bramble",
+      "say": "I'm awake! I'm awake!"
+    },
+    {
+      "who": "Holly",
+      "say": "One, two, three, four!"
+    }
+  ],
+  "look": "twinkle",
+  "palette": "xmas"
+}

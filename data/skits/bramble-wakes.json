@@ -1,0 +1,22 @@
+{
+  "name": "bramble-wakes",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Bramble!"
+    },
+    {
+      "who": "Bramble",
+      "say": "Present!"
+    },
+    {
+      "who": "Ivy",
+      "say": "He was asleep again."
+    },
+    {
+      "who": "Bramble",
+      "say": "I was resting my eyes."
+    }
+  ],
+  "look": "snow"
+}

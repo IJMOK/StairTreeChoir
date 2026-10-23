@@ -1,0 +1,22 @@
+{
+  "name": "announce-18",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Hello everyone! We're the Stair Tree Choir!"
+    },
+    {
+      "who": "Jingle",
+      "say": "And our next show starts at six o'clock!"
+    },
+    {
+      "who": "Pip",
+      "say": "Bring your friends! And your grandma! And your grandma's friends!"
+    },
+    {
+      "who": "Holly",
+      "say": "See you then!"
+    }
+  ],
+  "look": "choir_butterfly"
+}

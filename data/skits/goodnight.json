@@ -1,0 +1,23 @@
+{
+  "name": "goodnight",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "That's all for tonight, everyone."
+    },
+    {
+      "who": "Bramble",
+      "say": "Finally."
+    },
+    {
+      "who": "Pip",
+      "say": "Goodnight! Sleep tight! Don't let the reindeer bite!"
+    },
+    {
+      "who": "Noel",
+      "say": "Goodniiiiiight!"
+    }
+  ],
+  "look": "choir_galaxy",
+  "palette": "ice"
+}

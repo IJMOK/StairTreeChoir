@@ -1,0 +1,23 @@
+{
+  "name": "whos-next",
+  "lines": [
+    {
+      "who": "Jingle",
+      "say": "Ooh, ooh, can I sing the next one? Can I? Can I?"
+    },
+    {
+      "who": "Holly",
+      "say": "Everyone sings the next one, Jingle."
+    },
+    {
+      "who": "Jingle",
+      "say": "Even me?!"
+    },
+    {
+      "who": "Ivy",
+      "say": "Especially you."
+    }
+  ],
+  "look": "chase",
+  "palette": "rainbow"
+}

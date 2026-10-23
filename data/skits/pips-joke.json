@@ -1,0 +1,23 @@
+{
+  "name": "pips-joke",
+  "lines": [
+    {
+      "who": "Pip",
+      "say": "What do you call a tree that's afraid of Christmas?"
+    },
+    {
+      "who": "Ivy",
+      "say": "I don't know, Pip. What?"
+    },
+    {
+      "who": "Pip",
+      "say": "A fir-raidy cat!"
+    },
+    {
+      "who": "Holly",
+      "say": "Next song.",
+      "pause": 1.5
+    }
+  ],
+  "look": "candy"
+}
