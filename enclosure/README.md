@@ -25,4 +25,20 @@ No fuse in the box: each tree's 12V is fused at the site box, where the run star
 
 ## Site box
 
-Not started: Pi, USB sound card, PAM8610, 5V buck for the Pi, fuse block for the tree runs, router if wanted. The Mean Well PSU (IP67) sits outside it; mains never enters a printed box.
+`site-box.scad`, one per site: the show player and the 12V distribution. Wiring per site: [electronics/site-wiring.md](../electronics/site-wiring.md).
+
+```
+openscad -o site-box-6-trees.stl -D 'part="box"' -D 'trees=6' site-box.scad   # also 4 and 2: same box, fewer glands
+openscad -o site-box-lid.stl     -D 'part="lid"'    site-box.scad
+openscad -o site-box-gasket.stl  -D 'part="gasket"' site-box.scad             # TPU
+```
+
+Outside 236 × 196 × 72mm (with lid); inside 230 × 190 × 64mm. Upright wall box: screw it to a post or fence through the lugs top and bottom, lid on the front, every cable through the floor.
+
+- **Back wall**: Pi standoffs (Raspberry Pi 58 × 49mm M2.5 pattern, Pi 3 and Pi 5 alike) top left; a 30mm grid of zip-tie anchors for the router, 12V→5V buck, PAM8610, USB sound card, Wagos and inline fuse holders. Their sizes aren't confirmed, so lay the real parts out on the wall and tie them where they fit.
+- **Floor**: PG9 per PSU input, PG9 per tree run, PG7 for the speaker (two rows for a 6-tree site), 3mm drip hole.
+- **Lid**: eight M3 screws into heat-set inserts, TPU gasket, rain skirt.
+- **12V inside**: each PSU's input goes to its own Wago pair (+ and −) and from there through its own inline 5A blade fuses to its two tree runs. Never join two PSUs' +12V. PSU 1 also feeds the player through a 3A fuse (buck → Pi; PAM8610 straight off 12V). The negatives may be joined.
+- The Mean Well PSUs stand outside, beside the box (IP67); mains never enters it.
+
+**Unverified:** gland threads, M3 insert hole, and that the router, buck and amp fit the 64mm depth. A Pi 5 needs a 5V 5A buck.

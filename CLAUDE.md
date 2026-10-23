@@ -129,7 +129,7 @@ Add a short doc: import the model, copy it to 6 trees (slots), set start channel
 
 M3. Enclosures (OpenSCAD, parametric)
 Tree controller box (14): first version done 23 Oct 2026 (enclosure/tree-box.scad, sits on the control boot's tower). PETG, TPU gasket, M3 heat-set inserts, drip hole, PG9/PG7 in the floor, RP-SMA in the roof, standoffs for the 5×7 board. Board hole positions and ESP32 height still to be measured.
-Site box (if the player lives outdoors): Pi, USB sound card, PAM8610, Mini560 or USB supply, router if wanted. Mains stays outside.
+Site box: first version done 23 Oct 2026 (enclosure/site-box.scad): upright wall box, lid on the front, glands in the floor per PSU/tree/speaker, Pi standoffs and a zip-tie anchor grid for the rest; per-PSU inline 5A fuses (PSUs never paralleled). Mains stays outside.
 Every dimension a named parameter at the top of the file. Export STLs.
 
 M3b. Tree boots (rough-in done)
