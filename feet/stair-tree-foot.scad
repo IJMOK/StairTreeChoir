@@ -66,7 +66,7 @@ toe_bulge     = 6;       // toe wider than the shaft, on the outer side
 toe_h         = 32;      // toe cap height
 lip_t         = 5;       // front lip (vamp top) thickness
 lip_h         = 8;       // lip above the shelf (bottom pixels start ~16mm up)
-plate_t       = 8;       // shaft wall behind the tree
+plate_t       = 6;       // shaft wall behind the tree
 plate_above   = 26;      // shaft above the hole centre
 cuff_h        = 12;      // turned-down cuff band at the top of the shaft
 cuff_out      = 3;
@@ -74,6 +74,9 @@ heel_back     = 24;      // shaft flares back into the heel over this length
 heel_h        = 20;      // heel height at the back of the flare
 spur          = 24;      // flat heel spur behind the flare, for the heel nail
 side_margin   = 2;       // keep the boot inside the tree's side edge
+edge_r        = 2.5;     // upright edges rounded
+welt_ch       = 1.5;     // chamfer on the welt's top edge (and 0.6 on the bed edge)
+cuff_fall     = 4;       // cuff top falls this much towards the back, shedding rain off the tree
 inboard       = 12;      // boot beyond the pilot hole, towards the centre
 
 // Peg (separate part): shaft through the boot's shaft wall into the old hole,
@@ -85,7 +88,7 @@ peg_chamfer   = 1.5;
 peg_head_d    = 19;
 peg_tab_w     = 13;
 peg_head_t    = 5;
-screw_d       = 4.5;     // clearance for a 4mm wood screw into the old pilot (4 x 40)
+screw_d       = 4.5;     // clearance for a 4 x 30 countersunk wood screw into the old pilot
 screw_head_d  = 9;
 nail_d        = 8.8;     // 8mm x 200mm nails
 nail_boss     = 3;       // solid wall round each nail
@@ -95,7 +98,7 @@ nail_head_d   = 18;      // flat seat for the nail head
 lead_hole_d   = 16;      // pixel lead and its xConnect plug, down through the shelf (UNVERIFIED plug size)
 arch_w        = 24;      // through the shaft wall under the shelf: toe hollow to tower
 arch_h        = 30;
-tower_wall    = 3;
+tower_wall    = 2.4;
 post          = 12;      // corner posts under the box ears (square)
 post_h        = 14;
 feed_w        = 14;      // 12V flex entry, bottom of the tower's back wall
@@ -124,7 +127,7 @@ toe_nail = [toe_cx, toe_cy - 4];
 // Control boot: the box sits on a tower behind the shaft. Its top corner must stay
 // inside the sloping edge of the tree so it can't be seen from the front.
 zb = z_top;                                                  // tower top = box floor
-box_x = max((zb + box_h - zs) * side_slope + box_margin - hole_x_tree, x0 + box_ear_w);  // box outer left
+box_x = max((zb + box_h + box_roof_h - zs) * side_slope + box_margin - hole_x_tree, x0 + box_ear_w);  // box outer left
 tx0 = box_x - box_ear_w;                                     // tower outer left
 tx1 = tx0 + box_span;
 ty1 = y_back + box_body_d;
@@ -166,9 +169,14 @@ module along_y(y0, y1) {                     // extrude 2D children along +y; 2D
     translate([0, y0, 0]) rotate([-90, 0, 0]) linear_extrude(y1 - y0) children();
 }
 
+// cube with its upright (z) edges rounded
+module rcube(s, r = edge_r) {
+    hull() for (x = [r, s[0] - r]) for (y = [r, s[1] - r]) translate([x, y, 0]) cylinder(r = r, h = s[2]);
+}
+
 module tower() {
     difference() {
-        translate([tx0, y_back - 0.01, 0]) cube([box_span, box_body_d + 0.01, zb]);
+        translate([tx0, y_back - 0.01, 0]) rcube([box_span, box_body_d + 0.01, zb], 3);
         translate([tx0 + tower_wall, y_back + tower_wall, -1]) cube([box_span - 2 * tower_wall, box_body_d - 2 * tower_wall, zb + 2]);
     }
     // posts under the ears, chamfered underneath
@@ -193,21 +201,32 @@ module outer() {
     // toe cap and vamp: the toe dome hulled up to the shelf under the tree
     hull() {
         toe_dome(toe_r);
-        translate([x0, y_front, 0]) cube([w, y_back - y_front, zs]);
+        translate([x0, y_front, 0]) rcube([w, y_back - y_front, zs]);
     }
-    translate([x0, y_front, 0]) cube([w, lip_t, zs + lip_h]);      // front lip
+    translate([x0, y_front, 0]) hull() {                              // front lip, rounded top
+        rcube([w, lip_t, zs + lip_h - lip_t / 2], lip_t / 2);
+        translate([lip_t / 2, lip_t / 2, zs + lip_h - lip_t / 2]) rotate([0, 90, 0]) cylinder(d = lip_t, h = w - lip_t);
+    }
     if (controller) {
-        translate([x0, tree_t, 0]) cube([w, plate_t, z_top - cuff_h]);
+        translate([x0, tree_t, 0]) rcube([w, plate_t, z_top - cuff_h]);
         tower();
     } else hull() {                                                   // shaft flaring into the heel
-        translate([x0, tree_t, 0]) cube([w, plate_t, z_top - cuff_h]);
-        translate([x0, y_flare - 1, 0]) cube([w, 1, heel_h]);
+        translate([x0, tree_t, 0]) rcube([w, plate_t, z_top - cuff_h]);
+        translate([x0, y_flare - 2 * edge_r, 0]) rcube([w, 2 * edge_r, heel_h]);
     }
-    translate([x0, tree_t, z_top - cuff_h]) hull() {                  // cuff
-        cube([w, plate_t + cuff_out, cuff_h - 3]);
-        translate([0, 0, cuff_h - 3]) cube([w, plate_t + cuff_out - 3, 3]);
+    translate([x0, tree_t, z_top - cuff_h]) hull() {                  // cuff, top falling away from the tree
+        rcube([w, plate_t + cuff_out, cuff_h - cuff_fall]);
+        rcube([w, 2 * edge_r, cuff_h]);
     }
-    linear_extrude(sole_t) footprint(welt);                           // welt flange
+    welt_flange();
+}
+
+// welt flange: 0.6 chamfer on the bed edge, welt_ch on the top edge
+module welt_flange() {
+    linear_extrude(0.6) footprint(welt - 0.6);
+    translate([0, 0, 0.6]) linear_extrude(sole_t - 0.6 - welt_ch) footprint(welt);
+    for (i = [1 : 3]) translate([0, 0, sole_t - welt_ch + (i - 1) * welt_ch / 3])
+        linear_extrude(welt_ch / 3) footprint(welt - i * welt_ch / 3);
 }
 
 // Hollows, open to the ground. Roofs slope at ~45 degrees so they print upright.
@@ -238,7 +257,11 @@ module peg_head_2d(grow = 0) {
 module peg() {
     difference() {
         union() {
-            translate([0, y_back, zh]) rotate([-90, 0, 0]) linear_extrude(peg_head_t) peg_head_2d();
+            translate([0, y_back, zh]) rotate([-90, 0, 0]) hull() {      // head, edges chamfered
+                linear_extrude(0.01) peg_head_2d(-0.8);
+                translate([0, 0, 0.8]) linear_extrude(peg_head_t - 1.6) peg_head_2d();
+                translate([0, 0, peg_head_t - 0.01]) linear_extrude(0.01) peg_head_2d(-0.8);
+            }
             translate([0, y_back + 0.01, zh]) rotate([90, 0, 0]) {
                 cylinder(d = peg_d, h = plate_t + peg_depth - peg_chamfer + 0.01);
                 translate([0, 0, plate_t + peg_depth - peg_chamfer])

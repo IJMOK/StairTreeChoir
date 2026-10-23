@@ -9,7 +9,7 @@ openscad -o tree-box-box.stl    -D 'part="box"'    tree-box.scad   # PETG, front
 openscad -o tree-box-lid.stl    -D 'part="lid"'    tree-box.scad   # PETG, flat
 ```
 
-Outside 96 × 99 × 37mm (116mm wide with the ears); inside 91 × 92 × 30mm.
+Outside 96 × 108 × 40mm including the roof and hood (115mm wide with the ears); inside 91 × 92 × 30mm. Built on the shared shell in `sealed-box.scad`: rounded corners, chamfered edges, and a hollow roof sloping 8° away from the tree, with a hood and drip lip over the lid joint. The lid is a thin 2mm panel inside a 4mm frame that carries the screws and the cord.
 
 - **Front wall** (towards the tree): four standoffs for the 5×7cm controller board, M2 self-tapping screws. The board sits at the top, components facing the lid.
 - **Below the board**: the Mini560 and the two Wago 221-413s (foam tape), and the gland nuts.
@@ -31,7 +31,7 @@ openscad -o site-box-6-trees.stl -D 'part="box"' -D 'trees=6' site-box.scad   # 
 openscad -o site-box-lid.stl     -D 'part="lid"'    site-box.scad
 ```
 
-Outside 236 × 196 × 72mm (with lid); inside 230 × 190 × 64mm. Upright wall box: screw it to a post or fence through the lugs top and bottom, lid on the front, every cable through the floor.
+Outside 235 × 195mm plus the roof (prints 235 × 241mm with the lugs, inside the 255mm bed); inside 230 × 190 × 64mm. Upright wall box on the shared shell (`sealed-box.scad`): roof sloping away from the post with a hood over the lid, lid on the front, every cable through the floor. Screw it to a post or fence through the lugs below the floor and above the roof (5 × 40 exterior screws).
 
 - **Back wall**: Pi standoffs (Raspberry Pi 58 × 49mm M2.5 pattern, Pi 3 and Pi 5 alike) top left; a 30mm grid of zip-tie anchors for the router, 12V→5V buck, PAM8610, USB sound card, Wagos and inline fuse holders. Their sizes aren't confirmed, so lay the real parts out on the wall and tie them where they fit.
 - **Floor**: PG9 per PSU input, PG9 per tree run, PG7 for the speaker (two rows for a 6-tree site), 3mm drip hole.

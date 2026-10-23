@@ -19,7 +19,7 @@ Kept current from CLAUDE.md §4. 14 trees, each with its own ESP32 controller; o
 
 ## Rob already has
 
-DIP sockets, 5A blade fuses (now in a fuse block in each site box, not inline at the trees), M3 heat-set inserts and stainless screws, 33Ω resistors, 100µF capacitors.
+DIP sockets, 5A blade fuses (now in a fuse block in each site box, not inline at the trees), M3 heat-set inserts and stainless screws (count them against the fastener list below), 33Ω resistors, 100µF capacitors.
 
 ## Still to buy
 
@@ -41,12 +41,27 @@ Tree controller: DIY boards (Rob, 21 Oct 2026). See electronics/README.md.
 | 4 | High-endurance microSD | One per player. UK retailer, not AliExpress |
 | 4 | Travel router (GL.iNet Mango, ~£27) | One per site, optional (Pi hotspot fallback) |
 | 8 | Mean Well LPV-100-12 (12V 8.5A, IP67) | One per pair of trees, all at the site box; 7 + 1 spare. Genuine, UK distributor: ~£28 ex VAT, in stock at Future House Store (checked 23 Oct 2026) |
-| ~60m | 3-core 0.75mm² outdoor flex | 12V runs to the trees; outer diameter < 8mm for the glands |
+| ~80m | 3-core 0.75mm² outdoor flex | 12V runs to the trees (electronics/site-wiring.md: 77m at the default 5m runs); outer diameter < 8mm for the glands |
 | – | Adhesive-lined heatshrink | |
 | – | PETG; 2.7mm rubber cord (Rob has it) | Boots and enclosures; the cord seals the box lids (~0.35m per tree box, ~0.8m per site box: about 8m for everything) |
 | 4 | Speakers | One per site |
 | – | 0.1µF capacitors | Level-shifter decoupling (M4) |
 | 14 | Small TVS diodes (optional) | Data line protection at each tree controller |
-| 56 | 8mm × 200mm nails | Two per boot, 28 boots (feet/) |
-| 28 | 4mm stainless wood screws, ~25mm | Boot into the old pilot hole; length TBC on test-fit |
 | – | Exterior oil (e.g. Osmo UV) | |
+
+## Fasteners (23 Oct 2026 designs)
+
+Lids and box mounts use M3 brass heat-set inserts, not captive nuts: the screws sit 3.5mm from the box edge, where an M3 nut (6.4mm across corners) would break through the wall, and inserts take repeated lid opening better than nuts or self-tapping into PETG. Quantities include about 15% spare.
+
+| Qty | Item | Where |
+|---|---|---|
+| 200 | M3 brass heat-set inserts, for a 4.0mm hole (e.g. M3 × 5 × 4.2 OD) | Tree box lid 6 + control-boot tower 4 = 10 per tree (140); site box lid 8 per site (32). Check the hole size against the ones Rob has (`m3_insert_d`) |
+| 200 | M3 × 10 stainless button/pan head screws | Same places: 4mm lid frame or 5mm box ear + 6mm in the insert |
+| 70 | M2 × 6 self-tapping screws for plastic | Controller board into its standoffs, 4 per board (16 boards) |
+| 20 | M2.5 × 6 self-tapping screws for plastic | Pi into the site box standoffs, 4 per site |
+| 32 | 4 × 30 stainless countersunk wood screws | Through each peg's tab and the boot shaft into the old pilot hole, 2 per tree. Pilot hole size still to measure |
+| 56 | 8mm × 200mm nails | Two per boot, 28 boots (feet/) |
+| 10 | 5 × 40 stainless exterior screws + washers | Site box lugs to a post or fence, 2 per box |
+| 4 + 4 | M6 × 70 bolts and M6 spring channel nuts (short spring, 41×21 strut) | CNC clamps (fixtures/); the washers are printed |
+| 1 pack | Cable ties, up to 4.8mm wide | Site box zip-tie anchors (5mm slots) |
+| – | Superglue | Butt joints in the lid cord |

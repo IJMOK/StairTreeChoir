@@ -36,22 +36,26 @@ $fn = 48;
 // head on the washer, through the bar, down the groove, past the lip, through the nut
 echo(bolt_len = ceil(washer_t + bar_t + work_h + strut_drop + strut_lip + nut_t));
 
+ch = 1;                  // edge bevel all round (Minkowski with a coarse sphere)
+
 module clamp() {
     difference() {
-        union() {
-            // bar
-            translate([0, 0, work_h]) cube([bar_l, bar_w, bar_t]);
-            // nose pad (on the work)
-            translate([0, 0, work_h - nose_pad]) cube([nose_l, bar_w, nose_pad + 0.01]);
-            // heel (on the bed), with a 45 degree inside face so it prints on its side
-            hull() {
-                translate([bar_l - heel_l, 0, 0]) cube([heel_l, bar_w, work_h + 0.01]);
-                translate([bar_l - heel_l - 10, 0, work_h - 0.01]) cube([heel_l + 10, bar_w, 0.01]);
+        minkowski() {
+            union() {           // every block shrunk by ch, then grown back with bevelled edges
+                translate([ch, ch, work_h + ch]) cube([bar_l - 2 * ch, bar_w - 2 * ch, bar_t - 2 * ch]);
+                translate([ch, ch, work_h - nose_pad + ch]) cube([nose_l - 2 * ch, bar_w - 2 * ch, nose_pad + ch]);
+                hull() {        // heel, 45 degree inside face so it prints on its side
+                    translate([bar_l - heel_l + ch, ch, ch]) cube([heel_l - 2 * ch, bar_w - 2 * ch, work_h]);
+                    translate([bar_l - heel_l - 10 + ch, ch, work_h]) cube([heel_l + 10 - 2 * ch, bar_w - 2 * ch, 0.01]);
+                }
             }
+            sphere(r = ch, $fn = 4);   // a coarse sphere: bevels every edge
         }
-        // bolt slot
+        // bolt slot, chamfered at the top for the washer
         hull() for (x = [slot_from_nose, slot_from_nose + slot_len])
             translate([x, bar_w / 2, work_h - 1]) cylinder(d = bolt_d, h = bar_t + 2);
+        hull() for (x = [slot_from_nose, slot_from_nose + slot_len])
+            translate([x, bar_w / 2, work_h + bar_t - 0.8]) cylinder(d1 = bolt_d, d2 = bolt_d + 2, h = 0.81);
         // grip ridges under the nose
         for (x = [2:3:nose_l - 2]) translate([x, -1, work_h - nose_pad - 0.6]) rotate([0, 45, 0]) cube([1, bar_w + 2, 1]);
     }
@@ -59,7 +63,10 @@ module clamp() {
 
 module washer() {
     difference() {
-        cylinder(d = washer_od, h = washer_t);
+        hull() {            // edges chamfered
+            cylinder(d = washer_od - 1.6, h = washer_t);
+            translate([0, 0, 0.8]) cylinder(d = washer_od, h = washer_t - 1.6);
+        }
         translate([0, 0, -1]) cylinder(d = bolt_d, h = washer_t + 2);
     }
 }

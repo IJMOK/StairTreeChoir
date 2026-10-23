@@ -43,9 +43,11 @@ Boots upright on the sole, no supports, PETG, 3 walls, 15% infill. Horizontal ho
 
 | Part | Size (mm) | Solid volume | Each tree |
 |---|---|---|---|
-| Plain boot | 59 × 164 × 120 | 153 cm³ | 1 |
-| Control boot | 121 × 149 × 120 | 198 cm³ | 1 |
-| Peg | 43 × 19 × 33 | 9 cm³ | 2 |
+| Plain boot | 59 × 162 × 120 | 139 cm³ | 1 |
+| Control boot | 137 × 147 × 120 | 179 cm³ | 1 |
+| Peg | 42 × 19 × 31 | 9 cm³ | 2 |
+
+Edges: upright edges rounded (2.5mm), 0.6mm chamfer on the bed edge, chamfered welt and peg head, rounded lip. The cuff top falls 4mm towards the back so rain runs off away from the tree. Shaft wall 6mm, tower walls 2.4mm.
 
 The real mass is lower than the solid volume (15% infill); Bambu Studio gives the exact figure.
 
@@ -53,5 +55,5 @@ Print one pair and two pegs, and test-fit them before printing 28. Check on a re
 - tread thickness (slot is 30 + 1.5mm)
 - the old hole's diameter and depth (peg 16.6mm, 20mm deep)
 - hole height above the bottom edge (44mm from the photo) and pilot offset (26.5mm)
-- the pilot hole's diameter, which decides the screw: the design assumes a 4mm screw (4 × 40)
+- the pilot hole's diameter, which decides the screw: the design assumes a 4 × 30 countersunk screw
 - that the xConnect plug passes the 16mm shelf hole

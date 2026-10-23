@@ -7,7 +7,7 @@
 box_in_w      = 91;      // inside width: the 70mm board must pass the rim opening (91 - 2 x 9.5 = 72)
 box_in_h      = 92;      // inside height: board (50) at the top, Wagos/Mini560/gland nuts below
 box_in_d      = 30;      // inside depth, front wall to rim: ESP32 on headers stands ~22mm proud of the board
-box_wall      = 2.5;     // side walls
+box_wall      = 2.4;     // side walls
 box_floor_t   = 3.5;     // floor and roof (they carry the glands and the antenna bulkhead)
 box_front_t   = 3;       // wall towards the tree, carries the board standoffs
 box_rim       = 12;      // rim width at the lid face: lid screws, then the cord groove (seal.scad)
@@ -26,6 +26,7 @@ box_w      = box_in_w + 2 * box_wall;
 box_h      = box_in_h + 2 * box_floor_t;
 box_body_d = box_front_t + box_in_d;            // front face to rim face
 box_d      = box_body_d + box_gasket_t + box_lid_t;
+box_roof_h = 9;                                 // sloped roof above box_h at its highest (sealed-box.scad)
 box_span   = box_w + 2 * box_ear_w;             // ears included
 
 // Ear screw centres, box coordinates (z = 0 plane)
