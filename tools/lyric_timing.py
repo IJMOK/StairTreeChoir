@@ -134,6 +134,14 @@ def apply_lrc_fallback(data: dict, starts: list[float], song_end: float,
     if len(starts) != len(segs):
         print(f"LRC has {len(starts)} lines, timing has {len(segs)}: no fallback")
         return []
+    # LRCLIB may time a different recording of the song (Boney M's Little Drummer Boy: the
+    # LRC runs ~7s late). The median gap between the alignment and the LRC shows that; shift
+    # the LRC by it before trusting it for anything.
+    diffs = sorted(s["start_time"] - t for s, t in zip(segs, starts) if s["end_time"] - s["start_time"] >= min_len)
+    offset = diffs[len(diffs) // 2] if len(diffs) >= 3 else 0.0
+    if abs(offset) > max_shift:
+        print(f"LRC timing is {-offset:+.1f}s off this recording: shifted before use")
+        starts = [t + offset for t in starts]
     fixed = []
     for i, seg in enumerate(segs):
         start = starts[i]
@@ -223,8 +231,10 @@ def main(argv: list[str] | None = None) -> None:
         import stable_whisper
 
         print(f"Transcribing {duration:.0f}s with {args.model} on the CPU (no published lyrics)...")
-        heard = stable_whisper.load_model(args.model, device="cpu").transcribe(audio, language="en", vad=True)
+        heard = stable_whisper.load_model(args.model, device="cpu").transcribe(audio, language="en")
         phrases = [seg.text.strip() for seg in heard.segments if seg.text.strip()]
+        if not phrases:
+            raise SystemExit("Whisper heard no words; not writing an empty lyrics file.")
         saved.write_text("\n".join(phrases) + "\n", encoding="utf-8")
         print(f"Wrote {saved} ({len(phrases)} lines): check it against the song")
     if args.lyrics:

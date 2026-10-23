@@ -60,3 +60,15 @@ def test_tidy_borrows_from_the_next_word_for_a_first_word():
     lt.tidy(data)
     first, second = data["segments"][0]["words"]
     assert (first["start_time"], first["end_time"], second["start_time"]) == (5.0, 5.1, 5.1)
+
+
+def test_lrc_from_another_recording_is_shifted_not_trusted():
+    from tools import lyric_timing as lt
+
+    seg = lambda s, e: {"start_time": s, "end_time": e, "words": [{"start_time": s, "end_time": e}]}
+    data = {"segments": [seg(11.0, 13.0), seg(22.0, 24.0), seg(27.4, 29.0), seg(40.0, 40.1)]}
+    lrc = [18.0, 29.0, 34.4, 47.0]   # the same lines, 7s later (another recording)
+    fixed = lt.apply_lrc_fallback(data, lrc, 60.0)
+    assert fixed == [4]   # only the squashed line is replaced, at the shifted LRC start
+    assert data["segments"][0]["start_time"] == 11.0
+    assert data["segments"][3]["start_time"] == 40.0
