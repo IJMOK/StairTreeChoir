@@ -37,7 +37,7 @@ Between the pieces: 3–5 s of the waiting look so the songs don't run into each
 
 ## The choir
 
-Six characters, one per sequence slot (left to right as you face them), so every site gets the same cast whichever physical trees it has. Names and voices are proposals.
+Six characters, one per sequence slot (left to right as you face them), so every site gets the same cast whichever physical trees it has. Names and voices are proposals. Their backstories, name-tag lines and answers for curious visitors: [backstory.md](backstory.md).
 
 | Slot | Name | Character | Voice (ElevenLabs, 24 Oct 2026) | Piper fallback |
 |---|---|---|---|---|
