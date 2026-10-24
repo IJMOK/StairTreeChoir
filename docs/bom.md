@@ -101,4 +101,4 @@ Lids and box mounts use M3 brass heat-set inserts, not captive nuts: the screws 
 
 ## Webcam (separate project)
 
-A battery-powered WiFi camera in the hedge across the road to stream the Site A show, about £140–205. Not needed for 1 Dec. Design, BOM, the music-copyright plan and the checks to do before buying are in [webcam.md](webcam.md).
+A battery-powered WiFi camera in the hedge across the road. It streams the Site A shows live and records them for clips, for about £145–210 (an ESP32 from the tree spares switches it per show). Not needed for 1 Dec. Design, BOM, the music-copyright plan and the checks to do before buying are in [webcam.md](webcam.md).
