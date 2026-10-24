@@ -3,8 +3,9 @@
 Reads the sequence's .fseq (FSEQ v2, zstd or uncompressed) from the show folder and,
 for every lyric line, lists which trees sing during it (mouth changes shape, or
 shows anything but the closed-lip rest). Those must
-be exactly the trees the arrangement gives the line. Also reports each tree's mouth
-shape counts. Needs zstandard (requirements-lyrics.txt).
+be exactly the trees the arrangement gives the line (less a sleeping tree on a shared
+line). While a tree is "asleep" its eyes must be shut: the upper half of each eye dark.
+Also reports each tree's mouth shape counts. Needs zstandard (requirements-lyrics.txt).
 """
 
 from __future__ import annotations
@@ -16,7 +17,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from tools.arrange_song import SHOW_FOLDER, TREES
+from tools.arrange_song import SHOW_FOLDER, TREES, asleep_spans, sings_line
 from tools.tree_layout import LAYOUT_FILE, ROOT
 
 TREE_CHANNELS = 276
@@ -72,9 +73,20 @@ def main(argv: list[str] | None = None) -> None:
         # (a short line can hold one open shape).
         shapes = {t: {shape(f, t) for f in range(f0, min(f1, frames))} for t in TREES}
         moving = [t for t in TREES if len(shapes[t]) > 1 or shapes[t] - {REST}]
-        want = arr["groups"][arr["lines"][str(i)]]
+        group = arr["groups"][arr["lines"][str(i)]]
+        want = [t for t in group if sings_line(arr, t, group, seg["start_time"])]
         if moving != want:
             bad.append((i, moving, want))
+    # Shut eyes: the eye hexagons' upper nodes (top, upper-right, upper-left) stay dark.
+    upper = [first + o for first in (groups["eye_right"][0], groups["eye_left"][0]) for o in (0, 1, 5)]
+    for t, spans in asleep_spans(arr, frames * step).items():
+        for a, b in spans:
+            lit = sum(any(raw[f * channels + (t - 1) * TREE_CHANNELS + (k - 1) * 3:
+                              f * channels + (t - 1) * TREE_CHANNELS + k * 3] != b"\0\0\0" for k in upper)
+                      for f in range(a // step + 1, min(b // step - 1, frames)))
+            print(f"StairTree{t} asleep {a / 1000:.1f}-{b / 1000:.1f}s: eyes open in {lit} frames")
+            if lit:
+                bad.append((f"asleep {t}", "eyes open", "shut"))
     for t in TREES:
         counts = Counter(shape(f, t) for f in range(frames))
         print(f"StairTree{t} (wide, small, lip) frames: {dict(sorted(counts.items()))}")

@@ -23,12 +23,15 @@ Four songs plus short skits between them. Three set lists rotate through the eve
 |---|---|---|---|
 | Opening skit | Tuning up | Tuning up | Tuning up |
 | 1 | Rockin' Around the Christmas Tree | Feliz Navidad | We Wish You a Merry Christmas |
-| skit | Who's singing next? | Pip's joke | Bramble wakes up |
-| 2 | Dominick the Donkey | Frosty the Snowman | Twelve Days of Christmas |
-| skit | Bramble falls asleep | Who's singing next? | Pip's joke |
-| 3 | Little Drummer Boy | O Come All Ye Faithful | The Virgin Mary Had a Baby Boy |
+| skit | Who's singing next? | Pip's joke | Bramble falls asleep |
+| 2 | Dominick the Donkey | Frosty the Snowman | Twelve Days of Christmas *(Bramble asleep)* |
+| skit | Bramble falls asleep | Who's singing next? | Bramble wakes up |
+| 3 | Little Drummer Boy *(Bramble asleep)* | O Come All Ye Faithful | The Virgin Mary Had a Baby Boy |
+| skit | Bramble wakes up | | |
 | 4 | We Wish You a Merry Christmas | Rockin' Around the Christmas Tree | Dominick the Donkey |
 | Closing | Thank you / next show | Thank you / next show | Thank you / next show |
+
+Bramble's story (24 Oct 2026) is complete in Sets A and C: he nods off, sleeps through the next song (eyes shut, outline a slow dim blue breath, the others cover his lines; Twelve Days' fifth day goes to Jingle and Pip either side of him), and Holly wakes him after it. Little Drummer Boy and Twelve Days have him asleep throughout, so they may only follow "Bramble falls asleep" (a test checks the set lists).
 
 Between the pieces: 3–5 s of the waiting look so the songs don't run into each other.
 

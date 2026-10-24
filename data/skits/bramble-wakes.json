@@ -18,5 +18,11 @@
       "say": "[sleepily] I was resting my eyes."
     }
   ],
-  "look": "snow"
+  "look": "snow",
+  "asleep": [
+    {
+      "who": "Bramble",
+      "until_line": 2
+    }
+  ]
 }

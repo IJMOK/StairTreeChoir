@@ -41,8 +41,8 @@
       "type": "both",
       "enabled": 1,
       "playOnce": 0,
-      "sequenceName": "Skit bramble-wakes.fseq",
-      "mediaName": "bramble-wakes.wav",
+      "sequenceName": "Skit bramble-sleeps.fseq",
+      "mediaName": "bramble-sleeps.wav",
       "videoOut": "--Default--"
     },
     {
@@ -69,8 +69,8 @@
       "type": "both",
       "enabled": 1,
       "playOnce": 0,
-      "sequenceName": "Skit pips-joke.fseq",
-      "mediaName": "pips-joke.wav",
+      "sequenceName": "Skit bramble-wakes.fseq",
+      "mediaName": "bramble-wakes.wav",
       "videoOut": "--Default--"
     },
     {

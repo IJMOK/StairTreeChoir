@@ -97,6 +97,20 @@
       "type": "both",
       "enabled": 1,
       "playOnce": 0,
+      "sequenceName": "Skit bramble-wakes.fseq",
+      "mediaName": "bramble-wakes.wav",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
       "sequenceName": "We Wish You a Merry Christmas.fseq",
       "mediaName": "We Wish You a Merry Christmas.mp3",
       "videoOut": "--Default--"
@@ -119,11 +133,11 @@
   "leadOut": [],
   "playlistInfo": {
     "total_duration": 0,
-    "total_items": 15,
+    "total_items": 17,
     "leadIn_duration": 0,
     "leadIn_items": 0,
     "mainPlaylist_duration": 0,
-    "mainPlaylist_items": 15,
+    "mainPlaylist_items": 17,
     "leadOut_duration": 0,
     "leadOut_items": 0
   }

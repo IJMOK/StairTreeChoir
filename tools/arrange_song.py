@@ -21,7 +21,10 @@ the Outlines group:
 Section keys: name, until (s), look, palette (name or list; "colours" also accepted),
 params, accent ("flash", "sparkle_hit", "colour_hit"), accent_every, eyes.
 
-Optional arrangement keys: "end_at" (s) clips every effect, Faces included, to end there,
+Optional arrangement keys: "asleep": [{"tree", "from", "until"}] (s; null = start/end) puts a
+tree to sleep: eyes shut, mouth at rest, no eye moves, outline a slow dim blue breath, and it
+sits out shared lines (a line that is only its own, a snore, still moves its mouth).
+"end_at" (s) clips every effect, Faces included, to end there,
 so the frames after it are black (FPP holds the last frame when a playlist ends);
 "end_fade" (s) fades the effects that end at end_at out over that time.
 An arrangement may have no lines at all (groups {}, lines {}: an animation loop).
@@ -31,6 +34,7 @@ Faces/On settings keys are from the xLights source (data/xlights-effects.json).
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 import time
 import urllib.error
@@ -48,6 +52,9 @@ LEAD_MS, TAIL_MS = 100, 150  # open the singing window a little around each line
 MERGE_GAP_MS = 400  # rest gaps shorter than this stay singing (no mouth snapping shut)
 PULSE_START, PULSE_END = 100, 25  # On effect brightness % across one beat
 REST_SCALE = 0.35  # outline brightness for trees not singing while others do
+SLEEP_BREATH_MS = 4000  # one slow breath on a sleeping tree's outline
+SLEEP_BRIGHT = (6, 30)  # On brightness % at the bottom and top of a breath
+SLEEP_COLOUR = "#3050C0"
 
 FACES_COMMON = ("E_CHOICE_Faces_FaceDefinition=StairTree,E_CHOICE_Faces_EyeBlinkFrequency=Normal,"
                 "E_CHECKBOX_Faces_Outline=0")
@@ -55,6 +62,23 @@ FACES_COMMON = ("E_CHOICE_Faces_FaceDefinition=StairTree,E_CHOICE_Faces_EyeBlink
 
 def snap(ms: float) -> int:
     return int(round(ms / FRAME_MS)) * FRAME_MS
+
+
+def asleep_spans(arr: dict, song_ms: int = 10 ** 9) -> dict[int, list[tuple[int, int]]]:
+    """[start, end) ms per tree from "asleep": [{"tree", "from", "until"}] (seconds; a missing
+    or null end means the start or end of the sequence)."""
+    out: dict[int, list[tuple[int, int]]] = {t: [] for t in TREES}
+    for s in arr.get("asleep", []):
+        a = snap(s["from"] * 1000) if s.get("from") is not None else 0
+        b = snap(s["until"] * 1000) if s.get("until") is not None else song_ms
+        out[s["tree"]].append((a, min(b, song_ms)))
+    return out
+
+
+def sings_line(arr: dict, tree: int, members: list[int], start_s: float) -> bool:
+    """A sleeping tree sits out the lines it shares; a line that is only its own (a snore,
+    talking in its sleep) still moves its mouth."""
+    return tree in members and (len(members) == 1 or not inside(snap(start_s * 1000), asleep_spans(arr)[tree]))
 
 
 def singing_windows(arr: dict, line_times: list[tuple[float, float]], tree: int) -> list[tuple[int, int]]:
@@ -67,10 +91,10 @@ def singing_windows(arr: dict, line_times: list[tuple[float, float]], tree: int)
     n = len(line_times)
     windows = []
     for number, group in sorted(arr["lines"].items(), key=lambda kv: int(kv[0])):
-        if tree not in arr["groups"][group]:
-            continue
         i = int(number) - 1
         start, end = line_times[i]
+        if not sings_line(arr, tree, arr["groups"][group], start):
+            continue
         lo, hi = start * 1000 - LEAD_MS, end * 1000 + TAIL_MS
         if i > 0:
             lo = max(lo, (line_times[i - 1][1] + start) * 500)
@@ -97,8 +121,9 @@ def cut(a: int, b: int, edges) -> list[tuple[int, int]]:
 
 
 def faces_plan(arr: dict, line_times, tree: int, song_ms: int,
-               eyes_off=()) -> list[tuple[int, int, str]]:
-    """Back-to-back Faces effects covering the whole song: (start, end, settings)."""
+               eyes_off=(), asleep=()) -> list[tuple[int, int, str]]:
+    """Back-to-back Faces effects covering the whole song: (start, end, settings).
+    Eyes blink (Auto), are off where an eye move runs, and are shut while asleep."""
     sing = f"E_CHOICE_Faces_TimingTrack={arr['lyrics_track']},{FACES_COMMON}"
     rest = f"E_CHOICE_Faces_Phoneme=rest,{FACES_COMMON}"
     pieces, t = [], 0
@@ -109,11 +134,11 @@ def faces_plan(arr: dict, line_times, tree: int, song_ms: int,
         t = b
     if t < song_ms:
         pieces.append((t, song_ms, rest))
-    edges = [e for w in eyes_off for e in w]
+    edges = [e for w in (*eyes_off, *asleep) for e in w]
     plan = []
     for a, b, s in pieces:
         for x, y in cut(a, b, edges):
-            eyes = "(off)" if inside(x, eyes_off) else "Auto"
+            eyes = "Closed" if inside(x, asleep) else "(off)" if inside(x, eyes_off) else "Auto"
             plan.append((x, y, f"{s},E_CHOICE_Faces_Eyes={eyes}"))
     return plan
 
@@ -164,6 +189,32 @@ def gaze_pieces(a: int, b: int, tree: int, sing: dict) -> list[tuple[int, int, s
             out[-1] = (out[-1][0], y, d)
         else:
             out.append((x, y, d))
+    return out
+
+
+def carve(effects: list[fx.Fx], targets: set[str], spans) -> list[fx.Fx]:
+    """Cut the spans out of every effect on these targets (all layers)."""
+    out = []
+    for e in effects:
+        if e.target not in targets:
+            out.append(e)
+            continue
+        pieces = [(e.start, e.end)]
+        for a, b in spans:
+            pieces = [q for x, y in pieces for q in ((x, min(y, a)), (max(x, b), y)) if q[1] - q[0] >= FRAME_MS]
+        out += [dataclasses.replace(e, start=x, end=y) for x, y in pieces]
+    return out
+
+
+def breathing(tree: int, a: int, b: int) -> list[fx.Fx]:
+    """A sleeping tree's outline: dim blue, slowly swelling and fading like breath."""
+    target, out, up = f"StairTree{tree}/Outline", [], True
+    lo, hi = SLEEP_BRIGHT
+    for x in range(a, b, SLEEP_BREATH_MS // 2):
+        y = min(b, x + SLEEP_BREATH_MS // 2)
+        out.append(fx.Fx(target, "On", x, y, {"Eff_On_Start": lo if up else hi, "Eff_On_End": hi if up else lo},
+                         [SLEEP_COLOUR]))
+        up = not up
     return out
 
 
@@ -221,7 +272,12 @@ def plan_song(arr: dict, line_times, beats_s: list[float], song_ms: int):
             else:
                 effects += fx.eyes(mode, t, a, b, in_beats, fx.colours_for(spec, t))
                 eyes_off[t].append((a, b))
-    faces = {t: faces_plan(arr, line_times, t, song_ms, eyes_off[t]) for t in TREES}
+    asleep = asleep_spans(arr, song_ms)
+    for t in TREES:
+        if asleep[t]:
+            effects = carve(effects, {f"StairTree{t}/Outline", f"StairTree{t}/Eyes"}, asleep[t])
+            effects += [e for a, b in asleep[t] for e in breathing(t, a, b)]
+    faces = {t: faces_plan(arr, line_times, t, song_ms, eyes_off[t], asleep[t]) for t in TREES}
     if arr.get("end_at") is not None:
         faces, effects = clip_to_end(faces, effects, song_ms, arr.get("end_fade", 0))
     return faces, effects, sing

@@ -78,6 +78,13 @@ def test_show_sets_follow_show_night():
         songs = [s for s in seqs[k] if s in sc.SONGS]
         assert len(songs) == 4 and len(set(songs)) == 4
     assert [s for s in seqs["B"] if s in sc.SONGS][1] == sc.FROSTY
+    # Bramble's story: a sleepy song only right after he nods off, and he's woken right after it
+    for k in "ABC":
+        s = [x for x in seqs[k]]
+        for i, x in enumerate(s):
+            if x in sc.SLEEPY_SONGS:
+                assert s[i - 1] == "Skit bramble-sleeps" and s[i + 1] == "Skit bramble-wakes", k
+        assert s.count("Skit bramble-sleeps") == s.count("Skit bramble-wakes"), k
     # songs and skits carry audio, the waiting loop does not
     for e in pls["Show A"]["mainPlaylist"]:
         if e["type"] != "pause":

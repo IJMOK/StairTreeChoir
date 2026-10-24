@@ -108,19 +108,24 @@ WAITING, GOODNIGHT = "Waiting", "Goodnight"
 FROSTY = "Frosty the Snowman"   # Set B's second song
 
 # show-night.md "A show": (kind, name) with kind "skit" (data/skits/<name>.json) or "song".
+# Bramble's story is whole in A and C (Rob, 24 Oct 2026): he nods off, sleeps through the next
+# song (its arrangement has him "asleep": Little Drummer Boy, Twelve Days) and is woken after it.
+# Those two songs must only ever follow bramble-sleeps.
 _THANKS = ("skit", "thank-you")
 _TUNING = ("skit", "tuning-up")
+_SLEEPS, _WAKES = ("skit", "bramble-sleeps"), ("skit", "bramble-wakes")
 SETS = {
     "A": [_TUNING, ("song", "Rockin Around the Christmas Tree"), ("skit", "whos-next"),
-          ("song", "Dominick the Donkey"), ("skit", "bramble-sleeps"),
-          ("song", "Little Drummer Boy"), ("song", "We Wish You a Merry Christmas"), _THANKS],
+          ("song", "Dominick the Donkey"), _SLEEPS, ("song", "Little Drummer Boy"), _WAKES,
+          ("song", "We Wish You a Merry Christmas"), _THANKS],
     "B": [_TUNING, ("song", "Feliz Navidad"), ("skit", "pips-joke"),
           ("song", FROSTY), ("skit", "whos-next"),
           ("song", "O Come All Ye Faithful"), ("song", "Rockin Around the Christmas Tree"), _THANKS],
-    "C": [_TUNING, ("song", "We Wish You a Merry Christmas"), ("skit", "bramble-wakes"),
-          ("song", "Twelve Days of Christmas"), ("skit", "pips-joke"),
+    "C": [_TUNING, ("song", "We Wish You a Merry Christmas"), _SLEEPS,
+          ("song", "Twelve Days of Christmas"), _WAKES,
           ("song", "The Virgin Mary Had a Baby Boy"), ("song", "Dominick the Donkey"), _THANKS],
 }
+SLEEPY_SONGS = ("Little Drummer Boy", "Twelve Days of Christmas")
 SHOW_HOURS = (17, 18, 19, 20)
 SHOW_SETS = ("A", "B", "C", "A")             # 17:00 A, 18:00 B, 19:00 C, 20:00 A
 WAITING_FROM, WAITING_TO = 16 * 60, 21 * 60  # minutes after midnight

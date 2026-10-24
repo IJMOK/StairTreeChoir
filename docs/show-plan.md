@@ -12,7 +12,7 @@ Season: 2026-12-01 to 2026-12-31, every night.
 | 16:15 | Announce 17 | 0:14 | to 16:24 |
 | 16:30 | Announce 17 | 0:14 | to 16:39 |
 | 16:45 | Announce 17 | 0:14 | to 16:54 |
-| 17:00 | Show A | 11:58 | to 17:29 |
+| 17:00 | Show A | 12:13 | to 17:29 |
 | 17:15 | Announce 18 | 0:13 | to 17:24 |
 | 17:30 | Announce 18 | 0:13 | to 17:39 |
 | 17:45 | Announce 18 | 0:13 | to 17:54 |
@@ -20,16 +20,16 @@ Season: 2026-12-01 to 2026-12-31, every night.
 | 18:15 | Announce 19 | 0:13 | to 18:24 |
 | 18:30 | Announce 19 | 0:13 | to 18:39 |
 | 18:45 | Announce 19 | 0:13 | to 18:54 |
-| 19:00 | Show C | 13:40 | to 19:29 |
+| 19:00 | Show C | 13:38 | to 19:29 |
 | 19:15 | Announce last | 0:15 | to 19:24 |
 | 19:30 | Announce last | 0:15 | to 19:39 |
 | 19:45 | Announce last | 0:15 | to 19:54 |
-| 20:00 | Show A | 11:58 | to 20:29 |
+| 20:00 | Show A | 12:13 | to 20:29 |
 | 21:00 | Goodnight | 0:13 | to 21:04 |
 
 Priority when two overlap (fpp/README.md): Goodnight, then the shows, then the announcements, then Waiting, which comes back by itself after each.
 
-## Show A (11:58)
+## Show A (12:13)
 
 | Starts | Piece | Length |
 |---|---|---|
@@ -38,9 +38,10 @@ Priority when two overlap (fpp/README.md): Goodnight, then the shows, then the a
 | 2:34 | Skit whos-next | 0:11 |
 | 2:49 | Dominick the Donkey | 2:31 |
 | 5:24 | Skit bramble-sleeps | 0:11 |
-| 5:39 | Little Drummer Boy | 4:16 |
-| 9:59 | We Wish You a Merry Christmas | 1:43 |
-| 11:46 | Skit thank-you | 0:12 |
+| 5:40 | Little Drummer Boy | 4:16 |
+| 9:59 | Skit bramble-wakes | 0:11 |
+| 10:14 | We Wish You a Merry Christmas | 1:43 |
+| 12:01 | Skit thank-you | 0:12 |
 
 4 s pause between pieces.
 
@@ -59,18 +60,18 @@ Priority when two overlap (fpp/README.md): Goodnight, then the shows, then the a
 
 4 s pause between pieces.
 
-## Show C (13:40)
+## Show C (13:38)
 
 | Starts | Piece | Length |
 |---|---|---|
 | 0:00 | Skit tuning-up | 0:22 |
 | 0:26 | We Wish You a Merry Christmas | 1:43 |
-| 2:12 | Skit bramble-wakes | 0:11 |
-| 2:27 | Twelve Days of Christmas | 4:10 |
-| 6:41 | Skit pips-joke | 0:14 |
-| 6:59 | The Virgin Mary Had a Baby Boy | 3:50 |
-| 10:53 | Dominick the Donkey | 2:31 |
-| 13:28 | Skit thank-you | 0:12 |
+| 2:12 | Skit bramble-sleeps | 0:11 |
+| 2:28 | Twelve Days of Christmas | 4:10 |
+| 6:42 | Skit bramble-wakes | 0:11 |
+| 6:56 | The Virgin Mary Had a Baby Boy | 3:50 |
+| 10:51 | Dominick the Donkey | 2:31 |
+| 13:25 | Skit thank-you | 0:12 |
 
 4 s pause between pieces.
 

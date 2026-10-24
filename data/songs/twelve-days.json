@@ -52,6 +52,10 @@
     "p36": [
       3,
       6
+    ],
+    "t4+t6": [
+      4,
+      6
     ]
   },
   "lines": {
@@ -73,9 +77,9 @@
     "16": "t3",
     "17": "t2",
     "18": "all",
-    "19": "t5",
-    "20": "t5",
-    "21": "t5",
+    "19": "t4+t6",
+    "20": "t4+t6",
+    "21": "t4+t6",
     "22": "t4",
     "23": "t3",
     "24": "t2",
@@ -130,7 +134,7 @@
     "73": "p36",
     "74": "p25",
     "75": "all",
-    "76": "t5",
+    "76": "t4+t6",
     "77": "B",
     "78": "p25",
     "79": "p14",
@@ -458,5 +462,12 @@
       "until": 999
     }
   ],
-  "notes": "Lines numbered as in Audio/TwelveDays.json (1-102). Day n belongs to StairTree ((n-1)%6)+1: it sings the 'On the nth day' line and (days 1-6) the true-love line, which from day 7 goes to its trio. The gift countdown cascades across the choir: each gift k has an owner tree ((k-1)%6)+1 and is sung by that tree (days 1-6) or its mirror pair 1+4/2+5/3+6 (days 7-11); the newest gift goes to the day's tree (or its pair). Everyone sings the partridge (from day 2) and the golden rings (from day 6), and every gift on day 12. Each golden-rings line has its own gold section with a white flash on every beat. Looks escalate day by day: a steady green glow, red/green/gold beat pulses, chase, marquee, candy, spirals, then rainbow wash, butterflies, rainbow chase and marquee with colour hits, choir-wide butterfly with flashes, and a rainbow sweep with sparkles and spinning rainbow eyes on day 12."
+  "notes": "Lines numbered as in Audio/TwelveDays.json (1-102). Day n belongs to StairTree ((n-1)%6)+1: it sings the 'On the nth day' line and (days 1-6) the true-love line, which from day 7 goes to its trio. The gift countdown cascades across the choir: each gift k has an owner tree ((k-1)%6)+1 and is sung by that tree (days 1-6) or its mirror pair 1+4/2+5/3+6 (days 7-11); the newest gift goes to the day's tree (or its pair). Everyone sings the partridge (from day 2) and the golden rings (from day 6), and every gift on day 12. Each golden-rings line has its own gold section with a white flash on every beat. Looks escalate day by day: a steady green glow, red/green/gold beat pulses, chase, marquee, candy, spirals, then rainbow wash, butterflies, rainbow chase and marquee with colour hits, choir-wide butterfly with flashes, and a rainbow sweep with sparkles and spinning rainbow eyes on day 12.",
+  "asleep": [
+    {
+      "tree": 5,
+      "from": null,
+      "until": null
+    }
+  ]
 }

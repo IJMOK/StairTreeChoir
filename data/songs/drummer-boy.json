@@ -60,6 +60,9 @@
     ],
     "t5": [
       5
+    ],
+    "t6": [
+      6
     ]
   },
   "lines": {
@@ -69,7 +72,7 @@
     "4": "outer",
     "5": "t4",
     "6": "outer",
-    "7": "t5",
+    "7": "t6",
     "8": "outer",
     "9": "outer",
     "10": "outer",
@@ -699,5 +702,12 @@
       }
     }
   ],
-  "notes": "Lines numbered as in Audio/DrummerBoy.json (1-57). Four verses (1-14, 15-26, 27-40, 41-52) split by short instrumental breaks, then a tag (53-57). The 28 drum-sound lines (2,4,6,8-10,12,15,17,19,21-23,25,28,30,32,34-36,38,41,43,45,47-49,51) go to the drummers, a different group each verse: outer pair, inner pair, even trees, then in verse 4 the drums answer whichever trio didn't sing the line before. Story lines: a solo passing StairTree2-5, then left/right pairs, then the odd trees, then trio call and response; everyone on each verse's last line and the tag. Every drum line gets a 'drum' section (generated) with a colour hit on every beat. Looks: gold/red pulses on every beat, red/gold marquee, red/green/gold spirals, rainbow wash in verse 4; whole-choir spiral, butterfly and rainbow in the breaks with rolling or spinning rainbow eyes; resting trees watch the singers in the verses. Tag: gold/white/red marquee with sparkle hits."
+  "notes": "Lines numbered as in Audio/DrummerBoy.json (1-57). Four verses (1-14, 15-26, 27-40, 41-52) split by short instrumental breaks, then a tag (53-57). The 28 drum-sound lines (2,4,6,8-10,12,15,17,19,21-23,25,28,30,32,34-36,38,41,43,45,47-49,51) go to the drummers, a different group each verse: outer pair, inner pair, even trees, then in verse 4 the drums answer whichever trio didn't sing the line before. Story lines: a solo passing StairTree2-5, then left/right pairs, then the odd trees, then trio call and response; everyone on each verse's last line and the tag. Every drum line gets a 'drum' section (generated) with a colour hit on every beat. Looks: gold/red pulses on every beat, red/gold marquee, red/green/gold spirals, rainbow wash in verse 4; whole-choir spiral, butterfly and rainbow in the breaks with rolling or spinning rainbow eyes; resting trees watch the singers in the verses. Tag: gold/white/red marquee with sparkle hits.",
+  "asleep": [
+    {
+      "tree": 5,
+      "from": null,
+      "until": null
+    }
+  ]
 }

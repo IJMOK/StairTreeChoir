@@ -7,7 +7,7 @@
     },
     {
       "who": "Holly",
-      "say": "[sighs] It's the second song, Bramble."
+      "say": "[sighs] There's lots more songs to go, Bramble."
     },
     {
       "who": "Bramble",
@@ -15,5 +15,11 @@
       "pause": 0.5
     }
   ],
-  "look": "snow"
+  "look": "snow",
+  "asleep": [
+    {
+      "who": "Bramble",
+      "from_line": 3
+    }
+  ]
 }
