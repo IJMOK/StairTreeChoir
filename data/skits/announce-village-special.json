@@ -1,0 +1,19 @@
+{
+  "name": "announce-village-special",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[excited] Tonight at six: the Village Special!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Every song! EVERY song!"
+    },
+    {
+      "who": "Pip",
+      "say": "Bring your nan! And her bobble hat!"
+    }
+  ],
+  "look": "marquee",
+  "palette": "candy"
+}

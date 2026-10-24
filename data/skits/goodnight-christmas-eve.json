@@ -1,0 +1,82 @@
+{
+  "name": "goodnight-christmas-eve",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[softly] That's all for tonight. It's Christmas Eve."
+    },
+    {
+      "who": "Noel",
+      "say": "[chuckles] Bramble's beaten us to it."
+    },
+    {
+      "who": "Pip",
+      "say": "[whispers] Is Santa really coming?"
+    },
+    {
+      "who": "Noel",
+      "say": "[softly] Only when everyone's asleep."
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] I'm asleep! I'm SO asleep!"
+    },
+    {
+      "who": "Ivy",
+      "say": "[whispers] Jingle. Eyes. Shut."
+    },
+    {
+      "who": "Jingle",
+      "say": "[whispers] Night night."
+    },
+    {
+      "who": "Ivy",
+      "say": "[yawns] Night, everyone."
+    },
+    {
+      "who": "Noel",
+      "say": "[softly, singing] Sleep in heavenly peace..."
+    },
+    {
+      "who": "Pip",
+      "say": "[sleepily] Merry Christmas..."
+    },
+    {
+      "who": "Holly",
+      "say": "[whispers] Goodnight. Merry Christmas."
+    },
+    {
+      "who": "Bramble",
+      "say": "[mumbling] Mmm... mince pies..."
+    }
+  ],
+  "asleep": [
+    {
+      "who": "Bramble",
+      "from_line": 1
+    },
+    {
+      "who": "Jingle",
+      "from_line": 8
+    },
+    {
+      "who": "Ivy",
+      "from_line": 9
+    },
+    {
+      "who": "Noel",
+      "from_line": 10
+    },
+    {
+      "who": "Pip",
+      "from_line": 11
+    },
+    {
+      "who": "Holly",
+      "from_line": 12
+    }
+  ],
+  "look": "spiral",
+  "palette": "ice",
+  "fade_out": 3
+}

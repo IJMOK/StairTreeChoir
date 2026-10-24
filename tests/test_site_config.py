@@ -107,11 +107,21 @@ def _on(dates, day=None):
     return [e for e in sc.schedule_plan() if e["dates"] == dates and (day is None or e["day"] == day)]
 
 
-DECEMBER = (sc.SEASON_START, "2026-12-26")
+DECEMBER = (sc.SEASON_START, "2026-12-26")       # Saturdays
+EARLY_DEC, VIL_WEEK, XMAS_DAY = (sc.SEASON_START, "2026-12-19"), ("2026-12-20", "2026-12-22"), ("2026-12-25", "2026-12-26")
+
+
+def _dates(e):
+    """The real dates an entry runs on (its date range and its weekdays)."""
+    import datetime
+    a, b = (datetime.date.fromisoformat(x) for x in e["dates"])
+    return {a + datetime.timedelta(days=k) for k in range((b - a).days + 1)
+            if ((a + datetime.timedelta(days=k)).weekday() + 1) % 7 in sc.weekdays(e["day"])}
 
 
 def test_schedule_matches_the_running_order():
-    for dates, suffix, day in ((DECEMBER, " SAT week", sc.DOW_SUN_TO_FRI), (("2026-12-27", "2026-12-30"), " NYE week", 7)):
+    for dates, suffix, day in ((EARLY_DEC, " SAT week", sc.DOW_SUN_TO_FRI), (VIL_WEEK, " VIL week", sc.DOW_SUN_TO_FRI),
+                               (XMAS_DAY, " SAT week", sc.DOW_SUN_TO_FRI), (("2026-12-27", "2026-12-30"), " NYE week", 7)):
         plan = _on(dates, day)
         shows = [e for e in plan if e["cls"] == "show"]
         assert [(e["start"] // 60, e["playlist"]) for e in shows] == [
@@ -157,8 +167,38 @@ def test_saturday_special():
     assert sorted(special) == sorted(sc.SONGS[:9])                     # every Christmas song, once
     teaser = [s for s in sc.sequences_used(pls[sc.SAT_TEASER]) if s in sc.SONGS]
     assert len(teaser) == 2 and sc.sequences_used(pls[sc.SAT_TEASER])[-1] == "Skit save-your-voices"
-    weekday_shows = {e["playlist"] for e in _on(DECEMBER, sc.DOW_SUN_TO_FRI) if e["cls"] == "show"}
+    weekday_shows = {e["playlist"] for e in _on(EARLY_DEC, sc.DOW_SUN_TO_FRI) if e["cls"] == "show"}
     assert all(sc.sequences_used(pls[p])[-1] == "Skit thank-you-week" for p in weekday_shows)
+
+
+def test_village_night():
+    plan = _on((sc.VILLAGE_NIGHT, sc.VILLAGE_NIGHT))
+    shows = {sc._hms(e["start"])[:5]: e["playlist"] for e in plan if e["cls"] == "show"}
+    assert shows == {"17:00": "Show A village", "18:00": sc.VILLAGE_SPECIAL, "19:00": "Show C village",
+                     "20:00": "Show A village late"}
+    pls = sc.playlists()
+    assert "Skit auditions" in sc.sequences_used(pls["Show A village"]) and "Skit auditions" in sc.sequences_used(pls["Show C village"])
+    assert sc.sequences_used(pls[sc.VILLAGE_SPECIAL])[0] == "Skit village-special"
+    assert "Skit village-roll-call" in sc.sequences_used(pls["Show A village late"])
+    special = [s for s in sc.sequences_used(pls[sc.VILLAGE_SPECIAL]) if s in sc.SONGS]
+    assert sorted(special) == sorted(sc.SONGS[:9])
+    ann = {sc._hms(e["start"])[:5]: e["playlist"] for e in plan if e["cls"] == "announcement"}
+    assert ann["16:15"] == "Announce 17 Village" and ann["17:45"] == "Announce Village Special"
+    assert not [t for t in ann if "18:00" <= t < "18:35"]               # none inside the special
+    week = {e["playlist"] for e in _on(VIL_WEEK, sc.DOW_SUN_TO_FRI) if e["cls"] == "show"}
+    assert all(sc.sequences_used(pls[p])[-1] == "Skit thank-you-vil-week" for p in week)
+
+
+def test_christmas_eve():
+    plan = _on((sc.XMAS_EVE, sc.XMAS_EVE))
+    pls = sc.playlists()
+    shows = [e["playlist"] for e in plan if e["cls"] == "show"]
+    assert len(shows) == 4
+    assert all("Skit santa-calls" in sc.sequences_used(pls[p]) for p in shows[:3])
+    assert "Skit santa-nearly" in sc.sequences_used(pls[shows[3]])
+    assert all(sc.sequences_used(pls[p])[-1] == "Skit thank-you-xmas-eve" for p in shows)
+    gn = [e for e in plan if e["cls"] == "goodnight"]
+    assert len(gn) == 1 and gn[0]["playlist"] == sc.XMAS_EVE_GOODNIGHT and gn[0]["start"] == 21 * 60
 
 
 def test_new_years_eve():
@@ -192,9 +232,7 @@ def test_schedule_priority_and_overlaps():
     plan = sc.schedule_plan()
     for i, a in enumerate(plan):
         for j, b in enumerate(plan):
-            if j <= i or not (a["dates"][0] <= b["dates"][1] and b["dates"][0] <= a["dates"][1]):
-                continue
-            if not sc.weekdays(a["day"]) & sc.weekdays(b["day"]):
+            if j <= i or not _dates(a) & _dates(b):
                 continue
             overlap = a["start"] < b["end"] and b["start"] < a["end"]
             if a["cls"] == b["cls"] and a["cls"] != "waiting":

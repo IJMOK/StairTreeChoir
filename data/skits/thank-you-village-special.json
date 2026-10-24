@@ -1,0 +1,22 @@
+{
+  "name": "thank-you-village-special",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[breathless] That was the Village Special! Every song!"
+    },
+    {
+      "who": "Noel",
+      "say": "[dramatically] What an audience!"
+    },
+    {
+      "who": "Holly",
+      "say": "Next show at seven."
+    },
+    {
+      "who": "Everyone",
+      "say": "Merry Christmas!"
+    }
+  ],
+  "look": "rainbow_wash"
+}

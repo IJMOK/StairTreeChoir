@@ -1,0 +1,42 @@
+{
+  "name": "santa-calls",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Shh! The sleigh radio!"
+    },
+    {
+      "who": "Santa",
+      "say": "[jolly] Ho ho ho! Hello, Stair Tree Choir!"
+    },
+    {
+      "who": "Everyone",
+      "say": "[excited] SANTA!"
+    },
+    {
+      "who": "Santa",
+      "say": "Loading the sleigh now. Is everyone being good?"
+    },
+    {
+      "who": "Pip",
+      "say": "Very good! Mostly!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[proudly] I'm staying up to see you this year."
+    },
+    {
+      "who": "Santa",
+      "say": "[chuckles] Bramble, I only come when everyone's asleep."
+    },
+    {
+      "who": "Bramble",
+      "say": "[worried] ...Oh."
+    },
+    {
+      "who": "Santa",
+      "say": "Keep singing, little trees! Ho ho ho!"
+    }
+  ],
+  "look": "candy"
+}

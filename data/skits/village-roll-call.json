@@ -1,0 +1,55 @@
+{
+  "name": "village-roll-call",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[amazed] Look at everyone! It's the whole village!"
+    },
+    {
+      "who": "Ivy",
+      "say": "And half of you are off to family tomorrow."
+    },
+    {
+      "who": "Noel",
+      "say": "Holly, the phone's ringing!"
+    },
+    {
+      "who": "Holly",
+      "say": "Hello, Stair Tree Choir?"
+    },
+    {
+      "who": "Cousin Charlie",
+      "say": "[cheerful] G'day from Sydney! It's thirty degrees here. Cold there?"
+    },
+    {
+      "who": "Jingle",
+      "say": "[shivering] F-f-freezing!"
+    },
+    {
+      "who": "Little Jess",
+      "say": "[excited] Tell my nan I'm coming tomorrow! She's in the bobble hat!",
+      "look": "Holly"
+    },
+    {
+      "who": "Pip",
+      "say": "[giggles] They're ALL in bobble hats!"
+    },
+    {
+      "who": "Uncle Brian",
+      "say": "[booming] Save me a mince pie!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[guiltily] ...About that mince pie."
+    },
+    {
+      "who": "Holly",
+      "say": "Safe travels, everyone! Ready?"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Let's sing!"
+    }
+  ],
+  "look": "rainbow_wash"
+}

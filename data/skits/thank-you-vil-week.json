@@ -1,0 +1,19 @@
+{
+  "name": "thank-you-vil-week",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Thank you for listening! We've been the Stair Tree Choir!"
+    },
+    {
+      "who": "Pip",
+      "say": "[excited] And Wednesday at six, the Village Special! Every song, before everyone goes away!"
+    },
+    {
+      "who": "Jingle",
+      "say": "Merry Christmas!"
+    }
+  ],
+  "look": "marquee",
+  "palette": "xmas"
+}

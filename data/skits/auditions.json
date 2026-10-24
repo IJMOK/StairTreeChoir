@@ -1,0 +1,67 @@
+{
+  "name": "auditions",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[excited] Auditions! One more tree could join us next Christmas!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] There's a queue! Down there!"
+    },
+    {
+      "who": "Ivy",
+      "say": "First, please."
+    },
+    {
+      "who": "Dame Matilda",
+      "say": "[dramatically] Mi mi mi miiii! I usually sing at the Albert Hall, darlings."
+    },
+    {
+      "who": "Noel",
+      "say": "[impressed] She cracked a bauble."
+    },
+    {
+      "who": "Ivy",
+      "say": "Next!"
+    },
+    {
+      "who": "One-Note Callum",
+      "say": "[gruffly] I know one note. Here it is. [singing] Laaaa."
+    },
+    {
+      "who": "Pip",
+      "say": "[giggles] Another one?"
+    },
+    {
+      "who": "One-Note Callum",
+      "say": "[proudly] Only got the one."
+    },
+    {
+      "who": "Big Adam",
+      "say": "[booming] Stand back! I've practised in the shower all year!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[sleepily] We could tell."
+    },
+    {
+      "who": "Little Jess",
+      "say": "[shyly] I'm seven. I can do the bells bit of Jingle Bells."
+    },
+    {
+      "who": "Everyone",
+      "say": "[warmly] Awww!"
+    },
+    {
+      "who": "Holly",
+      "say": "Thank you all! We'll let you know..."
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Next Christmas!"
+    }
+  ],
+  "look": "marquee",
+  "palette": "candy"
+}

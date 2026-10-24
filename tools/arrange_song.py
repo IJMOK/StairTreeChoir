@@ -23,7 +23,9 @@ the Outlines group:
 Section keys: name, until (s), look, palette (name or list; "colours" also accepted),
 params, accent ("flash", "sparkle_hit", "colour_hit"), accent_every, eyes.
 
-Optional arrangement keys: "asleep": [{"tree", "from", "until"}] (s; null = start/end) puts a
+Optional arrangement keys: "gazes": [{"from", "until", "look"}] (s; look "up", "down" or a tree
+slot) turns every tree's eyes that way, over "follow" (a guest voice speaking, tools/skit.py).
+"asleep": [{"tree", "from", "until"}] (s; null = start/end) puts a
 tree to sleep: eyes shut, mouth at rest, no eye moves, outline a slow dim blue breath, and it
 sits out shared lines (a line that is only its own, a snore, still moves its mouth).
 "end_at" (s) clips every effect, Faces included, to end there,
@@ -213,6 +215,30 @@ def glance_pieces(a: int, b: int, tree: int, k0: int = 0) -> list[tuple[int, int
     return out
 
 
+def guest_gazes(arr: dict, a: int, b: int, tree: int) -> list[tuple[int, int, str]]:
+    """Arrangement "gazes" (tools/skit.py guests) inside a..b: look "up", "down", or at a tree
+    by slot (that tree itself looks down, at the phone)."""
+    out = []
+    for g in arr.get("gazes", []):
+        x, y = max(a, snap(g["from"] * 1000)), min(b, snap(g["until"] * 1000))
+        look = g["look"]
+        if isinstance(look, int):
+            look = "down" if look == tree else "right" if look > tree else "left"
+        if y > x:
+            out.append((x, y, look))
+    return out
+
+
+def merge_gazes(follow: list[tuple[int, int, str]], forced: list[tuple[int, int, str]]):
+    """follow pieces with the forced ones laid over them."""
+    out = []
+    for x, y, d in follow:
+        for p, q in cut(x, y, [e for f in forced for e in f[:2]]):
+            if not any(f0 <= p < f1 for f0, f1, _ in forced):
+                out.append((p, q, d))
+    return sorted(out + forced)
+
+
 def carve(effects: list[fx.Fx], targets: set[str], spans) -> list[fx.Fx]:
     """Cut the spans out of every effect on these targets (all layers)."""
     out = []
@@ -287,7 +313,8 @@ def plan_song(arr: dict, line_times, beats_s: list[float], song_ms: int):
             continue
         for t in TREES:
             if mode in ("follow", "glance"):
-                gz = gaze_pieces(a, b, t, sing) if mode == "follow" else glance_pieces(a, b, t, glances)
+                gz = (merge_gazes(gaze_pieces(a, b, t, sing), guest_gazes(arr, a, b, t)) if mode == "follow"
+                      else glance_pieces(a, b, t, glances))
                 effects += fx.eyes("follow", t, a, b, in_beats, [], gz)
                 eyes_off[t] += [(g0, g1) for g0, g1, _ in gz if g1 - g0 >= 100]
             else:

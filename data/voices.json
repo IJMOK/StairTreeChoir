@@ -8,5 +8,15 @@
     "Jingle":  {"slot": 4, "elevenlabs": {"voice": "TX3LPaxmHKxFdv7VOQHJ", "name": "Liam"},  "model": "en_GB-northern_english_male-medium", "pitch": 3.5, "length": 0.8},
     "Bramble": {"slot": 5, "elevenlabs": {"voice": "pqHfZKP75CvOlQylNhV4", "name": "Bill"},  "model": "en_GB-semaine-medium", "speaker": "obadiah", "pitch": -3.0, "length": 1.3},
     "Pip":     {"slot": 6, "elevenlabs": {"voice": "FGY2WhTYpPnrIDTdsKH5", "name": "Laura"}, "model": "en_GB-semaine-medium", "speaker": "poppy", "pitch": 5.0, "length": 0.9}
+  },
+  "_guests": "Voices with no tree: the unused auditions (Audio/Skits/auditions/). No mouth moves while a guest speaks; every tree looks where the voice comes from: up (Santa on the sleigh radio), down (someone in the crowd) or at a character (a phone call through that tree).",
+  "guests": {
+    "Santa":           {"look": "up",    "elevenlabs": {"voice": "JBFqnCBsd6RMkjVDRZzb", "name": "George"}},
+    "Dame Matilda":    {"look": "down",  "elevenlabs": {"voice": "XrExE9yKIg1WjnnlVkGX", "name": "Matilda"}},
+    "One-Note Callum": {"look": "down",  "elevenlabs": {"voice": "N2lVS1w4EtoT3dr4eOWO", "name": "Callum"}},
+    "Big Adam":        {"look": "down",  "elevenlabs": {"voice": "pNInz6obpgDQGcFmaJgB", "name": "Adam"}},
+    "Little Jess":     {"look": "down",  "elevenlabs": {"voice": "cgSgspJ2msm6clMCkdW9", "name": "Jessica"}},
+    "Cousin Charlie":  {"look": "Holly", "elevenlabs": {"voice": "IKne3meq5aSn9XLyUdCD", "name": "Charlie"}},
+    "Uncle Brian":     {"look": "Holly", "elevenlabs": {"voice": "nPczCjzI2devNBz1zQrb", "name": "Brian"}}
   }
 }

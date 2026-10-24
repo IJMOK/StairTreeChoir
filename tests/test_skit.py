@@ -8,7 +8,8 @@ import pytest
 from tools import skit
 from tools.tree_layout import ROOT
 
-CAST = json.loads((ROOT / "data" / "voices.json").read_text(encoding="utf-8"))["characters"]
+VOICES = json.loads((ROOT / "data" / "voices.json").read_text(encoding="utf-8"))
+CAST, GUESTS = VOICES["characters"], VOICES.get("guests", {})
 SCRIPTS = sorted((ROOT / "data" / "skits").glob("*.json"))
 
 
@@ -22,7 +23,7 @@ def test_scripts_use_known_characters():
         assert script["name"] == p.stem
         assert script["lines"], p
         for line in script["lines"]:
-            assert skit.speakers(line["who"], CAST, p.name), f"{p.name}: {line['who']}"
+            assert skit.speakers(line["who"], CAST, p.name, GUESTS), f"{p.name}: {line['who']}"
             assert line["say"].strip(), p.name
 
 
@@ -42,8 +43,17 @@ def test_arrangements_match_scripts():
         assert list(arr["lines"]) == [str(i) for i in range(1, n + 1)], p.name
         assert [arr["lines"][str(i)] for i in range(1, n + 1)] == [skit.group_name(l["who"]) for l in script["lines"]]
         for line in script["lines"]:
-            slots = sorted(CAST[c]["slot"] for c in skit.speakers(line["who"], CAST))
+            slots = sorted(CAST[c]["slot"] for c in skit.speakers(line["who"], CAST, p.name, GUESTS) if c in CAST)
             assert arr["groups"][skit.group_name(line["who"])] == slots, f"{p.name}: {line['who']}"
+        guest_lines = sum(all(c in GUESTS for c in skit.speakers(l["who"], CAST, p.name, GUESTS)) for l in script["lines"])
+        assert len(arr.get("gazes", [])) == guest_lines, p.name     # the trees look at every guest
+
+
+def test_guests_look_somewhere():
+    for name, g in GUESTS.items():
+        assert g["look"] in ("up", "down") or g["look"] in CAST, name
+        assert name not in CAST
+    assert skit.speakers("Everyone", CAST, guests=GUESTS) == list(CAST)   # "Everyone" is the choir only
 
 
 def test_everyone_is_the_whole_cast():

@@ -97,6 +97,8 @@ SEASON_START = "2026-12-01"      # Rob to confirm
 SEASON_END = "2027-01-01"        # New Year's Day (docs/specials.md)
 NYE_WEEK_START = "2026-12-27"    # thank-yous plug New Year's Eve from here
 NYE, NYD = "2026-12-31", "2027-01-01"
+VILLAGE_WEEK_START = "2026-12-20"   # Sun-Tue thank-yous plug Wednesday's Village Special
+VILLAGE_NIGHT, XMAS_EVE, XMAS_DAY = "2026-12-23", "2026-12-24", "2026-12-25"
 BETWEEN_PAUSE_S = 4              # "3-5 s of the waiting look" between pieces (show-night.md)
 SONG_MEDIA_EXT = ".mp3"          # media file extensions are assumptions: lyrics/beat tools take MP3s,
 SKIT_MEDIA_EXT = ".wav"          # tools/skit.py writes WAVs. Change here if the media differ.
@@ -146,7 +148,7 @@ CLASS_RANK = {"countdown": 0, "goodnight": 1, "show": 2, "announcement": 3, "wai
 # Thank-you variants by date (docs/specials.md): plain to 26 Dec, plugging New Year's Eve 27-30 Dec,
 # "see you at midnight" on the night. Playlist names: letters, numbers, spaces only.
 THANKS_VARIANTS = {"": "thank-you", " SAT week": "thank-you-week", " NYE week": "thank-you-nye-week",
-                   " NYE": "thank-you-nye-night"}
+                   " NYE": "thank-you-nye-night", " VIL week": "thank-you-vil-week"}
 
 # Saturday Special (docs/specials.md): Saturdays to 26 Dec. 17:00 is a two-song teaser, 18:00 every song.
 # Sun-Fri thank-yous plug "this Saturday at six" (" SAT week"); after the special the shows are as usual.
@@ -181,6 +183,39 @@ NYD_GOODNIGHT_AT = 19 * 60 + 30
 NYD_SET = [("skit", "newyear-intro"), ("song", "Happy New Year"), ("song", "Here Comes the Sun"),
            ("song", "Walking on Sunshine"), ("song", "What a Wonderful World"), ("song", "Auld Lang Syne"),
            ("skit", "thank-you-newyear")]
+
+
+# Village Night (Wed 23 Dec, Rob 24 Oct): the busiest night, the village out before travelling to
+# family. Auditions in the 17:00 and 19:00 shows (guest voices from the crowd), the Village Special
+# at 18:00 (every song, opening with the phone-call roll-call), the roll-call again at 20:00.
+VILLAGE_SPECIAL = "Village Special"
+VILLAGE_SPECIAL_SET = ([("skit", "village-special")] + SAT_SPECIAL_SET[1:-1]
+                       + [("skit", "thank-you-village-special")])
+VILLAGE_ANNOUNCE = {16: ("Announce 17 Village", "announce-17-village"),
+                    17: ("Announce Village Special", "announce-village-special")}
+# Christmas Eve (Thu 24 Dec): Santa rings the sleigh radio in every show; at 21:00 the choir falls
+# asleep one by one so he can come.
+XMAS_EVE_GOODNIGHT = "Goodnight Christmas Eve"
+SPECIALS = (SAT_SPECIAL, VILLAGE_SPECIAL)     # half-hour blocks: no announcements inside them
+
+
+def show_variant(letter: str, extra: str | None = None, thanks: str = "thank-you") -> list[tuple[str, str]]:
+    """A set with a skit after the tuning-up and its own thank-you."""
+    out = []
+    for p in SETS[letter]:
+        out.append(("skit", thanks) if p == _THANKS else p)
+        if p == _TUNING and extra:
+            out.append(("skit", extra))
+    return out
+
+
+VILLAGE_SHOWS = {17: ("Show A village", show_variant("A", "auditions", "thank-you-vil-day")),
+                 18: (VILLAGE_SPECIAL, VILLAGE_SPECIAL_SET),
+                 19: ("Show C village", show_variant("C", "auditions", "thank-you-village")),
+                 20: ("Show A village late", show_variant("A", "village-roll-call", "thank-you-village"))}
+XMAS_EVE_SHOWS = {h: (f"Show {l} Christmas Eve" + (" last" if h == 20 else ""),
+                      show_variant(l, "santa-nearly" if h == 20 else "santa-calls", "thank-you-xmas-eve"))
+                  for h, l in zip(SHOW_HOURS, SHOW_SETS)}
 
 
 def skit_names() -> list[str]:
@@ -334,6 +369,16 @@ def playlists() -> dict[str, dict]:
     out[SAT_SPECIAL] = _set_playlist(SAT_SPECIAL, "Saturday 18:00: every song, about 29 minutes.", SAT_SPECIAL_SET)
     for n, skit in SAT_ANNOUNCE.values():
         out[n] = _playlist(n, "Saturday quarter-hour announcement.", [_piece("skit", skit)[1]])
+    # Village Night and Christmas Eve
+    for hour, (n, pieces) in VILLAGE_SHOWS.items():
+        desc = "23 Dec 18:00: every song for the whole village." if n == VILLAGE_SPECIAL else f"23 Dec {hour}:00."
+        out[n] = _set_playlist(n, desc, pieces)
+    for n, skit in VILLAGE_ANNOUNCE.values():
+        out[n] = _playlist(n, "Village Night quarter-hour announcement.", [_piece("skit", skit)[1]])
+    for hour, (n, pieces) in XMAS_EVE_SHOWS.items():
+        out[n] = _set_playlist(n, f"Christmas Eve {hour}:00: Santa on the sleigh radio.", pieces)
+    out[XMAS_EVE_GOODNIGHT] = _set_playlist(XMAS_EVE_GOODNIGHT, "Christmas Eve: the choir falls asleep for Santa.",
+                                            [("skit", "goodnight-christmas-eve")])
     return out
 
 
@@ -376,13 +421,14 @@ def weekdays(day: int) -> set[int]:
 
 
 def normal_night(dates: tuple[str, str], suffix: str = "", day: int = DOW_EVERY_DAY,
-                 shows: dict[int, str] | None = None, announce: dict[int, tuple[str, str]] | None = None) -> list[dict]:
+                 shows: dict[int, str] | None = None, announce: dict[int, tuple[str, str]] | None = None,
+                 goodnight: str = GOODNIGHT) -> list[dict]:
     """show-night.md's night; suffix picks the shows' thank-you variant (THANKS_VARIANTS). shows
-    and announce replace the playlist at an hour (the Saturday teaser and special)."""
+    and announce replace the playlist at an hour (the Saturday teaser and special, Village Night)."""
     shows, announce = shows or {}, announce or {}
-    plan = [_e(GOODNIGHT, "goodnight", GOODNIGHT_AT, GOODNIGHT_AT + GOODNIGHT_WINDOW, dates, day=day)]
+    plan = [_e(goodnight, "goodnight", GOODNIGHT_AT, GOODNIGHT_AT + GOODNIGHT_WINDOW, dates, day=day)]
     for hour, letter in zip(SHOW_HOURS, SHOW_SETS):
-        window = SAT_SPECIAL_WINDOW if shows.get(hour) == SAT_SPECIAL else SHOW_WINDOW
+        window = SAT_SPECIAL_WINDOW if shows.get(hour) in SPECIALS else SHOW_WINDOW
         plan.append(_e(shows.get(hour, f"Show {letter}{suffix}"), "show", hour * 60, hour * 60 + window, dates, day=day))
     # Each hour announces the next show; the 19:xx ones announce the last show (20:00). No
     # announcements after the last show has started.
@@ -390,7 +436,7 @@ def normal_night(dates: tuple[str, str], suffix: str = "", day: int = DOW_EVERY_
         name = announce[hour][0] if hour in announce else announce_playlist_name(label)
         for minute in (15, 30, 45):
             t = hour * 60 + minute
-            if any(e["playlist"] == SAT_SPECIAL and e["start"] <= t < e["end"] for e in plan):
+            if any(e["playlist"] in SPECIALS and e["start"] <= t < e["end"] for e in plan):
                 continue   # during the half-hour special: it would only queue up behind it
             plan.append(_e(name, "announcement", t, t + ANNOUNCE_WINDOW, dates, day=day))
     # The waiting loop is the background: lowest priority, loops, and a hard stop so a show or
@@ -440,7 +486,14 @@ def schedule_plan() -> list[dict]:
     an overlap (CLASS_RANK); entries on different dates never meet.
     """
     december = (SEASON_START, _day_before(NYE_WEEK_START))
-    plan = (normal_night(december, " SAT week", DOW_SUN_TO_FRI)
+    plan = (normal_night((SEASON_START, _day_before(VILLAGE_WEEK_START)), " SAT week", DOW_SUN_TO_FRI)
+            + normal_night((VILLAGE_WEEK_START, _day_before(VILLAGE_NIGHT)), " VIL week", DOW_SUN_TO_FRI)
+            + normal_night((VILLAGE_NIGHT, VILLAGE_NIGHT), shows={h: n for h, (n, _) in VILLAGE_SHOWS.items()},
+                           announce=VILLAGE_ANNOUNCE)
+            + normal_night((XMAS_EVE, XMAS_EVE), shows={h: n for h, (n, _) in XMAS_EVE_SHOWS.items()},
+                           goodnight=XMAS_EVE_GOODNIGHT)
+            + normal_night((XMAS_DAY, _day_before(NYE_WEEK_START)), " SAT week",
+                           DOW_SUN_TO_FRI)
             + normal_night(december, "", DOW_SATURDAY, shows={17: SAT_TEASER, 18: SAT_SPECIAL}, announce=SAT_ANNOUNCE)
             + normal_night((NYE_WEEK_START, _day_before(NYE)), " NYE week")
             + nye_night() + nyd_night())

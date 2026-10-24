@@ -22,7 +22,9 @@ Then:
 Script keys: name, lines [{who, say}], optional look/palette for the outlines and
 gap (seconds between lines, default 0.35). A line's "pause" adds silence before it.
 A line's "who" may be a list of characters or "Everyone": their voices are mixed, all
-their mouths move. A line's "at" (seconds from the start of the audio) starts its voice exactly
+their mouths move. A guest (voices.json "guests": a voice with no tree, e.g. Santa) moves no
+mouth; meanwhile every tree looks where the guest's voice comes from (arrangement "gazes"):
+the guest's "look", or the line's own "look" ("up", "down" or a character on the phone). A line's "at" (seconds from the start of the audio) starts its voice exactly
 then instead of after a gap (the midnight countdown); it may overlap the line before. "sections" replaces the default
 single outline section (same keys as a song's, see tools/arrange_song.py). "fade_out" (s)
 makes the skit a closer: everything fades over that time and ends dark (end_at/end_fade).
@@ -145,11 +147,11 @@ def fit_to_spans(timing: Path, spans: list[tuple[float, float]], slack: float = 
     timing.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
 
-def speakers(who, cast: dict, skit: str = "") -> list[str]:
-    """A line's characters: one name, a list of names, or "Everyone"."""
+def speakers(who, cast: dict, skit: str = "", guests: dict | None = None) -> list[str]:
+    """A line's characters: one name, a list of names, or "Everyone" (the six, not the guests)."""
     names = list(cast) if who == EVERYONE else [who] if isinstance(who, str) else list(who)
     for n in names:
-        if n not in cast:
+        if n not in cast and n not in (guests or {}):
             raise SystemExit(f"{skit}: unknown character {n!r}")
     return names
 
@@ -161,6 +163,8 @@ def group_name(who) -> str:
 def build(script: dict, audio_only: bool = False, engine: str | None = None) -> Path:
     voices = json.loads(VOICES_FILE.read_text(encoding="utf-8"))
     cast = voices["characters"]
+    guests = voices.get("guests", {})
+    voice_of = {**cast, **guests}
     engine = engine or voices.get("engine", "piper")
     name = script["name"]
     gap = script.get("gap", 0.35)
@@ -170,8 +174,8 @@ def build(script: dict, audio_only: bool = False, engine: str | None = None) -> 
     end = len(y)  # where the last line's clip ends; the next line follows a gap after it
     spans = []  # where each line's voice actually is, in seconds: alignment must stay inside it
     for line in script["lines"]:
-        names = speakers(line["who"], cast, name)
-        clips = [speak(line["say"], cast[n], cache, engine) for n in names]
+        names = speakers(line["who"], cast, name, guests)
+        clips = [speak(line["say"], voice_of[n], cache, engine) for n in names]
         clip = np.zeros(max(len(c) for c in clips), dtype=np.float32)
         for c in clips:  # several voices at once ("Everyone"): mixed, levelled with the rest below
             clip[:len(c)] += c / np.sqrt(len(clips))
@@ -211,7 +215,7 @@ def build(script: dict, audio_only: bool = False, engine: str | None = None) -> 
     beats = SKIT_DIR / f"{name}.beats.json"
     beats.write_text(json.dumps([round(0.5 * k, 3) for k in range(int(len(y) / RATE * 2))]), encoding="utf-8")
 
-    groups = {group_name(l["who"]): sorted(cast[n]["slot"] for n in speakers(l["who"], cast, name))
+    groups = {group_name(l["who"]): sorted(cast[n]["slot"] for n in speakers(l["who"], cast, name, guests) if n in cast)
               for l in script["lines"]}
     arr = {
         "sequence": f"Skit {name}",
@@ -233,6 +237,14 @@ def build(script: dict, audio_only: bool = False, engine: str | None = None) -> 
         asleep.append({"tree": cast[s["who"]]["slot"], "from": a, "until": b})
     if asleep:
         arr["asleep"] = asleep
+    gazes = []  # while a guest speaks the trees look where the voice comes from: up, down, or at a tree
+    for l, (a, b) in zip(script["lines"], spans):
+        who = speakers(l["who"], cast, name, guests)
+        if all(n in guests for n in who):
+            look = l.get("look", guests[who[0]]["look"])
+            gazes.append({"from": round(a, 2), "until": round(b, 2), "look": cast[look]["slot"] if look in cast else look})
+    if gazes:
+        arr["gazes"] = gazes
     if script.get("fade_out"):  # a closer: dark for the last second of silence, so FPP holds black
         arr["end_at"] = round(len(y) / RATE - 1.0, 1)
         arr["end_fade"] = script["fade_out"]

@@ -1,0 +1,22 @@
+{
+  "name": "thank-you-village",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Thank you for listening!"
+    },
+    {
+      "who": "Ivy",
+      "say": "Off to family tomorrow? Safe travels!"
+    },
+    {
+      "who": "Pip",
+      "say": "[excited] Staying? Tomorrow's Christmas Eve! Santa might ring!"
+    },
+    {
+      "who": "Everyone",
+      "say": "Merry Christmas!"
+    }
+  ],
+  "look": "choir_rainbow"
+}

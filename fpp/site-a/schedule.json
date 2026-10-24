@@ -18,6 +18,50 @@
     "endTime": "21:04:59",
     "repeat": 0,
     "startDate": "2026-12-01",
+    "endDate": "2026-12-19",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Goodnight",
+    "day": 97792,
+    "startTime": "21:00:00",
+    "endTime": "21:04:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Goodnight",
+    "day": 7,
+    "startTime": "21:00:00",
+    "endTime": "21:04:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Goodnight Christmas Eve",
+    "day": 7,
+    "startTime": "21:00:00",
+    "endTime": "21:04:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Goodnight",
+    "day": 97792,
+    "startTime": "21:00:00",
+    "endTime": "21:04:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
     "endDate": "2026-12-26",
     "stopType": 0
   },
@@ -62,7 +106,7 @@
     "endTime": "17:29:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -73,7 +117,7 @@
     "endTime": "18:29:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -84,7 +128,7 @@
     "endTime": "19:29:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -95,6 +139,182 @@
     "endTime": "20:29:59",
     "repeat": 0,
     "startDate": "2026-12-01",
+    "endDate": "2026-12-19",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show A VIL week",
+    "day": 97792,
+    "startTime": "17:00:00",
+    "endTime": "17:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show B VIL week",
+    "day": 97792,
+    "startTime": "18:00:00",
+    "endTime": "18:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show C VIL week",
+    "day": 97792,
+    "startTime": "19:00:00",
+    "endTime": "19:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show A VIL week",
+    "day": 97792,
+    "startTime": "20:00:00",
+    "endTime": "20:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show A village",
+    "day": 7,
+    "startTime": "17:00:00",
+    "endTime": "17:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Village Special",
+    "day": 7,
+    "startTime": "18:00:00",
+    "endTime": "18:34:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show C village",
+    "day": 7,
+    "startTime": "19:00:00",
+    "endTime": "19:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show A village late",
+    "day": 7,
+    "startTime": "20:00:00",
+    "endTime": "20:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show A Christmas Eve",
+    "day": 7,
+    "startTime": "17:00:00",
+    "endTime": "17:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show B Christmas Eve",
+    "day": 7,
+    "startTime": "18:00:00",
+    "endTime": "18:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show C Christmas Eve",
+    "day": 7,
+    "startTime": "19:00:00",
+    "endTime": "19:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show A Christmas Eve last",
+    "day": 7,
+    "startTime": "20:00:00",
+    "endTime": "20:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show A SAT week",
+    "day": 97792,
+    "startTime": "17:00:00",
+    "endTime": "17:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show B SAT week",
+    "day": 97792,
+    "startTime": "18:00:00",
+    "endTime": "18:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show C SAT week",
+    "day": 97792,
+    "startTime": "19:00:00",
+    "endTime": "19:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show A SAT week",
+    "day": 97792,
+    "startTime": "20:00:00",
+    "endTime": "20:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
     "endDate": "2026-12-26",
     "stopType": 0
   },
@@ -315,7 +535,7 @@
     "endTime": "16:24:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -326,7 +546,7 @@
     "endTime": "16:39:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -337,7 +557,7 @@
     "endTime": "16:54:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -348,7 +568,7 @@
     "endTime": "17:24:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -359,7 +579,7 @@
     "endTime": "17:39:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -370,7 +590,7 @@
     "endTime": "17:54:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -381,7 +601,7 @@
     "endTime": "18:24:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -392,7 +612,7 @@
     "endTime": "18:39:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -403,7 +623,7 @@
     "endTime": "18:54:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -414,7 +634,7 @@
     "endTime": "19:24:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -425,7 +645,7 @@
     "endTime": "19:39:59",
     "repeat": 0,
     "startDate": "2026-12-01",
-    "endDate": "2026-12-26",
+    "endDate": "2026-12-19",
     "stopType": 0
   },
   {
@@ -436,6 +656,512 @@
     "endTime": "19:54:59",
     "repeat": 0,
     "startDate": "2026-12-01",
+    "endDate": "2026-12-19",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 97792,
+    "startTime": "16:15:00",
+    "endTime": "16:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 97792,
+    "startTime": "16:30:00",
+    "endTime": "16:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 97792,
+    "startTime": "16:45:00",
+    "endTime": "16:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 97792,
+    "startTime": "17:15:00",
+    "endTime": "17:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 97792,
+    "startTime": "17:30:00",
+    "endTime": "17:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 97792,
+    "startTime": "17:45:00",
+    "endTime": "17:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 97792,
+    "startTime": "18:15:00",
+    "endTime": "18:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 97792,
+    "startTime": "18:30:00",
+    "endTime": "18:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 97792,
+    "startTime": "18:45:00",
+    "endTime": "18:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 97792,
+    "startTime": "19:15:00",
+    "endTime": "19:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 97792,
+    "startTime": "19:30:00",
+    "endTime": "19:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 97792,
+    "startTime": "19:45:00",
+    "endTime": "19:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17 Village",
+    "day": 7,
+    "startTime": "16:15:00",
+    "endTime": "16:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17 Village",
+    "day": 7,
+    "startTime": "16:30:00",
+    "endTime": "16:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17 Village",
+    "day": 7,
+    "startTime": "16:45:00",
+    "endTime": "16:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce Village Special",
+    "day": 7,
+    "startTime": "17:15:00",
+    "endTime": "17:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce Village Special",
+    "day": 7,
+    "startTime": "17:30:00",
+    "endTime": "17:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce Village Special",
+    "day": 7,
+    "startTime": "17:45:00",
+    "endTime": "17:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 7,
+    "startTime": "18:45:00",
+    "endTime": "18:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 7,
+    "startTime": "19:15:00",
+    "endTime": "19:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 7,
+    "startTime": "19:30:00",
+    "endTime": "19:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 7,
+    "startTime": "19:45:00",
+    "endTime": "19:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 7,
+    "startTime": "16:15:00",
+    "endTime": "16:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 7,
+    "startTime": "16:30:00",
+    "endTime": "16:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 7,
+    "startTime": "16:45:00",
+    "endTime": "16:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 7,
+    "startTime": "17:15:00",
+    "endTime": "17:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 7,
+    "startTime": "17:30:00",
+    "endTime": "17:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 7,
+    "startTime": "17:45:00",
+    "endTime": "17:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 7,
+    "startTime": "18:15:00",
+    "endTime": "18:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 7,
+    "startTime": "18:30:00",
+    "endTime": "18:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 7,
+    "startTime": "18:45:00",
+    "endTime": "18:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 7,
+    "startTime": "19:15:00",
+    "endTime": "19:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 7,
+    "startTime": "19:30:00",
+    "endTime": "19:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 7,
+    "startTime": "19:45:00",
+    "endTime": "19:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 97792,
+    "startTime": "16:15:00",
+    "endTime": "16:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 97792,
+    "startTime": "16:30:00",
+    "endTime": "16:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 97792,
+    "startTime": "16:45:00",
+    "endTime": "16:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 97792,
+    "startTime": "17:15:00",
+    "endTime": "17:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 97792,
+    "startTime": "17:30:00",
+    "endTime": "17:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 97792,
+    "startTime": "17:45:00",
+    "endTime": "17:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 97792,
+    "startTime": "18:15:00",
+    "endTime": "18:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 97792,
+    "startTime": "18:30:00",
+    "endTime": "18:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 97792,
+    "startTime": "18:45:00",
+    "endTime": "18:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 97792,
+    "startTime": "19:15:00",
+    "endTime": "19:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 97792,
+    "startTime": "19:30:00",
+    "endTime": "19:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-26",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 97792,
+    "startTime": "19:45:00",
+    "endTime": "19:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-25",
     "endDate": "2026-12-26",
     "stopType": 0
   },
@@ -1063,6 +1789,50 @@
     "endTime": "20:59:59",
     "repeat": 1,
     "startDate": "2026-12-01",
+    "endDate": "2026-12-19",
+    "stopType": 1
+  },
+  {
+    "enabled": 1,
+    "playlist": "Waiting",
+    "day": 97792,
+    "startTime": "16:00:00",
+    "endTime": "20:59:59",
+    "repeat": 1,
+    "startDate": "2026-12-20",
+    "endDate": "2026-12-22",
+    "stopType": 1
+  },
+  {
+    "enabled": 1,
+    "playlist": "Waiting",
+    "day": 7,
+    "startTime": "16:00:00",
+    "endTime": "20:59:59",
+    "repeat": 1,
+    "startDate": "2026-12-23",
+    "endDate": "2026-12-23",
+    "stopType": 1
+  },
+  {
+    "enabled": 1,
+    "playlist": "Waiting",
+    "day": 7,
+    "startTime": "16:00:00",
+    "endTime": "20:59:59",
+    "repeat": 1,
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "stopType": 1
+  },
+  {
+    "enabled": 1,
+    "playlist": "Waiting",
+    "day": 97792,
+    "startTime": "16:00:00",
+    "endTime": "20:59:59",
+    "repeat": 1,
+    "startDate": "2026-12-25",
     "endDate": "2026-12-26",
     "stopType": 1
   },

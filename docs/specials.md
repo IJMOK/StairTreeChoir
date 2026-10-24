@@ -91,3 +91,34 @@ New pieces:
 - **show-plan.md** will then list each kind of night.
 
 Order, given 1 Dec is the deadline for the six trees: **Saturday Special first** (the first one is Sat 5 Dec), then New Year's Eve, then New Year's Day (the music needs Rob's picks first).
+
+## Village Night (Wed 23 Dec) and Christmas Eve (Thu 24 Dec)
+
+Added 24 Oct 2026 (Rob: "the 23rd lots of people in the village congregate, as many travel to family Christmas Eve"). Both use **guest voices**: the audition voices nobody was cast as (data/voices.json "guests"). A guest has no tree, so no mouth moves; every tree looks where the voice comes from instead: down at the crowd, up at the sky, or at Holly when the call comes through her "phone".
+
+| Guest | Voice | Where the trees look |
+|---|---|---|
+| Santa | George | up (the sleigh radio) |
+| Dame Matilda (opera) | Matilda | down (in the crowd) |
+| One-Note Callum | Callum | down |
+| Big Adam (shower singer) | Adam | down |
+| Little Jess (aged seven) | Jessica | down |
+| Cousin Charlie (Sydney) | Charlie | Holly (on the phone) |
+| Uncle Brian (wants a mince pie) | Brian | Holly |
+
+**Village Night, 23 Dec**: the busiest night of the year.
+
+| Time | What plays |
+|---|---|
+| 16:15–16:45 | "Next show at five, and at six the Village Special!" (`announce-17-village`) |
+| 17:00 | Set A with **Choir Auditions** after the tuning-up: hopefuls for a seventh tree "next Christmas" (a wink at the extra trees); the thank-you says "don't go, at six it's the Village Special" |
+| 17:15–17:45 | `announce-village-special` |
+| 18:00 | **Village Special**: every song, the Saturday Special's running order, opening with the **roll-call**: relatives ring Holly's phone (a cousin in Sydney, Little Jess's message for her nan in the bobble hat, Uncle Brian's mince pie) |
+| 19:00 | Set C with the auditions; thank-you: "off to family tomorrow? Safe travels! Staying? Santa might ring tomorrow!" |
+| 20:00 | Set A with the roll-call |
+
+From Sun 20 Dec the weekday thank-yous plug "Wednesday at six, the Village Special" (`thank-you-vil-week`); before that they plug the Saturday Special as usual.
+
+**Christmas Eve, 24 Dec**: a normal night's times. Santa rings the sleigh radio in every show (`santa-calls`: Bramble says he'll stay up to see him; Santa only comes when everyone's asleep). At 20:00 he's over the rooftops (`santa-nearly`). Thank-yous: leave a carrot for the reindeer. At 21:00 **Goodnight Christmas Eve**: the trees fall asleep one by one (Bramble first, Holly last), eyes shut and outlines breathing, and fade to dark.
+
+ElevenLabs: about 2,800 characters for all 13 skits, nearly all that was left on the plan in October; lines two skits share are cached and paid for once.

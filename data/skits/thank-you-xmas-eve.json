@@ -1,0 +1,22 @@
+{
+  "name": "thank-you-xmas-eve",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Thank you, and happy Christmas Eve!"
+    },
+    {
+      "who": "Pip",
+      "say": "[excited] Leave a carrot for the reindeer!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[hopefully] And a mince pie for Bramble?"
+    },
+    {
+      "who": "Everyone",
+      "say": "Merry Christmas!"
+    }
+  ],
+  "look": "choir_rainbow"
+}

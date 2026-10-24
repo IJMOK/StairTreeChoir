@@ -69,6 +69,8 @@ def main(argv: list[str] | None = None) -> None:
     for i, seg in enumerate(timing["segments"], 1):
         # Inside the line only: one frame of slack at each end for snapping to frames.
         f0, f1 = int(seg["start_time"] * 1000 / step) + 1, int(seg["end_time"] * 1000 / step) - 1
+        if arr.get("end_at") is not None:   # after end_at everything is dark by design (a closer)
+            f1 = min(f1, int(arr["end_at"] * 1000 / step) - 1)
         # Singing: the mouth changes, or shows anything but the closed-lip rest
         # (a short line can hold one open shape).
         shapes = {t: {shape(f, t) for f in range(f0, min(f1, frames))} for t in TREES}

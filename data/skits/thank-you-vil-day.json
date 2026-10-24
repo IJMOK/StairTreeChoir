@@ -1,0 +1,19 @@
+{
+  "name": "thank-you-vil-day",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Thank you for listening!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Don't go! At six, it's the Village Special!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[yawns] I'll have a nap first."
+    }
+  ],
+  "look": "marquee",
+  "palette": "xmas"
+}

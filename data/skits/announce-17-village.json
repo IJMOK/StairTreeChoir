@@ -1,0 +1,19 @@
+{
+  "name": "announce-17-village",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Hello everyone! We're the Stair Tree Choir!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Next show at five o'clock!"
+    },
+    {
+      "who": "Pip",
+      "say": "[excited] And at six, the Village Special! Every song!"
+    }
+  ],
+  "look": "butterfly",
+  "palette": "candy"
+}

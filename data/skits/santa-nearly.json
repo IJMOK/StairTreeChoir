@@ -1,0 +1,27 @@
+{
+  "name": "santa-nearly",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "The radio again!"
+    },
+    {
+      "who": "Santa",
+      "say": "[jolly] Ho ho ho! Over the rooftops now. Nearly there!"
+    },
+    {
+      "who": "Pip",
+      "say": "[gasps] He's close!"
+    },
+    {
+      "who": "Santa",
+      "say": "One last song, then bedtime. That means everyone!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[yawns] I've been practising sleeping all month."
+    }
+  ],
+  "look": "plasma",
+  "palette": "xmas"
+}

@@ -82,6 +82,15 @@ def test_gaze_points_at_the_singers():
     assert ars.gaze_pieces(0, 1000, 6, sing) == []
 
 
+def test_guest_gazes_override_follow():
+    arr = {"gazes": [{"from": 1.0, "until": 2.0, "look": "up"}, {"from": 3.0, "until": 4.0, "look": 1}]}
+    assert ars.guest_gazes(arr, 0, 5000, 3) == [(1000, 2000, "up"), (3000, 4000, "left")]
+    assert ars.guest_gazes(arr, 0, 5000, 1)[1] == (3000, 4000, "down")     # the phone tree looks at its phone
+    follow = [(500, 1500, "right"), (1500, 2500, "left")]
+    assert ars.merge_gazes(follow, ars.guest_gazes(arr, 0, 2500, 3)) == [
+        (500, 1000, "right"), (1000, 2000, "up"), (2000, 2500, "left")]
+
+
 def test_glances_look_at_one_tree_then_the_pavement():
     # first glance: tree 3 looks up, the others turn towards it; the third: everyone looks down
     first = {t: ars.glance_pieces(0, 25000, t)[0] for t in range(1, 7)}
