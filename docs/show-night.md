@@ -13,6 +13,8 @@ UK sunset in December is about 15:50.
 | 17:00, 18:00, 19:00, 20:00 (last) | **Show** (~15 min), then back to the waiting loop | full |
 | after the 20:00 show | **Goodnight** skit, then lights off | |
 
+Specials (Saturday Special at 18:00 on December Saturdays, New Year's Eve to the midnight countdown, New Year's Day 15:00–19:00): [specials.md](specials.md).
+
 Volume: a "quiet hours" level after 20:00 if the neighbours ask. FPP's scheduler runs this; the playlists are generated per site (M5) so every site gets the same shows.
 
 ## A show (~15 minutes)
