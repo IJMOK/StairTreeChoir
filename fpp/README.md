@@ -24,8 +24,7 @@ Every site plays the same thing (only its trees differ). Times are the proposal 
 | 16:15 16:30 16:45 | `Announce 17` | "next show at five" |
 | 17:15 17:30 17:45 | `Announce 18` | |
 | 18:15 18:30 18:45 | `Announce 19` | |
-| 19:15 19:30 19:45 | `Announce 20` | |
-| 20:15 20:30 20:45 | `Announce last` | "last show of the night at nine" |
+| 19:15 19:30 19:45 | `Announce last` | "last show of the night at eight" (the 20:00 show); no announcements after it |
 | 17:00 and 20:00 | `Show A` | |
 | 18:00 | `Show B` | Frosty is parked: its slot is Little Drummer Boy |
 | 19:00 | `Show C` | |

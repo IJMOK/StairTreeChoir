@@ -126,6 +126,7 @@ SHOW_SETS = ("A", "B", "C", "A")             # 17:00 A, 18:00 B, 19:00 C, 20:00 
 WAITING_FROM, WAITING_TO = 16 * 60, 21 * 60  # minutes after midnight
 GOODNIGHT_AT, GOODNIGHT_WINDOW = 21 * 60, 5
 SHOW_WINDOW = 30                             # a ~15 minute show is never cut off by its end time
+ANNOUNCE_LABELS = ("17", "18", "19", "last")    # skits announce-<label>; "last" = the 20:00 show
 ANNOUNCE_WINDOW = 10                         # latest late start of a quarter-hour announcement
 CLASS_RANK = {"goodnight": 0, "show": 1, "announcement": 2, "waiting": 3}   # priority order
 
@@ -236,7 +237,7 @@ def playlists() -> dict[str, dict]:
     out: dict[str, dict] = {}
     out[WAITING] = _playlist(WAITING, "Waiting loop: rainbow, blinking, glancing. No audio.",
                              [_entry(WAITING, None)])
-    for label in ("17", "18", "19", "20", "last"):
+    for label in ANNOUNCE_LABELS:
         seq, entry = _piece("skit", f"announce-{label}")
         n = announce_playlist_name(label)
         out[n] = _playlist(n, "Quarter-hour announcement of the next show.", [entry])
@@ -271,8 +272,9 @@ def schedule_plan() -> list[dict]:
     for hour, letter in zip(SHOW_HOURS, SHOW_SETS):
         plan.append({"playlist": f"Show {letter}", "cls": "show", "start": hour * 60,
                      "end": hour * 60 + SHOW_WINDOW, "stop": STOP_GRACEFUL, "repeat": 0})
-    for hour in range(16, 21):
-        label = str(hour + 1) if hour < 20 else "last"      # 16:xx -> "next show at five"
+    # Each hour announces the next show; the 19:xx ones announce the last show (20:00). No
+    # announcements after the last show has started.
+    for hour, label in zip(range(SHOW_HOURS[0] - 1, SHOW_HOURS[-1]), ANNOUNCE_LABELS):
         for minute in (15, 30, 45):
             plan.append({"playlist": announce_playlist_name(label), "cls": "announcement",
                          "start": hour * 60 + minute, "end": hour * 60 + minute + ANNOUNCE_WINDOW,
@@ -317,6 +319,9 @@ def main() -> None:
     for site in sites:
         base = FPP_DIR / site["id"]
         _dump(base / "co-universes.json", fpp_outputs(site))
+        for old in (base / "playlists").glob("*.json"):     # playlists no longer generated
+            if old.stem not in pls:
+                old.unlink()
         for name, pl in pls.items():
             _dump(base / "playlists" / f"{name}.json", pl)
         _dump(base / "schedule.json", schedule())

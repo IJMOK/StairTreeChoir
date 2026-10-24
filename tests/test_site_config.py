@@ -95,7 +95,7 @@ def test_schedule_matches_the_running_order():
     assert [(e["start"] // 60, e["playlist"]) for e in shows] == [
         (17, "Show A"), (18, "Show B"), (19, "Show C"), (20, "Show A")]
     ann = [e["start"] for e in plan if e["cls"] == "announcement"]
-    assert ann == [h * 60 + m for h in range(16, 21) for m in (15, 30, 45)]
+    assert ann == [h * 60 + m for h in range(16, 20) for m in (15, 30, 45)]   # none after the 20:00 show
     gn = [e for e in plan if e["cls"] == "goodnight"]
     assert len(gn) == 1 and gn[0]["start"] == 21 * 60
     w = [e for e in plan if e["cls"] == "waiting"]
@@ -130,7 +130,7 @@ def test_schedule_json_shape():
 def test_generated_files_are_current_and_secret_free(tmp_path):
     sc.main()
     files = sorted(sc.WLED_DIR.glob("stairtree-*.json")) + sorted(sc.FPP_DIR.glob("site-*/**/*.json"))
-    assert len(files) >= 14 + 4 * 12
+    assert len(files) >= 14 + 4 * 11
     for f in files:
         text = f.read_text(encoding="utf-8")
         json.loads(text)
