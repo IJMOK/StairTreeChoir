@@ -1,0 +1,245 @@
+{
+  "sequence": "The Virgin Mary Had a Baby Boy",
+  "audio": "Audio/The-Virgin-Mary-Had-a-Baby-Boy.mp3",
+  "lyrics_timing": "Audio/VirginMary.json",
+  "lyrics_track": "VirginMary",
+  "beats": "Audio/The-Virgin-Mary-Had-a-Baby-Boy.beats.json",
+  "groups": {
+    "all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "A": [
+      1,
+      2,
+      3
+    ],
+    "B": [
+      4,
+      5,
+      6
+    ],
+    "left": [
+      1,
+      2
+    ],
+    "mid": [
+      3,
+      4
+    ],
+    "right": [
+      5,
+      6
+    ],
+    "outer": [
+      1,
+      6
+    ],
+    "middle": [
+      2,
+      5
+    ],
+    "inner": [
+      3,
+      4
+    ],
+    "odd": [
+      1,
+      3,
+      5
+    ],
+    "even": [
+      2,
+      4,
+      6
+    ],
+    "inner+middle": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "lines": {
+    "1": "A",
+    "2": "B",
+    "3": "A",
+    "4": "all",
+    "5": "A",
+    "6": "B",
+    "7": "A",
+    "8": "B",
+    "9": "A",
+    "10": "B",
+    "11": "A",
+    "12": "all",
+    "13": "left",
+    "14": "mid",
+    "15": "right",
+    "16": "all",
+    "17": "outer",
+    "18": "inner+middle",
+    "19": "outer",
+    "20": "inner+middle",
+    "21": "outer",
+    "22": "inner+middle",
+    "23": "outer",
+    "24": "all",
+    "25": "B",
+    "26": "A",
+    "27": "B",
+    "28": "all",
+    "29": "B",
+    "30": "A",
+    "31": "B",
+    "32": "A",
+    "33": "B",
+    "34": "A",
+    "35": "B",
+    "36": "all",
+    "37": "outer",
+    "38": "middle",
+    "39": "inner",
+    "40": "all",
+    "41": "odd",
+    "42": "even",
+    "43": "odd",
+    "44": "even",
+    "45": "odd",
+    "46": "even",
+    "47": "odd",
+    "48": "all"
+  },
+  "sections": [
+    {
+      "name": "intro",
+      "until": 13.32,
+      "look": "choir_curtain",
+      "palette": [
+        "#FF6A00",
+        "#FFD000",
+        "#FF2E7E"
+      ],
+      "eyes": "roll"
+    },
+    {
+      "name": "verse1",
+      "until": 29.8,
+      "look": "chase",
+      "palette": [
+        "#FF6A00",
+        "#FFD000",
+        "#FF2E7E"
+      ],
+      "params": {
+        "colors": "Palette",
+        "chases": 3
+      },
+      "eyes": "follow"
+    },
+    {
+      "name": "chorus1",
+      "until": 67.16,
+      "look": "marquee",
+      "palette": [
+        "#00D0B0",
+        "#FFD000",
+        "#FF6A00"
+      ],
+      "params": {
+        "band": 3,
+        "skip": 1,
+        "speed": 8
+      },
+      "accent": "colour_hit",
+      "accent_every": 2,
+      "eyes": "follow"
+    },
+    {
+      "name": "verse2",
+      "until": 83.31,
+      "look": "plasma",
+      "palette": [
+        "#FF2E7E",
+        "#00D0B0",
+        "#FFD000"
+      ],
+      "params": {
+        "color": "Normal",
+        "speed": 15
+      },
+      "eyes": "follow"
+    },
+    {
+      "name": "chorus2",
+      "until": 120.9,
+      "look": "choir_spiral",
+      "palette": [
+        "#FF2E7E",
+        "#00D0B0",
+        "#FFD000"
+      ],
+      "accent": "flash",
+      "accent_every": 2,
+      "eyes": "follow"
+    },
+    {
+      "name": "verse3",
+      "until": 137.28,
+      "look": "butterfly",
+      "params": {
+        "style": 1,
+        "speed": 15
+      },
+      "eyes": "follow"
+    },
+    {
+      "name": "chorus3",
+      "until": 174.72,
+      "look": "marquee",
+      "palette": [
+        "#FF6A00",
+        "#FFD000",
+        "#FF2E7E"
+      ],
+      "params": {
+        "band": 2,
+        "skip": 1,
+        "speed": 12
+      },
+      "accent": "colour_hit",
+      "accent_every": 1,
+      "eyes": "follow"
+    },
+    {
+      "name": "verse4",
+      "until": 190.99,
+      "look": "spiral",
+      "palette": [
+        "#00D0B0",
+        "#FFD000",
+        "#FF6A00"
+      ],
+      "eyes": "follow"
+    },
+    {
+      "name": "chorus4",
+      "until": 224.06,
+      "look": "choir_butterfly",
+      "accent": "sparkle_hit",
+      "accent_every": 2,
+      "eyes": "follow"
+    },
+    {
+      "name": "end",
+      "until": 999,
+      "look": "choir_fire",
+      "eyes": "rainbow"
+    }
+  ],
+  "notes": "Lines numbered as in Audio/VirginMary.json (1-48). Four verse+chorus rounds of twelve lines. Verse lines pass between groups (trios, then left/middle/right pairs, trios again, then outer/middle/inner pairs), everyone on the fourth line. Choruses are call and response: the caller sings the glory lines and the first oh-yes, the answering group the kingdom lines and the second; everyone on the last line. Callers/answers: A/B, outer pair/middle four, B/A, odd/even. Looks: Caribbean warm colours (orange, sunshine yellow, hibiscus pink, turquoise): chases, marquees with colour hits, plasma, butterflies, spirals, choir-wide spiral and butterfly; resting trees watch the singers."
+}
