@@ -41,7 +41,7 @@
       "eyes": "blink"
     }
   ],
-  "end_at": 9.9,
+  "end_at": 12.4,
   "end_fade": 1.2,
   "notes": "Show closer: the goodnight skit (same lines and singers as skit-goodnight, from data/skits/goodnight.json) with gentle snow over the choir, then a warm-white glow under the last word fading out. end_at 9.9 s clips everything about 1 s before the audio ends (10.93 s), so the final frames are black: FPP holds the last frame when the playlist ends."
 }

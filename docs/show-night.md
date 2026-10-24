@@ -104,9 +104,8 @@ Eyes in brackets: the eye moves from tools/fx.py.
 > **Pip:** Goodnight! Sleep tight! Don't let the reindeer bite!
 > **Everyone:** Goodniiiight! *(outlines fade out one by one)*
 
-## Still to build
+## Status (24 Oct 2026)
 
-- Piper on the PC with the six voices; a tool that turns a script (who says what) into one audio file per skit plus a timing track per speaker.
-- Arrangement support for skits: the speaker's mouth follows their own track, everyone else looks at the speaker (eyes `follow` already does this).
-- The waiting loop and the goodnight fade as sequences.
-- FPP playlists and schedule per site (M5), then HA (M7).
+Built: skits with ElevenLabs voices (tools/skit.py), skit arrangements, the waiting loop and the goodnight fade, FPP playlists and schedule per site (tools/gen_site_config.py), and one ready-to-copy bundle per player with the night's real running times (tools/fpp_bundle.py → [show-plan.md](show-plan.md)).
+
+Still to do: the first run on a real FPP player (fpp/README.md "Not verified"), then HA (M7).

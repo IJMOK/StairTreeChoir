@@ -10,6 +10,8 @@ Per-site FPP player config (DDP outputs per tree) and provisioning notes (milest
 | `<site>/playlists/*.json` | Waiting, Announce 17/18/19/20/last, Show A/B/C, Goodnight | `POST /api/playlist/<name>` |
 | `<site>/schedule.json` | The nightly schedule from `docs/show-night.md` | `POST /api/schedule`, then `POST /api/schedule/reload` |
 
+**One folder per player:** `python -m tools.fpp_bundle site-a` (or `--all`) gathers a site's config, playlists, the rendered `.fseq` files and their audio from the show folder into `Documents\xLights\FPP\<site>\` (`config/`, `playlists/`, `sequences/`, `music/`, laid out like FPP's `/home/fpp/media`). It refuses if anything a playlist names is missing or a sequence was saved after its last render. It also writes the night with real running times to `show-plan.md` there and to [docs/show-plan.md](../docs/show-plan.md). `--deploy <pi address>` uploads the bundle with the API calls in step 4 and 5 below (unverified until there is a player).
+
 Do not edit these by hand. Change `tools/gen_site_config.py` (set lists, times, season, media extensions) or `data/sites.json` and rebuild. The source reference for every field is in the generator's docstring (checked against FPP 10.3, tag 10.3, 21 Oct 2026).
 
 Why DDP "One Based" (type 5) and not "Raw" (type 4): in `src/channeloutput/DDP.cpp` the DDP offset in the packets is `startChannel-1` for Raw and always 0 for One Based. WLED's first LED is DDP offset 0, so every tree needs One Based; FPP still reads the tree's data from the sequence at its start channel.
