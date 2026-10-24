@@ -20,6 +20,11 @@ the Outlines group:
 
 Section keys: name, until (s), look, palette (name or list; "colours" also accepted),
 params, accent ("flash", "sparkle_hit", "colour_hit"), accent_every, eyes.
+
+Optional arrangement keys: "end_at" (s) clips every effect, Faces included, to end there,
+so the frames after it are black (FPP holds the last frame when a playlist ends);
+"end_fade" (s) fades the effects that end at end_at out over that time.
+An arrangement may have no lines at all (groups {}, lines {}: an animation loop).
 Faces/On settings keys are from the xLights source (data/xlights-effects.json).
 """
 
@@ -164,6 +169,8 @@ def gaze_pieces(a: int, b: int, tree: int, sing: dict) -> list[tuple[int, int, s
 
 def plan_song(arr: dict, line_times, beats_s: list[float], song_ms: int):
     """Everything to add: (Faces plan per tree, list of Fx, singing windows per tree)."""
+    if arr.get("end_at") is not None:
+        song_ms = min(song_ms, snap(arr["end_at"] * 1000))
     beats_ms = [snap(b * 1000) for b in beats_s]
     sing = {t: singing_windows(arr, line_times, t) for t in TREES}
     anyone = [w for t in TREES for w in sing[t]]
@@ -215,7 +222,34 @@ def plan_song(arr: dict, line_times, beats_s: list[float], song_ms: int):
                 effects += fx.eyes(mode, t, a, b, in_beats, fx.colours_for(spec, t))
                 eyes_off[t].append((a, b))
     faces = {t: faces_plan(arr, line_times, t, song_ms, eyes_off[t]) for t in TREES}
+    if arr.get("end_at") is not None:
+        faces, effects = clip_to_end(faces, effects, song_ms, arr.get("end_fade", 0))
     return faces, effects, sing
+
+
+def clip_to_end(faces: dict, effects: list, end_ms: int, fade_s: float = 0):
+    """Cut everything at end_ms; effects that now end there fade out over fade_s."""
+    def fade(a: int, b: int) -> float:
+        return round(min(fade_s, (b - a) / 1000), 2) if fade_s and b == end_ms else 0
+    out_faces = {}
+    for t, plan in faces.items():
+        out_faces[t] = []
+        for a, b, s in plan:
+            if a >= end_ms:
+                continue
+            b = min(b, end_ms)
+            f = fade(a, b)
+            out_faces[t].append((a, b, s + (f",T_TEXTCTRL_Fadeout={f}" if f else "")))
+    out = []
+    for e in effects:
+        if e.start >= end_ms:
+            continue
+        e.end = min(e.end, end_ms)
+        f = fade(e.start, e.end)
+        if f:
+            e.settings = {**e.settings, "fadeout": f}
+        out.append(e)
+    return out_faces, out
 
 
 def call(cmd: dict) -> dict:
@@ -265,7 +299,7 @@ def main(argv: list[str] | None = None) -> None:
             raise SystemExit(f"Open '{arr['sequence']}' in xLights first (open: {seq})")
         song_ms = int(seq["len"])
     else:
-        song_ms = snap(max(beats[-1], line_times[-1][1]) * 1000 + 5000)
+        song_ms = snap(max([*beats[-1:], *(e for _, e in line_times[-1:])], default=0) * 1000 + 5000)
 
     faces, effects, sing = plan_song(arr, line_times, beats, song_ms)
     count: dict[str, int] = {}

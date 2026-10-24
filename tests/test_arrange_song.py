@@ -82,7 +82,7 @@ def test_gaze_points_at_the_singers():
     assert ars.gaze_pieces(0, 1000, 6, sing) == []
 
 
-@pytest.mark.parametrize("song", ["rockin-around", "dominick", "feliz-navidad", "drummer-boy"])
+@pytest.mark.parametrize("song", ["rockin-around", "dominick", "feliz-navidad", "drummer-boy", "waiting"])
 def test_real_arrangement_is_consistent(song):
     arr = json.loads((ROOT / f"data/songs/{song}.json").read_text(encoding="utf-8"))
     assert sorted(int(k) for k in arr["lines"]) == list(range(1, len(arr["lines"]) + 1))
@@ -110,3 +110,28 @@ def test_real_arrangement_is_consistent(song):
         for e in out:
             e.settings_string()
             assert e.start < e.end
+
+
+def test_no_lines_is_an_animation_loop():
+    arr = {"lyrics_track": "Loop", "groups": {}, "lines": {},
+           "sections": [{"until": 3.0, "look": "choir_butterfly"},
+                        {"until": 999, "look": "twinkle", "palette": "rainbow", "eyes": "roll"}]}
+    faces, effects, sing = ars.plan_song(arr, [], [0.5 * k for k in range(12)], 6000)
+    assert all(w == [] for w in sing.values())
+    for t in range(1, 7):
+        assert all("Phoneme=rest" in s for _, _, s in faces[t])
+        assert faces[t][0][0] == 0 and faces[t][-1][1] == 6000
+    assert any(e.target == "Outlines" for e in effects) and any(e.target == "StairTree1/Eyes" for e in effects)
+
+
+def test_end_at_leaves_the_last_frames_black():
+    arr = {**ARR, "end_at": 4.2, "end_fade": 0.5,
+           "sections": [{"until": 999, "look": "chase", "palette": "rainbow", "eyes": "roll"}]}
+    faces, effects, _ = ars.plan_song(arr, LINES, [1.0, 2.0, 3.0, 4.0, 5.0], 6000)
+    assert max(b for t in faces for _, b, _ in faces[t]) == 4200
+    assert max(e.end for e in effects) == 4200 and all(e.start < e.end for e in effects)
+    assert all("T_TEXTCTRL_Fadeout=" in s for t in faces for _, b, s in faces[t] if b == 4200)
+    ending = [e for e in effects if e.end == 4200]
+    assert ending and all(e.settings.get("fadeout") for e in ending)
+    for e in ending:
+        assert "T_TEXTCTRL_Fadeout=" in e.settings_string()

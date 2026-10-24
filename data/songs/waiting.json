@@ -1,0 +1,65 @@
+{
+  "sequence": "Waiting",
+  "audio": null,
+  "lyrics_timing": "Audio/Loops/Waiting.json",
+  "lyrics_track": "Waiting",
+  "beats": "Audio/Loops/waiting.beats.json",
+  "groups": {},
+  "lines": {},
+  "sections": [
+    {
+      "name": "butterfly",
+      "until": 50.0,
+      "look": "choir_butterfly",
+      "params": {
+        "speed": 5
+      },
+      "eyes": "blink"
+    },
+    {
+      "name": "wash",
+      "until": 100.0,
+      "look": "rainbow_wash",
+      "palette": "rainbow",
+      "eyes": "roll"
+    },
+    {
+      "name": "twinkle",
+      "until": 150.0,
+      "look": "twinkle",
+      "palette": "xmas",
+      "params": {
+        "count": 90,
+        "steps": 60
+      },
+      "eyes": "sparkle"
+    },
+    {
+      "name": "sweep",
+      "until": 200.0,
+      "look": "choir_rainbow",
+      "eyes": "rainbow"
+    },
+    {
+      "name": "candy",
+      "until": 250.0,
+      "look": "candy",
+      "params": {
+        "speed": 3
+      },
+      "eyes": "blink"
+    },
+    {
+      "name": "spiral",
+      "until": 999,
+      "look": "spiral",
+      "palette": "ice",
+      "params": {
+        "rotation": 2.0,
+        "movement": 1.0
+      },
+      "eyes": "roll"
+    }
+  ],
+  "notes": "Between-shows loop, 300 s, no audio and no lyric lines (Audio/Loops/Waiting.json has no segments; beats are a steady 0.6 s grid in Audio/Loops/waiting.beats.json). Six gentle looks of 50 s each: slow choir butterfly, rainbow wash, red/green/gold twinkle, rainbow sweep across the choir, slow candy cane, icy spirals; eyes blink, roll, sparkle and spin rainbow in turn. Mouths rest on the lip throughout."
+}
