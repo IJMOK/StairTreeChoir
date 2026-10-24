@@ -8,7 +8,7 @@ UK sunset in December is about 15:50.
 
 | Time | What plays | Sound |
 |---|---|---|
-| 16:00 | **Waiting** loop: slow rainbow across the choir, trees blinking, glancing about, one dozing off now and then | none, or quiet instrumental |
+| 16:00 | **Waiting** loop: twelve gentle looks, a new one every 25 s (butterflies, washes, spirals, candy cane, fire); trees blink, roll their eyes, and glance: one looks up as if it heard something, the others turn to look, and now and then the whole choir looks down at you | none, or quiet instrumental |
 | every :15, :30, :45, 16:15 to 19:45 | **Announcement** (~13 s): "Next show at five o'clock!" (the 19:xx ones announce the last show, at eight) | the trees, lip-synced |
 | 17:00, 18:00, 19:00, 20:00 (last) | **Show** (~15 min), then back to the waiting loop | full |
 | after the 20:00 show | **Goodnight** skit, then lights off | |

@@ -82,6 +82,17 @@ def test_gaze_points_at_the_singers():
     assert ars.gaze_pieces(0, 1000, 6, sing) == []
 
 
+def test_glances_look_at_one_tree_then_the_pavement():
+    # first glance: tree 3 looks up, the others turn towards it; the third: everyone looks down
+    first = {t: ars.glance_pieces(0, 25000, t)[0] for t in range(1, 7)}
+    assert {t: d for t, (_, _, d) in first.items()} == {1: "right", 2: "right", 3: "up", 4: "left", 5: "left", 6: "left"}
+    assert all(ars.glance_pieces(0, 25000, t)[2][2] == "down" for t in range(1, 7))
+    # pieces stay inside the window and don't overlap; the turn carries on from k0
+    g = ars.glance_pieces(0, 25000, 6)
+    assert g[-1][1] <= 25000 and all(x[1] <= y[0] for x, y in zip(g, g[1:]))
+    assert ars.glance_pieces(0, 25000, 6, 1)[0] == (2000, 4500, "up")
+
+
 @pytest.mark.parametrize("song", ["rockin-around", "dominick", "feliz-navidad", "drummer-boy", "waiting", "goodnight", "we-wish-you", "o-come-all-ye-faithful", "virgin-mary", "twelve-days"])
 def test_real_arrangement_is_consistent(song):
     arr = json.loads((ROOT / f"data/songs/{song}.json").read_text(encoding="utf-8"))
@@ -104,7 +115,7 @@ def test_real_arrangement_is_consistent(song):
                                    sec.get("params", {}))
         if sec.get("accent"):
             out += fx.accents(sec["accent"], "Outlines", 10000, 14000, beats, fx.colours_for(spec))
-        if sec.get("eyes", "blink") not in ("blink", "follow"):
+        if sec.get("eyes", "blink") not in ("blink", "follow", "glance"):
             out += fx.eyes(sec["eyes"], 1, 10000, 14000, beats, fx.colours_for(spec))
         assert out
         for e in out:

@@ -16,7 +16,9 @@ the Outlines group:
   bright on the trees singing and dimmed on the rest, or a whole-choir look on the
   Outlines group; optional beat accents on the layer above.
 - Eye moves per section on StairTreeN/Eyes: "follow" (trees not singing look at the
-  ones that are), "roll", "rainbow", "sparkle"; "blink" (default) leaves them to Faces.
+  ones that are), "glance" (no singing needed: every 7 s one tree looks up and the rest
+  look at it, every third time all look down at the pavement), "roll", "rainbow",
+  "sparkle"; "blink" (default) leaves them to Faces.
 
 Section keys: name, until (s), look, palette (name or list; "colours" also accepted),
 params, accent ("flash", "sparkle_hit", "colour_hit"), accent_every, eyes.
@@ -192,6 +194,25 @@ def gaze_pieces(a: int, b: int, tree: int, sing: dict) -> list[tuple[int, int, s
     return out
 
 
+GLANCE_EVERY_MS, GLANCE_MS = 7000, 2500
+GLANCE_FOCUS = [3, 6, 1, 4, 2, 5]       # who "heard something", in turn
+
+
+def glance_pieces(a: int, b: int, tree: int, k0: int = 0) -> list[tuple[int, int, str]]:
+    """Without singing: every 7 s one tree looks up and the others turn to look at it;
+    every third glance the whole choir looks down at the people on the pavement."""
+    out = []
+    for k, x in enumerate(range(a + 2000, b - GLANCE_MS, GLANCE_EVERY_MS)):
+        n = k0 + k
+        if n % 3 == 2:
+            d = "down"
+        else:
+            f = GLANCE_FOCUS[(n - n // 3) % len(GLANCE_FOCUS)]
+            d = "up" if f == tree else "right" if f > tree else "left"
+        out.append((x, x + GLANCE_MS, d))
+    return out
+
+
 def carve(effects: list[fx.Fx], targets: set[str], spans) -> list[fx.Fx]:
     """Cut the spans out of every effect on these targets (all layers)."""
     out = []
@@ -228,7 +249,7 @@ def plan_song(arr: dict, line_times, beats_s: list[float], song_ms: int):
     sing_edges = [e for w in anyone for e in w]
     effects: list[fx.Fx] = []
     eyes_off = {t: [] for t in TREES}
-    k0 = 0
+    k0 = glances = 0
     for a, b, sec in sections(arr, song_ms):
         look = sec.get("look") or sec.get("outline", "pulse")
         spec = sec.get("palette", sec.get("colours", "xmas"))
@@ -265,13 +286,15 @@ def plan_song(arr: dict, line_times, beats_s: list[float], song_ms: int):
         if mode == "blink":
             continue
         for t in TREES:
-            if mode == "follow":
-                gz = gaze_pieces(a, b, t, sing)
+            if mode in ("follow", "glance"):
+                gz = gaze_pieces(a, b, t, sing) if mode == "follow" else glance_pieces(a, b, t, glances)
                 effects += fx.eyes("follow", t, a, b, in_beats, [], gz)
                 eyes_off[t] += [(g0, g1) for g0, g1, _ in gz if g1 - g0 >= 100]
             else:
                 effects += fx.eyes(mode, t, a, b, in_beats, fx.colours_for(spec, t))
                 eyes_off[t].append((a, b))
+        if mode == "glance":       # the turn of who looks up carries on into the next glance section
+            glances += len(glance_pieces(a, b, 1))
     asleep = asleep_spans(arr, song_ms)
     for t in TREES:
         if asleep[t]:

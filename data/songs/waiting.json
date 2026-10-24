@@ -9,7 +9,7 @@
   "sections": [
     {
       "name": "butterfly",
-      "until": 50.0,
+      "until": 25.0,
       "look": "choir_butterfly",
       "params": {
         "speed": 5
@@ -18,31 +18,58 @@
     },
     {
       "name": "wash",
-      "until": 100.0,
+      "until": 50.0,
       "look": "rainbow_wash",
       "palette": "rainbow",
+      "eyes": "glance"
+    },
+    {
+      "name": "marquee",
+      "until": 75.0,
+      "look": "marquee",
+      "palette": "xmas",
+      "params": {
+        "speed": 3
+      },
       "eyes": "roll"
     },
     {
-      "name": "twinkle",
-      "until": 150.0,
-      "look": "twinkle",
+      "name": "hold",
+      "until": 100.0,
+      "look": "hold",
+      "palette": "rainbow",
+      "eyes": "glance"
+    },
+    {
+      "name": "spiral",
+      "until": 125.0,
+      "look": "spiral",
       "palette": "xmas",
       "params": {
-        "count": 90,
-        "steps": 60
+        "rotation": 1.5,
+        "movement": 1.0
       },
-      "eyes": "sparkle"
+      "eyes": "blink"
     },
     {
       "name": "sweep",
-      "until": 200.0,
+      "until": 150.0,
       "look": "choir_rainbow",
       "eyes": "rainbow"
     },
     {
+      "name": "plasma",
+      "until": 175.0,
+      "look": "plasma",
+      "palette": "xmas",
+      "params": {
+        "speed": 8
+      },
+      "eyes": "glance"
+    },
+    {
       "name": "candy",
-      "until": 250.0,
+      "until": 200.0,
       "look": "candy",
       "params": {
         "speed": 3
@@ -50,16 +77,43 @@
       "eyes": "blink"
     },
     {
-      "name": "spiral",
-      "until": 999,
+      "name": "chase",
+      "until": 225.0,
+      "look": "chase",
+      "params": {
+        "per_bar": 0.5
+      },
+      "eyes": "roll"
+    },
+    {
+      "name": "fireside",
+      "until": 250.0,
+      "look": "fire",
+      "params": {
+        "height": 70
+      },
+      "eyes": "glance"
+    },
+    {
+      "name": "ice",
+      "until": 275.0,
       "look": "spiral",
       "palette": "ice",
       "params": {
         "rotation": 2.0,
         "movement": 1.0
       },
-      "eyes": "roll"
+      "eyes": "blink"
+    },
+    {
+      "name": "glow",
+      "until": 999,
+      "look": "butterfly",
+      "params": {
+        "speed": 8
+      },
+      "eyes": "sparkle"
     }
   ],
-  "notes": "Between-shows loop, 300 s, no audio and no lyric lines (Audio/Loops/Waiting.json has no segments; beats are a steady 0.6 s grid in Audio/Loops/waiting.beats.json). Six gentle looks of 50 s each: slow choir butterfly, rainbow wash, red/green/gold twinkle, rainbow sweep across the choir, slow candy cane, icy spirals; eyes blink, roll, sparkle and spin rainbow in turn. Mouths rest on the lip throughout."
+  "notes": "Between-shows loop, 300 s, no audio and no lyric lines (Audio/Loops/Waiting.json has no segments; beats are a steady 0.6 s grid). Twelve gentle looks of 25 s each so a passer-by sees a change every half minute, nothing fast or flashing: choir butterfly, rainbow wash, slow marquee, each tree a solid rainbow colour, red/green/gold spirals, rainbow sweep, plasma, candy cane, rainbow chase, fire on each tree, icy spirals, per-tree butterflies. Eyes blink, roll, spin rainbow, sparkle, and four times \"glance\": one tree looks up as if it heard something and the others turn to look, and every third time the whole choir looks down at the pavement. Mouths rest on the lip. Checked dark looks out (contact sheet, 24 Oct): galaxy, curtain and the choir-wide fire leave whole trees dark on the outlines."
 }

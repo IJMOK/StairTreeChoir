@@ -9,7 +9,7 @@
   "sections": [
     {
       "name": "butterfly",
-      "until": 50.0,
+      "until": 25.0,
       "look": "choir_butterfly",
       "params": {
         "speed": 5
@@ -18,31 +18,58 @@
     },
     {
       "name": "wash",
-      "until": 100.0,
+      "until": 50.0,
       "look": "rainbow_wash",
       "palette": "rainbow",
+      "eyes": "glance"
+    },
+    {
+      "name": "marquee",
+      "until": 75.0,
+      "look": "marquee",
+      "palette": "xmas",
+      "params": {
+        "speed": 3
+      },
       "eyes": "roll"
     },
     {
-      "name": "twinkle",
-      "until": 150.0,
-      "look": "twinkle",
+      "name": "hold",
+      "until": 100.0,
+      "look": "hold",
+      "palette": "rainbow",
+      "eyes": "glance"
+    },
+    {
+      "name": "spiral",
+      "until": 125.0,
+      "look": "spiral",
       "palette": "xmas",
       "params": {
-        "count": 90,
-        "steps": 60
+        "rotation": 1.5,
+        "movement": 1.0
       },
-      "eyes": "sparkle"
+      "eyes": "blink"
     },
     {
       "name": "sweep",
-      "until": 200.0,
+      "until": 150.0,
       "look": "choir_rainbow",
       "eyes": "rainbow"
     },
     {
+      "name": "plasma",
+      "until": 175.0,
+      "look": "plasma",
+      "palette": "xmas",
+      "params": {
+        "speed": 8
+      },
+      "eyes": "glance"
+    },
+    {
       "name": "candy",
-      "until": 250.0,
+      "until": 200.0,
       "look": "candy",
       "params": {
         "speed": 3
@@ -50,15 +77,42 @@
       "eyes": "blink"
     },
     {
-      "name": "spiral",
-      "until": 999,
+      "name": "chase",
+      "until": 225.0,
+      "look": "chase",
+      "params": {
+        "per_bar": 0.5
+      },
+      "eyes": "roll"
+    },
+    {
+      "name": "fireside",
+      "until": 250.0,
+      "look": "fire",
+      "params": {
+        "height": 70
+      },
+      "eyes": "glance"
+    },
+    {
+      "name": "ice",
+      "until": 275.0,
       "look": "spiral",
       "palette": "ice",
       "params": {
         "rotation": 2.0,
         "movement": 1.0
       },
-      "eyes": "roll"
+      "eyes": "blink"
+    },
+    {
+      "name": "glow",
+      "until": 999,
+      "look": "butterfly",
+      "params": {
+        "speed": 8
+      },
+      "eyes": "sparkle"
     }
   ],
   "notes": "New Year's Eve between Bramble nodding off (23:15 show) and the countdown: the Waiting loop with Bramble (tree 5) asleep throughout. Copy of waiting.json plus asleep; keep the two in step.",
