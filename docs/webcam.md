@@ -127,7 +127,7 @@ The ID3 tags on the show MP3s (`Documents\xLights\Audio\Songs`) sort them like t
 
 ## Checks before buying
 
-1. **Copyright test.** Enable live streaming on the YouTube channel; this takes 24 h. Run a 20-minute unlisted test from the PC with one high-risk song, one carol and Auld Lang Syne, and note what gets flagged.
+1. **Copyright test.** Rob requested live streaming on 24 Oct 2026; it can take up to 24 h to switch on. `tools/stream_test.py` runs the test from the PC; the steps are below. Note what gets flagged.
 2. **The farmer.** Get permission, ideally in writing, and ask when they flail the hedge (cutting season is Sept–Feb). Check whether the hedge or verge is highway land.
 3. **Privacy.** A camera that publishes the road falls outside the domestic CCTV exemption, so:
    - frame the house and trees
@@ -136,6 +136,15 @@ The ID3 tags on the show MP3s (`Documents\xLights\Audio\Songs`) sort them like t
    - stream only at show times
 4. **WiFi at the hedge.** Stand at the hedge with a phone and check the signal from the router that will serve the camera. Until the Cudy is in place, use the Zyxel's 2.4 GHz.
 5. **4G upload** at show times on a few evenings: at least 4 Mbps for 720p, or 6 Mbps for 1080p.
+
+### Running the copyright test
+
+`python -m tools.stream_test build` renders `previews/stream-test.mp4`: the trees singing Rockin' (high risk), O Come All Ye Faithful (medium) and Auld Lang Syne (low), back to back, about 9 minutes at 720p. Add song names (`data/songs/<name>.json`) to test others, or `--seconds 20` for a quick one.
+
+1. **Set up the broadcast.** In YouTube Studio go to **Create → Go live → Stream**. Set visibility to **Unlisted**, made for kids **No**, and leave DVR on.
+2. **Store the stream key.** Copy the key into a user environment variable called `YT_STREAM_KEY`. Set it the same way as `FPP_PASSWORD`, and never put it in git.
+3. **Push the video.** Run `.venv\Scripts\python.exe -m tools.stream_test stream`. It sends the file in real time, so it takes as long as the video.
+4. **Watch and record what happens.** Watch the Studio preview and the stream's **Copyright** notices during and after the run. For each song, note whether it played, was muted, was replaced, or the stream was stopped. Write the results here, and the auto-mute list comes from that.
 
 ## Phases
 
