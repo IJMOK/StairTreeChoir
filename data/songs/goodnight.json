@@ -1,0 +1,47 @@
+{
+  "sequence": "Goodnight",
+  "audio": "Audio/Skits/goodnight.wav",
+  "lyrics_timing": "Audio/Skits/Skit_goodnight.json",
+  "lyrics_track": "Skit_goodnight",
+  "beats": "Audio/Skits/goodnight.beats.json",
+  "groups": {
+    "Bramble": [
+      5
+    ],
+    "Holly": [
+      1
+    ],
+    "Pip": [
+      6
+    ],
+    "Noel": [
+      3
+    ]
+  },
+  "lines": {
+    "1": "Holly",
+    "2": "Bramble",
+    "3": "Pip",
+    "4": "Noel"
+  },
+  "sections": [
+    {
+      "name": "goodnight",
+      "until": 8.5,
+      "look": "choir_snow",
+      "eyes": "follow"
+    },
+    {
+      "name": "last-word",
+      "until": 999,
+      "look": "hold",
+      "palette": [
+        "#FFC880"
+      ],
+      "eyes": "blink"
+    }
+  ],
+  "end_at": 9.9,
+  "end_fade": 1.2,
+  "notes": "Show closer: the goodnight skit (same lines and singers as skit-goodnight, from data/skits/goodnight.json) with gentle snow over the choir, then a warm-white glow under the last word fading out. end_at 9.9 s clips everything about 1 s before the audio ends (10.93 s), so the final frames are black: FPP holds the last frame when the playlist ends."
+}
