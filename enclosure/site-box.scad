@@ -7,7 +7,7 @@
 //
 // Inside, on the back wall: the Pi (standoffs on the Raspberry Pi 58 x 49mm M2.5
 // pattern, Pi 3 and Pi 5 alike), and a grid of zip-tie anchors for everything whose
-// size isn't confirmed yet: GL.iNet router, 12V->5V buck, PAM8610, USB sound card,
+// size isn't confirmed yet: site router (Cudy WR3000), 12V->5V buck, PAM8610, USB sound card,
 // and per PSU a pair of Wago 221-413s and its inline blade fuse holders.
 //
 // Wiring (electronics/site-wiring.md): the Mean Well PSUs stand OUTSIDE, one per pair

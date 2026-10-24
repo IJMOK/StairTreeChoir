@@ -141,11 +141,14 @@ Each site's PSUs, fuses and runs are in [electronics/site-wiring.md](../electron
 
 ## 10. Network
 
-1. One travel router per site (GL.iNet Mango, about £27), set up identically: same SSID, password and subnet at every site. **No Wi-Fi password goes in git.** **TBC (Rob):** dedicated router or the Pi as hotspot. The router is the working assumption and the hotspot is the fallback.
-2. Subnet: the GL.iNet default, 192.168.8.x. **TBC (Rob):** confirm on the real router.
-3. Fixed addresses: tree NN is `stairtree-NN` at `192.168.8.(100+NN)`, the same at every site. Tree 7 is `stairtree-07` at 192.168.8.107. Reserve each IP in the router as well as setting it in WLED.
-4. The router can sit in the site box or beside it. Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
-5. Connect the Pi to the router by Ethernet.
+1. One router per site: a Cudy WR3000 (about £30–40) flashed with vanilla OpenWrt. Set every site up identically, with the same SSID, password and subnet. **No Wi-Fi password goes in git.**
+2. The show runs on 2.4 GHz only, because the ESP32s are 2.4 GHz. Give it a fixed channel (1, 6 or 11, 20 MHz wide), picking whichever is quietest at the site. The 5 GHz radio isn't used for the show.
+3. Subnet: 192.168.8.x, with the router at 192.168.8.1. OpenWrt starts at 192.168.1.1, so change the LAN address at first set-up.
+4. Fixed addresses: tree NN is `stairtree-NN` at `192.168.8.(100+NN)`, the same at every site. Tree 7 is `stairtree-07` at 192.168.8.107. Reserve each IP in the router as well as setting it in WLED.
+5. Each router keeps two configs. "Show" is the setup above. "Home" makes it an 802.11s mesh node of Rob's home OpenWrt network for the rest of the year (5 GHz backhaul, home SSID on 2.4 GHz). Save both as `sysupgrade -b` backups outside git, because they hold the Wi-Fi passwords. Restore "show" before each season.
+6. **TBC (Rob):** whether the router goes in the site box or beside it under cover. The WR3000 is an indoor router and bigger than a travel router: check it fits the 64mm depth with the antennas folded, since PETG doesn't block Wi-Fi. Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
+7. **TBC (Rob):** how to power the router. The WR3000 is believed to take 12V 1A; check the label on the real one. On PSU 1 with its own 1A fuse, that PSU's load goes from 6.1A to about 7.1A of 8.5A. If so, add it to `PLAYER_A` in `tools/gen_site_wiring.py` and regenerate. Otherwise use its own mains adapter, plugged in outside the box.
+8. Connect the Pi to the router by Ethernet.
 
 ## 11. Provisioning
 

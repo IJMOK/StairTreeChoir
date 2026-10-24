@@ -27,12 +27,12 @@ Site (e.g. lawn, 6 trees)                             ▼
 
 Show player: Falcon Player (FPP 10.x, 64-bit Pi image) on one Raspberry Pi per site. It plays the .fseq and audio and sends each tree's channels as DDP to that tree's IP. Rob's Pi 3 and Pi 5 are two of the four; any Pi works because no GPIO pixel output is used. Rob's PC can stand in during development (xLights output or xSchedule).
 Tree controller: an ESP32 on each tree running WLED, receiving DDP (realtime mode) and driving the tree's 92 pixels through a 74AHCT125 level shifter. The data lead from ESP32 to first pixel is short (≈30cm), so no long outdoor data runs.
-Network: each site has a dedicated travel router (e.g. GL.iNet Mango), configured identically everywhere, so trees never join a host's home Wi-Fi. Fallback: the Pi as its own hotspot. Traffic is tiny; the router is for reliability, a quiet channel and fixed addressing, not bandwidth.
+Network: each site has a dedicated router, a Cudy WR3000 on vanilla OpenWrt. They are configured identically everywhere, so trees never join a host's home Wi-Fi. Out of season the routers serve as mesh nodes on Rob's home OpenWrt network. Fallback: the Pi as its own hotspot. Traffic is tiny; the router is for reliability, a quiet channel and fixed addressing, not bandwidth.
 Fallback if Wi-Fi streaming jitters in testing: ESPixelStick firmware in FPP Remote mode (sequence stored on the ESP's SD card, sync packets only). Needs SD-equipped ESP32s, so decide before buying boards.
 Audio: USB sound card → PAM8610 amp → speaker, at the player.
 
 Addressing
-Tree IDs 1–14 are physical: hostname stairtree-NN, fixed IP 192.168.8.(100+NN) (GL.iNet default subnet; confirm on the router). Same on every site router.
+Tree IDs 1–14 are physical: hostname stairtree-NN, fixed IP 192.168.8.(100+NN) (set as the site router's LAN, with the router at 192.168.8.1). Same on every site router.
 Sequence slots 1–6 are the 6 trees in the xLights sequence. Each site's config maps slots to tree IDs (data/sites.json, M5); a 2-tree site uses slots 1–2, a 4-tree site slots 1–4.
 
 Channel map (6-tree sequence)
@@ -82,7 +82,7 @@ Pixel power    12V to each tree on its own run from the site box, fused 5A at th
 Mains PSU    Mean Well LPV-100-12 (genuine, UK distributor, IP67, 12V 8.5A), one per pair of trees, all beside the site box; PSU 1 also runs the player (decided 23 Oct 2026). 7 + 1 spare. electronics/site-wiring.md (generated from data/sites.json) has every run, fuse and load. Mains never enters a printed enclosure; RCD-protected outdoor socket. 0.75mm² flex up to ~7m, 1.5mm² beyond.
 12V leads    3-core 0.75mm² outdoor flex (outer diameter < 8mm) through PG7/PG9 glands; xConnect pigtails for the pixel string.
 Show player    One Raspberry Pi per site running FPP (4 sites): Rob's Pi 3 and Pi 5, plus 2 to buy (Pi 3 A+ is fine). Outdoors in a site box (decided 23 Oct 2026) with the amp, a 5V buck, the tree fuse block and optionally the router.
-Site network    One dedicated travel router per site (GL.iNet Mango, ~£27) unless the Pi hotspot proves good enough. Same SSID, password and subnet everywhere.
+Site network    One Cudy WR3000 per site on vanilla OpenWrt (~£30–40, decided 24 Oct 2026 over the GL.iNet Mango). It is dual-band with external antennas and doubles as a home mesh node off-season. Same SSID, password and subnet everywhere; the show uses 2.4 GHz.
 Audio    USB sound card → PAM8610 2×15W (12V) → speaker, one set per site.
 
 Pixel power: about 0.3W per pixel at full white → about 28W (2.3A) per tree. Voltage drop over 5m of 0.75mm² at 2.3A is about 0.6V, fine at 12V.
@@ -167,7 +167,7 @@ You can't test the hardware. Say plainly what Rob needs to verify on the bench, 
 Tape-check the photo measurements: narrow end ~92mm, wide end ~382mm, length ~894mm.
 Tree controller board: DIY ESP32-32U on stripboard, or a ready-made WLED board? (Decide after M0.)
 WLED streaming (DDP) or ESPixelStick FPP Remote? (Decide after M0.)
-Dedicated router or Pi hotspot?
+Site router: inside the site box or beside it, and 12V from PSU 1 or its own adapter? (Cudy WR3000, decided 24 Oct 2026.)
 Boots: test-fit the first printed pair and pegs (peg fit, tread thickness in the slot, pilot hole diameter and screw size, xConnect plug through the 16mm shelf hole, 50mm clearance enough?).
 Pixel back counterbore size, once the pixels arrive.
 The lead length between pixels on the Ray Wu strings, once they arrive. It decides the back-channel width and depth.
