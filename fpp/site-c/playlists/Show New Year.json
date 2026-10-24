@@ -1,0 +1,116 @@
+{
+  "name": "Show New Year",
+  "version": 4,
+  "repeat": 0,
+  "loopCount": 0,
+  "desc": "New Year's Day show: New Year songs, no Christmas.",
+  "random": 0,
+  "globalPauseBetweenSequencesMS": 0,
+  "empty": false,
+  "leadIn": [],
+  "mainPlaylist": [
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit newyear-intro.fseq",
+      "mediaName": "newyear-intro.wav",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Happy New Year.fseq",
+      "mediaName": "Happy New Year.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Here Comes the Sun.fseq",
+      "mediaName": "Here Comes the Sun.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Walking on Sunshine.fseq",
+      "mediaName": "Walking on Sunshine.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "What a Wonderful World.fseq",
+      "mediaName": "What a Wonderful World.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Auld Lang Syne.fseq",
+      "mediaName": "Auld Lang Syne.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit thank-you-newyear.fseq",
+      "mediaName": "thank-you-newyear.wav",
+      "videoOut": "--Default--"
+    }
+  ],
+  "leadOut": [],
+  "playlistInfo": {
+    "total_duration": 0,
+    "total_items": 13,
+    "leadIn_duration": 0,
+    "leadIn_items": 0,
+    "mainPlaylist_duration": 0,
+    "mainPlaylist_items": 13,
+    "leadOut_duration": 0,
+    "leadOut_items": 0
+  }
+}

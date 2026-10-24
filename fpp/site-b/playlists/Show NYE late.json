@@ -1,0 +1,74 @@
+{
+  "name": "Show NYE late",
+  "version": 4,
+  "repeat": 0,
+  "loopCount": 0,
+  "desc": "23:15: Bramble is staying up. He isn't.",
+  "random": 0,
+  "globalPauseBetweenSequencesMS": 0,
+  "empty": false,
+  "leadIn": [],
+  "mainPlaylist": [
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit bramble-staying-up.fseq",
+      "mediaName": "bramble-staying-up.wav",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Rockin Around the Christmas Tree.fseq",
+      "mediaName": "Rockin Around the Christmas Tree.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Dominick the Donkey.fseq",
+      "mediaName": "Dominick the Donkey.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit bramble-nods-off-nye.fseq",
+      "mediaName": "bramble-nods-off-nye.wav",
+      "videoOut": "--Default--"
+    }
+  ],
+  "leadOut": [],
+  "playlistInfo": {
+    "total_duration": 0,
+    "total_items": 7,
+    "leadIn_duration": 0,
+    "leadIn_items": 0,
+    "mainPlaylist_duration": 0,
+    "mainPlaylist_items": 7,
+    "leadOut_duration": 0,
+    "leadOut_items": 0
+  }
+}

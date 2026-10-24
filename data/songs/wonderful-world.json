@@ -1,0 +1,99 @@
+{
+  "sequence": "What a Wonderful World",
+  "audio": "Audio/Songs/What a Wonderful World.mp3",
+  "lyrics_timing": "Audio/Songs/What a Wonderful World.timing.json",
+  "lyrics_track": "WonderfulWorld",
+  "beats": "Audio/Songs/What a Wonderful World.beats.json",
+  "groups": {
+    "all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "even": [
+      2,
+      4,
+      6
+    ],
+    "middle": [
+      2,
+      5
+    ],
+    "odd": [
+      1,
+      3,
+      5
+    ],
+    "t5": [
+      5
+    ]
+  },
+  "lines": {
+    "1": "t5",
+    "2": "t5",
+    "3": "t5",
+    "4": "all",
+    "5": "t5",
+    "6": "t5",
+    "7": "t5",
+    "8": "all",
+    "9": "middle",
+    "10": "middle",
+    "11": "odd",
+    "12": "even",
+    "13": "even",
+    "14": "t5",
+    "15": "t5",
+    "16": "all",
+    "17": "t5",
+    "18": "all"
+  },
+  "sections": [
+    {
+      "name": "intro",
+      "until": 6.5,
+      "look": "choir_galaxy",
+      "palette": "ice",
+      "eyes": "blink"
+    },
+    {
+      "name": "verse1",
+      "until": 31.0,
+      "look": "rainbow_wash",
+      "palette": "ice",
+      "eyes": "follow"
+    },
+    {
+      "name": "verse2",
+      "until": 58.0,
+      "look": "plasma",
+      "palette": "ice",
+      "eyes": "follow"
+    },
+    {
+      "name": "bridge",
+      "until": 93.8,
+      "look": "rainbow_wash",
+      "palette": "rainbow",
+      "eyes": "follow"
+    },
+    {
+      "name": "verse3",
+      "until": 118.0,
+      "look": "plasma",
+      "palette": "candy",
+      "eyes": "follow"
+    },
+    {
+      "name": "outro",
+      "until": 999,
+      "look": "choir_galaxy",
+      "palette": "rainbow",
+      "eyes": "blink"
+    }
+  ],
+  "notes": "New Year (24 Oct 2026). Bramble's song: he stays awake for this one. Bramble sings the verses, everyone looks at him and joins on the title lines; the bridge goes round Ivy and Bramble, the odd and the even trees. Gentle looks."
+}

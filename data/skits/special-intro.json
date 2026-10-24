@@ -1,0 +1,31 @@
+{
+  "name": "special-intro",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[excited] Welcome, everyone, to the Saturday Special!"
+    },
+    {
+      "who": "Ivy",
+      "say": "Every song we know, one after another."
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] EVERY song?!"
+    },
+    {
+      "who": "Ivy",
+      "say": "[dryly] Especially that one."
+    },
+    {
+      "who": "Bramble",
+      "say": "[nervously] How many is every?"
+    },
+    {
+      "who": "Holly",
+      "say": "One, two, three, four!"
+    }
+  ],
+  "look": "plasma",
+  "palette": "candy"
+}

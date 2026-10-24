@@ -1,0 +1,28 @@
+{
+  "name": "goodnight-newyear",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "That was our first show of the year, everyone!"
+    },
+    {
+      "who": "Noel",
+      "say": "[proudly] And our last show of last year! Wait..."
+    },
+    {
+      "who": "Pip",
+      "say": "See you tomorrow afternoon! Go to bed!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[yawns] Finally. Goodnight."
+    },
+    {
+      "who": "Everyone",
+      "say": "Happy New Year! Goodnight!"
+    }
+  ],
+  "look": "rainbow_wash",
+  "palette": "rainbow",
+  "fade_out": 1.5
+}

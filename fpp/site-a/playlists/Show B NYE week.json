@@ -1,0 +1,130 @@
+{
+  "name": "Show B NYE week",
+  "version": 4,
+  "repeat": 0,
+  "loopCount": 0,
+  "desc": "Set B, about 15 minutes; closes with thank-you-nye-week.",
+  "random": 0,
+  "globalPauseBetweenSequencesMS": 0,
+  "empty": false,
+  "leadIn": [],
+  "mainPlaylist": [
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit tuning-up.fseq",
+      "mediaName": "tuning-up.wav",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Feliz Navidad.fseq",
+      "mediaName": "Feliz Navidad.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit pips-joke.fseq",
+      "mediaName": "pips-joke.wav",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Frosty the Snowman.fseq",
+      "mediaName": "Frosty the Snowman.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit whos-next.fseq",
+      "mediaName": "whos-next.wav",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "O Come All Ye Faithful.fseq",
+      "mediaName": "O Come All Ye Faithful.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Rockin Around the Christmas Tree.fseq",
+      "mediaName": "Rockin Around the Christmas Tree.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit thank-you-nye-week.fseq",
+      "mediaName": "thank-you-nye-week.wav",
+      "videoOut": "--Default--"
+    }
+  ],
+  "leadOut": [],
+  "playlistInfo": {
+    "total_duration": 0,
+    "total_items": 15,
+    "leadIn_duration": 0,
+    "leadIn_items": 0,
+    "mainPlaylist_duration": 0,
+    "mainPlaylist_items": 15,
+    "leadOut_duration": 0,
+    "leadOut_items": 0
+  }
+}

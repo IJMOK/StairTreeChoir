@@ -1,0 +1,28 @@
+{
+  "name": "bramble-wakes-special",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[loudly] Bramble!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[startled] Present!"
+    },
+    {
+      "who": "Pip",
+      "say": "[giggles] He slept through TWO songs!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[sleepily] I was resting my eyes. Twice."
+    }
+  ],
+  "asleep": [
+    {
+      "who": "Bramble",
+      "until_line": 2
+    }
+  ],
+  "look": "snow"
+}

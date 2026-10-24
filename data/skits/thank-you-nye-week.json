@@ -1,0 +1,23 @@
+{
+  "name": "thank-you-nye-week",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Thank you for listening! We've been the Stair Tree Choir!"
+    },
+    {
+      "who": "Pip",
+      "say": "[excited] And on New Year's Eve, we're staying up till midnight!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Countdown! Countdown!"
+    },
+    {
+      "who": "Ivy",
+      "say": "Merry Christmas! And a Happy New Year!"
+    }
+  ],
+  "look": "marquee",
+  "palette": "xmas"
+}

@@ -125,8 +125,9 @@ def dictionary_words(search_dirs: list[Path]) -> set[str]:
 
 
 def lrc_starts(synced: str) -> list[float]:
-    """Line start times (s) from LRC text, for lines with words."""
-    return [int(m) * 60 + float(sec) for m, sec in re.findall(r"^\[(\d+):(\d+(?:\.\d+)?)\]\s*\S", synced, re.M)]
+    """Line start times (s) from LRC text, for lines with words. A bare timestamp (an
+    instrumental gap) is skipped: [ \\t], not \\s, or the match runs on into the next line."""
+    return [int(m) * 60 + float(sec) for m, sec in re.findall(r"^\[(\d+):(\d+(?:\.\d+)?)\][ \t]*\S", synced, re.M)]
 
 
 def apply_lrc_fallback(data: dict, starts: list[float], song_end: float,

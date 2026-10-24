@@ -1,0 +1,23 @@
+{
+  "name": "thank-you-week",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Thank you for listening! We've been the Stair Tree Choir!"
+    },
+    {
+      "who": "Pip",
+      "say": "[excited] And this Saturday at six, it's the Saturday Special! Every song!"
+    },
+    {
+      "who": "Jingle",
+      "say": "Merry Christmas!"
+    },
+    {
+      "who": "Ivy",
+      "say": "Merry Christmas!"
+    }
+  ],
+  "look": "marquee",
+  "palette": "xmas"
+}

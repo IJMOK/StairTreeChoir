@@ -1,0 +1,72 @@
+{
+  "sequence": "Waiting Asleep",
+  "audio": null,
+  "lyrics_timing": "Audio/Loops/Waiting.timing.json",
+  "lyrics_track": "Waiting",
+  "beats": "Audio/Loops/Waiting.beats.json",
+  "groups": {},
+  "lines": {},
+  "sections": [
+    {
+      "name": "butterfly",
+      "until": 50.0,
+      "look": "choir_butterfly",
+      "params": {
+        "speed": 5
+      },
+      "eyes": "blink"
+    },
+    {
+      "name": "wash",
+      "until": 100.0,
+      "look": "rainbow_wash",
+      "palette": "rainbow",
+      "eyes": "roll"
+    },
+    {
+      "name": "twinkle",
+      "until": 150.0,
+      "look": "twinkle",
+      "palette": "xmas",
+      "params": {
+        "count": 90,
+        "steps": 60
+      },
+      "eyes": "sparkle"
+    },
+    {
+      "name": "sweep",
+      "until": 200.0,
+      "look": "choir_rainbow",
+      "eyes": "rainbow"
+    },
+    {
+      "name": "candy",
+      "until": 250.0,
+      "look": "candy",
+      "params": {
+        "speed": 3
+      },
+      "eyes": "blink"
+    },
+    {
+      "name": "spiral",
+      "until": 999,
+      "look": "spiral",
+      "palette": "ice",
+      "params": {
+        "rotation": 2.0,
+        "movement": 1.0
+      },
+      "eyes": "roll"
+    }
+  ],
+  "notes": "New Year's Eve between Bramble nodding off (23:15 show) and the countdown: the Waiting loop with Bramble (tree 5) asleep throughout. Copy of waiting.json plus asleep; keep the two in step.",
+  "asleep": [
+    {
+      "tree": 5,
+      "from": null,
+      "until": null
+    }
+  ]
+}

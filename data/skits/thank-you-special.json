@@ -1,0 +1,27 @@
+{
+  "name": "thank-you-special",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[breathless] That was the Saturday Special! Every single song!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Again! Again!"
+    },
+    {
+      "who": "Holly",
+      "say": "[firmly] Not again, Jingle. Next show at seven."
+    },
+    {
+      "who": "Noel",
+      "say": "[dramatically] Thank you, thank you, you've been wonderful!"
+    },
+    {
+      "who": "Everyone",
+      "say": "Merry Christmas!"
+    }
+  ],
+  "look": "rainbow_wash",
+  "palette": "rainbow"
+}

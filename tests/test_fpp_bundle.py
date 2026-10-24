@@ -41,7 +41,9 @@ def test_bundle_lays_out_fpp_media(show):
     assert (out / "sequences" / "Waiting.fseq").exists()
     assert any((out / "music").iterdir())
     plan = (out / "show-plan.md").read_text(encoding="utf-8")
-    assert "| 17:00 | Show A |" in plan and "| 16:00 | Waiting | loops |" in plan
+    assert "| 17:00:00 | Show A SAT week |" in plan and "| 16:00:00 | Waiting | loops |" in plan
+    assert "Saturdays" in plan and "| 18:00:00 | Saturday Special |" in plan
+    assert "## 2026-12-31" in plan and "| 23:59:20 | Countdown |" in plan
 
 
 def test_show_length_counts_pauses(show):

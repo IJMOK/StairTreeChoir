@@ -1,0 +1,60 @@
+{
+  "name": "Countdown",
+  "version": 4,
+  "repeat": 0,
+  "loopCount": 0,
+  "desc": "Midnight: count down, Happy New Year, Auld Lang Syne, goodnight.",
+  "random": 0,
+  "globalPauseBetweenSequencesMS": 0,
+  "empty": false,
+  "leadIn": [],
+  "mainPlaylist": [
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit countdown.fseq",
+      "mediaName": "countdown.wav",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 1
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Auld Lang Syne.fseq",
+      "mediaName": "Auld Lang Syne.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 1
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit goodnight-newyear.fseq",
+      "mediaName": "goodnight-newyear.wav",
+      "videoOut": "--Default--"
+    }
+  ],
+  "leadOut": [],
+  "playlistInfo": {
+    "total_duration": 0,
+    "total_items": 5,
+    "leadIn_duration": 0,
+    "leadIn_items": 0,
+    "mainPlaylist_duration": 0,
+    "mainPlaylist_items": 5,
+    "leadOut_duration": 0,
+    "leadOut_items": 0
+  }
+}

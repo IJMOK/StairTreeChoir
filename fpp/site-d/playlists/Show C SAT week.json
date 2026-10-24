@@ -1,0 +1,130 @@
+{
+  "name": "Show C SAT week",
+  "version": 4,
+  "repeat": 0,
+  "loopCount": 0,
+  "desc": "Set C, about 15 minutes; closes with thank-you-week.",
+  "random": 0,
+  "globalPauseBetweenSequencesMS": 0,
+  "empty": false,
+  "leadIn": [],
+  "mainPlaylist": [
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit tuning-up.fseq",
+      "mediaName": "tuning-up.wav",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "We Wish You a Merry Christmas.fseq",
+      "mediaName": "We Wish You a Merry Christmas.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit bramble-sleeps.fseq",
+      "mediaName": "bramble-sleeps.wav",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Twelve Days of Christmas.fseq",
+      "mediaName": "Twelve Days of Christmas.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit bramble-wakes.fseq",
+      "mediaName": "bramble-wakes.wav",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "The Virgin Mary Had a Baby Boy.fseq",
+      "mediaName": "The Virgin Mary Had a Baby Boy.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Dominick the Donkey.fseq",
+      "mediaName": "Dominick the Donkey.mp3",
+      "videoOut": "--Default--"
+    },
+    {
+      "type": "pause",
+      "enabled": 1,
+      "playOnce": 0,
+      "duration": 4
+    },
+    {
+      "type": "both",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Skit thank-you-week.fseq",
+      "mediaName": "thank-you-week.wav",
+      "videoOut": "--Default--"
+    }
+  ],
+  "leadOut": [],
+  "playlistInfo": {
+    "total_duration": 0,
+    "total_items": 15,
+    "leadIn_duration": 0,
+    "leadIn_items": 0,
+    "mainPlaylist_duration": 0,
+    "mainPlaylist_items": 15,
+    "leadOut_duration": 0,
+    "leadOut_items": 0
+  }
+}

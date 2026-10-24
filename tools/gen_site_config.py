@@ -90,9 +90,13 @@ SSID_PLACEHOLDER = "CHANGE-ME-SSID"   # tools/wled_apply.py swaps in the real on
 CHANNELS_PER_TREE = PIXELS * 3   # 276
 DDP_ONE_BASED = 5                # FPP output type "DDP - One Based"
 DOW_EVERY_DAY = 7
-STOP_GRACEFUL, STOP_HARD = 0, 1
+DOW_SATURDAY = 6                         # ScheduleEntry.h INX_SAT
+DOW_SUN_TO_FRI = 0x10000 | 0x07E00       # INX_DAY_MASK | every day's bit but INX_DAY_MASK_SATURDAY (0x00100)
+STOP_GRACEFUL, STOP_HARD, STOP_AFTER_LOOP = 0, 1, 2
 SEASON_START = "2026-12-01"      # Rob to confirm
-SEASON_END = "2026-12-31"
+SEASON_END = "2027-01-01"        # New Year's Day (docs/specials.md)
+NYE_WEEK_START = "2026-12-27"    # thank-yous plug New Year's Eve from here
+NYE, NYD = "2026-12-31", "2027-01-01"
 BETWEEN_PAUSE_S = 4              # "3-5 s of the waiting look" between pieces (show-night.md)
 SONG_MEDIA_EXT = ".mp3"          # media file extensions are assumptions: lyrics/beat tools take MP3s,
 SKIT_MEDIA_EXT = ".wav"          # tools/skit.py writes WAVs. Change here if the media differ.
@@ -103,8 +107,11 @@ SONGS = (
     "Rockin Around the Christmas Tree", "Dominick the Donkey", "Feliz Navidad",
     "Little Drummer Boy", "We Wish You a Merry Christmas", "O Come All Ye Faithful",
     "The Virgin Mary Had a Baby Boy", "Twelve Days of Christmas", "Frosty the Snowman",
+    # New Year (Rob, 24 Oct 2026)
+    "Auld Lang Syne", "Happy New Year", "Here Comes the Sun", "Walking on Sunshine", "What a Wonderful World",
 )
 WAITING, GOODNIGHT = "Waiting", "Goodnight"
+WAITING_ASLEEP = "Waiting Asleep"   # the waiting loop with Bramble asleep (New Year's Eve, before midnight)
 FROSTY = "Frosty the Snowman"   # Set B's second song
 
 # show-night.md "A show": (kind, name) with kind "skit" (data/skits/<name>.json) or "song".
@@ -133,7 +140,47 @@ GOODNIGHT_AT, GOODNIGHT_WINDOW = 21 * 60, 5
 SHOW_WINDOW = 30                             # a ~15 minute show is never cut off by its end time
 ANNOUNCE_LABELS = ("17", "18", "19", "last")    # skits announce-<label>; "last" = the 20:00 show
 ANNOUNCE_WINDOW = 10                         # latest late start of a quarter-hour announcement
-CLASS_RANK = {"goodnight": 0, "show": 1, "announcement": 2, "waiting": 3}   # priority order
+# priority order (earlier in schedule.json wins)
+CLASS_RANK = {"countdown": 0, "goodnight": 1, "show": 2, "announcement": 3, "waiting_asleep": 4, "waiting": 5}
+
+# Thank-you variants by date (docs/specials.md): plain to 26 Dec, plugging New Year's Eve 27-30 Dec,
+# "see you at midnight" on the night. Playlist names: letters, numbers, spaces only.
+THANKS_VARIANTS = {"": "thank-you", " SAT week": "thank-you-week", " NYE week": "thank-you-nye-week",
+                   " NYE": "thank-you-nye-night"}
+
+# Saturday Special (docs/specials.md): Saturdays to 26 Dec. 17:00 is a two-song teaser, 18:00 every song.
+# Sun-Fri thank-yous plug "this Saturday at six" (" SAT week"); after the special the shows are as usual.
+SAT_TEASER = "Show Saturday teaser"
+SAT_TEASER_SET = [_TUNING, ("song", "Rockin Around the Christmas Tree"), ("song", "Feliz Navidad"),
+                  ("skit", "save-your-voices")]
+SAT_SPECIAL = "Saturday Special"
+SAT_SPECIAL_SET = [("skit", "special-intro"), ("song", "Rockin Around the Christmas Tree"), ("song", "Feliz Navidad"),
+                   ("song", "Dominick the Donkey"), ("song", FROSTY), _SLEEPS, ("song", "Little Drummer Boy"),
+                   ("song", "Twelve Days of Christmas"), ("skit", "bramble-wakes-special"),
+                   ("song", "O Come All Ye Faithful"), ("song", "The Virgin Mary Had a Baby Boy"),
+                   ("song", "We Wish You a Merry Christmas"), ("skit", "thank-you-special")]
+SAT_SPECIAL_WINDOW = 35                       # it runs about 29 minutes
+SAT_ANNOUNCE = {16: ("Announce 17 Saturday", "announce-17-sat"), 17: ("Announce Special", "announce-special")}
+
+# New Year's Eve (docs/specials.md)
+NYE_SHOWS = ((17, "A"), (18, "B"), (19, "C"), (20, "A"), (22, "B"))
+NYE_LATE = "Show NYE late"                   # 23:15: Bramble swears he'll stay up, sings, nods off
+NYE_LATE_AT = 23 * 60 + 15
+NYE_LATE_SET = [("skit", "bramble-staying-up"), ("song", "Rockin Around the Christmas Tree"),
+                ("song", "Dominick the Donkey"), ("skit", "bramble-nods-off-nye")]
+COUNTDOWN = "Countdown"
+COUNTDOWN_AT = 23 * 60 + 59 + 20 / 60        # 23:59:20: the skit says "Ten!" at 30 s, so HAPPY NEW YEAR at 00:00:00
+COUNTDOWN_SET = [("skit", "countdown"), ("song", "Auld Lang Syne"), ("skit", "goodnight-newyear")]
+NYE_ANNOUNCE_HOURS = range(16, 23)           # :15 :30 :45 from 16:15 to 22:45
+# New Year's Day
+NYD_SHOW = "Show New Year"
+NYD_HOURS = (15, 16, 17, 18, 19)
+NYD_WAITING = (14 * 60 + 30, 19 * 60 + 30)
+NYD_GOODNIGHT = "Goodnight Season"
+NYD_GOODNIGHT_AT = 19 * 60 + 30
+NYD_SET = [("skit", "newyear-intro"), ("song", "Happy New Year"), ("song", "Here Comes the Sun"),
+           ("song", "Walking on Sunshine"), ("song", "What a Wonderful World"), ("song", "Auld Lang Syne"),
+           ("skit", "thank-you-newyear")]
 
 
 def skit_names() -> list[str]:
@@ -145,7 +192,7 @@ def skit_sequence(name: str) -> str:
 
 
 def known_sequences() -> set[str]:
-    return set(SONGS) | {skit_sequence(n) for n in skit_names()} | {WAITING, GOODNIGHT}
+    return set(SONGS) | {skit_sequence(n) for n in skit_names()} | {WAITING, WAITING_ASLEEP, GOODNIGHT}
 
 
 # ---------------------------------------------------------------------------- tree configs ----
@@ -264,17 +311,39 @@ def playlists() -> dict[str, dict]:
         seq, entry = _piece("skit", f"announce-{label}")
         n = announce_playlist_name(label)
         out[n] = _playlist(n, "Quarter-hour announcement of the next show.", [entry])
-    for letter, pieces in SETS.items():
-        main: list[dict] = []
-        for kind, name in pieces:
-            if main:
-                main.append({"type": "pause", "enabled": 1, "playOnce": 0, "duration": BETWEEN_PAUSE_S})
-            main.append(_piece(kind, name)[1])
-        n = f"Show {letter}"
-        out[n] = _playlist(n, f"Set {letter}, about 15 minutes.", main)
+    for suffix, thanks in THANKS_VARIANTS.items():
+        for letter, pieces in SETS.items():
+            n = f"Show {letter}{suffix}"
+            pieces = [("skit", thanks) if p == _THANKS else p for p in pieces]
+            out[n] = _set_playlist(n, f"Set {letter}, about 15 minutes; closes with {thanks}.", pieces)
     out[GOODNIGHT] = _playlist(GOODNIGHT, "Goodnight skit; the lights go out.",
                                [_entry(GOODNIGHT, media_for(GOODNIGHT, GOODNIGHT_MEDIA))])
+    # New Year's Eve and New Year's Day (docs/specials.md)
+    out[WAITING_ASLEEP] = _playlist(WAITING_ASLEEP, "Waiting loop with Bramble asleep, until the countdown.",
+                                    [_entry(WAITING_ASLEEP, None)])
+    for n, skit in (("Announce NYE", "announce-nye"), ("Announce New Year", "announce-newyear")):
+        out[n] = _playlist(n, "Quarter-hour announcement.", [_piece("skit", skit)[1]])
+    out[NYE_LATE] = _set_playlist(NYE_LATE, "23:15: Bramble is staying up. He isn't.", NYE_LATE_SET)
+    out[COUNTDOWN] = _set_playlist(COUNTDOWN, "Midnight: count down, Happy New Year, Auld Lang Syne, goodnight.",
+                                   COUNTDOWN_SET, pause=1)
+    out[NYD_SHOW] = _set_playlist(NYD_SHOW, "New Year's Day show: New Year songs, no Christmas.", NYD_SET)
+    out[NYD_GOODNIGHT] = _set_playlist(NYD_GOODNIGHT, "End of the season; the lights go out.",
+                                       [("skit", "goodnight-season")])
+    # Saturday Special
+    out[SAT_TEASER] = _set_playlist(SAT_TEASER, "Saturday 17:00: two songs, then save your voices for six.", SAT_TEASER_SET)
+    out[SAT_SPECIAL] = _set_playlist(SAT_SPECIAL, "Saturday 18:00: every song, about 29 minutes.", SAT_SPECIAL_SET)
+    for n, skit in SAT_ANNOUNCE.values():
+        out[n] = _playlist(n, "Saturday quarter-hour announcement.", [_piece("skit", skit)[1]])
     return out
+
+
+def _set_playlist(name: str, desc: str, pieces, pause: int = BETWEEN_PAUSE_S) -> dict:
+    main: list[dict] = []
+    for kind, piece in pieces:
+        if main:
+            main.append({"type": "pause", "enabled": 1, "playOnce": 0, "duration": pause})
+        main.append(_piece(kind, piece)[1])
+    return _playlist(name, desc, main)
 
 
 def sequences_used(playlist: dict) -> list[str]:
@@ -284,44 +353,111 @@ def sequences_used(playlist: dict) -> list[str]:
 
 # ------------------------------------------------------------------------------------ schedule ----
 
-def schedule_plan() -> list[dict]:
-    """Entries in priority order (the file order is the priority, see the module docstring).
+def _day_before(date: str) -> str:
+    import datetime
+    return (datetime.date.fromisoformat(date) - datetime.timedelta(days=1)).isoformat()
 
-    start/end are minutes after midnight; end is the latest the entry may still be running or
-    start late. cls ranks who wins an overlap (CLASS_RANK).
-    """
-    plan = [{"playlist": GOODNIGHT, "cls": "goodnight", "start": GOODNIGHT_AT,
-             "end": GOODNIGHT_AT + GOODNIGHT_WINDOW, "stop": STOP_GRACEFUL, "repeat": 0}]
+
+def _e(playlist: str, cls: str, start: float, end: float, dates: tuple[str, str],
+       stop: int = STOP_GRACEFUL, repeat: int = 0, day: int = DOW_EVERY_DAY) -> dict:
+    return {"playlist": playlist, "cls": cls, "start": start, "end": end, "dates": dates, "stop": stop,
+            "repeat": repeat, "day": day}
+
+
+def weekdays(day: int) -> set[int]:
+    """FPP day code -> the days it covers, 0 = Sunday (ScheduleEntry.h)."""
+    if day == DOW_EVERY_DAY:
+        return set(range(7))
+    if day < 7:
+        return {day}
+    if day & 0x10000:   # INX_DAY_MASK: Sunday is 0x04000, then one bit lower per day to Saturday 0x00100
+        return {d for d in range(7) if day & (0x04000 >> d)}
+    raise ValueError(f"day code {day} not used here")
+
+
+def normal_night(dates: tuple[str, str], suffix: str = "", day: int = DOW_EVERY_DAY,
+                 shows: dict[int, str] | None = None, announce: dict[int, tuple[str, str]] | None = None) -> list[dict]:
+    """show-night.md's night; suffix picks the shows' thank-you variant (THANKS_VARIANTS). shows
+    and announce replace the playlist at an hour (the Saturday teaser and special)."""
+    shows, announce = shows or {}, announce or {}
+    plan = [_e(GOODNIGHT, "goodnight", GOODNIGHT_AT, GOODNIGHT_AT + GOODNIGHT_WINDOW, dates, day=day)]
     for hour, letter in zip(SHOW_HOURS, SHOW_SETS):
-        plan.append({"playlist": f"Show {letter}", "cls": "show", "start": hour * 60,
-                     "end": hour * 60 + SHOW_WINDOW, "stop": STOP_GRACEFUL, "repeat": 0})
+        window = SAT_SPECIAL_WINDOW if shows.get(hour) == SAT_SPECIAL else SHOW_WINDOW
+        plan.append(_e(shows.get(hour, f"Show {letter}{suffix}"), "show", hour * 60, hour * 60 + window, dates, day=day))
     # Each hour announces the next show; the 19:xx ones announce the last show (20:00). No
     # announcements after the last show has started.
     for hour, label in zip(range(SHOW_HOURS[0] - 1, SHOW_HOURS[-1]), ANNOUNCE_LABELS):
+        name = announce[hour][0] if hour in announce else announce_playlist_name(label)
         for minute in (15, 30, 45):
-            plan.append({"playlist": announce_playlist_name(label), "cls": "announcement",
-                         "start": hour * 60 + minute, "end": hour * 60 + minute + ANNOUNCE_WINDOW,
-                         "stop": STOP_GRACEFUL, "repeat": 0})
+            t = hour * 60 + minute
+            if any(e["playlist"] == SAT_SPECIAL and e["start"] <= t < e["end"] for e in plan):
+                continue   # during the half-hour special: it would only queue up behind it
+            plan.append(_e(name, "announcement", t, t + ANNOUNCE_WINDOW, dates, day=day))
     # The waiting loop is the background: lowest priority, loops, and a hard stop so a show or
     # announcement that pre-empts it starts at once instead of after the current loop.
-    plan.append({"playlist": WAITING, "cls": "waiting", "start": WAITING_FROM, "end": WAITING_TO,
-                 "stop": STOP_HARD, "repeat": 1})
+    plan.append(_e(WAITING, "waiting", WAITING_FROM, WAITING_TO, dates, STOP_HARD, 1, day=day))
     return plan
 
 
-def _hms(minutes: int, last_second: bool = False) -> str:
-    if last_second:
-        minutes -= 1
-        return f"{minutes // 60:02d}:{minutes % 60:02d}:59"
-    return f"{minutes // 60:02d}:{minutes % 60:02d}:00"
+def nye_night() -> list[dict]:
+    """New Year's Eve: shows to 22:00, Bramble's late show, the countdown at midnight."""
+    d = (NYE, NYE)
+    # The countdown's window closes at 23:59:59, before midnight; "stop after the loop" lets the
+    # playlist (countdown, Auld Lang Syne, goodnight) play out past midnight.
+    plan = [_e(COUNTDOWN, "countdown", COUNTDOWN_AT, 24 * 60, d, STOP_AFTER_LOOP)]
+    for hour, letter in NYE_SHOWS:
+        plan.append(_e(f"Show {letter} NYE", "show", hour * 60, hour * 60 + SHOW_WINDOW, d))
+    plan.append(_e(NYE_LATE, "show", NYE_LATE_AT, NYE_LATE_AT + SHOW_WINDOW, d))
+    for hour in NYE_ANNOUNCE_HOURS:
+        for minute in (15, 30, 45):
+            t = hour * 60 + minute
+            plan.append(_e("Announce NYE", "announcement", t, t + ANNOUNCE_WINDOW, d))
+    # After the late show Bramble stays asleep in the waiting loop until the countdown wakes him.
+    plan.append(_e(WAITING_ASLEEP, "waiting_asleep", NYE_LATE_AT + 5, COUNTDOWN_AT, d, STOP_HARD, 1))
+    plan.append(_e(WAITING, "waiting", WAITING_FROM, COUNTDOWN_AT, d, STOP_HARD, 1))
+    return plan
+
+
+def nyd_night() -> list[dict]:
+    """New Year's Day: hourly New Year shows 15:00-19:00, then the season's goodbye."""
+    d = (NYD, NYD)
+    plan = [_e(NYD_GOODNIGHT, "goodnight", NYD_GOODNIGHT_AT, NYD_GOODNIGHT_AT + GOODNIGHT_WINDOW, d)]
+    for hour in NYD_HOURS:
+        plan.append(_e(NYD_SHOW, "show", hour * 60, hour * 60 + SHOW_WINDOW, d))
+    for hour in NYD_HOURS[:-1]:
+        for minute in (15, 30, 45):
+            t = hour * 60 + minute
+            plan.append(_e("Announce New Year", "announcement", t, t + ANNOUNCE_WINDOW, d))
+    plan.append(_e(WAITING, "waiting", *NYD_WAITING, d, STOP_HARD, 1))
+    return plan
+
+
+def schedule_plan() -> list[dict]:
+    """Entries in priority order (the file order is the priority, see the module docstring).
+
+    start/end are minutes after midnight (fractions for seconds); end is the latest the entry may
+    still be running or start late; dates is the (first, last) day it applies. cls ranks who wins
+    an overlap (CLASS_RANK); entries on different dates never meet.
+    """
+    december = (SEASON_START, _day_before(NYE_WEEK_START))
+    plan = (normal_night(december, " SAT week", DOW_SUN_TO_FRI)
+            + normal_night(december, "", DOW_SATURDAY, shows={17: SAT_TEASER, 18: SAT_SPECIAL}, announce=SAT_ANNOUNCE)
+            + normal_night((NYE_WEEK_START, _day_before(NYE)), " NYE week")
+            + nye_night() + nyd_night())
+    return sorted(plan, key=lambda e: CLASS_RANK[e["cls"]])   # stable: keeps time order within a class
+
+
+def _hms(minutes: float, last_second: bool = False) -> str:
+    s = round(minutes * 60) - (1 if last_second else 0)
+    return f"{s // 3600:02d}:{s // 60 % 60:02d}:{s % 60:02d}"
 
 
 def schedule() -> list[dict]:
     """FPP schedule.json. End times are the last second of the window (e.g. 17:29:59)."""
     return [{
-        "enabled": 1, "playlist": e["playlist"], "day": DOW_EVERY_DAY,
+        "enabled": 1, "playlist": e["playlist"], "day": e["day"],
         "startTime": _hms(e["start"]), "endTime": _hms(e["end"], last_second=True),
-        "repeat": e["repeat"], "startDate": SEASON_START, "endDate": SEASON_END,
+        "repeat": e["repeat"], "startDate": e["dates"][0], "endDate": e["dates"][1],
         "stopType": e["stop"],
     } for e in schedule_plan()]
 

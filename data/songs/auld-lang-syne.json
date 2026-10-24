@@ -1,0 +1,118 @@
+{
+  "sequence": "Auld Lang Syne",
+  "audio": "Audio/Songs/Auld Lang Syne.mp3",
+  "lyrics_timing": "Audio/Songs/Auld Lang Syne.timing.json",
+  "lyrics_track": "AuldLangSyne",
+  "beats": "Audio/Songs/Auld Lang Syne.beats.json",
+  "groups": {
+    "A": [
+      1,
+      2,
+      3
+    ],
+    "B": [
+      4,
+      5,
+      6
+    ],
+    "all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "inner": [
+      3,
+      4
+    ],
+    "t3": [
+      3
+    ]
+  },
+  "lines": {
+    "1": "A",
+    "2": "A",
+    "3": "B",
+    "4": "B",
+    "5": "all",
+    "6": "all",
+    "7": "all",
+    "8": "all",
+    "9": "inner",
+    "10": "inner",
+    "11": "all",
+    "12": "all",
+    "13": "all",
+    "14": "all",
+    "15": "all",
+    "16": "all",
+    "17": "A",
+    "18": "A",
+    "19": "A",
+    "20": "A",
+    "21": "all",
+    "22": "all",
+    "23": "all",
+    "24": "t3"
+  },
+  "sections": [
+    {
+      "name": "intro",
+      "until": 7.3,
+      "look": "choir_galaxy",
+      "palette": "rainbow",
+      "eyes": "blink"
+    },
+    {
+      "name": "verse1",
+      "until": 29.9,
+      "look": "rainbow_wash",
+      "palette": "candy",
+      "eyes": "follow"
+    },
+    {
+      "name": "chorus1",
+      "until": 53.4,
+      "look": "choir_rainbow",
+      "palette": "rainbow",
+      "accent": "colour_hit",
+      "accent_every": 4,
+      "eyes": "blink"
+    },
+    {
+      "name": "verse2",
+      "until": 76.6,
+      "look": "plasma",
+      "palette": "ice",
+      "eyes": "follow"
+    },
+    {
+      "name": "chorus2",
+      "until": 100.1,
+      "look": "choir_rainbow",
+      "palette": "candy",
+      "accent": "colour_hit",
+      "accent_every": 4,
+      "eyes": "roll"
+    },
+    {
+      "name": "chorus3",
+      "until": 126.0,
+      "look": "butterfly",
+      "palette": "rainbow",
+      "eyes": "follow"
+    },
+    {
+      "name": "finale",
+      "until": 999,
+      "look": "choir_shockwave",
+      "palette": "rainbow",
+      "accent": "flash",
+      "accent_every": 2,
+      "eyes": "rainbow"
+    }
+  ],
+  "notes": "New Year (24 Oct 2026). After the midnight countdown and at the end of each New Year's Day show. Verses in two halves of the choir, choruses all, the last line Noel alone, holding it."
+}

@@ -21,6 +21,11 @@ Then:
 
 Script keys: name, lines [{who, say}], optional look/palette for the outlines and
 gap (seconds between lines, default 0.35). A line's "pause" adds silence before it.
+A line's "who" may be a list of characters or "Everyone": their voices are mixed, all
+their mouths move. A line's "at" (seconds from the start of the audio) starts its voice exactly
+then instead of after a gap (the midnight countdown); it may overlap the line before. "sections" replaces the default
+single outline section (same keys as a song's, see tools/arrange_song.py). "fade_out" (s)
+makes the skit a closer: everything fades over that time and ends dark (end_at/end_fade).
 "asleep": [{who, from_line}] sends a character to sleep from the start of that line (1-based)
 to the end; [{who, until_line}] has them asleep from the start until just before that line
 (arrange_song "asleep": eyes shut, outline breathing).
@@ -51,6 +56,7 @@ RATE = 22050      # Piper medium voices; ElevenLabs is asked for pcm_22050 to ma
 ELEVEN_API = "https://api.elevenlabs.io/v1/text-to-speech/{voice}?output_format=pcm_22050"
 ELEVEN_MODEL = "eleven_v3"
 WAKE_LEAD_S = 0.3  # eyes open this long before a waking character's line
+EVERYONE = "Everyone"  # a line the whole cast says together
 TAG = re.compile(r"\s*\[[^\]]*\]\s*")
 
 
@@ -139,6 +145,19 @@ def fit_to_spans(timing: Path, spans: list[tuple[float, float]], slack: float = 
     timing.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
 
+def speakers(who, cast: dict, skit: str = "") -> list[str]:
+    """A line's characters: one name, a list of names, or "Everyone"."""
+    names = list(cast) if who == EVERYONE else [who] if isinstance(who, str) else list(who)
+    for n in names:
+        if n not in cast:
+            raise SystemExit(f"{skit}: unknown character {n!r}")
+    return names
+
+
+def group_name(who) -> str:
+    return who if isinstance(who, str) else "+".join(who)
+
+
 def build(script: dict, audio_only: bool = False, engine: str | None = None) -> Path:
     voices = json.loads(VOICES_FILE.read_text(encoding="utf-8"))
     cast = voices["characters"]
@@ -147,19 +166,28 @@ def build(script: dict, audio_only: bool = False, engine: str | None = None) -> 
     gap = script.get("gap", 0.35)
     SKIT_DIR.mkdir(parents=True, exist_ok=True)
     cache: dict = {}
-    parts = [np.zeros(int(0.5 * RATE), dtype=np.float32)]
+    y = np.zeros(int(0.5 * RATE), dtype=np.float32)
+    end = len(y)  # where the last line's clip ends; the next line follows a gap after it
     spans = []  # where each line's voice actually is, in seconds: alignment must stay inside it
     for line in script["lines"]:
-        if line["who"] not in cast:
-            raise SystemExit(f"{name}: unknown character {line['who']!r}")
-        parts.append(np.zeros(int((gap + line.get("pause", 0)) * RATE), dtype=np.float32))
-        clip = speak(line["say"], cast[line["who"]], cache, engine)
+        names = speakers(line["who"], cast, name)
+        clips = [speak(line["say"], cast[n], cache, engine) for n in names]
+        clip = np.zeros(max(len(c) for c in clips), dtype=np.float32)
+        for c in clips:  # several voices at once ("Everyone"): mixed, levelled with the rest below
+            clip[:len(c)] += c / np.sqrt(len(clips))
         loud = np.flatnonzero(np.abs(clip) > 0.02 * max(1e-6, float(np.abs(clip).max())))
-        at = sum(len(p) for p in parts)
-        spans.append(((at + (loud[0] if len(loud) else 0)) / RATE, (at + (loud[-1] if len(loud) else len(clip))) / RATE))
-        parts.append(clip)
-    parts.append(np.zeros(int(1.0 * RATE), dtype=np.float32))
-    y = np.concatenate(parts)
+        if "at" in line:  # an exact start (the midnight countdown): the voice itself lands on it,
+            if len(loud):  # and may overlap the tail of the line before, like a crowd
+                clip, loud = clip[loud[0]:], loud - loud[0]
+            pos = int(line["at"] * RATE)
+        else:
+            pos = end + int((gap + line.get("pause", 0)) * RATE)
+        if pos + len(clip) > len(y):
+            y = np.concatenate([y, np.zeros(pos + len(clip) - len(y), dtype=np.float32)])
+        y[pos:pos + len(clip)] += clip
+        spans.append(((pos + (loud[0] if len(loud) else 0)) / RATE, (pos + (loud[-1] if len(loud) else len(clip))) / RATE))
+        end = max(end, pos + len(clip))
+    y = np.concatenate([y[:end], np.zeros(int(1.0 * RATE), dtype=np.float32)])
     y = y / max(1e-6, float(np.abs(y).max())) * 0.9
     wav = SKIT_DIR / f"{name}.wav"
     with wave.open(str(wav), "wb") as w:
@@ -183,7 +211,8 @@ def build(script: dict, audio_only: bool = False, engine: str | None = None) -> 
     beats = SKIT_DIR / f"{name}.beats.json"
     beats.write_text(json.dumps([round(0.5 * k, 3) for k in range(int(len(y) / RATE * 2))]), encoding="utf-8")
 
-    groups = {who: [cast[who]["slot"]] for who in {l["who"] for l in script["lines"]}}
+    groups = {group_name(l["who"]): sorted(cast[n]["slot"] for n in speakers(l["who"], cast, name))
+              for l in script["lines"]}
     arr = {
         "sequence": f"Skit {name}",
         "audio": f"Audio/Skits/{wav.name}",
@@ -191,9 +220,9 @@ def build(script: dict, audio_only: bool = False, engine: str | None = None) -> 
         "lyrics_track": track,
         "beats": f"Audio/Skits/{beats.name}",
         "groups": groups,
-        "lines": {str(i): l["who"] for i, l in enumerate(script["lines"], 1)},
-        "sections": [{"name": "skit", "until": 999, "look": script.get("look", "rainbow_wash"),
-                      "palette": script.get("palette", "rainbow"), "eyes": "follow"}],
+        "lines": {str(i): group_name(l["who"]) for i, l in enumerate(script["lines"], 1)},
+        "sections": script.get("sections") or [{"name": "skit", "until": 999, "look": script.get("look", "rainbow_wash"),
+                                                "palette": script.get("palette", "rainbow"), "eyes": "follow"}],
         "notes": f"Generated by tools/skit.py from data/skits/{name}.json; don't edit, change the script.",
     }
     segs = json.loads(timing.read_text(encoding="utf-8"))["segments"]
@@ -204,6 +233,9 @@ def build(script: dict, audio_only: bool = False, engine: str | None = None) -> 
         asleep.append({"tree": cast[s["who"]]["slot"], "from": a, "until": b})
     if asleep:
         arr["asleep"] = asleep
+    if script.get("fade_out"):  # a closer: dark for the last second of silence, so FPP holds black
+        arr["end_at"] = round(len(y) / RATE - 1.0, 1)
+        arr["end_fade"] = script["fade_out"]
     out = ROOT / "data" / "songs" / f"skit-{name}.json"
     out.write_text(json.dumps(arr, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"wrote {out.relative_to(ROOT)}")

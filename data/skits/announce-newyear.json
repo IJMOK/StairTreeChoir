@@ -1,0 +1,19 @@
+{
+  "name": "announce-newyear",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Happy New Year from the Stair Tree Choir!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Our next New Year show is on the hour!"
+    },
+    {
+      "who": "Pip",
+      "say": "[giggles] New year, same terrible jokes!"
+    }
+  ],
+  "look": "butterfly",
+  "palette": "candy"
+}

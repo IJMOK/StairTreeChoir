@@ -1,0 +1,31 @@
+{
+  "name": "newyear-intro",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[excited] Happy New Year, everyone! Welcome to our New Year show!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[sleepily] Is it still Christmas?"
+    },
+    {
+      "who": "Ivy",
+      "say": "It's next year, Bramble."
+    },
+    {
+      "who": "Bramble",
+      "say": "[confused] Already?"
+    },
+    {
+      "who": "Pip",
+      "say": "[mischievously] What do snowmen do on New Year's Day? They chill out!"
+    },
+    {
+      "who": "Holly",
+      "say": "[sighs] One, two, three, four!"
+    }
+  ],
+  "look": "plasma",
+  "palette": "candy"
+}

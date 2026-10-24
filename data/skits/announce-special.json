@@ -1,0 +1,27 @@
+{
+  "name": "announce-special",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[excited] Tonight at six: the Saturday Special!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Every song! EVERY song!"
+    },
+    {
+      "who": "Noel",
+      "say": "[proudly] Including my high notes."
+    },
+    {
+      "who": "Ivy",
+      "say": "[dryly] Especially his high notes."
+    },
+    {
+      "who": "Pip",
+      "say": "Bring your friends! And your grandma!"
+    }
+  ],
+  "look": "marquee",
+  "palette": "candy"
+}

@@ -33,6 +33,8 @@ def test_lrc_fallback_replaces_only_bad_lines():
     data = {"segments": [seg(1.0, 2.0, 2), seg(3.0, 3.01, 2), seg(9.0, 10.0, 2)]}
     starts = lt.lrc_starts("[00:01.10] a b\n[00:02.90] c d\n[00:05.00] e f\n")
     assert starts == [1.1, 2.9, 5.0]
+    # a bare timestamp marks an instrumental gap, not a line (Here Comes the Sun's LRC)
+    assert lt.lrc_starts("[00:01.10] a b\n[00:02.00] \n[00:02.90] c d\n[00:04.00]\n") == [1.1, 2.9]
     assert lt.apply_lrc_fallback(data, starts, 12.0) == [2, 3]
     s2 = data["segments"][1]
     assert s2["start_time"] == 2.9 and s2["end_time"] > 3.4

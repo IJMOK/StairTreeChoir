@@ -1,0 +1,23 @@
+{
+  "name": "announce-17-sat",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Hello everyone! We're the Stair Tree Choir!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Next show at five o'clock!"
+    },
+    {
+      "who": "Pip",
+      "say": "[excited] And at six, it's the Saturday Special! Every song we know!"
+    },
+    {
+      "who": "Holly",
+      "say": "See you then!"
+    }
+  ],
+  "look": "butterfly",
+  "palette": "candy"
+}

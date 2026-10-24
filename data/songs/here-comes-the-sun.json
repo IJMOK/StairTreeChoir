@@ -1,0 +1,161 @@
+{
+  "sequence": "Here Comes the Sun",
+  "audio": "Audio/Songs/Here Comes the Sun.mp3",
+  "lyrics_timing": "Audio/Songs/Here Comes the Sun.timing.json",
+  "lyrics_track": "HereComesTheSun",
+  "beats": "Audio/Songs/Here Comes the Sun.beats.json",
+  "groups": {
+    "all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "even": [
+      2,
+      4,
+      6
+    ],
+    "inner": [
+      3,
+      4
+    ],
+    "middle": [
+      2,
+      5
+    ],
+    "odd": [
+      1,
+      3,
+      5
+    ],
+    "outer": [
+      1,
+      6
+    ],
+    "t1": [
+      1
+    ],
+    "t2": [
+      2
+    ],
+    "t6": [
+      6
+    ]
+  },
+  "lines": {
+    "1": "all",
+    "2": "all",
+    "3": "all",
+    "4": "middle",
+    "5": "t6",
+    "6": "all",
+    "7": "all",
+    "8": "all",
+    "9": "middle",
+    "10": "t2",
+    "11": "even",
+    "12": "all",
+    "13": "all",
+    "14": "odd",
+    "15": "outer",
+    "16": "middle",
+    "17": "inner",
+    "18": "all",
+    "19": "all",
+    "20": "t1",
+    "21": "all",
+    "22": "all",
+    "23": "all",
+    "24": "all",
+    "25": "all",
+    "26": "all",
+    "27": "all"
+  },
+  "sections": [
+    {
+      "name": "intro",
+      "until": 15.4,
+      "look": "choir_curtain",
+      "palette": [
+        "#FFD400",
+        "#FF8C00",
+        "#FFF1A8",
+        "#FF5E3A"
+      ],
+      "eyes": "blink"
+    },
+    {
+      "name": "chorus1",
+      "until": 33.0,
+      "look": "butterfly",
+      "palette": [
+        "#FFD400",
+        "#FF8C00",
+        "#FFF1A8",
+        "#FF5E3A"
+      ],
+      "eyes": "roll"
+    },
+    {
+      "name": "verse1",
+      "until": 65.0,
+      "look": "rainbow_wash",
+      "palette": [
+        "#FFD400",
+        "#FF8C00",
+        "#FFF1A8",
+        "#FF5E3A"
+      ],
+      "eyes": "follow"
+    },
+    {
+      "name": "verse2",
+      "until": 92.0,
+      "look": "plasma",
+      "palette": [
+        "#FFD400",
+        "#FF8C00",
+        "#FFF1A8",
+        "#FF5E3A"
+      ],
+      "eyes": "follow"
+    },
+    {
+      "name": "bridge",
+      "until": 135.0,
+      "look": "choir_spiral",
+      "palette": [
+        "#FFD400",
+        "#FF8C00",
+        "#FFF1A8",
+        "#FF5E3A"
+      ],
+      "accent": "colour_hit",
+      "accent_every": 4,
+      "eyes": "follow"
+    },
+    {
+      "name": "verse3",
+      "until": 146.5,
+      "look": "rainbow_wash",
+      "palette": [
+        "#FFD400",
+        "#FF8C00",
+        "#FFF1A8",
+        "#FF5E3A"
+      ],
+      "eyes": "follow"
+    },
+    {
+      "name": "finale",
+      "until": 999,
+      "look": "choir_rainbow",
+      "palette": "rainbow",
+      "eyes": "rainbow"
+    }
+  ],
+  "notes": "New Year (24 Oct 2026). Sunny palette. Choruses all; the verses go to Pip, Ivy and Holly; the bridge builds from the outer pair through the middle and inner pairs to everyone."
+}

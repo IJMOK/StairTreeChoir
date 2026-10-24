@@ -1,0 +1,32 @@
+{
+  "name": "goodnight-season",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "That's the end of our season, everyone."
+    },
+    {
+      "who": "Ivy",
+      "say": "Thank you for coming to see us."
+    },
+    {
+      "who": "Noel",
+      "say": "[dramatically, singing] Until next Christmaaaaas!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[yawns] Wake me up in December."
+    },
+    {
+      "who": "Pip",
+      "say": "Bye! Don't forget us!"
+    },
+    {
+      "who": "Everyone",
+      "say": "Goodbye! Happy New Year!"
+    }
+  ],
+  "look": "rainbow_wash",
+  "palette": "rainbow",
+  "fade_out": 2.0
+}

@@ -1,0 +1,180 @@
+{
+  "sequence": "Walking on Sunshine",
+  "audio": "Audio/Songs/Walking on Sunshine.mp3",
+  "lyrics_timing": "Audio/Songs/Walking on Sunshine.timing.json",
+  "lyrics_track": "WalkingOnSunshine",
+  "beats": "Audio/Songs/Walking on Sunshine.beats.json",
+  "groups": {
+    "all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "even": [
+      2,
+      4,
+      6
+    ],
+    "inner": [
+      3,
+      4
+    ],
+    "t1": [
+      1
+    ],
+    "t2": [
+      2
+    ],
+    "t3": [
+      3
+    ],
+    "t4": [
+      4
+    ],
+    "t6": [
+      6
+    ]
+  },
+  "lines": {
+    "1": "all",
+    "2": "all",
+    "3": "t4",
+    "4": "t6",
+    "5": "t4",
+    "6": "t6",
+    "7": "all",
+    "8": "even",
+    "9": "even",
+    "10": "all",
+    "11": "all",
+    "12": "all",
+    "13": "all",
+    "14": "t6",
+    "15": "t4",
+    "16": "t1",
+    "17": "t2",
+    "18": "inner",
+    "19": "all",
+    "20": "all",
+    "21": "even",
+    "22": "even",
+    "23": "all",
+    "24": "all",
+    "25": "all",
+    "26": "all",
+    "27": "all",
+    "28": "all",
+    "29": "all",
+    "30": "t3",
+    "31": "t3",
+    "32": "inner",
+    "33": "inner",
+    "34": "all",
+    "35": "all",
+    "36": "all",
+    "37": "all",
+    "38": "all",
+    "39": "all",
+    "40": "all",
+    "41": "all",
+    "42": "all",
+    "43": "all",
+    "44": "all",
+    "45": "all",
+    "46": "all",
+    "47": "all",
+    "48": "all",
+    "49": "all",
+    "50": "all",
+    "51": "all",
+    "52": "all",
+    "53": "all",
+    "54": "all"
+  },
+  "sections": [
+    {
+      "name": "intro",
+      "until": 9.4,
+      "look": "choir_curtain",
+      "palette": [
+        "#FFD400",
+        "#FF8C00",
+        "#FFF1A8",
+        "#FF5E3A"
+      ],
+      "eyes": "roll"
+    },
+    {
+      "name": "verse1",
+      "until": 52.0,
+      "look": "chase",
+      "palette": [
+        "#FFD400",
+        "#FF8C00",
+        "#FFF1A8",
+        "#FF5E3A"
+      ],
+      "eyes": "follow"
+    },
+    {
+      "name": "chorus1",
+      "until": 74.5,
+      "look": "choir_shockwave",
+      "palette": [
+        "#FFD400",
+        "#FF8C00",
+        "#FFF1A8",
+        "#FF5E3A"
+      ],
+      "accent": "colour_hit",
+      "accent_every": 2,
+      "eyes": "roll"
+    },
+    {
+      "name": "verse2",
+      "until": 108.6,
+      "look": "marquee",
+      "palette": [
+        "#FFD400",
+        "#FF8C00",
+        "#FFF1A8",
+        "#FF5E3A"
+      ],
+      "eyes": "follow"
+    },
+    {
+      "name": "chorus2",
+      "until": 147.6,
+      "look": "choir_rainbow",
+      "palette": "rainbow",
+      "accent": "flash",
+      "accent_every": 2,
+      "eyes": "roll"
+    },
+    {
+      "name": "bridge",
+      "until": 165.2,
+      "look": "plasma",
+      "palette": [
+        "#FFD400",
+        "#FF8C00",
+        "#FFF1A8",
+        "#FF5E3A"
+      ],
+      "eyes": "follow"
+    },
+    {
+      "name": "finale",
+      "until": 999,
+      "look": "choir_shockwave",
+      "palette": "rainbow",
+      "accent": "flash",
+      "accent_every": 2,
+      "eyes": "rainbow"
+    }
+  ],
+  "notes": "New Year (24 Oct 2026). Jingle and Pip trade the bouncy verse lines (Holly and Ivy one each in verse 2), choruses all with the even trees on the echoes, Noel shows off in the bridge with Jingle joining."
+}

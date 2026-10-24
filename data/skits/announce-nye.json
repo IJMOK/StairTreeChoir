@@ -1,0 +1,23 @@
+{
+  "name": "announce-nye",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[excited] Hello everyone! We're the Stair Tree Choir!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] More shows tonight! And at midnight, the big countdown!"
+    },
+    {
+      "who": "Pip",
+      "say": "[giggles] Stay up late! Your grandma is!"
+    },
+    {
+      "who": "Holly",
+      "say": "See you then!"
+    }
+  ],
+  "look": "butterfly",
+  "palette": "candy"
+}

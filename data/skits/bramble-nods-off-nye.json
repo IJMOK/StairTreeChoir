@@ -1,0 +1,33 @@
+{
+  "name": "bramble-nods-off-nye",
+  "lines": [
+    {
+      "who": "Bramble",
+      "say": "[sleepily] Is it midnight yet?"
+    },
+    {
+      "who": "Holly",
+      "say": "Not long now, Bramble. Half an hour."
+    },
+    {
+      "who": "Bramble",
+      "say": "[yawning] I'll just... rest my eyes..."
+    },
+    {
+      "who": "Bramble",
+      "say": "[snoring softly] Zzzzzz.",
+      "pause": 0.6
+    },
+    {
+      "who": "Pip",
+      "say": "[whispering] Shhh! We'll wake him at midnight."
+    }
+  ],
+  "asleep": [
+    {
+      "who": "Bramble",
+      "from_line": 4
+    }
+  ],
+  "look": "snow"
+}

@@ -1,0 +1,191 @@
+{
+  "name": "countdown",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "[excited] Everyone! It's nearly midnight!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Is it now? Is it now? Is it NOW?"
+    },
+    {
+      "who": "Holly",
+      "say": "Not yet, Jingle!"
+    },
+    {
+      "who": "Ivy",
+      "say": "[whispering] Should we wake Bramble?"
+    },
+    {
+      "who": "Pip",
+      "say": "[giggles] Let him sleep. He'll wake up next year!"
+    },
+    {
+      "who": "Noel",
+      "say": "[dramatically] I shall count us in. Mi mi mi..."
+    },
+    {
+      "who": "Holly",
+      "say": "NO, Noel. We ALL count. Here we go!"
+    },
+    {
+      "who": [
+        "Holly",
+        "Ivy",
+        "Noel",
+        "Jingle",
+        "Pip"
+      ],
+      "say": "[shouting] Ten!",
+      "at": 30.0
+    },
+    {
+      "who": [
+        "Holly",
+        "Ivy",
+        "Noel",
+        "Jingle",
+        "Pip"
+      ],
+      "say": "[shouting] Nine!",
+      "at": 31.0
+    },
+    {
+      "who": [
+        "Holly",
+        "Ivy",
+        "Noel",
+        "Jingle",
+        "Pip"
+      ],
+      "say": "[shouting] Eight!",
+      "at": 32.0
+    },
+    {
+      "who": [
+        "Holly",
+        "Ivy",
+        "Noel",
+        "Jingle",
+        "Pip"
+      ],
+      "say": "[shouting] Seven!",
+      "at": 33.0
+    },
+    {
+      "who": [
+        "Holly",
+        "Ivy",
+        "Noel",
+        "Jingle",
+        "Pip"
+      ],
+      "say": "[shouting] Six!",
+      "at": 34.0
+    },
+    {
+      "who": [
+        "Holly",
+        "Ivy",
+        "Noel",
+        "Jingle",
+        "Pip"
+      ],
+      "say": "[shouting] Five!",
+      "at": 35.0
+    },
+    {
+      "who": [
+        "Holly",
+        "Ivy",
+        "Noel",
+        "Jingle",
+        "Pip"
+      ],
+      "say": "[shouting] Four!",
+      "at": 36.0
+    },
+    {
+      "who": [
+        "Holly",
+        "Ivy",
+        "Noel",
+        "Jingle",
+        "Pip"
+      ],
+      "say": "[shouting] Three!",
+      "at": 37.0
+    },
+    {
+      "who": [
+        "Holly",
+        "Ivy",
+        "Noel",
+        "Jingle",
+        "Pip"
+      ],
+      "say": "[shouting] Two!",
+      "at": 38.0
+    },
+    {
+      "who": [
+        "Holly",
+        "Ivy",
+        "Noel",
+        "Jingle",
+        "Pip"
+      ],
+      "say": "[shouting] One!",
+      "at": 39.0
+    },
+    {
+      "who": "Everyone",
+      "say": "[cheering] HAPPY NEW YEAR!",
+      "at": 40.0
+    },
+    {
+      "who": "Bramble",
+      "say": "[startled] Present! Is it Christmas?"
+    },
+    {
+      "who": "Holly",
+      "say": "[laughs] It's next year, Bramble!"
+    },
+    {
+      "who": "Pip",
+      "say": "[excited] Happy New Year, everyone!"
+    }
+  ],
+  "asleep": [
+    {
+      "who": "Bramble",
+      "until_line": 18
+    }
+  ],
+  "sections": [
+    {
+      "name": "build",
+      "until": 29.8,
+      "look": "choir_galaxy",
+      "palette": "ice",
+      "eyes": "follow"
+    },
+    {
+      "name": "count",
+      "until": 39.9,
+      "look": "pulse",
+      "palette": "white",
+      "eyes": "follow"
+    },
+    {
+      "name": "midnight",
+      "until": 999,
+      "look": "choir_shockwave",
+      "palette": "rainbow",
+      "accent": "flash",
+      "accent_every": 2,
+      "eyes": "rainbow"
+    }
+  ]
+}

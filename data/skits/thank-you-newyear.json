@@ -1,0 +1,19 @@
+{
+  "name": "thank-you-newyear",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "Thank you for listening, and Happy New Year!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Next show on the hour!"
+    },
+    {
+      "who": "Pip",
+      "say": "[giggles] Bring your grandma! She's probably still up from last night!"
+    }
+  ],
+  "look": "marquee",
+  "palette": "candy"
+}

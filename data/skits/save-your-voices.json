@@ -1,0 +1,23 @@
+{
+  "name": "save-your-voices",
+  "lines": [
+    {
+      "who": "Holly",
+      "say": "That's all for now, everyone. Save your voices!"
+    },
+    {
+      "who": "Jingle",
+      "say": "[excited] Because at six, it's the Saturday Special!"
+    },
+    {
+      "who": "Bramble",
+      "say": "[yawns] Every song? I'd better have a nap first."
+    },
+    {
+      "who": "Pip",
+      "say": "See you at six!"
+    }
+  ],
+  "look": "marquee",
+  "palette": "xmas"
+}

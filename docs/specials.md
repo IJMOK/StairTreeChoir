@@ -1,6 +1,6 @@
 # Specials: Saturday Special, New Year's Eve, New Year's Day
 
-Plan, 24 Oct 2026, from Rob's answers. Nothing here is built yet; the build order is at the end. The normal night is in [show-night.md](show-night.md).
+Plan, 24 Oct 2026, from Rob's answers. **Built the same evening**: every skit, song and playlist below is rendered, render-checked and in the generator (tools/gen_site_config.py), and the real night-by-night times are in [show-plan.md](show-plan.md). Changes made while building: Saturday's 17:00 show is a **two-song teaser** ending "Save your voices!" so the special stays special; the NYE countdown playlist starts at **23:59:20** and says "Ten!" at 23:59:50; the New Year's Day show plays all five New Year songs (Happy New Year, Here Comes the Sun, Walking on Sunshine, What a Wonderful World, Auld Lang Syne). The normal night is in [show-night.md](show-night.md).
 
 ## The season with specials
 
