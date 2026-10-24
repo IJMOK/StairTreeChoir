@@ -98,3 +98,7 @@ Lids and box mounts use M3 brass heat-set inserts, not captive nuts: the screws 
 | 4 + 4 | 4 + 4 | M6 × 70 bolts and M6 spring channel nuts (short spring, 41×21 strut) | CNC clamps (fixtures/); the washers are printed |
 | 1 pack | 1 pack | Cable ties, up to 4.8mm wide | Site box zip-tie anchors (5mm slots) |
 | – | – | Superglue | Butt joints in the lid cord |
+
+## Webcam (separate project)
+
+A battery-powered WiFi camera in the hedge across the road to stream the Site A show, about £140–205. Not needed for 1 Dec. Design, BOM, the music-copyright plan and the checks to do before buying are in [webcam.md](webcam.md).
