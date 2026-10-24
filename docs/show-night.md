@@ -9,10 +9,9 @@ UK sunset in December is about 15:50.
 | Time | What plays | Sound |
 |---|---|---|
 | 16:00 | **Waiting** loop: slow rainbow across the choir, trees blinking, glancing about, one dozing off now and then | none, or quiet instrumental |
-| every :15, :30, :45 | **Announcement** (~20 s): "Next show at five o'clock!" | the trees, lip-synced |
-| 17:00, 18:00, 19:00, 20:00 | **Show** (~15 min), then back to the waiting loop | full |
-| 20:45 | Last announcement: "Last show of the night at nine!" (or skip a 21:00 show) | |
-| 21:00 | **Goodnight** skit, then lights off | |
+| every :15, :30, :45, 16:15 to 19:45 | **Announcement** (~13 s): "Next show at five o'clock!" (the 19:xx ones announce the last show, at eight) | the trees, lip-synced |
+| 17:00, 18:00, 19:00, 20:00 (last) | **Show** (~15 min), then back to the waiting loop | full |
+| after the 20:00 show | **Goodnight** skit, then lights off | |
 
 Volume: a "quiet hours" level after 20:00 if the neighbours ask. FPP's scheduler runs this; the playlists are generated per site (M5) so every site gets the same shows.
 
