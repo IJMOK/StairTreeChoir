@@ -1,0 +1,190 @@
+{
+  "sequence": "O Come All Ye Faithful",
+  "audio": "Audio/O-Come-All-Ye-Faithful.mp3",
+  "lyrics_timing": "Audio/OComeAll.json",
+  "lyrics_track": "OComeAll",
+  "beats": "Audio/O-Come-All-Ye-Faithful.beats.json",
+  "groups": {
+    "all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "A": [
+      1,
+      2,
+      3
+    ],
+    "B": [
+      4,
+      5,
+      6
+    ],
+    "inner": [
+      3,
+      4
+    ],
+    "odd": [
+      1,
+      3,
+      5
+    ],
+    "even": [
+      2,
+      4,
+      6
+    ],
+    "outer+middle": [
+      1,
+      2,
+      5,
+      6
+    ],
+    "inner+middle": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "lines": {
+    "1": "A",
+    "2": "B",
+    "3": "outer+middle",
+    "4": "all",
+    "5": "all",
+    "6": "all",
+    "7": "all",
+    "8": "all",
+    "9": "odd",
+    "10": "even",
+    "11": "inner+middle",
+    "12": "all",
+    "13": "all",
+    "14": "all",
+    "15": "all",
+    "16": "all",
+    "17": "inner",
+    "18": "inner+middle",
+    "19": "all",
+    "20": "all",
+    "21": "all",
+    "22": "all",
+    "23": "all",
+    "24": "all"
+  },
+  "sections": [
+    {
+      "name": "intro",
+      "until": 15.3,
+      "look": "choir_curtain",
+      "palette": [
+        "#FFB000",
+        "#FFFFFF",
+        "#FFD27F"
+      ],
+      "eyes": "blink"
+    },
+    {
+      "name": "verse1",
+      "until": 38.68,
+      "look": "marquee",
+      "palette": [
+        "#FFB000",
+        "#FFFFFF",
+        "#FFD27F"
+      ],
+      "params": {
+        "band": 4,
+        "skip": 2,
+        "speed": 3
+      },
+      "eyes": "follow"
+    },
+    {
+      "name": "refrain1",
+      "until": 55.42,
+      "look": "spiral",
+      "palette": [
+        "#FFB000",
+        "#FFFFFF"
+      ],
+      "params": {
+        "rotation": 2.0,
+        "movement": 1.0
+      },
+      "accent": "flash",
+      "accent_every": 4
+    },
+    {
+      "name": "verse2",
+      "until": 79.02,
+      "look": "pulse",
+      "palette": [
+        "#FFFFFF",
+        "#FFB000"
+      ],
+      "eyes": "follow"
+    },
+    {
+      "name": "refrain2",
+      "until": 96.96,
+      "look": "choir_spiral",
+      "palette": [
+        "#FFB000",
+        "#FFFFFF",
+        "#FFD27F"
+      ],
+      "accent": "sparkle_hit",
+      "accent_every": 2
+    },
+    {
+      "name": "verse3",
+      "until": 119.32,
+      "look": "marquee",
+      "palette": [
+        "#FFFFFF",
+        "#FFB000"
+      ],
+      "params": {
+        "band": 2,
+        "skip": 1,
+        "speed": 4
+      },
+      "eyes": "follow"
+    },
+    {
+      "name": "refrain3",
+      "until": 134.12,
+      "look": "spiral",
+      "palette": [
+        "#FFFFFF",
+        "#FFB000"
+      ],
+      "params": {
+        "rotation": 3.0,
+        "movement": 1.5
+      },
+      "accent": "sparkle_hit",
+      "accent_every": 1,
+      "eyes": "sparkle"
+    },
+    {
+      "name": "end",
+      "until": 999,
+      "look": "choir_curtain",
+      "palette": [
+        "#FFB000",
+        "#FFFFFF",
+        "#FFD27F"
+      ],
+      "params": {
+        "effect": "close"
+      }
+    }
+  ],
+  "notes": "Lines numbered as in Audio/OComeAll.json (1-24). Three verses, each followed by the four-line refrain sung by the full choir. Verses build towards everyone: verse 1 trio A, trio B, the outer four, all; verse 2 odd, even, middle four, all; verse 3 inner pair, middle four, all. Looks: majestic gold and white only: curtain opening, slow gold marquee, gold/white spirals with white flashes on the refrains, white-gold beat pulses and a white/gold marquee in the verses, sparkling final refrain, curtain closing."
+}
