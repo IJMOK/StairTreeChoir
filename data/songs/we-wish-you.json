@@ -1,0 +1,216 @@
+{
+  "sequence": "We Wish You a Merry Christmas",
+  "audio": "Audio/We-Wish-You-A-Merry-Christmas.mp3",
+  "lyrics_timing": "Audio/WeWish.json",
+  "lyrics_track": "WeWish",
+  "beats": "Audio/We-Wish-You-A-Merry-Christmas.beats.json",
+  "groups": {
+    "all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "A": [
+      1,
+      2,
+      3
+    ],
+    "B": [
+      4,
+      5,
+      6
+    ],
+    "left": [
+      1,
+      2
+    ],
+    "mid": [
+      3,
+      4
+    ],
+    "right": [
+      5,
+      6
+    ],
+    "outer": [
+      1,
+      6
+    ],
+    "middle": [
+      2,
+      5
+    ],
+    "inner": [
+      3,
+      4
+    ],
+    "odd": [
+      1,
+      3,
+      5
+    ],
+    "even": [
+      2,
+      4,
+      6
+    ],
+    "t1": [
+      1
+    ],
+    "t2": [
+      2
+    ],
+    "t3": [
+      3
+    ],
+    "t4": [
+      4
+    ],
+    "t5": [
+      5
+    ],
+    "t6": [
+      6
+    ]
+  },
+  "lines": {
+    "1": "left",
+    "2": "mid",
+    "3": "right",
+    "4": "all",
+    "5": "all",
+    "6": "A",
+    "7": "all",
+    "8": "t1",
+    "9": "t2",
+    "10": "t3",
+    "11": "all",
+    "12": "all",
+    "13": "B",
+    "14": "all",
+    "15": "t4",
+    "16": "t5",
+    "17": "t6",
+    "18": "all",
+    "19": "all",
+    "20": "odd",
+    "21": "all",
+    "22": "outer",
+    "23": "middle",
+    "24": "inner",
+    "25": "all",
+    "26": "all",
+    "27": "even",
+    "28": "all",
+    "29": "A",
+    "30": "B",
+    "31": "all",
+    "32": "all"
+  },
+  "sections": [
+    {
+      "name": "intro",
+      "until": 5.22,
+      "look": "choir_curtain",
+      "palette": "candy",
+      "eyes": "roll"
+    },
+    {
+      "name": "chorus1",
+      "until": 16.09,
+      "look": "candy",
+      "params": {
+        "speed": 8
+      },
+      "accent": "colour_hit",
+      "accent_every": 2,
+      "palette": "xmas",
+      "eyes": "follow"
+    },
+    {
+      "name": "tidings1",
+      "until": 26.4,
+      "look": "choir_spiral",
+      "palette": "xmas",
+      "accent": "flash",
+      "accent_every": 2
+    },
+    {
+      "name": "pudding1",
+      "until": 36.76,
+      "look": "pulse",
+      "palette": "xmas",
+      "eyes": "follow"
+    },
+    {
+      "name": "tidings2",
+      "until": 47.2,
+      "look": "choir_butterfly",
+      "eyes": "rainbow"
+    },
+    {
+      "name": "wont-go",
+      "until": 57.56,
+      "look": "candy",
+      "params": {
+        "band": 2,
+        "speed": 16
+      },
+      "accent": "colour_hit",
+      "accent_every": 2,
+      "eyes": "follow"
+    },
+    {
+      "name": "tidings3",
+      "until": 68.16,
+      "look": "spiral",
+      "palette": "xmas",
+      "accent": "sparkle_hit",
+      "accent_every": 2
+    },
+    {
+      "name": "pudding2",
+      "until": 78.6,
+      "look": "marquee",
+      "palette": "xmas",
+      "params": {
+        "band": 3,
+        "skip": 2,
+        "speed": 10
+      },
+      "eyes": "follow"
+    },
+    {
+      "name": "tidings4",
+      "until": 88.82,
+      "look": "choir_rainbow",
+      "accent": "flash",
+      "accent_every": 2
+    },
+    {
+      "name": "finale",
+      "until": 100.58,
+      "look": "candy",
+      "params": {
+        "speed": 12
+      },
+      "accent": "sparkle_hit",
+      "accent_every": 1,
+      "eyes": "sparkle"
+    },
+    {
+      "name": "end",
+      "until": 999,
+      "look": "choir_curtain",
+      "palette": "candy",
+      "params": {
+        "effect": "close"
+      },
+      "eyes": "roll"
+    }
+  ],
+  "notes": "Lines numbered as in Audio/WeWish.json (1-32). Opening chorus passes left/middle/right pair then everyone; every good-tidings refrain is the full choir with one group on its middle line (A, B, odd, even); the pudding verses go solo StairTree1->3, then 4->6, then outer/middle/inner pairs, everyone on each closing line; final chorus trio call and response into the full choir. Looks: candy and Christmas fun: candy-cane marquees, red/green/gold beat pulses and spirals, butterfly and rainbow sweeps on the refrains with white flashes, a fast candy marquee with colour hits for the third verse, sparkling candy finale and a closing curtain."
+}
