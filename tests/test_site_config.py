@@ -147,8 +147,7 @@ def test_generated_files_are_current_and_secret_free(tmp_path):
 
 
 def test_playlist_media_are_the_arranged_audio_files():
-    """Every song/skit in a playlist plays its arrangement's real audio file. Fails until every
-    sequence in the set lists has been arranged (data/songs/*.json)."""
+    """Every song/skit in a playlist plays its arrangement's real audio file (data/songs/*.json)."""
     media = sc.arranged_media()
     missing = sorted({s for pl in sc.playlists().values() for s in sc.sequences_used(pl)} - set(media) - {sc.WAITING})
     for pl in sc.playlists().values():
@@ -156,5 +155,4 @@ def test_playlist_media_are_the_arranged_audio_files():
             seq = e.get("sequenceName", "").removesuffix(".fseq")
             if "mediaName" in e and seq in media:
                 assert e["mediaName"] == media[seq]
-    if missing:   # TODO(coordinator): make this an assert once every sequence is arranged
-        pytest.skip(f"not arranged yet: {missing}")
+    assert not missing, f"not arranged yet: {missing}"
