@@ -58,7 +58,7 @@ def load_dictionary(show: Path = SHOW_FOLDER) -> tuple[dict, dict]:
         p = _find(name, show)
         if p is None:
             continue
-        for line in p.read_text(encoding="latin-1").splitlines():
+        for line in p.read_text(encoding="utf-8", errors="replace").splitlines():
             line = line.strip()
             if not line or line.startswith("##") or line.startswith(";;"):
                 continue
@@ -76,9 +76,15 @@ def load_dictionary(show: Path = SHOW_FOLDER) -> tuple[dict, dict]:
     return words, mapping
 
 
+def ascii_upper(word: str) -> str:
+    """wxString::Upper() as xLights runs it uppercases ASCII only (a non-ASCII letter such as
+    ñ stays lower case), so user_dictionary keys keep those letters as sung."""
+    return "".join(chr(ord(c) - 32) if "a" <= c <= "z" else c for c in word)
+
+
 def word_phonemes(text: str, words: dict, mapping: dict) -> list[str]:
     word = "".join(" " if c == "\t" else c for c in text if c not in STRIP)
-    pron = words.get(word.upper())
+    pron = words.get(ascii_upper(word))
     out: list[str] = []
     if not pron or len(pron) <= 1:
         return out

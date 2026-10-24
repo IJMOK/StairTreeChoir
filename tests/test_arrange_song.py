@@ -82,7 +82,7 @@ def test_gaze_points_at_the_singers():
     assert ars.gaze_pieces(0, 1000, 6, sing) == []
 
 
-@pytest.mark.parametrize("song", ["rockin-around", "dominick"])
+@pytest.mark.parametrize("song", ["rockin-around", "dominick", "feliz-navidad"])
 def test_real_arrangement_is_consistent(song):
     arr = json.loads((ROOT / f"data/songs/{song}.json").read_text(encoding="utf-8"))
     assert sorted(int(k) for k in arr["lines"]) == list(range(1, len(arr["lines"]) + 1))
