@@ -17,25 +17,11 @@ import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from tools.tree_layout import LAYOUT_FILE, ROOT
+from tools.tree_layout import LAYOUT_FILE, ROOT, phoneme_nodes
 
 XMODEL_FILE = ROOT / "xlights" / "StairTree.xmodel"
 MODEL_NAME = "StairTree"
 CELL_MM = 10.0  # one grid cell = 10mm, so the model keeps the tree's real proportions
-
-# xLights phonemes (FacesEffect.cpp phonemeMap) -> our mouth groups (CLAUDE.md §3).
-PHONEME_GROUPS = {
-    "AI": ["lip", "mouth_wide"],
-    "E": ["lip", "mouth_small"],
-    "FV": ["lip", "mouth_small"],
-    "L": ["lip", "mouth_small"],
-    "MBP": ["lip"],
-    "O": ["mouth_small", "mouth_wide"],
-    "U": ["mouth_small", "mouth_wide"],
-    "WQ": ["mouth_small", "mouth_wide"],
-    "etc": ["lip", "mouth_small"],
-    "rest": ["lip"],
-}
 
 # Eye hexagons run top, upper-right, lower-right, bottom, lower-left, upper-left;
 # a closed eye keeps the lower three (a lid line).
@@ -95,8 +81,9 @@ def custom_model_string(cells: list[list[int]]) -> str:
 def face_info(layout: dict) -> dict[str, str]:
     eye_r, eye_l = layout["groups"]["eye_right"][0], layout["groups"]["eye_left"][0]
     attrs = {"Name": MODEL_NAME, "Type": "NodeRange", "CustomColors": "1"}
-    for phoneme, groups in PHONEME_GROUPS.items():
-        attrs[f"Mouth-{phoneme}"] = ranges(group_nodes(layout, groups))
+    # xLights phonemes (FacesEffect.cpp phonemeMap) -> layout["phonemes"] (CLAUDE.md §3).
+    for phoneme, spec in sorted(layout["phonemes"].items()):
+        attrs[f"Mouth-{phoneme}"] = ranges(phoneme_nodes(layout["groups"], spec))
         attrs[f"Mouth-{phoneme}-Color"] = COLOURS["mouth"]
     attrs["Eyes-Open"] = ranges(group_nodes(layout, ["eye_right", "eye_left"]))
     attrs["Eyes-Open-Color"] = COLOURS["eyes"]

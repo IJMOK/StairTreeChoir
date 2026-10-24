@@ -47,17 +47,36 @@ class Params:
 # Wiring order of the groups after the outline.
 GROUP_ORDER = ("outline", "mouth_wide", "mouth_small", "lip", "eye_right", "eye_left")
 
-# Mouth groups lit for each xLights phoneme; outline and eyes are always lit.
+# Mouth nodes lit for each xLights phoneme; outline and eyes are always lit.
+# "group" lights the whole group, "group[a:b]" a Python slice of it in wiring order
+# (lip and mouth_small are symmetric, so a centred slice is the same either way).
+# Every shape keeps a top lip (Rob, 24 Oct 2026: O/U/WQ without one read as two smiles).
 PHONEMES = {
-    "rest": ["lip"], "MBP": ["lip"],
-    "etc": ["lip", "mouth_small"], "FV": ["lip", "mouth_small"],
-    "L": ["lip", "mouth_small"], "E": ["lip", "mouth_small"],
+    "rest": ["lip"],
+    "MBP": ["lip[1:6]"],                          # pressed: inner 5
+    "etc": ["lip", "mouth_small"], "E": ["lip", "mouth_small"], "L": ["lip", "mouth_small"],
+    "FV": ["lip", "mouth_small[1:4]"],            # slight dip
     "AI": ["lip", "mouth_wide"],
-    "O": ["mouth_small", "mouth_wide"], "U": ["mouth_small", "mouth_wide"],
-    "WQ": ["mouth_small", "mouth_wide"],
+    "O": ["lip[1:6]", "mouth_small"],             # closed round o: lip ends sit over the small arc's ends
+    "U": ["lip[2:5]", "mouth_small[1:4]"],        # small pucker
+    "WQ": ["lip[2:5]", "mouth_small[1:4]"],
 }
 
 Point = tuple[float, float]
+
+
+def phoneme_nodes(groups: dict[str, list[int]], spec: list[str]) -> list[int]:
+    """Node numbers for one PHONEMES entry, given the layout's {group: [first, last]}."""
+    nodes = []
+    for item in spec:
+        name, _, sl = item.partition("[")
+        first, last = groups[name]
+        members = list(range(first, last + 1))
+        if sl:
+            a, b = (int(v) for v in sl.rstrip("]").split(":"))
+            members = members[a:b]
+        nodes += members
+    return sorted(nodes)
 
 
 def load_blank(path: Path = BLANK_FILE) -> dict:

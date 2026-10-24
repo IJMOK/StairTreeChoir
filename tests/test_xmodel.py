@@ -49,7 +49,13 @@ def test_face_definition(model):
         assert f"Mouth-{p}" in face
     assert expand(face["Mouth-rest"]) == list(range(74, 81))
     assert expand(face["Mouth-AI"]) == list(range(60, 69)) + list(range(74, 81))
-    assert expand(face["Mouth-O"]) == list(range(60, 74))
+    assert expand(face["Mouth-MBP"]) == list(range(75, 80))
+    assert expand(face["Mouth-FV"]) == [70, 71, 72] + list(range(74, 81))
+    assert expand(face["Mouth-O"]) == list(range(69, 74)) + list(range(75, 80))
+    assert expand(face["Mouth-U"]) == expand(face["Mouth-WQ"]) == [70, 71, 72, 76, 77, 78]
+    lip = set(range(74, 81))
+    for p in ("AI", "E", "FV", "L", "MBP", "O", "U", "WQ", "etc", "rest"):
+        assert lip & set(expand(face[f"Mouth-{p}"])), f"{p} has no top lip"
     assert expand(face["FaceOutline"]) == list(range(1, 60))
     assert expand(face["Eyes-Open"]) == list(range(81, 93))
     assert expand(face["Eyes-Closed"]) == [83, 84, 85, 89, 90, 91]

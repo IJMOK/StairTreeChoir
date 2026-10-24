@@ -73,17 +73,9 @@
       "lip"
     ],
     "MBP": [
-      "lip"
+      "lip[1:6]"
     ],
     "etc": [
-      "lip",
-      "mouth_small"
-    ],
-    "FV": [
-      "lip",
-      "mouth_small"
-    ],
-    "L": [
       "lip",
       "mouth_small"
     ],
@@ -91,21 +83,29 @@
       "lip",
       "mouth_small"
     ],
+    "L": [
+      "lip",
+      "mouth_small"
+    ],
+    "FV": [
+      "lip",
+      "mouth_small[1:4]"
+    ],
     "AI": [
       "lip",
       "mouth_wide"
     ],
     "O": [
-      "mouth_small",
-      "mouth_wide"
+      "lip[1:6]",
+      "mouth_small"
     ],
     "U": [
-      "mouth_small",
-      "mouth_wide"
+      "lip[2:5]",
+      "mouth_small[1:4]"
     ],
     "WQ": [
-      "mouth_small",
-      "mouth_wide"
+      "lip[2:5]",
+      "mouth_small[1:4]"
     ]
   },
   "nodes": [
