@@ -1,7 +1,7 @@
 """Lyric timing tracks for xLights sequences, without the GUI.
 
     python -m tools.xl_timing verify "<sequence>" <track>     # compare with a track xLights made
-    python -m tools.xl_timing add "<sequence>" "Audio/Songs/<sequence>.timing.json" [--name <track>]
+    python -m tools.xl_timing add "<sequence>" "Audio/Songs/<sequence>.timing.json" [--name <track>] [--replace]
 
 Ports, line for line, what xLights 2026.18 does when you import an "Eleven Labs" JSON
 (SequenceFile::ProcessElevenLabsTimingFiles, src-core/import_export/TimingImport.cpp)
@@ -177,10 +177,14 @@ def read_track(xsq: Path, name: str) -> list[list[tuple[str, int, int]]]:
     raise SystemExit(f"no timing track {name!r} in {xsq.name}")
 
 
-def add_track(xsq: Path, name: str, layers) -> None:
+def add_track(xsq: Path, name: str, layers, replace: bool = False) -> None:
     s = xsq.read_text(encoding="utf-8")
     if re.search(rf'<Element [^>]*type="timing" name="{re.escape(name)}"', s):
-        raise SystemExit(f"{xsq.name} already has a timing track {name!r}")
+        if not replace:
+            raise SystemExit(f"{xsq.name} already has a timing track {name!r}")
+        q = re.escape(escape(name, quote=True))
+        s = re.sub(rf'[ \t]*<Element [^>]*type="timing" name="{q}"[^>]*/>\r?\n', "", s, count=1)
+        s = re.sub(rf'[ \t]*<Element type="timing" name="{q}">[\s\S]*?</Element>\r?\n', "", s, count=1)
     display = f'    <Element collapsed="false" type="timing" name="{escape(name, quote=True)}" visible="true" views="" active="true" />\n'
     at = s.index("<DisplayElements>") + len("<DisplayElements>\n")
     s = s[:at] + display + s[at:]
@@ -202,6 +206,7 @@ def main(argv: list[str] | None = None) -> None:
     a.add_argument("sequence")
     a.add_argument("json", type=Path)
     a.add_argument("--name", help="track name (default: the JSON file's name without .timing.json)")
+    a.add_argument("--replace", action="store_true", help="replace a track of that name (new audio, e.g. a re-voiced skit)")
     args = ap.parse_args(argv)
     words, mapping = load_dictionary()
     data = json.loads((SHOW_FOLDER / args.json).read_text(encoding="utf-8"))
@@ -215,7 +220,7 @@ def main(argv: list[str] | None = None) -> None:
                   + (f"; first {diff[:3]}" if diff else ""))
     else:
         name = args.name or args.json.name.removesuffix(".json").removesuffix(".timing")
-        add_track(xsq, name, built)
+        add_track(xsq, name, built, args.replace)
         print(f"added timing track {name!r} to {xsq.name}: "
               f"{len(built[0])} phrases, {len(built[1])} words, {len(built[2])} mouth shapes")
 

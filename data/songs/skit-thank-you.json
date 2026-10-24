@@ -5,17 +5,17 @@
   "lyrics_track": "Skit_thank_you",
   "beats": "Audio/Skits/thank-you.beats.json",
   "groups": {
-    "Holly": [
-      1
-    ],
-    "Ivy": [
-      2
-    ],
     "Jingle": [
       4
     ],
     "Pip": [
       6
+    ],
+    "Ivy": [
+      2
+    ],
+    "Holly": [
+      1
     ]
   },
   "lines": {

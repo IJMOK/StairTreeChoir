@@ -3,15 +3,15 @@
   "lines": [
     {
       "who": "Bramble",
-      "say": "Is it nearly the end?"
+      "say": "[sleepily] Is it nearly the end?"
     },
     {
       "who": "Holly",
-      "say": "It's the second song, Bramble."
+      "say": "[sighs] It's the second song, Bramble."
     },
     {
       "who": "Bramble",
-      "say": "Zzzzzz. Zzzzzz.",
+      "say": "[snoring softly] Zzzzzz. Zzzzzz.",
       "pause": 0.5
     }
   ],

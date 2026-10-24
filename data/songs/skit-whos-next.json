@@ -5,14 +5,14 @@
   "lyrics_track": "Skit_whos_next",
   "beats": "Audio/Skits/whos-next.beats.json",
   "groups": {
+    "Holly": [
+      1
+    ],
     "Ivy": [
       2
     ],
     "Jingle": [
       4
-    ],
-    "Holly": [
-      1
     ]
   },
   "lines": {

@@ -5,17 +5,17 @@
   "lyrics_track": "Skit_goodnight",
   "beats": "Audio/Skits/goodnight.beats.json",
   "groups": {
+    "Noel": [
+      3
+    ],
     "Bramble": [
       5
-    ],
-    "Holly": [
-      1
     ],
     "Pip": [
       6
     ],
-    "Noel": [
-      3
+    "Holly": [
+      1
     ]
   },
   "lines": {

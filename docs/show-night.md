@@ -36,16 +36,16 @@ Between the pieces: 3–5 s of the waiting look so the songs don't run into each
 
 Six characters, one per sequence slot (left to right as you face them), so every site gets the same cast whichever physical trees it has. Names and voices are proposals.
 
-| Slot | Name | Character | Voice (Piper, local and free) |
-|---|---|---|---|
-| 1 | **Holly** | The conductor. Bossy, counts everyone in. | en_GB, female, crisp |
-| 2 | **Ivy** | Holly's sidekick, agrees with everything. | en_GB, female, bright, pitched up |
-| 3 | **Noel** | The show-off tenor. Holds every note too long. | en_GB, male, pitched down |
-| 4 | **Jingle** | Over-excited. Talks fast. | en_GB, male, pitched up |
-| 5 | **Bramble** | Sleepy. Nods off between songs. | en_GB, male, slow, low |
-| 6 | **Pip** | The smallest voice. Tells terrible jokes. | en_GB, female, high |
+| Slot | Name | Character | Voice (ElevenLabs, 24 Oct 2026) | Piper fallback |
+|---|---|---|---|---|
+| 1 | **Holly** | The conductor. Bossy, counts everyone in. | Alice (British, clear) | en_GB, female, crisp |
+| 2 | **Ivy** | Holly's sidekick, agrees with everything. | Lily (British, warm) | en_GB, female, bright, pitched up |
+| 3 | **Noel** | The show-off tenor. Holds every note too long. | Eric (smooth tenor) | en_GB, male, pitched down |
+| 4 | **Jingle** | Over-excited. Talks fast. | Liam (energetic, fastest) | en_GB, male, pitched up |
+| 5 | **Bramble** | Sleepy. Nods off between songs. | Bill (old, lowest, slowest) | en_GB, male, slow, low |
+| 6 | **Pip** | The smallest voice. Tells terrible jokes. | Laura (quirky) | en_GB, female, high |
 
-Voices: Piper's English (GB) voices with a little pitch shift per character so they're tellable apart. Generated on the PC, lip-synced with the same lyric-timing tools as the songs (the text is known, so alignment is exact).
+Voices: ElevenLabs premade voices with the eleven_v3 model, directed per line with audio tags (`[sleepily]`, `[giggles]`) in the scripts; tools/skit.py caches every clip, so re-runs are free. Picked by Claude from measured pitch and pace without listening, so they're proposals: auditions of three candidates per character are in the show folder's `Audio\Skits\auditions\`. To change one, set its voice id in data/voices.json and re-run the skits. Piper (`--engine piper`) stays as the free, offline fallback. Lip-sync uses the same lyric-timing tools as the songs, kept inside each line's known span of audio.
 
 ## Scripts (first drafts)
 

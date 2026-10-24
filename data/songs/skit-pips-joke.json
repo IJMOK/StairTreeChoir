@@ -5,14 +5,14 @@
   "lyrics_track": "Skit_pips_joke",
   "beats": "Audio/Skits/pips-joke.beats.json",
   "groups": {
+    "Pip": [
+      6
+    ],
     "Ivy": [
       2
     ],
     "Holly": [
       1
-    ],
-    "Pip": [
-      6
     ]
   },
   "lines": {

@@ -5,14 +5,14 @@
   "lyrics_track": "Skit_announce_17",
   "beats": "Audio/Skits/announce-17.beats.json",
   "groups": {
-    "Holly": [
-      1
-    ],
     "Jingle": [
       4
     ],
     "Pip": [
       6
+    ],
+    "Holly": [
+      1
     ]
   },
   "lines": {

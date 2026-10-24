@@ -1,11 +1,12 @@
 {
-  "_comment": "Hand-edited INPUT: the six characters (docs/show-night.md), one per sequence slot, and their Piper voices. Voice models live in the show folder's Voices/ (python -m piper.download_voices --data-dir <show>/Voices <model>). pitch is in semitones; length > 1 speaks slower.",
+  "_comment": "Hand-edited INPUT: the six characters (docs/show-night.md), one per sequence slot, and their voices. engine picks what tools/skit.py uses (--engine overrides). elevenlabs: a voice id from the account (premade; name for reference), model eleven_v3 unless set, key in ELEVENLABS_API_KEY. piper (fallback, local and free): models live in the show folder's Voices/ (python -m piper.download_voices --data-dir <show>/Voices <model>); pitch is in semitones; length > 1 speaks slower.",
+  "engine": "elevenlabs",
   "characters": {
-    "Holly":   {"slot": 1, "model": "en_GB-semaine-medium", "speaker": "prudence", "pitch": 1.5, "length": 0.95},
-    "Ivy":     {"slot": 2, "model": "en_GB-jenny_dioco-medium", "pitch": 3.0, "length": 0.95},
-    "Noel":    {"slot": 3, "model": "en_GB-alan-medium", "pitch": -2.0, "length": 1.05},
-    "Jingle":  {"slot": 4, "model": "en_GB-northern_english_male-medium", "pitch": 3.5, "length": 0.8},
-    "Bramble": {"slot": 5, "model": "en_GB-semaine-medium", "speaker": "obadiah", "pitch": -3.0, "length": 1.3},
-    "Pip":     {"slot": 6, "model": "en_GB-semaine-medium", "speaker": "poppy", "pitch": 5.0, "length": 0.9}
+    "Holly":   {"slot": 1, "elevenlabs": {"voice": "Xb7hH8MSUJpSbSDYk0k2", "name": "Alice"}, "model": "en_GB-semaine-medium", "speaker": "prudence", "pitch": 1.5, "length": 0.95},
+    "Ivy":     {"slot": 2, "elevenlabs": {"voice": "pFZP5JQG7iQjIQuC4Bku", "name": "Lily"},  "model": "en_GB-jenny_dioco-medium", "pitch": 3.0, "length": 0.95},
+    "Noel":    {"slot": 3, "elevenlabs": {"voice": "cjVigY5qzO86Huf0OWal", "name": "Eric"},  "model": "en_GB-alan-medium", "pitch": -2.0, "length": 1.05},
+    "Jingle":  {"slot": 4, "elevenlabs": {"voice": "TX3LPaxmHKxFdv7VOQHJ", "name": "Liam"},  "model": "en_GB-northern_english_male-medium", "pitch": 3.5, "length": 0.8},
+    "Bramble": {"slot": 5, "elevenlabs": {"voice": "pqHfZKP75CvOlQylNhV4", "name": "Bill"},  "model": "en_GB-semaine-medium", "speaker": "obadiah", "pitch": -3.0, "length": 1.3},
+    "Pip":     {"slot": 6, "elevenlabs": {"voice": "FGY2WhTYpPnrIDTdsKH5", "name": "Laura"}, "model": "en_GB-semaine-medium", "speaker": "poppy", "pitch": 5.0, "length": 0.9}
   }
 }

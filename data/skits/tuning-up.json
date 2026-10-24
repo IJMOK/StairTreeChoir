@@ -3,23 +3,23 @@
   "lines": [
     {
       "who": "Holly",
-      "say": "Places, everyone! Places!"
+      "say": "[firmly] Places, everyone! Places!"
     },
     {
       "who": "Noel",
-      "say": "Mi mi mi mi miiiiii!"
+      "say": "[dramatically, singing] Mi mi mi mi miiiiii!"
     },
     {
       "who": "Holly",
-      "say": "Thank you, Noel."
+      "say": "[politely] Thank you, Noel."
     },
     {
       "who": "Noel",
-      "say": "Miiiiiiiiiiii!"
+      "say": "[singing, very loud] Miiiiiiiiiiii!"
     },
     {
       "who": "Holly",
-      "say": "THANK you, Noel.",
+      "say": "[exasperated] THANK you, Noel.",
       "pause": 0.3
     },
     {
@@ -29,11 +29,11 @@
     },
     {
       "who": "Bramble",
-      "say": "I'm awake! I'm awake!"
+      "say": "[startled awake] I'm awake! I'm awake!"
     },
     {
       "who": "Holly",
-      "say": "One, two, three, four!"
+      "say": "[briskly] One, two, three, four!"
     }
   ],
   "look": "twinkle",

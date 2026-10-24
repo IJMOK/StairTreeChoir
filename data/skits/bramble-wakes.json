@@ -3,19 +3,19 @@
   "lines": [
     {
       "who": "Holly",
-      "say": "Bramble!"
+      "say": "[loudly] Bramble!"
     },
     {
       "who": "Bramble",
-      "say": "Present!"
+      "say": "[startled] Present!"
     },
     {
       "who": "Ivy",
-      "say": "He was asleep again."
+      "say": "[whispering] He was asleep again."
     },
     {
       "who": "Bramble",
-      "say": "I was resting my eyes."
+      "say": "[sleepily] I was resting my eyes."
     }
   ],
   "look": "snow"

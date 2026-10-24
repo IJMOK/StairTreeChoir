@@ -3,19 +3,19 @@
   "lines": [
     {
       "who": "Jingle",
-      "say": "Ooh, ooh, can I sing the next one? Can I? Can I?"
+      "say": "[excited] Ooh, ooh, can I sing the next one? Can I? Can I?"
     },
     {
       "who": "Holly",
-      "say": "Everyone sings the next one, Jingle."
+      "say": "[patiently] Everyone sings the next one, Jingle."
     },
     {
       "who": "Jingle",
-      "say": "Even me?!"
+      "say": "[gasps] Even me?!"
     },
     {
       "who": "Ivy",
-      "say": "Especially you."
+      "say": "[dryly] Especially you."
     }
   ],
   "look": "chase",

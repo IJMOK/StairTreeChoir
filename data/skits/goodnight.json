@@ -7,15 +7,15 @@
     },
     {
       "who": "Bramble",
-      "say": "Finally."
+      "say": "[sleepily] Finally."
     },
     {
       "who": "Pip",
-      "say": "Goodnight! Sleep tight! Don't let the reindeer bite!"
+      "say": "[giggles] Goodnight! Sleep tight! Don't let the reindeer bite!"
     },
     {
       "who": "Noel",
-      "say": "Goodniiiiiight!"
+      "say": "[dramatically, singing] Goodniiiiiight!"
     }
   ],
   "look": "choir_galaxy",

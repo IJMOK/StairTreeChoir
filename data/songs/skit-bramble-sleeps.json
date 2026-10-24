@@ -5,11 +5,11 @@
   "lyrics_track": "Skit_bramble_sleeps",
   "beats": "Audio/Skits/bramble-sleeps.beats.json",
   "groups": {
-    "Holly": [
-      1
-    ],
     "Bramble": [
       5
+    ],
+    "Holly": [
+      1
     ]
   },
   "lines": {
