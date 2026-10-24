@@ -103,7 +103,8 @@ def clean_word(word: str) -> str:
 
 
 def xlights_word_key(word: str) -> str:
-    return "".join(c for c in clean_word(word) if c not in XL_STRIP).upper()
+    # xLights uppercases ASCII only (see tools/xl_timing.ascii_upper)
+    return "".join(chr(ord(c) - 32) if "a" <= c <= "z" else c for c in clean_word(word) if c not in XL_STRIP)
 
 
 def dictionary_words(search_dirs: list[Path]) -> set[str]:
@@ -114,7 +115,7 @@ def dictionary_words(search_dirs: list[Path]) -> set[str]:
         path = next((d / name for d in search_dirs if (d / name).exists()), None)
         if path is None:
             continue
-        for line in path.read_text(encoding="latin-1").splitlines():
+        for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
             line = line.strip()
             if line and not line.startswith(("##", ";;")) and len(line.split()) > 1:
                 words.add(line.split()[0])
