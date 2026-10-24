@@ -1,0 +1,99 @@
+{
+  "channelOutputs": [
+    {
+      "type": "universes",
+      "enabled": 1,
+      "interface": "",
+      "threaded": 1,
+      "pacingRate": 90,
+      "startChannel": 1,
+      "channelCount": -1,
+      "universes": [
+        {
+          "active": 1,
+          "description": "stairtree-01 (slot 1)",
+          "id": 1,
+          "startChannel": 1,
+          "channelCount": 276,
+          "type": 5,
+          "universeCount": 1,
+          "address": "192.168.8.101",
+          "priority": 0,
+          "syncUniverse": 0,
+          "monitor": 1,
+          "deDuplicate": 0
+        },
+        {
+          "active": 1,
+          "description": "stairtree-02 (slot 2)",
+          "id": 1,
+          "startChannel": 277,
+          "channelCount": 276,
+          "type": 5,
+          "universeCount": 1,
+          "address": "192.168.8.102",
+          "priority": 0,
+          "syncUniverse": 0,
+          "monitor": 1,
+          "deDuplicate": 0
+        },
+        {
+          "active": 1,
+          "description": "stairtree-03 (slot 3)",
+          "id": 1,
+          "startChannel": 553,
+          "channelCount": 276,
+          "type": 5,
+          "universeCount": 1,
+          "address": "192.168.8.103",
+          "priority": 0,
+          "syncUniverse": 0,
+          "monitor": 1,
+          "deDuplicate": 0
+        },
+        {
+          "active": 1,
+          "description": "stairtree-04 (slot 4)",
+          "id": 1,
+          "startChannel": 829,
+          "channelCount": 276,
+          "type": 5,
+          "universeCount": 1,
+          "address": "192.168.8.104",
+          "priority": 0,
+          "syncUniverse": 0,
+          "monitor": 1,
+          "deDuplicate": 0
+        },
+        {
+          "active": 1,
+          "description": "stairtree-05 (slot 5)",
+          "id": 1,
+          "startChannel": 1105,
+          "channelCount": 276,
+          "type": 5,
+          "universeCount": 1,
+          "address": "192.168.8.105",
+          "priority": 0,
+          "syncUniverse": 0,
+          "monitor": 1,
+          "deDuplicate": 0
+        },
+        {
+          "active": 1,
+          "description": "stairtree-06 (slot 6)",
+          "id": 1,
+          "startChannel": 1381,
+          "channelCount": 276,
+          "type": 5,
+          "universeCount": 1,
+          "address": "192.168.8.106",
+          "priority": 0,
+          "syncUniverse": 0,
+          "monitor": 1,
+          "deDuplicate": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "rb": true,
+  "id": {
+    "mdns": "stairtree-06",
+    "name": "stairtree-06"
+  },
+  "nw": {
+    "ins": [
+      {
+        "ssid": "CHANGE-ME-SSID",
+        "ip": [
+          192,
+          168,
+          8,
+          106
+        ],
+        "gw": [
+          192,
+          168,
+          8,
+          1
+        ],
+        "sn": [
+          255,
+          255,
+          255,
+          0
+        ]
+      }
+    ]
+  },
+  "hw": {
+    "led": {
+      "total": 92,
+      "ins": [
+        {
+          "start": 0,
+          "len": 92,
+          "pin": [
+            16
+          ],
+          "order": 0,
+          "rev": false,
+          "skip": 0,
+          "type": 22,
+          "ref": false
+        }
+      ]
+    }
+  },
+  "if": {
+    "live": {
+      "en": true
+    }
+  }
+}

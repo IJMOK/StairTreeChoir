@@ -1,0 +1,71 @@
+{
+  "channelOutputs": [
+    {
+      "type": "universes",
+      "enabled": 1,
+      "interface": "",
+      "threaded": 1,
+      "pacingRate": 90,
+      "startChannel": 1,
+      "channelCount": -1,
+      "universes": [
+        {
+          "active": 1,
+          "description": "stairtree-07 (slot 1)",
+          "id": 1,
+          "startChannel": 1,
+          "channelCount": 276,
+          "type": 5,
+          "universeCount": 1,
+          "address": "192.168.8.107",
+          "priority": 0,
+          "syncUniverse": 0,
+          "monitor": 1,
+          "deDuplicate": 0
+        },
+        {
+          "active": 1,
+          "description": "stairtree-08 (slot 2)",
+          "id": 1,
+          "startChannel": 277,
+          "channelCount": 276,
+          "type": 5,
+          "universeCount": 1,
+          "address": "192.168.8.108",
+          "priority": 0,
+          "syncUniverse": 0,
+          "monitor": 1,
+          "deDuplicate": 0
+        },
+        {
+          "active": 1,
+          "description": "stairtree-09 (slot 3)",
+          "id": 1,
+          "startChannel": 553,
+          "channelCount": 276,
+          "type": 5,
+          "universeCount": 1,
+          "address": "192.168.8.109",
+          "priority": 0,
+          "syncUniverse": 0,
+          "monitor": 1,
+          "deDuplicate": 0
+        },
+        {
+          "active": 1,
+          "description": "stairtree-10 (slot 4)",
+          "id": 1,
+          "startChannel": 829,
+          "channelCount": 276,
+          "type": 5,
+          "universeCount": 1,
+          "address": "192.168.8.110",
+          "priority": 0,
+          "syncUniverse": 0,
+          "monitor": 1,
+          "deDuplicate": 0
+        }
+      ]
+    }
+  ]
+}

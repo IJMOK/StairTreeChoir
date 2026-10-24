@@ -1,0 +1,233 @@
+[
+  {
+    "enabled": 1,
+    "playlist": "Goodnight",
+    "day": 7,
+    "startTime": "21:00:00",
+    "endTime": "21:04:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show A",
+    "day": 7,
+    "startTime": "17:00:00",
+    "endTime": "17:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show B",
+    "day": 7,
+    "startTime": "18:00:00",
+    "endTime": "18:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show C",
+    "day": 7,
+    "startTime": "19:00:00",
+    "endTime": "19:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Show A",
+    "day": 7,
+    "startTime": "20:00:00",
+    "endTime": "20:29:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 7,
+    "startTime": "16:15:00",
+    "endTime": "16:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 7,
+    "startTime": "16:30:00",
+    "endTime": "16:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 17",
+    "day": 7,
+    "startTime": "16:45:00",
+    "endTime": "16:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 7,
+    "startTime": "17:15:00",
+    "endTime": "17:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 7,
+    "startTime": "17:30:00",
+    "endTime": "17:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 18",
+    "day": 7,
+    "startTime": "17:45:00",
+    "endTime": "17:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 7,
+    "startTime": "18:15:00",
+    "endTime": "18:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 7,
+    "startTime": "18:30:00",
+    "endTime": "18:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 19",
+    "day": 7,
+    "startTime": "18:45:00",
+    "endTime": "18:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 20",
+    "day": 7,
+    "startTime": "19:15:00",
+    "endTime": "19:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 20",
+    "day": 7,
+    "startTime": "19:30:00",
+    "endTime": "19:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce 20",
+    "day": 7,
+    "startTime": "19:45:00",
+    "endTime": "19:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 7,
+    "startTime": "20:15:00",
+    "endTime": "20:24:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 7,
+    "startTime": "20:30:00",
+    "endTime": "20:39:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Announce last",
+    "day": 7,
+    "startTime": "20:45:00",
+    "endTime": "20:54:59",
+    "repeat": 0,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 0
+  },
+  {
+    "enabled": 1,
+    "playlist": "Waiting",
+    "day": 7,
+    "startTime": "16:00:00",
+    "endTime": "20:59:59",
+    "repeat": 1,
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-31",
+    "stopType": 1
+  }
+]

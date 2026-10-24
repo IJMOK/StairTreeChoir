@@ -36,3 +36,47 @@ The controller entry xLights saved (`Documents\xLights\xlights_networks.xml`), k
 - 74AHCT125 between GPIO16 and one 92-pixel string; confirm colour order and node 1 position against the xLights model.
 - Fast mouth sequence over Wi-Fi with the board at the tree's real distance from the router: watch for dropped or late frames. Then decide WLED/DDP vs ESPixelStick FPP Remote.
 - WLED's brightness limiter assumes 5V pixels; recheck its setting for the 12V strings.
+
+# Per-tree config (M5, generated)
+
+`python -m tools.gen_site_config` writes `wled/stairtree-01.json` to `stairtree-14.json`, one per tree, from `data/sites.json`. They are WLED config **fragments** for `POST /json/cfg`: WLED only changes the settings a fragment names (`wled00/cfg.cpp`, `deserializeConfig`: every field is read as "new value, or keep the old one"). Do not edit them by hand. What they set, with the WLED 16.0.1 keys:
+
+| Setting | Key | Value |
+|---|---|---|
+| Hostname / mDNS name | `id.mdns` (and `id.name`) | `stairtree-NN` |
+| Static IP, gateway, mask | `nw.ins[0].ip / gw / sn` | `192.168.8.(100+NN)`, `192.168.8.1`, `255.255.255.0` |
+| Wi-Fi name | `nw.ins[0].ssid` | placeholder `CHANGE-ME-SSID`, replaced at provisioning |
+| LED count | `hw.led.total`, `hw.led.ins[0].len` | 92 |
+| Data pin | `hw.led.ins[0].pin` | `[16]` |
+| LED type | `hw.led.ins[0].type` | 22 (WS281x) |
+| Colour order | `hw.led.ins[0].order` | 0 = GRB, **TBC at first light** (`COLOR_ORDER` in the generator) |
+| Receive UDP realtime (DDP) | `if.live.en` | true |
+| Reboot after applying | `rb` | true (the new IP needs it) |
+
+Not set, so left at the device's value: the brightness limiter (`hw.led.maxpwr`; see "Still to do in M0": it assumes 5V pixels, recheck it for the 12V strings), DNS, the setup access point, NTP and timers.
+
+**There is no Wi-Fi password in git.** `nw.ins[0].psk` is simply absent. WLED reads it from that key when it is present (`cfg.cpp`: "password is not normally present but if it is, use it") and never writes it back. `tools/wled_apply.py` adds the real Wi-Fi name and password from environment variables, in memory only, and sends the result.
+
+## Provisioning a tree controller
+
+1. **Flash WLED 16.0.1** (plain ESP32 build) as in "Flash and configure WLED" above. You can stop after the flash and the Wi-Fi join: the config below replaces steps 3 to 5. A device that has no working Wi-Fi opens its own network `WLED-AP` (password `wled1234`, `DEFAULT_AP_PASS` in `wled00/const.h`) with its page at http://4.3.2.1; if you gave it Wi-Fi in the installer, use the IP your router handed out.
+2. **Apply the config** from a PC that can reach the device (on `WLED-AP`, or on the site network). PowerShell, from the repo root:
+
+   ```
+   $env:STAIRTREE_WIFI_SSID = "the site router's name"
+   $env:STAIRTREE_WIFI_PSK  = "the site router's password"
+   .venv/Scripts/python -m tools.wled_apply 3 4.3.2.1 --dry-run
+   .venv/Scripts/python -m tools.wled_apply 3 4.3.2.1
+   ```
+   (tree 3, device currently at 4.3.2.1; `--dry-run` shows what would be sent with the password hidden.) By hand instead: `curl -X POST -H "Content-Type: application/json" --data-binary @copy.json http://<device>/json/cfg` where `copy.json` is a copy of the tree's file with the real Wi-Fi name and a `psk` added; never commit that copy. WLED answers `{"success":true}` and reboots.
+3. **Join**: the tree reboots, joins the site router and takes `192.168.8.1NN`. Open it there (http://stairtree-NN.local if mDNS works on your PC, otherwise the IP). Check Config > LED Preferences shows 92 LEDs on GPIO 16 and Config > Sync Interfaces has "Receive UDP realtime" ticked. If it could not join (wrong Wi-Fi name or password), it opens `WLED-AP` again after boot (`apBehavior` default); apply again with the right values.
+4. **Colour order**: send red, green and blue (the colour picker, or xLights Test) and if they come out wrong, change `COLOR_ORDER` in the generator (WLED's numbers: 0 GRB, 1 RGB, 2 BRG, 3 RBG, 4 BGR, 5 GBR), rebuild and apply again. Also check node 1 is the base-left corner.
+5. **Test pattern**: with the Pi (or xLights) sending to it, the Peek view and the tree show the frames; Info shows realtime mode DDP and the sender's IP. Reserve the IP in the router too if it lets you.
+
+## Not verified (no hardware yet)
+
+- All of this is checked against the WLED source, not run against a device. The M0 prototype (the `hw.led.ins[0]` and `if.live.en` values above) is the only live confirmation, and it used the same keys.
+- Static IP over `/json/cfg`: the keys are the ones `serializeConfig` writes, but the reboot onto the new address has not been watched.
+- `id.name` and `id.mdns` are both set to `stairtree-NN`; WLED's `getWLEDhostname()` prefers `id.mdns` for the DHCP hostname.
+- The `WLED-AP` address and password are the WLED defaults in the 16.0.1 source; a device set up before may differ.
+- Colour order and the brightness limiter, as above.
