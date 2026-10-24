@@ -37,7 +37,6 @@ Not in git: `previews/` (GIFs from `tools/preview_render.py`), `.venv/`, and eve
 | `Audio\Songs\` | Per song: `<Sequence name>.mp3`, `.lyrics.txt`, `.lrc` (if LRCLIB had one), `.beats.json`, `.timing.json` (word timing for the xLights timing track). E.g. `Feliz Navidad.mp3` … `Feliz Navidad.timing.json` for `Feliz Navidad.xsq`. |
 | `Audio\Skits\` | Per skit: `<name>.wav`, `.lyrics.txt`, `.beats.json`, `.timing.json`; sequence `Skit <name>`. `Goodnight` also uses `goodnight.*`. |
 | `Audio\Loops\` | `Waiting.timing.json`, `Waiting.beats.json` (the Waiting loop has no audio). |
-| `Audio\Parked\` | Songs with no sequence yet (Frosty the Snowman). |
 | `_Archive\` | Old test sequences, screenshots, old `.xsq.bak` copies. Nothing there is used. |
 | `Voices\` | Piper voice models for the skits. |
 | `RenderCache\`, `Backup\` | xLights' own caches and backups. |

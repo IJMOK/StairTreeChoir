@@ -26,7 +26,7 @@ Every site plays the same thing (only its trees differ). Times are the proposal 
 | 18:15 18:30 18:45 | `Announce 19` | |
 | 19:15 19:30 19:45 | `Announce last` | "last show of the night at eight" (the 20:00 show); no announcements after it |
 | 17:00 and 20:00 | `Show A` | |
-| 18:00 | `Show B` | Frosty is parked: its slot is Little Drummer Boy |
+| 18:00 | `Show B` | Frosty the Snowman is its second song |
 | 19:00 | `Show C` | |
 | 21:00 | `Goodnight`, then nothing | the waiting window ends at 21:00; the date range is 1 to 31 Dec 2026 |
 

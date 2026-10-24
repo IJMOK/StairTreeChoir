@@ -102,10 +102,10 @@ GOODNIGHT_MEDIA = "Goodnight.wav"
 SONGS = (
     "Rockin Around the Christmas Tree", "Dominick the Donkey", "Feliz Navidad",
     "Little Drummer Boy", "We Wish You a Merry Christmas", "O Come All Ye Faithful",
-    "The Virgin Mary Had a Baby Boy", "Twelve Days of Christmas",
+    "The Virgin Mary Had a Baby Boy", "Twelve Days of Christmas", "Frosty the Snowman",
 )
 WAITING, GOODNIGHT = "Waiting", "Goodnight"
-FROSTY_SUBSTITUTE = "Little Drummer Boy"   # Frosty is parked; Set B's second song
+FROSTY = "Frosty the Snowman"   # Set B's second song
 
 # show-night.md "A show": (kind, name) with kind "skit" (data/skits/<name>.json) or "song".
 _THANKS = ("skit", "thank-you")
@@ -115,7 +115,7 @@ SETS = {
           ("song", "Dominick the Donkey"), ("skit", "bramble-sleeps"),
           ("song", "Little Drummer Boy"), ("song", "We Wish You a Merry Christmas"), _THANKS],
     "B": [_TUNING, ("song", "Feliz Navidad"), ("skit", "pips-joke"),
-          ("song", FROSTY_SUBSTITUTE), ("skit", "whos-next"),
+          ("song", FROSTY), ("skit", "whos-next"),
           ("song", "O Come All Ye Faithful"), ("song", "Rockin Around the Christmas Tree"), _THANKS],
     "C": [_TUNING, ("song", "We Wish You a Merry Christmas"), ("skit", "bramble-wakes"),
           ("song", "Twelve Days of Christmas"), ("skit", "pips-joke"),

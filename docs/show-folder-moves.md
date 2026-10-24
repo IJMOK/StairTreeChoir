@@ -58,10 +58,10 @@ and every sequence was re-rendered.
 | `Audio/We-Wish-You-A-Merry-Christmas.lyrics.txt` | `Audio/Songs/We Wish You a Merry Christmas.lyrics.txt` | lyrics named after the sequence |
 | `Audio/We-Wish-You-A-Merry-Christmas.beats.json` | `Audio/Songs/We Wish You a Merry Christmas.beats.json` | beats named after the sequence |
 | `Audio/WeWish.json` | `Audio/Songs/We Wish You a Merry Christmas.timing.json` | timing named after the sequence |
-| `Audio/frostyTheSnowman-1.mp3` | `Audio/Parked/Frosty the Snowman.mp3` | parked song (no sequence) |
-| `Audio/frostyTheSnowman-1.lyrics.txt` | `Audio/Parked/Frosty the Snowman.lyrics.txt` | parked song (no sequence) |
-| `Audio/frostyTheSnowman-1.beats.json` | `Audio/Parked/Frosty the Snowman.beats.json` | parked song (no sequence) |
-| `Audio/Frosty.json` | `Audio/Parked/Frosty the Snowman.timing.json` | parked song (no sequence) |
+| `Audio/frostyTheSnowman-1.mp3` | `Audio/Songs/Frosty the Snowman.mp3` | sequenced 24 Oct 2026 (was parked in Audio/Parked) |
+| `Audio/frostyTheSnowman-1.lyrics.txt` | `Audio/Songs/Frosty the Snowman.lyrics.txt` | sequenced 24 Oct 2026 (was parked in Audio/Parked) |
+| `Audio/frostyTheSnowman-1.beats.json` | `Audio/Songs/Frosty the Snowman.beats.json` | sequenced 24 Oct 2026 (was parked in Audio/Parked) |
+| `Audio/Frosty.json` | `Audio/Songs/Frosty the Snowman.timing.json` | sequenced 24 Oct 2026 (was parked in Audio/Parked) |
 | `1.xsq` | `_Archive/1.xsq` | old test file / screenshot |
 | `1.fseq` | `_Archive/1.fseq` | old test file / screenshot |
 | `1.xbkp` | `_Archive/1.xbkp` | old test file / screenshot |

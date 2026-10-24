@@ -26,11 +26,12 @@ The usage limit stopped the overnight run here. State:
 | O Come All Ye Faithful | 24 | 24/24 |
 | The Virgin Mary Had a Baby Boy | 48 | 48/48 |
 | Twelve Days of Christmas | 102 | 102/102 |
+| Frosty the Snowman | 28 | 28/28 |
 | 11 skits (Skit announce-17 ... Skit whos-next) | 3-8 each | all match |
 | Waiting (300 s loop, no audio) | 0 | n/a |
 | Goodnight (closer, ends on black) | 4 | 4/4 |
 
-Frosty is still parked (not touched).
+Frosty the Snowman is now sequenced (28/28 lines, Set B's second song).
 
 **How sequences are made now (no clicks):** `GET /newSequence?mediaFile=<path>&frameMS=50&view=All%20Models&force=true` creates it without the Sequence Settings dialog (`durationSecs=300` instead of mediaFile for an animation). Then saveSequence, closeSequence, `tools.xsq` (it says "nothing to add": new sequences already list the Outlines group from the layout), `tools.xl_timing add`, openSequence.
 
@@ -49,3 +50,9 @@ Frosty is still parked (not touched).
 ## Folder tidy (24 Oct)
 
 The show folder (`Documents\xLights`) is reorganised: each song's audio, lyrics, beats and timing are in `Audio\Songs\` named after its sequence (e.g. `Feliz Navidad.mp3`, `Feliz Navidad.timing.json`); skit timing is `Audio\Skits\<name>.timing.json`; Frosty is in `Audio\Parked\`; old test files and `.xsq.bak` copies are in `_Archive\`. Sequences stay in the top level with the same names. Every sequence's media path and `data/songs/*.json` were updated, all 21 re-rendered and re-checked (every line matches), and the FPP playlists now name the media e.g. `Feliz Navidad.mp3`, so upload the audio under those names. Backup of the folder as it was (without Voices and RenderCache): `Documents\xLights-backup-2026-10-24`. Old to new names: [show-folder-moves.md](show-folder-moves.md). Map: [folders.md](folders.md).
+
+## Frosty the Snowman (24 Oct 2026)
+
+Frosty is no longer parked: files are in `Audio\Songs\`, sequence `Frosty the Snowman.xsq` (timing track `Frosty`), arrangement `data/songs/frosty-the-snowman.json`, 28/28 lines. Set B's second song is now Frosty (FPP playlists regenerated).
+
+**Please skim `Audio\Songs\Frosty the Snowman.lyrics.txt` for Whisper mishearings.** Line 18 needs a look: forced alignment had stretched it across 25 s (one word at 82 s, the rest at 101-107 s), while a cold Whisper pass heard singing at 78-90 s and 101-108 s. I spread its 14 words over those two sung stretches by hand in the timing JSON; re-running lyric_timing would undo that, so fix the lyrics file first if line 18 is wrong, then redo the hand fix. Three words around 146.7 s have zero length in the timing; xLights copes with it.

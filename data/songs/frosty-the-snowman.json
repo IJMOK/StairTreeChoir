@@ -1,0 +1,175 @@
+{
+  "sequence": "Frosty the Snowman",
+  "audio": "Audio/Songs/Frosty the Snowman.mp3",
+  "lyrics_timing": "Audio/Songs/Frosty the Snowman.timing.json",
+  "lyrics_track": "Frosty",
+  "beats": "Audio/Songs/Frosty the Snowman.beats.json",
+  "groups": {
+    "all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "A": [
+      1,
+      2,
+      3
+    ],
+    "B": [
+      4,
+      5,
+      6
+    ],
+    "p14": [
+      1,
+      4
+    ],
+    "p25": [
+      2,
+      5
+    ],
+    "p36": [
+      3,
+      6
+    ],
+    "t1": [
+      1
+    ],
+    "t2": [
+      2
+    ],
+    "t3": [
+      3
+    ],
+    "t4": [
+      4
+    ],
+    "t5": [
+      5
+    ],
+    "t6": [
+      6
+    ]
+  },
+  "lines": {
+    "1": "t1",
+    "2": "t2",
+    "3": "t3",
+    "4": "t4",
+    "5": "t5",
+    "6": "t6",
+    "7": "all",
+    "8": "A",
+    "9": "B",
+    "10": "all",
+    "11": "A",
+    "12": "B",
+    "13": "p14",
+    "14": "p36",
+    "15": "p25",
+    "16": "all",
+    "17": "all",
+    "18": "all",
+    "19": "A",
+    "20": "B",
+    "21": "A",
+    "22": "B",
+    "23": "all",
+    "24": "all",
+    "25": "p14",
+    "26": "p36",
+    "27": "all",
+    "28": "all"
+  },
+  "sections": [
+    {
+      "name": "intro",
+      "until": 10.0,
+      "look": "choir_snow",
+      "palette": "ice",
+      "eyes": "roll"
+    },
+    {
+      "name": "verse1",
+      "until": 40.5,
+      "look": "twinkle",
+      "palette": "ice",
+      "eyes": "follow"
+    },
+    {
+      "name": "chorus1",
+      "until": 63.5,
+      "look": "chase",
+      "palette": [
+        "#FFFFFF",
+        "#9FD8FF",
+        "#3A8DDE"
+      ],
+      "params": {
+        "colors": "Palette",
+        "chases": 3
+      },
+      "accent": "flash",
+      "accent_every": 2,
+      "eyes": "follow"
+    },
+    {
+      "name": "verse2",
+      "until": 82.2,
+      "look": "shimmer",
+      "palette": "ice",
+      "eyes": "follow"
+    },
+    {
+      "name": "bridge",
+      "until": 108.0,
+      "look": "spiral",
+      "palette": [
+        "#FFFFFF",
+        "#9FD8FF",
+        "#3A8DDE"
+      ],
+      "accent": "sparkle_hit",
+      "accent_every": 1,
+      "eyes": "follow"
+    },
+    {
+      "name": "chorus2",
+      "until": 147.5,
+      "look": "marquee",
+      "palette": [
+        "#FFFFFF",
+        "#9FD8FF",
+        "#3A8DDE"
+      ],
+      "params": {
+        "band": 3,
+        "skip": 2,
+        "speed": 8
+      },
+      "accent": "colour_hit",
+      "accent_every": 2,
+      "eyes": "follow"
+    },
+    {
+      "name": "break",
+      "until": 172.0,
+      "look": "choir_curtain",
+      "palette": "ice",
+      "eyes": "roll"
+    },
+    {
+      "name": "finale",
+      "until": 999,
+      "look": "choir_snow",
+      "palette": "ice",
+      "accent": "sparkle_hit",
+      "accent_every": 1,
+      "eyes": "sparkle"
+    }
+  ],
+  "notes": "Lines numbered as in the timing JSON (1-28). Lines 1-6 go one tree each, 1 to 6, then the choir joins; verses alternate the trios, choruses mix pairs and the full choir, everyone sings the ending. Line 18 had its words hand-redistributed over its two sung stretches (82-90 s and 101-107 s) because forced alignment had stretched it across 25 s: re-running lyric_timing would undo that. Wintry look: ice blue and white, snow, twinkle, chase, spiral and marquee, with a spinning-snow curtain over the instrumental break."
+}

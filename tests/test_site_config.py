@@ -67,7 +67,7 @@ def test_playlists_reference_only_known_sequences():
         assert used, name
         assert set(used) <= known, (name, set(used) - known)
         assert pl["playlistInfo"]["total_items"] == len(pl["mainPlaylist"])
-    assert "Frosty the Snowman" not in {s for pl in pls.values() for s in sc.sequences_used(pl)}
+    assert "Frosty the Snowman" in sc.sequences_used(pls["Show B"])
 
 
 def test_show_sets_follow_show_night():
@@ -77,7 +77,7 @@ def test_show_sets_follow_show_night():
         assert seqs[k][0] == "Skit tuning-up" and seqs[k][-1] == "Skit thank-you"
         songs = [s for s in seqs[k] if s in sc.SONGS]
         assert len(songs) == 4 and len(set(songs)) == 4
-    assert [s for s in seqs["B"] if s in sc.SONGS][1] == sc.FROSTY_SUBSTITUTE
+    assert [s for s in seqs["B"] if s in sc.SONGS][1] == sc.FROSTY
     # songs and skits carry audio, the waiting loop does not
     for e in pls["Show A"]["mainPlaylist"]:
         if e["type"] != "pause":
