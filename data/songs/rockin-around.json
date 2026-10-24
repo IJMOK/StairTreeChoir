@@ -1,9 +1,9 @@
 {
   "sequence": "Rockin Around the Christmas Tree",
-  "audio": "Audio/Brenda Lee - Rockin' Around The Christmas Tree (Remastered).mp3",
-  "lyrics_timing": "Audio/Choir.json",
+  "audio": "Audio/Songs/Rockin Around the Christmas Tree.mp3",
+  "lyrics_timing": "Audio/Songs/Rockin Around the Christmas Tree.timing.json",
   "lyrics_track": "Choir_1",
-  "beats": "Audio/beats.json",
+  "beats": "Audio/Songs/Rockin Around the Christmas Tree.beats.json",
   "groups": {
     "A": [
       1,

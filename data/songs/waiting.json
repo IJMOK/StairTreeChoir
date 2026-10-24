@@ -1,9 +1,9 @@
 {
   "sequence": "Waiting",
   "audio": null,
-  "lyrics_timing": "Audio/Loops/Waiting.json",
+  "lyrics_timing": "Audio/Loops/Waiting.timing.json",
   "lyrics_track": "Waiting",
-  "beats": "Audio/Loops/waiting.beats.json",
+  "beats": "Audio/Loops/Waiting.beats.json",
   "groups": {},
   "lines": {},
   "sections": [

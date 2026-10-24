@@ -1,7 +1,7 @@
 {
   "sequence": "Skit whos-next",
   "audio": "Audio/Skits/whos-next.wav",
-  "lyrics_timing": "Audio/Skits/Skit_whos_next.json",
+  "lyrics_timing": "Audio/Skits/whos-next.timing.json",
   "lyrics_track": "Skit_whos_next",
   "beats": "Audio/Skits/whos-next.beats.json",
   "groups": {

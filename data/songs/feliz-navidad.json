@@ -1,9 +1,9 @@
 {
   "sequence": "Feliz Navidad",
-  "audio": "Audio/Boney-M-Feliz-Navidad.mp3",
-  "lyrics_timing": "Audio/FelizNavidad.json",
+  "audio": "Audio/Songs/Feliz Navidad.mp3",
+  "lyrics_timing": "Audio/Songs/Feliz Navidad.timing.json",
   "lyrics_track": "FelizNavidad",
-  "beats": "Audio/Boney-M-Feliz-Navidad.beats.json",
+  "beats": "Audio/Songs/Feliz Navidad.beats.json",
   "groups": {
     "all": [
       1,

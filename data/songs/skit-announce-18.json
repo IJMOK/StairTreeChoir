@@ -1,7 +1,7 @@
 {
   "sequence": "Skit announce-18",
   "audio": "Audio/Skits/announce-18.wav",
-  "lyrics_timing": "Audio/Skits/Skit_announce_18.json",
+  "lyrics_timing": "Audio/Skits/announce-18.timing.json",
   "lyrics_track": "Skit_announce_18",
   "beats": "Audio/Skits/announce-18.beats.json",
   "groups": {

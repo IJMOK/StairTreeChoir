@@ -1,7 +1,7 @@
 {
   "sequence": "Skit thank-you",
   "audio": "Audio/Skits/thank-you.wav",
-  "lyrics_timing": "Audio/Skits/Skit_thank_you.json",
+  "lyrics_timing": "Audio/Skits/thank-you.timing.json",
   "lyrics_track": "Skit_thank_you",
   "beats": "Audio/Skits/thank-you.beats.json",
   "groups": {

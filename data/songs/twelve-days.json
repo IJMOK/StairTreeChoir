@@ -1,9 +1,9 @@
 {
   "sequence": "Twelve Days of Christmas",
-  "audio": "Audio/Twelve-Days-of-Christmas.mp3",
-  "lyrics_timing": "Audio/TwelveDays.json",
+  "audio": "Audio/Songs/Twelve Days of Christmas.mp3",
+  "lyrics_timing": "Audio/Songs/Twelve Days of Christmas.timing.json",
   "lyrics_track": "TwelveDays",
-  "beats": "Audio/Twelve-Days-of-Christmas.beats.json",
+  "beats": "Audio/Songs/Twelve Days of Christmas.beats.json",
   "groups": {
     "all": [
       1,

@@ -1,9 +1,9 @@
 {
   "sequence": "The Virgin Mary Had a Baby Boy",
-  "audio": "Audio/The-Virgin-Mary-Had-a-Baby-Boy.mp3",
-  "lyrics_timing": "Audio/VirginMary.json",
+  "audio": "Audio/Songs/The Virgin Mary Had a Baby Boy.mp3",
+  "lyrics_timing": "Audio/Songs/The Virgin Mary Had a Baby Boy.timing.json",
   "lyrics_track": "VirginMary",
-  "beats": "Audio/The-Virgin-Mary-Had-a-Baby-Boy.beats.json",
+  "beats": "Audio/Songs/The Virgin Mary Had a Baby Boy.beats.json",
   "groups": {
     "all": [
       1,

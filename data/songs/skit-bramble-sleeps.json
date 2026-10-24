@@ -1,7 +1,7 @@
 {
   "sequence": "Skit bramble-sleeps",
   "audio": "Audio/Skits/bramble-sleeps.wav",
-  "lyrics_timing": "Audio/Skits/Skit_bramble_sleeps.json",
+  "lyrics_timing": "Audio/Skits/bramble-sleeps.timing.json",
   "lyrics_track": "Skit_bramble_sleeps",
   "beats": "Audio/Skits/bramble-sleeps.beats.json",
   "groups": {

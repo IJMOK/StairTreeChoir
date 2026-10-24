@@ -1,9 +1,9 @@
 {
   "sequence": "We Wish You a Merry Christmas",
-  "audio": "Audio/We-Wish-You-A-Merry-Christmas.mp3",
-  "lyrics_timing": "Audio/WeWish.json",
+  "audio": "Audio/Songs/We Wish You a Merry Christmas.mp3",
+  "lyrics_timing": "Audio/Songs/We Wish You a Merry Christmas.timing.json",
   "lyrics_track": "WeWish",
-  "beats": "Audio/We-Wish-You-A-Merry-Christmas.beats.json",
+  "beats": "Audio/Songs/We Wish You a Merry Christmas.beats.json",
   "groups": {
     "all": [
       1,

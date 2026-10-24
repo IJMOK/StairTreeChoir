@@ -5,8 +5,9 @@
 The script (data/skits/<name>.json) lists who says what. Each line is spoken by that
 character's Piper voice (data/voices.json), pitch-shifted, and the lines are joined
 with short pauses into <show>/Audio/Skits/<name>.wav. Then:
-- tools.lyric_timing aligns the known text to that audio -> Audio/Skits/Skit_<name>.json
-  (import as an "Eleven Labs" timing track, Breakdown Words, as for a song);
+- tools.lyric_timing aligns the known text to that audio -> Audio/Skits/<name>.timing.json;
+  add it to the sequence as timing track Skit_<name_with_underscores> (tools.xl_timing add
+  --name, or import as an "Eleven Labs" timing track, rename it, Breakdown Words);
 - data/songs/skit-<name>.json is written: every line goes to its character's tree, so
   tools.arrange_song moves the right mouth, and eyes "follow" makes everyone else look
   at whoever is talking.
@@ -88,7 +89,8 @@ def build(script: dict, audio_only: bool = False) -> Path:
     lyrics.write_text("\n".join(l["say"] for l in script["lines"]) + "\n", encoding="utf-8")
     from tools import lyric_timing
 
-    lyric_timing.main([str(wav), "--lyrics", str(lyrics), "--track", track, "--model", "small.en"])
+    timing = SKIT_DIR / f"{name}.timing.json"
+    lyric_timing.main([str(wav), "--lyrics", str(lyrics), "--out", str(timing), "--model", "small.en"])
     # a steady 120 bpm grid stands in for beats (accents and pulses need one)
     beats = SKIT_DIR / f"{name}.beats.json"
     beats.write_text(json.dumps([round(0.5 * k, 3) for k in range(int(len(y) / RATE * 2))]), encoding="utf-8")
@@ -97,7 +99,7 @@ def build(script: dict, audio_only: bool = False) -> Path:
     arr = {
         "sequence": f"Skit {name}",
         "audio": f"Audio/Skits/{wav.name}",
-        "lyrics_timing": f"Audio/Skits/{track}.json",
+        "lyrics_timing": f"Audio/Skits/{timing.name}",
         "lyrics_track": track,
         "beats": f"Audio/Skits/{beats.name}",
         "groups": groups,

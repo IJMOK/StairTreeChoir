@@ -1,7 +1,7 @@
 {
   "sequence": "Skit tuning-up",
   "audio": "Audio/Skits/tuning-up.wav",
-  "lyrics_timing": "Audio/Skits/Skit_tuning_up.json",
+  "lyrics_timing": "Audio/Skits/tuning-up.timing.json",
   "lyrics_track": "Skit_tuning_up",
   "beats": "Audio/Skits/tuning-up.beats.json",
   "groups": {

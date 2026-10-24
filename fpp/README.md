@@ -48,9 +48,9 @@ How FPP resolves this (read from `src/Scheduler.cpp`): an entry's priority is it
    ```
    The loop is bash (Git Bash). Without it: copy the files into `/home/fpp/media/config/` (`co-universes.json`, `schedule.json`) and `/home/fpp/media/playlists/` over Samba or SFTP and restart FPPD, or re-enter them in the UI (Input/Output Setup > Channel Outputs > E1.31/ArtNet/DDP; Content Setup > Playlists; Scheduler).
 5. **Upload the sequences and audio** from xLights' render output: every `<Sequence name>.fseq` into Sequences and its audio into Music, with File Manager in the FPP UI or `curl -X POST --data-binary @"X.fseq" "http://<pi>/api/file/Sequences/X.fseq"` and `.../api/file/Music/X.mp3`. The names must match the playlists exactly:
-   - songs: Rockin Around the Christmas Tree, Dominick the Donkey, Feliz Navidad, Little Drummer Boy, We Wish You a Merry Christmas, O Come All Ye Faithful, The Virgin Mary Had a Baby Boy, Twelve Days of Christmas (audio `<name>.mp3`)
-   - skits: `Skit <name>` for each `data/skits/<name>.json`, e.g. `Skit tuning-up`, `Skit announce-17` (audio `<same name>.wav`)
-   - `Waiting` (no audio) and `Goodnight` (audio `Goodnight.wav`)
+   - songs: Rockin Around the Christmas Tree, Dominick the Donkey, Feliz Navidad, Little Drummer Boy, We Wish You a Merry Christmas, O Come All Ye Faithful, The Virgin Mary Had a Baby Boy, Twelve Days of Christmas (audio `<name>.mp3`, from the show folder's `Audio\Songs\`)
+   - skits: `Skit <name>` for each `data/skits/<name>.json`, e.g. `Skit tuning-up`, `Skit announce-17` (audio `<name>.wav` from `Audio\Skits\`, e.g. `tuning-up.wav`)
+   - `Waiting` (no audio) and `Goodnight` (audio `goodnight.wav`, the goodnight skit's)
 6. **Validate**: `GET /api/playlists/validate` (or the warnings on the Playlists page) must list no problems, which means every sequence and media file exists.
 7. **Test, in this order**:
    1. Trees powered and on the site router: each tree's WLED page (http://192.168.8.1NN) loads.
@@ -63,7 +63,7 @@ How FPP resolves this (read from `src/Scheduler.cpp`): an entry's priority is it
 
 - The generated schedule has never run on a device. On the Scheduler page check that the order is the priority described above, that `Waiting` resumes after an announcement or a show, and that a show started by hand is not cut off.
 - Whether the trees go dark after `Goodnight`. The `Goodnight` sequence should end on black. FPP's "Blank between sequences" setting is left off.
-- Media file types: songs `.mp3` and skits `.wav` are assumptions from the audio tools; change `SONG_MEDIA_EXT` / `SKIT_MEDIA_EXT` in the generator if the files differ. The `Waiting` and `Goodnight` sequences were still being made when this was written; their names and `Goodnight.wav` are as agreed, not checked against files.
+- Media file types: songs `.mp3` and skits `.wav` are assumptions from the audio tools; change `SONG_MEDIA_EXT` / `SKIT_MEDIA_EXT` in the generator if the files differ. The media names come from each arrangement's `audio` (`data/songs/*.json`); the extensions are only the fallback.
 - Pacing (90 Mbps) and "multi-threaded blocking" are the FPP UI defaults; frame timing over the site Wi-Fi is the M0 test.
 - The playlist `playlistInfo` durations are 0; FPP fills them in when a playlist is saved from its own UI. They only affect the duration shown.
 - The `curl` commands are built from the API source and were not run against a live FPP. The UI route always works.

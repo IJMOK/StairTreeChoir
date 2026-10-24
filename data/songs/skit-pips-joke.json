@@ -1,7 +1,7 @@
 {
   "sequence": "Skit pips-joke",
   "audio": "Audio/Skits/pips-joke.wav",
-  "lyrics_timing": "Audio/Skits/Skit_pips_joke.json",
+  "lyrics_timing": "Audio/Skits/pips-joke.timing.json",
   "lyrics_track": "Skit_pips_joke",
   "beats": "Audio/Skits/pips-joke.beats.json",
   "groups": {

@@ -1,7 +1,7 @@
 {
   "sequence": "Goodnight",
   "audio": "Audio/Skits/goodnight.wav",
-  "lyrics_timing": "Audio/Skits/Skit_goodnight.json",
+  "lyrics_timing": "Audio/Skits/goodnight.timing.json",
   "lyrics_track": "Skit_goodnight",
   "beats": "Audio/Skits/goodnight.beats.json",
   "groups": {

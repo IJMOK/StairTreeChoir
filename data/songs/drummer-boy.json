@@ -1,9 +1,9 @@
 {
   "sequence": "Little Drummer Boy",
-  "audio": "Audio/Boney-M-Little-Drummer-Boy.mp3",
-  "lyrics_timing": "Audio/DrummerBoy.json",
+  "audio": "Audio/Songs/Little Drummer Boy.mp3",
+  "lyrics_timing": "Audio/Songs/Little Drummer Boy.timing.json",
   "lyrics_track": "DrummerBoy",
-  "beats": "Audio/Boney-M-Little-Drummer-Boy.beats.json",
+  "beats": "Audio/Songs/Little Drummer Boy.beats.json",
   "groups": {
     "all": [
       1,

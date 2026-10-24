@@ -28,7 +28,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Feliz Navidad.fseq",
-      "mediaName": "Boney-M-Feliz-Navidad.mp3",
+      "mediaName": "Feliz Navidad.mp3",
       "videoOut": "--Default--"
     },
     {
@@ -56,7 +56,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Little Drummer Boy.fseq",
-      "mediaName": "Boney-M-Little-Drummer-Boy.mp3",
+      "mediaName": "Little Drummer Boy.mp3",
       "videoOut": "--Default--"
     },
     {
@@ -84,7 +84,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "O Come All Ye Faithful.fseq",
-      "mediaName": "O-Come-All-Ye-Faithful.mp3",
+      "mediaName": "O Come All Ye Faithful.mp3",
       "videoOut": "--Default--"
     },
     {
@@ -98,7 +98,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Rockin Around the Christmas Tree.fseq",
-      "mediaName": "Brenda Lee - Rockin' Around The Christmas Tree (Remastered).mp3",
+      "mediaName": "Rockin Around the Christmas Tree.mp3",
       "videoOut": "--Default--"
     },
     {

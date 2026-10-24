@@ -1,7 +1,7 @@
 """Lyric timing tracks for xLights sequences, without the GUI.
 
     python -m tools.xl_timing verify "<sequence>" <track>     # compare with a track xLights made
-    python -m tools.xl_timing add "<sequence>" Audio/<Track>.json
+    python -m tools.xl_timing add "<sequence>" "Audio/Songs/<sequence>.timing.json" [--name <track>]
 
 Ports, line for line, what xLights 2026.18 does when you import an "Eleven Labs" JSON
 (SequenceFile::ProcessElevenLabsTimingFiles, src-core/import_export/TimingImport.cpp)
@@ -201,7 +201,7 @@ def main(argv: list[str] | None = None) -> None:
     a = sub.add_parser("add")
     a.add_argument("sequence")
     a.add_argument("json", type=Path)
-    a.add_argument("--name", help="track name (default: the JSON file's stem, as the import does)")
+    a.add_argument("--name", help="track name (default: the JSON file's name without .timing.json)")
     args = ap.parse_args(argv)
     words, mapping = load_dictionary()
     data = json.loads((SHOW_FOLDER / args.json).read_text(encoding="utf-8"))
@@ -214,7 +214,7 @@ def main(argv: list[str] | None = None) -> None:
             print(f"{name}: {len(mine)} built, {len(theirs)} in xLights, {len(diff)} differ"
                   + (f"; first {diff[:3]}" if diff else ""))
     else:
-        name = args.name or args.json.stem
+        name = args.name or args.json.name.removesuffix(".json").removesuffix(".timing")
         add_track(xsq, name, built)
         print(f"added timing track {name!r} to {xsq.name}: "
               f"{len(built[0])} phrases, {len(built[1])} words, {len(built[2])} mouth shapes")

@@ -1,7 +1,7 @@
 {
   "sequence": "Skit announce-last",
   "audio": "Audio/Skits/announce-last.wav",
-  "lyrics_timing": "Audio/Skits/Skit_announce_last.json",
+  "lyrics_timing": "Audio/Skits/announce-last.timing.json",
   "lyrics_track": "Skit_announce_last",
   "beats": "Audio/Skits/announce-last.beats.json",
   "groups": {

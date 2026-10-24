@@ -1,9 +1,9 @@
 {
   "sequence": "Dominick the Donkey",
-  "audio": "Audio/01 - Dominick the Donkey (The Italian Christmas Donkey).mp3",
-  "lyrics_timing": "Audio/Dominick.json",
+  "audio": "Audio/Songs/Dominick the Donkey.mp3",
+  "lyrics_timing": "Audio/Songs/Dominick the Donkey.timing.json",
   "lyrics_track": "Dominick",
-  "beats": "Audio/01 - Dominick the Donkey (The Italian Christmas Donkey).beats.json",
+  "beats": "Audio/Songs/Dominick the Donkey.beats.json",
   "groups": {
     "A": [
       1,

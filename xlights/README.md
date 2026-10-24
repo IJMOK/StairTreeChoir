@@ -48,6 +48,8 @@ Verified 21 Oct 2026: `getControllers` reports Slot1–6 at 1/277/553/829/1105/1
 
 ## Sequencing a song (first done 21 Oct 2026: Rockin' Around the Christmas Tree)
 
+The file names in this section are as first done; since 24 Oct 2026 song files live in `Audio\Songs\` named after the sequence (see the per-song checklist below, [docs/folders.md](../docs/folders.md) and [docs/show-folder-moves.md](../docs/show-folder-moves.md)).
+
 1. Put the MP3 in `Documents\xLights\Audio\`.
 2. Lyric timing on the PC (no paid service): `.venv/Scripts/python -m tools.lyric_timing "<mp3>" --artist "..." --title "..." --model small.en`. It downloads the lyrics from LRCLIB into `<mp3>.lyrics.txt` (fix and rerun if needed), aligns every word with Whisper (about 1 min for a 2-minute song on the CPU), writes `Audio\Choir.json`, and lists words missing from xLights' dictionaries. Add those to `Documents\xLights\user_dictionary` (CMU phonemes; xLights reads the show folder's copy first).
    Sanity check: compare line starts with LRCLIB's synced timestamps. For the first song all lines agreed within 1.6s except one LRCLIB had put at the start of the sax break; a cold Whisper transcription of that window confirmed no singing there, so the alignment was right.
@@ -62,16 +64,19 @@ Automation quirks seen: `POST /xlDoAutomation` returned "No command" for `newSeq
 
 `data/songs/<song>.json` says which tree group sings each lyric line (by number, no lyrics in git) and how the outlines light per section; `python -m tools.arrange_song data/songs/<song>.json` (sequence open in xLights) replaces each tree's effects: Faces segments (lyric track while singing, "rest" otherwise; Faces outline off) and one On effect per beat on `StairTreeN/Outline` (sub-model effects render over the model's). `--dry-run` prints the plan. Re-run after any change; it takes ~20s.
 
-Beats: `librosa.beat.beat_track` on the MP3 → `Audio/beats.json` (Rockin': steady 72 BPM, 143 beats).
+Beats: `librosa.beat.beat_track` on the MP3 → `Audio/beats.json`, now `Audio/Songs/Rockin Around the Christmas Tree.beats.json` (Rockin': steady 72 BPM, 143 beats).
 
 Rockin' arrangement (21 Oct 2026): verses call-and-response between StairTree1–3 and 4–6; bridges build from the outer pair (or inner pair the second time) to the full choir; refrain and finale all six. Outlines: green verses, gold bridges, red/green refrains, a one-tree-per-beat ripple through the intro and sax break, singers bright and resting trees dim. Verified from the render: on all 22 lines exactly the arranged trees' mouths move.
 
-### Per-song checklist (as of the second song, Dominick the Donkey, 21 Oct 2026)
+### Per-song checklist (as of the second song, Dominick the Donkey, 21 Oct 2026; file names as of 24 Oct 2026)
 
-1. `python -m tools.lyric_timing "<mp3>" --artist ... --title ... --track <Name> --model small.en` → `Audio/<Name>.json` (+ `.lyrics.txt`, `.lrc`). Use a distinct `--track` per song. It strips brackets from words (backing vocals stay bracketed in the line text), falls back to LRCLIB timing on lines Whisper loses (donkey brays), removes overlaps and gives every word ≥ 0.1s so xLights can break it down. Add any words it lists to `Documents\xLights\user_dictionary`, then **restart xLights** (it loads dictionaries once).
-2. `python -m tools.beats "<mp3>"` → `<mp3 stem>.beats.json`.
-3. New sequence (click through Sequence Settings), save as `<song>.xsq`. Import `<Name>.json` (Eleven Labs type), Breakdown Words, save.
-4. Write `data/songs/<song>.json` and `--dry-run` it to check the balance of who sings how much.
+Naming rule: every file of a song shares its **sequence name** (what the `.xsq`/`.fseq` and the FPP playlists call it). The sequence sits in the show folder's top level; its audio, lyrics, beats and timing go in `Audio\Songs\`: `<Sequence name>.mp3`, `.lyrics.txt`, `.lrc`, `.beats.json`, `.timing.json`. Skits use their script name in `Audio\Skits\` (tools/skit.py does it).
+
+0. Copy the MP3 to `Documents\xLights\Audio\Songs\<Sequence name>.mp3` (e.g. `Feliz Navidad.mp3`).
+1. `python -m tools.lyric_timing "Audio/Songs/<Sequence name>.mp3" --artist ... --title ... --model small.en` → `Audio/Songs/<Sequence name>.timing.json` (+ `.lyrics.txt`, `.lrc`). It strips brackets from words (backing vocals stay bracketed in the line text), falls back to LRCLIB timing on lines Whisper loses (donkey brays), removes overlaps and gives every word ≥ 0.1s so xLights can break it down. Add any words it lists to `Documents\xLights\user_dictionary`, then **restart xLights** (it loads dictionaries once).
+2. `python -m tools.beats "Audio/Songs/<Sequence name>.mp3"` → `Audio/Songs/<Sequence name>.beats.json`.
+3. New sequence (click through Sequence Settings), save as `<Sequence name>.xsq` in the show folder's top level. Add the timing track under a short distinct name (e.g. `FelizNavidad`): with the sequence closed, `python -m tools.xl_timing add "<Sequence name>" "Audio/Songs/<Sequence name>.timing.json" --name <Track>`; or import the `.timing.json` (Eleven Labs type; xLights names the track after the file, so rename it), Breakdown Words, save.
+4. Write `data/songs/<song>.json` (`audio`, `lyrics_timing`, `beats` relative to the show folder, `lyrics_track` = the track name) and `--dry-run` it to check the balance of who sings how much.
 5. `python -m tools.arrange_song data/songs/<song>.json`, then `python -m tools.check_render data/songs/<song>.json`: every line's singers must match the arrangement.
 
 Back-to-back lines (Dominick) taught two rules now in `arrange_song`: a singer's lead-in/tail stops halfway to the neighbouring line, and windows merge only across silence, never across someone else's line.

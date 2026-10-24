@@ -1,12 +1,14 @@
 """Word-level lyric timing for xLights, from the song audio and its lyrics, using Whisper on the PC.
 
-    python -m tools.lyric_timing "C:/Users/User/Documents/xLights/Audio/song.mp3" \
+    python -m tools.lyric_timing "C:/Users/User/Documents/xLights/Audio/Songs/<Sequence name>.mp3" \
         --artist "Brenda Lee" --title "Rockin' Around the Christmas Tree"
 
-Writes <track>.json next to the audio (default track name "Choir"). In xLights:
+Writes <audio stem>.timing.json next to the audio (or --out). Name the audio after its
+sequence and every file of the song shares that name (docs/folders.md). In xLights:
 File → Import → Import Timing Track, file type "Eleven Labs (*.json)". It becomes a
 timing track named after the file with a phrase layer (one lyric line each) and a
-word layer; right-click the track → Breakdown Words to add the phonemes.
+word layer; right-click the track → Breakdown Words to add the phonemes. Or, with the
+sequence closed: python -m tools.xl_timing add "<sequence>" <timing json> --name <track>.
 
 The JSON shape is what xLights' ElevenLabs importer reads (SequenceFile::
 ProcessElevenLabsTimingFiles in src-core/import_export/TimingImport.cpp, xLights
@@ -213,7 +215,7 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--artist", help="for the LRCLIB lyrics search")
     ap.add_argument("--title", help="for the LRCLIB lyrics search")
     ap.add_argument("--lyrics", type=Path, help="lyrics text file, one sung line per line")
-    ap.add_argument("--track", default="Choir", help="timing track name (the output file's name)")
+    ap.add_argument("--out", type=Path, help="timing JSON to write (default <audio stem>.timing.json)")
     ap.add_argument("--model", default="medium.en", help="Whisper model (small.en is faster)")
     ap.add_argument("--transcribe", action="store_true",
                     help="no published lyrics: transcribe the song into <audio>.lyrics.txt first")
@@ -250,7 +252,8 @@ def main(argv: list[str] | None = None) -> None:
     lines = lyric_lines(text)
     saved.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    show_folder = args.audio.parent.parent if args.audio.parent.name.lower() == "audio" else args.audio.parent
+    audio_dirs = [d for d in args.audio.resolve().parents if d.name.lower() == "audio"]
+    show_folder = audio_dirs[0].parent if audio_dirs else args.audio.parent   # <show>/Audio/<kind>/x.mp3
     known = dictionary_words([show_folder, XLIGHTS_DICTIONARIES])
     unknown = sorted({xlights_word_key(w) for line in lines for w in line.split()} - known - {""})
     if known and unknown:
@@ -265,7 +268,7 @@ def main(argv: list[str] | None = None) -> None:
     if result is None:
         raise SystemExit("Alignment failed. Try the vocal stem, or check the lyrics match the recording.")
 
-    out = args.audio.with_name(f"{args.track}.json")
+    out = args.out or args.audio.with_name(args.audio.stem + ".timing.json")
     data = to_xlights(result)
     if lrc.exists() and not args.lyrics:
         fixed = apply_lrc_fallback(data, lrc_starts(lrc.read_text(encoding="utf-8")), duration)

@@ -1,9 +1,9 @@
 {
   "sequence": "O Come All Ye Faithful",
-  "audio": "Audio/O-Come-All-Ye-Faithful.mp3",
-  "lyrics_timing": "Audio/OComeAll.json",
+  "audio": "Audio/Songs/O Come All Ye Faithful.mp3",
+  "lyrics_timing": "Audio/Songs/O Come All Ye Faithful.timing.json",
   "lyrics_track": "OComeAll",
-  "beats": "Audio/O-Come-All-Ye-Faithful.beats.json",
+  "beats": "Audio/Songs/O Come All Ye Faithful.beats.json",
   "groups": {
     "all": [
       1,
