@@ -1,6 +1,6 @@
 # Bill of materials
 
-Kept current from CLAUDE.md §4. 14 trees, each with its own ESP32 controller; one show player per site (4 sites). Updated 24 Oct 2026 with deliveries.
+Kept current from CLAUDE.md §4. 14 trees (maybe 15), each with its own ESP32 controller; one show player per site (4 sites). First goal: 6 trees at Site A by 1 Dec 2026. Updated 24 Oct 2026 with deliveries.
 
 ## Bought
 
@@ -33,44 +33,68 @@ AliExpress order of 18 Oct 2026 (£277.80, due 25–31 Oct), plus the ESP32 orde
 
 Tree controller: DIY boards (Rob, 21 Oct 2026). See electronics/README.md.
 
+**The plan (Rob, 24 Oct 2026):** a minimum viable show of **6 trees at home (Site A) by 1 Dec 2026**. Buy the December list first; the later list is for sites B to D and trees 7 to 14 (or 15) and can wait. Building more than six is a bonus if parts and time allow.
+
+### For December: Site A, 6 trees
+
+Already covered by what's bought: ESP32 boards and antennas (10 for 6 + spares), 74AHCT125s, Mini560s and prototype boards (10 each), the PAM8610, a USB sound card, PG9 glands (Site A needs 15: 6 tree boxes, 3 PSU inputs, 6 tree runs; 20 bought) and PG7 glands (7: 6 tree boxes and the speaker; 20 bought). The player is Rob's Pi 5 (`data/sites.json`); his Pi 3 is the bench player meanwhile.
+
 | Qty | Item | Notes |
 |---|---|---|
-| 6 | ESP32-DevKitC-32U (or -32UE) dev board, 38-pin | 10 ordered 22 Oct; 16 = 14 + 2 spare. Espressif DevKitC pin layout (IO16 on J3 pin 12). Any USB chip (CP2102 or CH340). |
-| 6 | 2.4GHz antenna: U.FL (IPEX-1) to RP-SMA bulkhead pigtail, 10–15cm, + RP-SMA dipole | 10 ordered 22 Oct. The WROOM-32U has no antenna of its own; check the listing includes both parts |
-| 15+ | PG9 cable glands | 20 bought, 35 needed; plus a few spare |
-| 6 | 74AHCT125N DIP-14 | 10 already bought; 16 boards |
-| 6 | Mini560 5V buck (fixed 5V version) | 10 already bought; 16 boards |
-| 16 | 1×40 2.54mm female header strip | Cut two 1×19 per board for the ESP32 |
-| 16 | DIP-14 socket | Unless Rob has enough |
-| 32 | 2-way 5.08mm PCB screw terminal | JP (12V in) and JD (data out) |
-| 16 | 10kΩ resistor | R2 data pull-down, unless Rob has them |
-| 28 | Wago 221-413 (3-way) | 12V and GND split in each tree box |
-| 6 | 5×7cm prototype boards | 10 bought; 16 boards |
-| 2 | Raspberry Pi 3 Model A+ (or any Pi) | Show players for two sites; Rob's Pi 3 and Pi 5 are the other two. The Pi Hut, about £24. |
-| 4 | High-endurance microSD | One per player. UK retailer, not AliExpress |
-| 4 | Cudy WR3000 router (AX3000, vanilla OpenWrt), ~£30–40 | One per site. Dual-band WiFi 6 with 4 external antennas; out of show season they become home mesh nodes. Before buying, check the hardware version is on the OpenWrt Table of Hardware |
-| 8 | Mean Well LPV-100-12 (12V 8.5A, IP67) | One per pair of trees, all at the site box; 7 + 1 spare. Genuine, UK distributor: ~£28 ex VAT, in stock at Future House Store (checked 23 Oct 2026) |
-| ~80m | 3-core 0.75mm² outdoor flex | 12V runs to the trees (electronics/site-wiring.md: 77m at the default 5m runs); outer diameter < 8mm for the glands |
-| – | Adhesive-lined heatshrink | |
-| – | PETG; 2.7mm rubber cord (Rob has it, RS 159-1490) | Boots and enclosures; the cord seals the box lids (~0.35m per tree box, ~0.8m per site box: about 8m for everything) |
-| 4 | Speakers | One per site |
-| – | 0.1µF capacitors | Level-shifter decoupling (M4) |
-| 14 | Small TVS diodes (optional) | Data line protection at each tree controller |
+| 7 | 1×40 2.54mm female header strip | One strip per board: cut two 1×19 for the ESP32. 6 boards + 1 spare |
+| 7 | DIP-14 socket | Unless Rob has enough |
+| 14 | 2-way 5.08mm PCB screw terminal | JP (12V in) and JD (data out), 2 per board |
+| 7 | 10kΩ resistor | R2 data pull-down, unless Rob has them |
+| 7 | 0.1µF capacitor | Level-shifter decoupling |
+| 20 | Wago 221-413 (3-way) | 2 per tree box (12) + a pair per PSU in the site box (6) + spare |
+| 4 | Mean Well LPV-100-12 (12V 8.5A, IP67) | 3 for Site A (one per pair of trees) + 1 spare. Genuine, UK distributor: ~£28 ex VAT, Future House Store (checked 23 Oct 2026) |
+| 1 | 12V→5V 5A buck for the Pi 5 | In the site box after the player's 3A fuse (electronics/README.md). A Pi 3 would manage on 2.5A |
+| 7 | Inline blade fuse holders (+ a 3A blade fuse) | 6 tree runs at 5A (Rob has the 5A fuses) + the player's 3A |
+| ~35m | 3-core 0.75mm² outdoor flex | Site A: 6 runs at the default 5m (electronics/site-wiring.md), plus slack and the PSU leads; outer diameter < 8mm for the glands |
+| 1 | Cudy WR3000 router (AX3000, vanilla OpenWrt), ~£30–40 | Check the hardware version is on the OpenWrt Table of Hardware before buying |
+| 1 | High-endurance microSD | For the Pi 5. UK retailer, not AliExpress |
+| 1 | Speaker | |
+| 1 | RCD-protected outdoor socket or weatherproof multi-way box | The mains side; not designed in this repo. **TBC (Rob):** have it checked by a competent electrician |
+| – | Adhesive-lined heatshrink; PETG | Boots (12), tree boxes (6), the site box. Lid cord: Rob has it (about 3m for Site A) |
+| 6 | Small TVS diodes (optional) | Data line protection |
 | – | Exterior oil (e.g. Osmo UV) | |
+
+### Later: sites B to D, trees 7 to 14 (or 15)
+
+| Qty | Item | Notes |
+|---|---|---|
+| 6 | ESP32-DevKitC-32U (or -32UE) dev board, 38-pin | 16 = 14 + 2 spare (one more for a 15th tree). Espressif DevKitC pin layout (IO16 on J3 pin 12). Any USB chip (CP2102 or CH340) |
+| 6 | 2.4GHz antenna: U.FL (IPEX-1) to RP-SMA bulkhead pigtail, 10–15cm, + RP-SMA dipole | The WROOM-32U has no antenna of its own; check the listing includes both parts |
+| 15+ | PG9 cable glands | 35 needed for everything; 20 bought |
+| 6 | 74AHCT125N DIP-14 | 16 boards |
+| 6 | Mini560 5V buck (fixed 5V version) | 16 boards |
+| 6 | 5×7cm prototype boards | 16 boards |
+| 9 | 1×40 female header strip, DIP-14 sockets, 10kΩ, 0.1µF (each) | The rest of the 16 boards |
+| 18 | 2-way 5.08mm PCB screw terminal | The rest of the 16 boards |
+| 20 | Wago 221-413 | Trees 7–14 and the other site boxes |
+| 4 | Mean Well LPV-100-12 | Sites B (2), C (1), D (1) |
+| 3 | 12V→5V buck for the players (Pi 3 / Pi 3 A+: 2.5A is enough) | One per site box |
+| 11 | Inline blade fuse holders (+ 3A fuses) | 8 tree runs (sites B 4, C 2, D 2) + 3 players |
+| ~45m | 3-core 0.75mm² outdoor flex | The other sites' runs |
+| 2 | Raspberry Pi 3 Model A+ (or any Pi) | Players for sites C and D; Rob's Pi 3 is Site B's. The Pi Hut, about £24 |
+| 3 | High-endurance microSD | One per player |
+| 3 | Cudy WR3000 router | One per site; out of season they become home mesh nodes |
+| 3 | Speakers | One per site |
+| 8 | Small TVS diodes (optional) | |
 
 ## Fasteners (23 Oct 2026 designs)
 
-Lids and box mounts use M3 brass heat-set inserts, not captive nuts: the screws sit 3.5mm from the box edge, where an M3 nut (6.4mm across corners) would break through the wall, and inserts take repeated lid opening better than nuts or self-tapping into PETG. Quantities include about 15% spare.
+Lids and box mounts use M3 brass heat-set inserts, not captive nuts: the screws sit 3.5mm from the box edge, where an M3 nut (6.4mm across corners) would break through the wall, and inserts take repeated lid opening better than nuts or self-tapping into PETG. Quantities include about 15% spare. "December" is Site A's 6 trees and one site box.
 
-| Qty | Item | Where |
-|---|---|---|
-| 200 | M3 brass heat-set inserts, for a 4.0mm hole (e.g. M3 × 5 × 4.2 OD) | Tree box lid 6 + control-boot tower 4 = 10 per tree (140); site box lid 8 per site (32). Check the hole size against the ones Rob has (`m3_insert_d`) |
-| 200 | M3 × 10 stainless button/pan head screws | Same places: 4mm lid frame or 5mm box ear + 6mm in the insert |
-| 70 | M2 × 6 self-tapping screws for plastic | Controller board into its standoffs, 4 per board (16 boards) |
-| 20 | M2.5 × 6 self-tapping screws for plastic | Pi into the site box standoffs, 4 per site |
-| 32 | 4 × 30 stainless countersunk wood screws | Through each peg's tab and the boot shaft into the old pilot hole, 2 per tree. Pilot hole size still to measure |
-| 56 | 8mm × 200mm nails | Two per boot, 28 boots (feet/) |
-| 10 | 5 × 40 stainless exterior screws + washers | Site box lugs to a post or fence, 2 per box |
-| 4 + 4 | M6 × 70 bolts and M6 spring channel nuts (short spring, 41×21 strut) | CNC clamps (fixtures/); the washers are printed |
-| 1 pack | Cable ties, up to 4.8mm wide | Site box zip-tie anchors (5mm slots) |
-| – | Superglue | Butt joints in the lid cord |
+| December | All | Item | Where |
+|---|---|---|---|
+| 80 | 200 | M3 brass heat-set inserts, for a 4.0mm hole (e.g. M3 × 5 × 4.2 OD) | Tree box lid 6 + control-boot tower 4 = 10 per tree; site box lid 8 per site. Check the hole size against the ones Rob has (`m3_insert_d`) |
+| 80 | 200 | M3 × 10 stainless button/pan head screws | Same places: 4mm lid frame or 5mm box ear + 6mm in the insert |
+| 30 | 70 | M2 × 6 self-tapping screws for plastic | Controller board into its standoffs, 4 per board |
+| 4 | 20 | M2.5 × 6 self-tapping screws for plastic | Pi into the site box standoffs, 4 per site |
+| 14 | 32 | 4 × 30 stainless countersunk wood screws | Through each peg's tab and the boot shaft into the old pilot hole, 2 per tree. Pilot hole size still to measure |
+| 24 | 56 | 8mm × 200mm nails | Two per boot, two boots per tree (feet/) |
+| 2 | 10 | 5 × 40 stainless exterior screws + washers | Site box lugs to a post or fence, 2 per box |
+| 4 + 4 | 4 + 4 | M6 × 70 bolts and M6 spring channel nuts (short spring, 41×21 strut) | CNC clamps (fixtures/); the washers are printed |
+| 1 pack | 1 pack | Cable ties, up to 4.8mm wide | Site box zip-tie anchors (5mm slots) |
+| – | – | Superglue | Butt joints in the lid cord |
