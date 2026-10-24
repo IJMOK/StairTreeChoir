@@ -206,12 +206,30 @@ def _entry(sequence: str, media: str | None) -> dict:
     return e
 
 
+def arranged_media() -> dict[str, str]:
+    """Sequence name -> its audio file name, from the arrangements (data/songs/*.json).
+
+    FPP plays the media by file name, so it must be the real file (e.g. the song's MP3 as
+    downloaded), uploaded to FPP's music folder under that name."""
+    out = {}
+    for p in sorted((ROOT / "data" / "songs").glob("*.json")):
+        arr = json.loads(p.read_text(encoding="utf-8"))
+        if arr.get("sequence") and arr.get("audio"):
+            out[arr["sequence"]] = Path(arr["audio"]).name
+    return out
+
+
+def media_for(seq: str, fallback: str) -> str:
+    """The arranged audio file, else a placeholder (tests flag placeholders as unfinished)."""
+    return arranged_media().get(seq, fallback)
+
+
 def _piece(kind: str, name: str) -> tuple[str, dict]:
     """(sequence name, playlist entry) for one song or skit."""
     if kind == "song":
-        return name, _entry(name, name + SONG_MEDIA_EXT)
+        return name, _entry(name, media_for(name, name + SONG_MEDIA_EXT))
     seq = skit_sequence(name)
-    return seq, _entry(seq, seq + SKIT_MEDIA_EXT)
+    return seq, _entry(seq, media_for(seq, seq + SKIT_MEDIA_EXT))
 
 
 def _playlist(name: str, desc: str, main: list[dict], repeat: int = 0) -> dict:
@@ -250,7 +268,7 @@ def playlists() -> dict[str, dict]:
         n = f"Show {letter}"
         out[n] = _playlist(n, f"Set {letter}, about 15 minutes.", main)
     out[GOODNIGHT] = _playlist(GOODNIGHT, "Goodnight skit; the lights go out.",
-                               [_entry(GOODNIGHT, GOODNIGHT_MEDIA)])
+                               [_entry(GOODNIGHT, media_for(GOODNIGHT, GOODNIGHT_MEDIA))])
     return out
 
 

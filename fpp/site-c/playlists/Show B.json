@@ -14,7 +14,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Skit tuning-up.fseq",
-      "mediaName": "Skit tuning-up.wav",
+      "mediaName": "tuning-up.wav",
       "videoOut": "--Default--"
     },
     {
@@ -28,7 +28,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Feliz Navidad.fseq",
-      "mediaName": "Feliz Navidad.mp3",
+      "mediaName": "Boney-M-Feliz-Navidad.mp3",
       "videoOut": "--Default--"
     },
     {
@@ -42,7 +42,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Skit pips-joke.fseq",
-      "mediaName": "Skit pips-joke.wav",
+      "mediaName": "pips-joke.wav",
       "videoOut": "--Default--"
     },
     {
@@ -56,7 +56,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Little Drummer Boy.fseq",
-      "mediaName": "Little Drummer Boy.mp3",
+      "mediaName": "Boney-M-Little-Drummer-Boy.mp3",
       "videoOut": "--Default--"
     },
     {
@@ -70,7 +70,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Skit whos-next.fseq",
-      "mediaName": "Skit whos-next.wav",
+      "mediaName": "whos-next.wav",
       "videoOut": "--Default--"
     },
     {
@@ -98,7 +98,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Rockin Around the Christmas Tree.fseq",
-      "mediaName": "Rockin Around the Christmas Tree.mp3",
+      "mediaName": "Brenda Lee - Rockin' Around The Christmas Tree (Remastered).mp3",
       "videoOut": "--Default--"
     },
     {
@@ -112,7 +112,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Skit thank-you.fseq",
-      "mediaName": "Skit thank-you.wav",
+      "mediaName": "thank-you.wav",
       "videoOut": "--Default--"
     }
   ],

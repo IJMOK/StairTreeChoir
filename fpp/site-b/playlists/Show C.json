@@ -14,7 +14,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Skit tuning-up.fseq",
-      "mediaName": "Skit tuning-up.wav",
+      "mediaName": "tuning-up.wav",
       "videoOut": "--Default--"
     },
     {
@@ -42,7 +42,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Skit bramble-wakes.fseq",
-      "mediaName": "Skit bramble-wakes.wav",
+      "mediaName": "bramble-wakes.wav",
       "videoOut": "--Default--"
     },
     {
@@ -70,7 +70,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Skit pips-joke.fseq",
-      "mediaName": "Skit pips-joke.wav",
+      "mediaName": "pips-joke.wav",
       "videoOut": "--Default--"
     },
     {
@@ -98,7 +98,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Dominick the Donkey.fseq",
-      "mediaName": "Dominick the Donkey.mp3",
+      "mediaName": "01 - Dominick the Donkey (The Italian Christmas Donkey).mp3",
       "videoOut": "--Default--"
     },
     {
@@ -112,7 +112,7 @@
       "enabled": 1,
       "playOnce": 0,
       "sequenceName": "Skit thank-you.fseq",
-      "mediaName": "Skit thank-you.wav",
+      "mediaName": "thank-you.wav",
       "videoOut": "--Default--"
     }
   ],
