@@ -7,7 +7,9 @@ This file is the project brief for Claude Code. It records what has been decided
 Original build pack (claude.ai artifact): https://claude.ai/artifact/X9tCyDmTd4q82MWGGNtpmc. It describes the earlier "pair kit" design (a Pi in every box driving two trees from GPIO); that was replaced on 20 Oct 2026 (§2).
 
 1. Goals
-14 trees, all identical, each with an outline, two eyes and a multi-shape mouth that lip-syncs to music.
+14 trees, all identical, each with an outline, two eyes and a multi-shape mouth that lip-syncs to music. A 15th tread turned up in the loft (Rob, 24 Oct 2026), so there may be 15 (stairtree-15, 192.168.8.115 fits the scheme; measure the tread first).
+
+Scope for December 2026 (Rob, 24 Oct 2026): 6 trees working at one site, at Rob's home (Site A); the other sites and trees follow later. Prioritise what those 6 need; don't hold anything up for sites B to D.
 Sites: four, one with 4 or 6 trees, one with 4 trees and two with 2 trees each.
 Every site plays the same sequences. A song is sequenced once, for a 6-tree layout.
 Target: running by early December 2026.

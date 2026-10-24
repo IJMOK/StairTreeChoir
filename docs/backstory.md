@@ -8,7 +8,7 @@ For anyone running a show night, and for the name tags. The six characters are i
 >
 > When the staircase was taken out, the steps refused to be firewood. "We've been singing for years," said the top step. "Nobody noticed." So they became trees, grew some lights, and started a choir.
 >
-> Fourteen steps, fourteen trees. Six voices, because, as Holly says, "Not everyone needs to sing at once, Jingle."
+> Every step became a tree. Six voices, because, as Holly says, "Not everyone needs to sing at once, Jingle."
 
 ## The six
 
