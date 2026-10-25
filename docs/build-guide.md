@@ -14,7 +14,7 @@ Two safety rules cover the whole project:
 | 2 | Prepare and check the treads | `data/blank.json` |
 | 3 | CNC | [cnc-cutting.md](cnc-cutting.md) |
 | 4 | Finish the wood | exterior oil |
-| 5 | Fit the pixels | `data/tree-layout.json` |
+| 5 | Glue the disks, fit the pixels | `data/tree-layout.json` |
 | 6 | Build the controller board | [electronics/README.md](../electronics/README.md) |
 | 7 | Boots and pegs | [feet/README.md](../feet/README.md) |
 | 8 | Tree box | [enclosure/README.md](../enclosure/README.md) |
@@ -32,8 +32,8 @@ Two safety rules cover the whole project:
    - Board hole positions and ESP32 height in the box, PG9 and PG7 thread sizes, RP-SMA bulkhead thread, and the M3 insert hole size (4.0mm) ([enclosure/README.md](../enclosure/README.md)).
    - The outer diameter of the outdoor flex (under 8mm for the glands).
 3. Print **one control boot, one plain boot, two pegs, one tree box and lid** before printing the rest. PETG, 3 walls, 15% infill. Boots stand upright on the sole with no supports; pegs print head down. The export commands are in [feet/README.md](../feet/README.md) and [enclosure/README.md](../enclosure/README.md), and the STLs are committed.
-4. Print 4 step clamps and 4 washers for the CNC bed ([fixtures/README.md](../fixtures/README.md)): PETG, 4 walls, 40% infill.
-5. The full print run, once the test fit passes (stage 7): 14 plain boots, 14 control boots, 28 pegs, 14 tree boxes with lids, and the site boxes (the 6, 4 and 2-tree versions) with lids.
+4. Print 4 step clamps and 4 washers for the CNC bed, and the pixel disk test strip ([fixtures/README.md](../fixtures/README.md)): PETG, 4 walls, 40% infill for the clamps.
+5. The full print run, once the test fit passes (stage 7): 14 plain boots, 14 control boots, 28 pegs, 14 tree boxes with lids, 92 pixel disks per tree (bore from the test strip, stage 3), and the site boxes (the 6, 4 and 2-tree versions) with lids.
 
 ## 2. Tread preparation
 
@@ -48,19 +48,20 @@ You need 14 treads. Each is a tapered oak board with four old 17mm fixing holes 
 
 The procedure, layers and feeds are in [cnc-cutting.md](cnc-cutting.md). In outline:
 
-1. **Offcut test first.** Cut 11.8, 12.0, 12.2 and 12.5mm holes in an oak offcut, plus 20mm of channel at 15mm and 18mm wide. Push a pixel into each hole with its lead in the channel. Set `hole_dia` (and a counterbore if one is needed) in `tools/tree_layout.py` and run `make all`. **TBC (Rob):** hole size, counterbore, and the lead length between pixels. These wait on the pixels arriving.
-2. Screw a sacrificial MDF sheet to the bed, and clamp the tread with the printed step clamps.
-3. Cut a **pilot tree first**. Op 1: the 92 front holes (face up, helical bore, clear the chips every 6 to 8mm). Op 2: flip left to right, locate from the centres of the node 36 and node 64 holes, then cut the channel, the node 1 pocket and the exit slot. Watch the first tree all the way through.
+Each tree is cut in one op, front face up, with no flip and nothing cut from the back (Rob, 25 Oct 2026). Rob does the CAM in NX from the STEP files in `cad/` (`tools/gen_step.py`).
+
+1. **Offcut test first.** Print the disk test strip (`fixtures/pixel-disk.scad`, bores 11.8 to 12.2mm). Cut one Ø19 × 2mm counterbore and a Ø15 clearance hole in an oak offcut and glue a disk in. Check a pixel snaps in and its clips clear the hole. Set `hole_dia` (the disk bore) and `clearance_dia` in `tools/tree_layout.py` and run `make all`. **TBC (Rob):** the disk bore and the clip barb flare. These wait on the pixels arriving.
+2. **Op 0, once:** screw an MDF sheet to the bed and pocket it 4mm deep to the blank's shape. Don't move it again.
+3. Cut a **pilot tree first**. Op 1: drop the tread into the pocket, face up, and clamp it with the clamps clear of the counterbores. Cut the 92 counterbores, then the clearance holes through into the MDF (helical bore, clear the chips every 6 to 8mm). Watch the first tree all the way through.
 4. Fit a pixel string and a boot to the pilot tree before cutting the other 13.
-5. **TBC (Rob):** how front and back are registered. The current method is the two finished holes, with no dowels.
 
 Safety: eye and ear protection, dust extraction for oak dust, hands clear of the bit. Packed chips are what snap a 4mm bit.
 
 ## 4. Finishing
 
-1. Sand the front lightly. Do not round the hole edges.
+1. Sand the front lightly. Do not round the counterbore edges.
 2. Oil with an exterior oil (for example Osmo UV), 2 to 3 coats, including the end grain.
-3. **Keep the push fit.** Oil can close up the holes. After the last coat, test a pixel in several holes; a tight one may need a quick hand pass with a 12mm drill bit. **TBC (Rob):** the product and cure time.
+3. **Oil before the disks go in.** The pixel fit is in the printed disk, not the wood, so the oil can't close it up; let it cure before gluing. **TBC (Rob):** the product and cure time.
 
 ## 5. Pixel fitting
 
@@ -78,11 +79,13 @@ Each tree takes one string of 92 pixels. The strings have 100: cut off the surpl
    | eye_right | 81 to 86, viewer's right, top node first, clockwise |
    | eye_left | 87 to 92, viewer's left, top node first, clockwise |
 
-3. Push each pixel in from the front. Lay its lead in the back channel (15mm wide, 12mm deep) following the same order, and coil spare lead between closely spaced pixels.
-4. Node 1 is at the base-left, at the 25mm data-in pocket. The string's input lead goes out through the exit slot in the bottom edge and hangs down into the control boot's shelf hole, with its xConnect plug at the end and a loop of slack.
-5. Cut the string after node 92 and seal the cut end.
-6. Test the string (checklist section B) before the channel is closed up or the tree goes into its boots.
-7. **TBC (Rob):** how the leads are held in the channel. The repo does not say; use something rated for outdoor use.
+3. **Glue in the disks** first: one printed PETG disk (Ø18.5 × 2mm) in each front counterbore, flush with the face, with hot glue (or CA or epoxy). Keep glue out of the bore.
+4. Push each pixel in from the front, through the disk, until its clips snap behind it. The flange rests on the disk, about 1mm proud. The 30mm body ends level with the back face, so the leads come straight out of the back.
+5. Loop each lead across the back face to the next pixel in the same order.
+6. Node 1 is at the base-left. The string's input lead runs down the back face into the control boot's shelf hole, with its xConnect plug at the end and a loop of slack.
+7. Cut the string after node 92 and seal the cut end.
+8. Test the string (checklist section B) before the tree goes into its boots.
+9. **TBC (Rob):** how the leads are held on the back face, and that the flange doesn't crack the disk when a pixel is pushed in. Use something rated for outdoor use for the leads.
 
 ## 6. Controller board (14, plus 2 spare)
 

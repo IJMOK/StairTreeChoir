@@ -7,3 +7,6 @@ xlights/**/*.xbkp
 xlights/Backup/
 xlights/**/*.fseq
 previews/
+# CAD program side files
+cad/*.log
+cad/*.prt

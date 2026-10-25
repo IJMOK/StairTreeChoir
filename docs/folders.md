@@ -7,7 +7,7 @@
 | Folder | What's in it | Edited by |
 |---|---|---|
 | `CLAUDE.md`, `README.md` | Project brief and decisions; quick start | hand |
-| `cad/` | CNC layout of one tree (`.svg`, `.dxf`) | generated (`tools/gen_cnc.py`) |
+| `cad/` | STEP solids for CAM in NX (tree, fixture plate, assembly); 2D CNC layout of one tree (`.svg`, `.dxf`) | generated (`tools/gen_step.py`, `tools/gen_cnc.py`) |
 | `data/` | `blank.json` (tread outline), `sites.json`, `voices.json` | hand |
 | | `tree-layout.json` | generated (`tools/tree_layout.py`) |
 | | `xlights-effects.json` (effect settings keys) | generated (`tools/xl_keys.py` from the xLights source) |
@@ -17,7 +17,7 @@
 | `electronics/` | Tree controller board and connections; site wiring | `README.md` hand; `connections.md`, `site-wiring.md`, `*.svg` generated |
 | `enclosure/` | Tree and site boxes (OpenSCAD) and their STLs | `.scad` hand; `.stl` exported from them |
 | `feet/` | The boots and peg (OpenSCAD), STLs, previews | `.scad` hand; `.stl`/`.png` exported |
-| `fixtures/` | CNC hold-down clamp (OpenSCAD) and STLs | `.scad` hand; `.stl` exported |
+| `fixtures/` | CNC hold-down clamp and pixel disks (OpenSCAD) and STLs | `.scad` hand; `.stl` exported |
 | `fpp/` | Per-site FPP config: `site-x/` outputs, playlists, schedule | `README.md` hand; `site-*/` generated (`tools/gen_site_config.py`) |
 | `photos/` | Photos of the treads, for measuring | as taken |
 | `tests/` | pytest suite (`python -m pytest -q`) | hand |

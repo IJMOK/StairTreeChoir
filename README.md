@@ -9,6 +9,7 @@ The project brief, decisions and milestones are in [CLAUDE.md](CLAUDE.md). The p
 ```
 python -m venv .venv
 .venv/Scripts/python -m pip install -r requirements.txt
+.venv/Scripts/python -m pip install -r requirements-cad.txt   # optional: the STEP files for CAM
 .venv/Scripts/python -m tools.build     # regenerate data/ and cad/
 .venv/Scripts/python -m pytest -q
 ```

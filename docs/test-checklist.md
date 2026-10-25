@@ -35,7 +35,8 @@ With U1 and the ESP32 fitted (antenna end left):
 Tree no. ____
 
 String and wiring:
-- [ ] Pixels fitted in node order 1 to 92, with the surplus 8 cut off and the end sealed
+- [ ] 92 disks glued in flush, bores clear of glue
+- [ ] Pixels fitted in node order 1 to 92, clips snapped behind the disks, with the surplus 8 cut off and the end sealed
 - [ ] xConnect wires identified with a meter: data is ____ (colour), +12V ____, GND ____
 - [ ] Polarity checked before the string is connected through the Wagos and JD
 

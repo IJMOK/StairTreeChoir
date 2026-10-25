@@ -1,6 +1,6 @@
 # Bill of materials
 
-Kept current from CLAUDE.md §4. 14 trees (maybe 15), each with its own ESP32 controller; one show player per site (4 sites). First goal: 6 trees at Site A by 1 Dec 2026. Updated 24 Oct 2026 with deliveries.
+Kept current from CLAUDE.md §4. 14 trees (maybe 15), each with its own ESP32 controller; one show player per site (4 sites). First goal: 6 trees at Site A by 1 Dec 2026. Updated 24 Oct 2026 with deliveries; pixel disks and the fixture plate added 25 Oct 2026.
 
 ## Bought
 
@@ -55,7 +55,10 @@ Already covered by what's bought: ESP32 boards and antennas (10 for 6 + spares),
 | 1 | High-endurance microSD | For the Pi 5. UK retailer, not AliExpress |
 | 1 | Speaker | |
 | 1 | RCD-protected outdoor socket or weatherproof multi-way box | The mains side; not designed in this repo. **TBC (Rob):** have it checked by a competent electrician |
-| – | Adhesive-lined heatshrink; PETG | Boots (12), tree boxes (6), the site box. Lid cord: Rob has it (about 3m for Site A) |
+| – | Adhesive-lined heatshrink; PETG | Boots (12), tree boxes (6), the site box, pixel disks. Lid cord: Rob has it (about 3m for Site A) |
+| 552 + spares | Printed pixel disks (PETG, fixtures/pixel-disk.scad) | 92 per tree × 6, glued into the front counterbores (Rob, 25 Oct 2026). Print the test strip first for the bore |
+| 1 pack | Hot-glue sticks (outdoor-rated if you can) | Pixel disks into the counterbores; CA or epoxy also work |
+| 1 | MDF sheet, 18mm, blank + 50mm all round (~1000 × 500) | CNC fixture plate with the blank pocket (cad/fixture-plate.step). Unless Rob has one |
 | 6 | Small TVS diodes (optional) | Data line protection |
 | – | Exterior oil (e.g. Osmo UV) | |
 
@@ -81,6 +84,7 @@ Already covered by what's bought: ESP32 boards and antennas (10 for 6 + spares),
 | 3 | Cudy WR3000 router | One per site; out of season they become home mesh nodes |
 | 3 | Speakers | One per site |
 | 8 | Small TVS diodes (optional) | |
+| 736 + spares | Printed pixel disks (PETG) | 92 per tree × 8 (trees 7–14) |
 
 ## Fasteners (23 Oct 2026 designs)
 
@@ -95,7 +99,7 @@ Lids and box mounts use M3 brass heat-set inserts, not captive nuts: the screws 
 | 14 | 32 | 4 × 30 stainless countersunk wood screws | Through each peg's tab and the boot shaft into the old pilot hole, 2 per tree. Pilot hole size still to measure |
 | 24 | 56 | 8mm × 200mm nails | Two per boot, two boots per tree (feet/) |
 | 2 | 10 | 5 × 40 stainless exterior screws + washers | Site box lugs to a post or fence, 2 per box |
-| 4 + 4 | 4 + 4 | M6 × 70 bolts and M6 spring channel nuts (short spring, 41×21 strut) | CNC clamps (fixtures/); the washers are printed |
+| 4 + 4 | 4 + 4 | M6 × 70 bolts and M6 spring channel nuts (short spring, 41×21 strut) | CNC clamps (fixtures/); the washers are printed. On the 18mm fixture plate (`spoil_t` 14) the echo gives 77mm: use M6 × 80 |
 | 1 pack | 1 pack | Cable ties, up to 4.8mm wide | Site box zip-tie anchors (5mm slots) |
 | – | – | Superglue | Butt joints in the lid cord |
 

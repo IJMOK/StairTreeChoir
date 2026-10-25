@@ -52,7 +52,8 @@ def test_clear_of_existing_holes(layout):
     p = layout["params"]
     for hole in layout["blank"]["existing_holes"]:
         for n in layout["nodes"]:
-            wall = math.dist((n["x"], n["y"]), (hole["x"], hole["y"])) - p["hole_dia"] / 2 - hole["dia"] / 2
+            assert hole["depth"] < layout["blank"]["thickness"] - p["front_counterbore_depth"]
+            wall =math.dist((n["x"], n["y"]), (hole["x"], hole["y"])) - p["clearance_dia"] / 2 - hole["dia"] / 2
             assert wall >= p["hole_wall"] - 0.1, (hole["name"], n)
 
 

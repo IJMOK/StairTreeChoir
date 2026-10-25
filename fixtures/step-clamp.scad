@@ -23,7 +23,7 @@ work_h     = tree_t + spoil_t;   // top of the tread above the topper
 bar_l      = 110;
 bar_w      = 24;
 bar_t      = 16;         // bar thickness above the work
-nose_l     = 12;         // grip on the work: keep <= 10-12mm, the holes start 16mm in
+nose_l     = 12;         // grip on the work: keep <= 10-12mm, the counterbores start ~12.5mm in
 nose_pad   = 1;          // nose stands proud, so the bar tilts onto the work, not the heel
 heel_l     = 18;
 slot_from_nose = 30;     // slot starts this far from the nose end

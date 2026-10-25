@@ -22,10 +22,14 @@ LAYOUT_FILE = ROOT / "data" / "tree-layout.json"
 
 @dataclass(frozen=True)
 class Params:
-    hole_dia: float = 12.0          # pixel bullet hole; confirm with the offcut test
-    # TODO(Rob): pixels will probably need a counterbore from the back; size TBC when they arrive. 0 = none.
-    back_counterbore_dia: float = 0.0
-    back_counterbore_depth: float = 0.0
+    # Pixel mount, all cut from the front in one op (Rob, 25 Oct 2026): a printed 2mm disk
+    # (fixtures/pixel-disk.scad) sits flush in a front counterbore and the bullet's clips
+    # snap behind it, so the 30mm body ends level with the back face.
+    hole_dia: float = 12.0          # bullet bore in the printed disk; pick it from the disk test strip
+    front_counterbore_dia: float = 19.0   # disk OD 18.5 + 0.5
+    front_counterbore_depth: float = 2.0  # = disk thickness (the gap the bullet's clips grip)
+    # TODO(Rob): must clear the clip barbs once they spring out; measure a real pixel.
+    clearance_dia: float = 15.0     # through the oak behind the disk
     edge_inset: float = 22.0        # outline node centres from the blank edge
     min_spacing: float = 24.4       # minimum node centre spacing
     hole_wall: float = 5.0          # minimum wood between a pixel hole and an existing hole
@@ -148,7 +152,7 @@ def path_length(path: list[Point]) -> float:
     return sum(math.dist(a, b) for a, b in zip(path, path[1:]))
 
 
-def forbidden_spans(path: list[Point], keepouts: list[tuple[Point, float]], step: float = 0.25) -> list[tuple[float, float]]:
+def forbidden_spans(path: list[Point], keepouts: list[tuple[Point, float]], step: float = 0.05) -> list[tuple[float, float]]:
     """Stretches of the path (as distances along it) where a node centre would
     come closer to an existing hole than its keep-out radius."""
     total = path_length(path)
@@ -269,7 +273,9 @@ def build_layout(blank: dict, p: Params = Params()) -> dict:
     cx = width / 2
 
     holes = blank.get("holes", [])
-    pixel_r = max(p.hole_dia, p.back_counterbore_dia) / 2
+    # The old holes come in from the back and stop 7mm short of the front, so the 2mm
+    # counterbore never meets them: only the clearance hole runs alongside.
+    pixel_r = p.clearance_dia / 2
     keepouts = [((h["x"], h["y"]), pixel_r + h["dia"] / 2 + p.hole_wall) for h in holes]
     groups = {"outline": outline_nodes(inset, blank["corners"], p, keepouts), **face_nodes(cx, p)}
     nodes, ranges, n = [], {}, 1

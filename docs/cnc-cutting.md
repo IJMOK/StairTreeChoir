@@ -1,54 +1,64 @@
 # Cutting a tree on the CNC
 
-One tree per setup, 4mm two-flute carbide end mill with enough reach for 30mm (Rob, 23 Oct 2026). Not a production run: take it gently and watch the first one all the way through.
+One tree per setup, in **one op, front face up, no flip** (Rob, 25 Oct 2026). Nothing is cut from the back: the pixel leads loop across the back face. Not a production run: take it gently and watch the first one all the way through.
 
-Files: `cad/stair-tree-cnc-layout.dxf` (or `.svg`), mm, front view. Layers:
+Rob does the CAM in Siemens NX from the STEP files made by `tools/gen_step.py` (needs `requirements-cad.txt`; `python -m tools.build` skips it without CadQuery):
+
+| File | What |
+|---|---|
+| `cad/stair-tree.step` | the finished tread: rounded 18mm corners, 92 counterbores and clearance holes, the old fixing holes in the back |
+| `cad/fixture-plate.step` | MDF plate (18mm default), blank bounding box + 50mm all round, with a 4mm pocket the shape of the blank |
+| `cad/stair-tree-assembly.step` | the two together, tree sitting in the pocket |
+
+Axes: mm, Z up, the tree's front face at Z = 0 (the part runs from Z = −30 to 0), X right, Y up (the tree's top is +Y), origin at the bottom-left of the blank's bounding box. The plate shares the origin, so its top is at Z = −26. The pocket is drawn at **zero clearance**: set the offset in CAM.
+
+The 2D files stay as reference: `cad/stair-tree-cnc-layout.dxf` (or `.svg`), mm, front view. Layers:
 
 | Layer | Op | What |
 |---|---|---|
-| `FRONT_HOLES` | 1, face up | 92 pixel holes, right through |
-| `BACK_CHANNEL` | 2, face down | wiring channel centreline, 15mm wide × 12mm deep (mirrored) |
-| `BACK_POCKET` | 2, face down | data-in pocket at node 1 (25mm) and exit slot down to the bottom edge (mirrored) |
-| `BACK_COUNTERBORE` | 2, face down | only if the pixel test says a counterbore is needed |
-| `EXISTING` | — | reference only: the old fixing holes in the back. Don't cut. |
-| `REG` | — | not used; the flip is located from two finished holes (below) |
+| `FRONT_COUNTERBORE` | 1 | 92 × Ø19 × 2mm, for the printed pixel disks |
+| `FRONT_HOLES` | 1 | 92 × Ø15 clearance holes, right through |
+| `EXISTING` | — | reference only: the old fixing holes in the back (not mirrored). Don't cut. |
 | `BLANK` | — | the tread outline, for positioning only |
+
+How the pixel sits: a printed PETG disk (`fixtures/pixel-disk.scad`, Ø18.5 × 2mm, bore `hole_dia`) is glued into the counterbore; the bullet pushes in from the front, its Ø13.6 flange resting on the disk and its clips snapping behind it. The fit is set by the printed bore, not the oak.
 
 ## Before the first tree
 
-1. **Offcut test** (pixels needed): cut 11.8, 12.0, 12.2 and 12.5mm holes in an oak offcut, plus 20mm of channel at 15mm and 18mm wide. Push a pixel into each hole and lay its lead in the channel. Set `hole_dia` (and a counterbore if wanted) in `tools/tree_layout.py`, then `make all`.
+1. **Offcut test** (pixels needed): print the disk test strip (bores 11.8 to 12.2), and cut one Ø19 × 2 counterbore and Ø15 clearance hole in an oak offcut. Glue a disk in, and check a pixel snaps in and its clips clear the hole. Set `hole_dia` (disk bore) and `clearance_dia` in `tools/tree_layout.py`, then `make all`. **TBC (Rob):** the clip barb flare, which sets `clearance_dia`.
 2. **Tape-check the tread** against `data/blank.json`: length ~894, wide end ~382, narrow end ~92. If one is out by more than about 3mm, fix the JSON and regenerate before cutting.
-3. Screw a sacrificial MDF sheet to the bed under the tree: the holes go right through and the bit needs somewhere to finish.
 
-## Op 1: front face up, pixel holes
+## Op 0: fixture pocket (once)
 
-- Set the tread face up, wide end against a straight stop and roughly square to X. Clamp it at the wide end and the narrow end with the printed step clamps (`fixtures/`, M6 into the strut channel nuts), with each clamp gripping no more than 10mm of the edge. The holes start 16mm from the edge.
-- Origin: line the `BLANK` outline up on the tread (bottom-left corner and bottom edge). A few mm out doesn't matter, but keep it the same across the tree.
-- Toolpath: helical bore each hole to the finished diameter, through to 0.5mm into the MDF.
+- Screw an MDF sheet (18mm, or set `plate_thickness` in `tools/gen_step.py`) to the bed, at least the blank plus 50mm all round.
+- Pocket it 4mm deep to the blank outline, with your clearance offset. Rob may use a bigger bit than the 4mm for this.
+- Drop a tread in to check the fit before cutting any tree.
+- **Never move the plate again.** XY zero stays where it is for every tree.
+
+## Op 1: front face up, counterbores and holes
+
+- Drop the tread into the pocket, front face up, narrow end towards +Y. Hold it down with workshop clamps (or the printed step clamps, `fixtures/`, with `spoil_t` set to the plate less the pocket: 14mm for 18mm MDF). The pocket locates it; the clamps only stop it lifting.
+- **Clamp clearance:** the counterbore edge is ~12.5mm in from the blank edge, so grip no more than 10mm of the edge, between pixels where you can. Check every clamp against the toolpath before starting.
+- Z zero on the tread's front face; touch off each tree, as the thickness varies.
+- Counterbores: Ø19 × 2mm, to the finished size (the disk is Ø18.5).
+- Clearance holes: helical bore Ø15 through, to 0.5mm into the MDF. Holes through the pocket floor are fine; each tree reuses the same spots.
 - Peck/clear: lift out of the hole every 6–8mm of depth and blow the chips out. Deep oak holes pack with chips, and packed chips are what snap a 4mm bit.
-- Keep the 2 alignment holes on the centreline open (node 36 at the apex and node 64 in the middle of the wide mouth, x = 191 on the outline). Every hole goes through anyway; these two are the ones you use in op 2.
-
-## Op 2: flip, back face up, channel and pocket
-
-- Flip the tread left-to-right about its long centreline (top stays at the top). The `BACK_*` layers are already mirrored for this.
-- **Locate from the holes, not the fence.** Jog to the centre of node 36's hole and set X/Y zero there (the same point in the mirrored file: x = 191, y = 22 from the blank's top-left). Jog to node 64's hole (x = 191, y = 737): if the board is skewed, rotate it until both centres sit on the same X, or use your controller's rotation/skew if it has one. The channel only has to pass over each hole (15mm channel over a 12mm hole), so ±1mm is plenty.
-- Clamp, and check clamp clearance against the channel path. The channel runs about 22mm in from the edge all round.
-- Channel: 15mm wide (two or three passes of the 4mm bit, or an adaptive pocket), 12mm deep in steps. It follows the node order and already swings round the old 17mm fixing holes.
-- Pocket at node 1: 25mm across, as deep as the channel, plus the exit slot down through the bottom edge (this is where the pixel lead goes into the control boot's shelf hole).
 
 ## Feeds for oak (starting point, 4mm 2-flute carbide)
+
+4mm two-flute carbide end mill with enough reach for 30mm (Rob, 23 Oct 2026). Rob may choose other tools in NX.
 
 | | Value |
 |---|---|
 | Spindle | 18,000 rpm |
 | Feed | 800–1000 mm/min (≈0.025mm per tooth: gentle) |
 | Plunge / helix | 300 mm/min, helix step 1mm per turn |
-| Depth per pass | 1.5–2mm in the channel (0.5 × D); holes 1mm per helix turn |
-| Width per pass | ≤ 40% of the bit in the channel; or adaptive clearing |
-| Finish | a 0.2mm finishing pass on the hole walls for the push fit |
+| Depth per pass | 1mm per helix turn in the holes; the counterbore in two 1mm steps |
+| Width per pass | ≤ 40% of the bit in the counterbore; or adaptive clearing |
+| Finish | a 0.2mm finishing pass on the counterbore wall, so the disk drops in |
 
 Listen and look at the chips: dust means the feed is too slow (heat dulls the bit); a screech or shower of splinters means it's too fast or too deep. Slow down in the narrow top end, where there's less wood to hold the board.
 
 ## After cutting
 
-Sand the front lightly (don't round the hole edges), then oil per CLAUDE.md §3 before fitting the pixels. Check the oil doesn't close up the push fit: the holes may need a quick pass with a 12mm drill bit by hand.
+Sand the front lightly (don't round the counterbore edges), then oil per CLAUDE.md §3. Glue the disks in after the oil has cured (build-guide §5); the fit is in the disk, so the oil can't close it up.

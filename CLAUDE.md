@@ -46,11 +46,12 @@ FPP output per tree    DDP to the tree's IP, start channel of its slot, 276 chan
 
 3. The tree
 Blank: the existing treads are symmetric tapered boards (not triangles): about 92mm across the narrow end, 382mm across the wide end, 894mm long, 30mm thick, corners rounded ~15–20mm. Measured from photos on 20 Oct 2026 (§9); Rob to confirm with a tape. The narrow end is the top of the tree. The shape lives in data/blank.json, not in code.
-Existing holes: each tread has four old stair-fixing holes in the BACK face, 17mm diameter × 23mm deep (7mm of oak left in front), two about 33mm from the narrow end (±37mm from the centreline) and two about 44mm from the wide end (±170mm), plus small screw pilot holes beside them. Decision (Rob, 20 Oct 2026): pixels keep at least a 5mm wall from them (Params.hole_wall); the back channel keeps 3mm from the 17mm holes but may mill through the pilots. The wide-end holes carry the printed boots.
-Pixels: 12mm bullet pixels push-fitted into 12mm through-holes, probably with a back counterbore (size TBC when the pixels arrive; Params.back_counterbore_dia/depth). Rob must test-fit one on an offcut before cutting all 14.
+Existing holes: each tread has four old stair-fixing holes in the BACK face, 17mm diameter × 23mm deep (7mm of oak left in front), two about 33mm from the narrow end (±37mm from the centreline) and two about 44mm from the wide end (±170mm), plus small screw pilot holes beside them. Decision (Rob, 20 Oct 2026): pixels keep at least a 5mm wall from them (Params.hole_wall), measured from the clearance hole: the 2mm counterbore never reaches the old holes, which stop 7mm short of the front. The wide-end holes carry the printed boots.
+CNC (decided by Rob, 25 Oct 2026): one op per tree, front face up, no flip. Nothing is cut from the back, so no registration. The blank drops into a 4mm pocket of its own shape in an MDF plate (op 0, cut once and never moved) and is held with workshop clamps. Rob does the CAM in Siemens NX from the STEP files (below); docs/cnc-cutting.md.
+Pixels (decided by Rob, 25 Oct 2026): 12mm bullet pixels (Ray Wu: Ø13.6 flange, 30mm body, clips that grip a 2mm panel, too thin to rely on oak). Each hole is a front counterbore Ø19 × 2mm (Params.front_counterbore_dia/depth) holding a printed PETG disk (fixtures/pixel-disk.scad: OD 18.5, 2mm, bore Params.hole_dia, default 12.0) glued in with hot glue (or CA/epoxy), then a Ø15 clearance hole through the oak (Params.clearance_dia, TBC: must clear the clip barbs). The bullet pushes in from the front: the flange rests on the disk, ~1mm proud, and the clips snap behind the disk. The body ends level with the back face. Rob must test-fit one (disk test strip, bores 11.8–12.2, plus one counterbore and clearance hole in an offcut) before cutting all 14.
 Layout: 92 nodes, minimum centre spacing 24.4mm, outline inset 22mm from the edge. Face option C (Rob, 20 Oct 2026): eyes centred 450mm and lip line 645mm below the top; the mouth can't go higher at its current width.
-Back face: routed channel about 15mm wide × 12mm deep, following the data order, with room to coil the lead between closely spaced pixels. Data-in pocket 25mm at node 1 (base-left).
-Tree controller box (decided by Rob, 23 Oct 2026): sits on a hollow tower on the tree's left boot (the control boot, behind node 1), behind the tree and inside its outline: ESP32, level shifter, 5V buck, two Wagos; no fuse. Glands point down into the tower. The pixel lead runs from the exit slot in the tree's bottom edge through the boot's shelf and into the tower. enclosure/tree-box.scad, feet/.
+Back face: nothing routed (Rob, 25 Oct 2026). The pixel leads come out of the back and loop across the back face in data order; node 1 (data in) is at the base-left.
+Tree controller box (decided by Rob, 23 Oct 2026): sits on a hollow tower on the tree's left boot (the control boot, behind node 1), behind the tree and inside its outline: ESP32, level shifter, 5V buck, two Wagos; no fuse. Glands point down into the tower. The pixel lead runs down the tree's back face, through the boot's shelf and into the tower. enclosure/tree-box.scad, feet/.
 Mounting: two 3D-printed PETG boots per tree (feet/; cartoon boots the tree stands in, hollow to save material across 28): a plain right boot and the left control boot. The tree drops into the slot between lip and shaft from above; a separate printed peg goes through the shaft into the old 17mm fixing hole, and the wood screw into the old pilot hole goes through the peg's tab (Rob, 23 Oct 2026: a moulded spigot blocked assembly). Holds the bottom edge 50mm off the grass; pegged with two 8mm × 200mm nails.
 Finish: exterior oil (e.g. Osmo UV), 2–3 coats, including the end grain.
 
@@ -75,7 +76,7 @@ AI    lip + mouth_wide
 O    inner 5 of the lip + mouth_small (69–73, 75–79): closed round o
 U, WQ    middle 3 of the lip + middle 3 of mouth_small (70–72, 76–78): small pucker
 
-cad/stair-tree-cnc-layout.svg and .dxf are generated by tools/gen_cnc.py. Layers: BLANK, FRONT_HOLES, BACK_COUNTERBORE (when set), BACK_CHANNEL (mirrored, detours round the old holes), BACK_POCKET (mirrored), EXISTING (reference only, mirrored), STAKE_HOLES (unused now the boots use the old holes), and REG (DXF only: spoilboard dowels on the flip axis). Don't edit them by hand.
+cad/stair-tree.step (the finished tread: rounded 18mm corners, counterbores, clearance holes and the old back fixing holes), cad/fixture-plate.step (MDF plate, 18mm default, blank bounding box + 50mm margin, 4mm pocket drawn at zero clearance; Rob sets the offset in CAM) and cad/stair-tree-assembly.step are generated by tools/gen_step.py (CadQuery, optional: requirements-cad.txt). Axes: mm, Z up, front face at Z = 0 (part from Z = −30 to 0), X right, Y up (tree top is +Y), origin bottom-left of the blank's bounding box. cad/stair-tree-cnc-layout.svg and .dxf (tools/gen_cnc.py) stay as 2D reference. Layers: BLANK, FRONT_COUNTERBORE, FRONT_HOLES (clearance, through), EXISTING (reference only, not mirrored). Don't edit them by hand.
 
 4. Hardware (decided unless marked TBC)
 Part    Decision
@@ -102,11 +103,14 @@ data/tree-layout.json          # canonical, generated
 data/sites.json                # hand-edited input: sites, slot → tree ID, 12V run lengths (defaults until Rob confirms)
 tools/gen_site_wiring.py       # -> electronics/site-wiring.md, electronics/<site>.svg
 tools/tree_layout.py           # layout generator (source of truth)
-tools/gen_cnc.py               # -> cad/*.svg, cad/*.dxf
+tools/gen_cnc.py               # -> cad/*.svg, cad/*.dxf (2D reference)
+tools/gen_step.py              # -> cad/*.step for CAM in NX (needs requirements-cad.txt)
 tools/gen_xmodel.py            # -> xlights/StairTree.xmodel (M2)
 tools/gen_site_config.py       # -> fpp/<site>/ outputs, wled/stairtree-NN.json (M5)
 tools/build.py                 # python -m tools.build regenerates everything
-cad/                           # CNC outputs
+cad/                           # CNC outputs (STEP, SVG, DXF)
+fixtures/                      # OpenSCAD: CNC step clamps, pixel disks + test strip
+requirements-cad.txt           # optional: CadQuery for tools/gen_step.py
 docs/research.md               # what already exists (FPP, xLights, ESP32/WLED, HA integrations)
 enclosure/                     # OpenSCAD: tree controller box, site box
 feet/                          # OpenSCAD tree boots + exported STLs
@@ -123,8 +127,8 @@ Milestones (in order)
 M0. Prototype the architecture (first half done 21 Oct 2026: WLED 16.0.1 on Rob's spare ESP32-WROOM-32 mini at 192.168.0.72, 92 LEDs on GPIO16, receiving DDP from xLights on the PC as controller StairTree1; see wled/README.md. Waiting on the pixels for the rest)
 Flash WLED onto a spare ESP32; FPP on Rob's Pi 3 (or xLights on the PC) sends DDP to it. When the pixels arrive, drive one 92-pixel string through a 74AHCT125 and check frame timing with a fast mouth sequence over Wi-Fi. This decides WLED streaming vs ESPixelStick FPP Remote before 14 boards are bought.
 
-M1. Layout and CNC files (done for the measured blank; waiting on the hole/counterbore test)
-Keep tools/tree_layout.py as the single source of truth. Front holes, mirrored back channel, data-in pocket, existing-hole reference layer, registration dowels. SVG (mm) and DXF (ezdxf). Tests: 92 nodes; spacing ≥ 24mm; holes ≥ 16mm from the edge; clear of the old holes; SVG viewBox = blank size; deterministic output.
+M1. Layout and CNC files (done for the measured blank; redone 25 Oct 2026 for one front-only op; waiting on the disk and clearance test)
+Keep tools/tree_layout.py as the single source of truth. Front counterbores and clearance holes, existing-hole reference layer, fixture plate with the blank pocket. STEP (CadQuery) for CAM in NX; SVG (mm) and DXF (ezdxf) as reference. Tests: 92 nodes; spacing ≥ 24mm; holes ≥ 16mm from the edge; clear of the old holes; SVG viewBox = blank size; deterministic output.
 
 M2. xLights model (generator done 20 Oct 2026: tools/gen_xmodel.py → xlights/StairTree.xmodel, format checked against xLights source 75c3e11; imported into xLights 2026.18 by Rob on 20 Oct 2026 as StairTree1-6 at start channels 1, 277, 553, 829, 1105, 1381; all 92 node positions, the face definition and sub-models verified from the saved layout)
 Generate a Custom Model .xmodel from the layout JSON. Scale it to a grid (for example 1 cell = 10mm) with node numbers in wiring order.
@@ -160,7 +164,7 @@ M7. Home Assistant link (later)
 Rob's Home Assistant config lives in a separate repo (C:\Users\User\Documents\HA\Homeassistant, Node-RED flows there too). Plan: start/stop the show and pick playlists from HA/Node-RED (e.g. at sunset, only when someone is home), and show what's playing on the hall board. Use the existing koolsb/ha-fpp HACS integration (FPP as a media player) rather than writing one; see docs/research.md. WLED trees also appear in HA natively, which helps for testing.
 
 7. Constraints and conventions
-Python 3.11+, with dependencies in requirements.txt (ezdxf, pytest). OpenSCAD for enclosures and boots. Local venv in .venv (not committed).
+Python 3.11+, with dependencies in requirements.txt (ezdxf, pytest); optional CadQuery in requirements-cad.txt (STEP files; tools/build.py skips them without it). OpenSCAD for enclosures and boots. Local venv in .venv (not committed).
 Generators are deterministic. Generated files are committed so Rob can use them without running code, and are rebuilt by a single make all (or python -m tools.build).
 Units are mm everywhere. Coordinates are viewed from the front of the tree unless a file says it is mirrored.
 Never hand-edit generated files. Change the generator and regenerate.
@@ -174,11 +178,9 @@ Tree controller board: DIY ESP32-32U on stripboard, or a ready-made WLED board? 
 WLED streaming (DDP) or ESPixelStick FPP Remote? (Decide after M0.)
 Site router: inside the site box or beside it, and 12V from PSU 1 or its own adapter? (Cudy WR3000, decided 24 Oct 2026.)
 Boots: test-fit the first printed pair and pegs (peg fit, tread thickness in the slot, pilot hole diameter and screw size, xConnect plug through the 16mm shelf hole, 50mm clearance enough?).
-Pixel back counterbore size, once the pixels arrive.
-The lead length between pixels on the Ray Wu strings, once they arrive. It decides the back-channel width and depth.
-Does a pixel push-fit a 12mm hole, or does it need 12.2–12.5mm?
+The clip barb flare diameter on a real pixel. It sets Params.clearance_dia (15mm assumed).
+The disk bore, from the test strip (11.8–12.2; Params.hole_dia, 12.0 assumed), and that the flange doesn't crack the disk.
 Measured sizes: chosen ESP32 board, Mini560, PAM8610, PG7/PG9 glands, outer diameter of the outdoor flex.
-How front and back are registered on the CNC (spoilboard dowels on the flip axis are the current assumption).
 The pixel colour order (RGB, GRB and so on), from the first-light test.
 Which song to sequence first.
 
