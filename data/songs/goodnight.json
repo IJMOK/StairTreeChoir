@@ -41,7 +41,119 @@
       "eyes": "blink"
     }
   ],
-  "end_at": 12.4,
-  "end_fade": 1.2,
-  "notes": "Show closer: the goodnight skit (same lines and singers as skit-goodnight, from data/skits/goodnight.json) with gentle snow over the choir, then a warm-white glow under the last word fading out. end_at 9.9 s clips everything about 1 s before the audio ends (10.93 s), so the final frames are black: FPP holds the last frame when the playlist ends."
+  "notes": "Show closer: the goodnight skit (same lines and singers as skit-goodnight, from data/skits/goodnight.json) with gentle snow over the choir and a warm-white glow under the last word. Bramble falls asleep after his \"Finally...\" (eyes shut, slow blue breath). From 10.6 s the others settle one by one, Noel last after his long note: heavy eyes and a dim warm breath, the same state the Night loop starts in (tools/loops.py NIGHT_BG, brightness 45), so the hand-off to Night 1 is seamless. Until 25 Oct 2026 it faded to black (end_at); now the Night loop follows it every night it plays.",
+  "asleep": [
+    {
+      "tree": 5,
+      "from": 5.1,
+      "until": null
+    }
+  ],
+  "moves": [
+    {
+      "tree": 1,
+      "from": 10.6,
+      "until": 999,
+      "outline": {
+        "look": "breathe",
+        "palette": [
+          "#FF9040"
+        ],
+        "bright": 45,
+        "params": {
+          "lo": 30,
+          "hi": 75,
+          "period": 5.0,
+          "stagger": 0.8,
+          "start_up": false
+        }
+      },
+      "eyes": "heavy",
+      "eyes_bright": 45
+    },
+    {
+      "tree": 2,
+      "from": 11.0,
+      "until": 999,
+      "outline": {
+        "look": "breathe",
+        "palette": [
+          "#FF9040"
+        ],
+        "bright": 45,
+        "params": {
+          "lo": 30,
+          "hi": 75,
+          "period": 5.0,
+          "stagger": 0.8,
+          "start_up": false
+        }
+      },
+      "eyes": "heavy",
+      "eyes_bright": 45
+    },
+    {
+      "tree": 4,
+      "from": 11.4,
+      "until": 999,
+      "outline": {
+        "look": "breathe",
+        "palette": [
+          "#FF9040"
+        ],
+        "bright": 45,
+        "params": {
+          "lo": 30,
+          "hi": 75,
+          "period": 5.0,
+          "stagger": 0.8,
+          "start_up": false
+        }
+      },
+      "eyes": "heavy",
+      "eyes_bright": 45
+    },
+    {
+      "tree": 6,
+      "from": 11.8,
+      "until": 999,
+      "outline": {
+        "look": "breathe",
+        "palette": [
+          "#FF9040"
+        ],
+        "bright": 45,
+        "params": {
+          "lo": 30,
+          "hi": 75,
+          "period": 5.0,
+          "stagger": 0.8,
+          "start_up": false
+        }
+      },
+      "eyes": "heavy",
+      "eyes_bright": 45
+    },
+    {
+      "tree": 3,
+      "from": 12.4,
+      "until": 999,
+      "outline": {
+        "look": "breathe",
+        "palette": [
+          "#FF9040"
+        ],
+        "bright": 45,
+        "params": {
+          "lo": 30,
+          "hi": 75,
+          "period": 5.0,
+          "stagger": 0.8,
+          "start_up": false
+        }
+      },
+      "eyes": "heavy",
+      "eyes_bright": 45
+    }
+  ]
 }

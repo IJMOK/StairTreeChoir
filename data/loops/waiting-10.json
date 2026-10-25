@@ -1,0 +1,364 @@
+{
+  "sequence": "Waiting 10",
+  "audio": null,
+  "lyrics_timing": "Audio/Loops/Waiting.timing.json",
+  "lyrics_track": "Waiting",
+  "beats": "Audio/Loops/Waiting.beats.json",
+  "seconds": 60,
+  "groups": {},
+  "lines": {},
+  "sections": [
+    {
+      "name": "spiral",
+      "until": 30,
+      "look": "spiral",
+      "eyes": "blink",
+      "palette": "ice",
+      "params": {
+        "rotation": 2.0,
+        "movement": 1.0
+      }
+    },
+    {
+      "name": "fire",
+      "until": 999,
+      "look": "fire",
+      "eyes": "glance",
+      "params": {
+        "height": 70
+      }
+    }
+  ],
+  "moves": [
+    {
+      "tree": 1,
+      "from": 3.0,
+      "until": 12,
+      "eyes": "up"
+    },
+    {
+      "tree": 1,
+      "from": 4.0,
+      "until": 6.5,
+      "mouth": "O"
+    },
+    {
+      "tree": 1,
+      "from": 5.0,
+      "until": 5.6,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#C0E8FF",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 2,
+      "from": 3.4,
+      "until": 12,
+      "eyes": "up"
+    },
+    {
+      "tree": 2,
+      "from": 4.4,
+      "until": 6.9,
+      "mouth": "O"
+    },
+    {
+      "tree": 2,
+      "from": 5.6,
+      "until": 6.2,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#C0E8FF",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 3,
+      "from": 3.8,
+      "until": 12,
+      "eyes": "up"
+    },
+    {
+      "tree": 3,
+      "from": 4.8,
+      "until": 7.3,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 6.2,
+      "until": 6.8,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#C0E8FF",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 4,
+      "from": 4.2,
+      "until": 12,
+      "eyes": "up"
+    },
+    {
+      "tree": 4,
+      "from": 5.2,
+      "until": 7.7,
+      "mouth": "O"
+    },
+    {
+      "tree": 4,
+      "from": 6.8,
+      "until": 7.4,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#C0E8FF",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 5,
+      "from": 4.6,
+      "until": 12,
+      "eyes": "up"
+    },
+    {
+      "tree": 5,
+      "from": 5.6,
+      "until": 8.1,
+      "mouth": "O"
+    },
+    {
+      "tree": 5,
+      "from": 7.4,
+      "until": 8.0,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#C0E8FF",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 6,
+      "from": 5.0,
+      "until": 12,
+      "eyes": "up"
+    },
+    {
+      "tree": 6,
+      "from": 6.0,
+      "until": 8.5,
+      "mouth": "O"
+    },
+    {
+      "tree": 6,
+      "from": 8.0,
+      "until": 8.6,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#C0E8FF",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 4,
+      "from": 12,
+      "until": 16,
+      "outline": {
+        "look": "bounce",
+        "palette": [
+          "#FF7A00"
+        ],
+        "params": {
+          "period": 0.5,
+          "lo": 35,
+          "hi": 100
+        }
+      }
+    },
+    {
+      "tree": 4,
+      "from": 12.5,
+      "until": 14.5,
+      "mouth": "giggle"
+    },
+    {
+      "tree": 5,
+      "from": 16,
+      "until": 19.0,
+      "mouth": "yawn"
+    },
+    {
+      "tree": 5,
+      "from": 16.75,
+      "until": 18.4,
+      "eyes": "closed"
+    },
+    {
+      "tree": 5,
+      "from": 19,
+      "until": 22,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 6,
+      "from": 20,
+      "until": 22,
+      "eyes": "up"
+    },
+    {
+      "tree": 6,
+      "from": 22,
+      "until": 23.2,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#FFFFFF"
+        ]
+      },
+      "mouth": "O",
+      "eyes": "open"
+    },
+    {
+      "tree": 6,
+      "from": 23.2,
+      "until": 24.8,
+      "mouth": "giggle"
+    },
+    {
+      "tree": 3,
+      "from": 23.5,
+      "until": 25.5,
+      "eyes": "roll"
+    },
+    {
+      "tree": 1,
+      "from": 32,
+      "until": 40,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 2,
+      "from": 32,
+      "until": 40,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 3,
+      "from": 32,
+      "until": 40,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 4,
+      "from": 32,
+      "until": 40,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 5,
+      "from": 32,
+      "until": 40,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 6,
+      "from": 32,
+      "until": 40,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 1,
+      "from": 34.0,
+      "until": 40,
+      "mouth": "hum"
+    },
+    {
+      "tree": 2,
+      "from": 34.35,
+      "until": 40,
+      "mouth": "hum"
+    },
+    {
+      "tree": 3,
+      "from": 34.7,
+      "until": 40,
+      "mouth": "hum"
+    },
+    {
+      "tree": 4,
+      "from": 35.05,
+      "until": 40,
+      "mouth": "hum"
+    },
+    {
+      "tree": 5,
+      "from": 35.4,
+      "until": 40,
+      "mouth": "hum"
+    },
+    {
+      "tree": 6,
+      "from": 35.75,
+      "until": 40,
+      "mouth": "hum"
+    },
+    {
+      "tree": 1,
+      "from": 45,
+      "until": 50,
+      "eyes": "right"
+    },
+    {
+      "tree": 1,
+      "from": 50,
+      "until": 52.5,
+      "eyes": "open"
+    },
+    {
+      "tree": 2,
+      "from": 50,
+      "until": 52.5,
+      "eyes": "open"
+    },
+    {
+      "tree": 3,
+      "from": 50,
+      "until": 52.5,
+      "eyes": "open"
+    },
+    {
+      "tree": 4,
+      "from": 50,
+      "until": 52.5,
+      "eyes": "open"
+    },
+    {
+      "tree": 5,
+      "from": 50,
+      "until": 52.5,
+      "eyes": "open"
+    },
+    {
+      "tree": 6,
+      "from": 50,
+      "until": 52.5,
+      "eyes": "open"
+    }
+  ],
+  "notes": "Snow: everyone looks up in wonder; Jingle's delighted; Pip catches a snowflake; then cosy by the fire. Generated by tools/loops.py; don't edit, change the scene there."
+}

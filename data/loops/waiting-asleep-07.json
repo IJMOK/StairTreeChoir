@@ -1,0 +1,450 @@
+{
+  "sequence": "Waiting Asleep 7",
+  "audio": null,
+  "lyrics_timing": "Audio/Loops/Waiting.timing.json",
+  "lyrics_track": "Waiting",
+  "beats": "Audio/Loops/Waiting.beats.json",
+  "seconds": 60,
+  "groups": {},
+  "lines": {},
+  "sections": [
+    {
+      "name": "choir_rainbow",
+      "until": 40,
+      "look": "choir_rainbow",
+      "eyes": "blink"
+    },
+    {
+      "name": "breathe",
+      "until": 999,
+      "look": "breathe",
+      "eyes": "blink",
+      "palette": "rainbow",
+      "params": {
+        "lo": 30,
+        "hi": 85,
+        "period": 4.0,
+        "stagger": 0.5
+      }
+    }
+  ],
+  "asleep": [
+    {
+      "tree": 5,
+      "from": null,
+      "until": null
+    }
+  ],
+  "moves": [
+    {
+      "tree": 6,
+      "from": 4.0,
+      "until": 5.8,
+      "eyes": "right"
+    },
+    {
+      "tree": 6,
+      "from": 5.8,
+      "until": 7.6,
+      "eyes": "down"
+    },
+    {
+      "tree": 6,
+      "from": 7.6,
+      "until": 9.4,
+      "eyes": "left"
+    },
+    {
+      "tree": 4,
+      "from": 4.6,
+      "until": 6.4,
+      "eyes": "right"
+    },
+    {
+      "tree": 4,
+      "from": 6.4,
+      "until": 8.2,
+      "eyes": "down"
+    },
+    {
+      "tree": 4,
+      "from": 8.2,
+      "until": 10.0,
+      "eyes": "left"
+    },
+    {
+      "tree": 3,
+      "from": 4.9,
+      "until": 6.7,
+      "eyes": "right"
+    },
+    {
+      "tree": 3,
+      "from": 6.7,
+      "until": 8.5,
+      "eyes": "down"
+    },
+    {
+      "tree": 3,
+      "from": 8.5,
+      "until": 10.3,
+      "eyes": "left"
+    },
+    {
+      "tree": 2,
+      "from": 5.2,
+      "until": 7.0,
+      "eyes": "right"
+    },
+    {
+      "tree": 2,
+      "from": 7.0,
+      "until": 8.8,
+      "eyes": "down"
+    },
+    {
+      "tree": 2,
+      "from": 8.8,
+      "until": 10.6,
+      "eyes": "left"
+    },
+    {
+      "tree": 1,
+      "from": 5.5,
+      "until": 7.3,
+      "eyes": "right"
+    },
+    {
+      "tree": 1,
+      "from": 7.3,
+      "until": 9.1,
+      "eyes": "down"
+    },
+    {
+      "tree": 1,
+      "from": 9.1,
+      "until": 10.9,
+      "eyes": "left"
+    },
+    {
+      "tree": 1,
+      "from": 10.0,
+      "until": 14,
+      "eyes": "down",
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF2020"
+        ],
+        "params": {
+          "lo": 50
+        }
+      }
+    },
+    {
+      "tree": 2,
+      "from": 10.2,
+      "until": 14,
+      "eyes": "down",
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#20D060"
+        ],
+        "params": {
+          "lo": 50
+        }
+      }
+    },
+    {
+      "tree": 3,
+      "from": 10.4,
+      "until": 14,
+      "eyes": "down",
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFC000"
+        ],
+        "params": {
+          "lo": 50
+        }
+      }
+    },
+    {
+      "tree": 4,
+      "from": 10.6,
+      "until": 14,
+      "eyes": "down",
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF7A00"
+        ],
+        "params": {
+          "lo": 50
+        }
+      }
+    },
+    {
+      "tree": 6,
+      "from": 11.0,
+      "until": 14,
+      "eyes": "down",
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF40C0"
+        ],
+        "params": {
+          "lo": 50
+        }
+      }
+    },
+    {
+      "tree": 4,
+      "from": 10,
+      "until": 15,
+      "outline": {
+        "look": "bounce",
+        "palette": [
+          "#FF7A00"
+        ],
+        "params": {
+          "period": 0.5,
+          "lo": 35,
+          "hi": 100
+        }
+      }
+    },
+    {
+      "tree": 3,
+      "from": 11,
+      "until": 15,
+      "eyes": "rainbow"
+    },
+    {
+      "tree": 6,
+      "from": 12,
+      "until": 13.2,
+      "mouth": "giggle"
+    },
+    {
+      "tree": 1,
+      "from": 15,
+      "until": 17,
+      "eyes": "right",
+      "mouth": "O"
+    },
+    {
+      "tree": 1,
+      "from": 17,
+      "until": 20,
+      "eyes": "open",
+      "mouth": "MBP"
+    },
+    {
+      "tree": 2,
+      "from": 17,
+      "until": 20,
+      "eyes": "open",
+      "mouth": "MBP"
+    },
+    {
+      "tree": 3,
+      "from": 17,
+      "until": 20,
+      "eyes": "open",
+      "mouth": "MBP"
+    },
+    {
+      "tree": 4,
+      "from": 17,
+      "until": 20,
+      "eyes": "open",
+      "mouth": "MBP"
+    },
+    {
+      "tree": 6,
+      "from": 17,
+      "until": 20,
+      "eyes": "open",
+      "mouth": "MBP"
+    },
+    {
+      "tree": 1,
+      "from": 24.0,
+      "until": 25.8,
+      "eyes": "left"
+    },
+    {
+      "tree": 1,
+      "from": 25.8,
+      "until": 27.6,
+      "eyes": "down"
+    },
+    {
+      "tree": 1,
+      "from": 27.6,
+      "until": 29.4,
+      "eyes": "right"
+    },
+    {
+      "tree": 2,
+      "from": 24.3,
+      "until": 26.1,
+      "eyes": "left"
+    },
+    {
+      "tree": 2,
+      "from": 26.1,
+      "until": 27.9,
+      "eyes": "down"
+    },
+    {
+      "tree": 2,
+      "from": 27.9,
+      "until": 29.7,
+      "eyes": "right"
+    },
+    {
+      "tree": 3,
+      "from": 24.6,
+      "until": 26.4,
+      "eyes": "left"
+    },
+    {
+      "tree": 3,
+      "from": 26.4,
+      "until": 28.2,
+      "eyes": "down"
+    },
+    {
+      "tree": 3,
+      "from": 28.2,
+      "until": 30.0,
+      "eyes": "right"
+    },
+    {
+      "tree": 4,
+      "from": 24.9,
+      "until": 26.7,
+      "eyes": "left"
+    },
+    {
+      "tree": 4,
+      "from": 26.7,
+      "until": 28.5,
+      "eyes": "down"
+    },
+    {
+      "tree": 4,
+      "from": 28.5,
+      "until": 30.3,
+      "eyes": "right"
+    },
+    {
+      "tree": 6,
+      "from": 25.5,
+      "until": 27.3,
+      "eyes": "left"
+    },
+    {
+      "tree": 6,
+      "from": 27.3,
+      "until": 29.1,
+      "eyes": "down"
+    },
+    {
+      "tree": 6,
+      "from": 29.1,
+      "until": 30.9,
+      "eyes": "right"
+    },
+    {
+      "tree": 6,
+      "from": 34,
+      "until": 35.5,
+      "mouth": "giggle"
+    },
+    {
+      "tree": 6,
+      "from": 34,
+      "until": 35.5,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#FF40C0",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 1,
+      "from": 41.0,
+      "until": 58,
+      "mouth": "hum"
+    },
+    {
+      "tree": 2,
+      "from": 41.35,
+      "until": 58,
+      "mouth": "hum"
+    },
+    {
+      "tree": 3,
+      "from": 41.7,
+      "until": 58,
+      "mouth": "hum"
+    },
+    {
+      "tree": 4,
+      "from": 42.05,
+      "until": 58,
+      "mouth": "hum"
+    },
+    {
+      "tree": 6,
+      "from": 42.75,
+      "until": 58,
+      "mouth": "hum"
+    },
+    {
+      "tree": 1,
+      "from": 41,
+      "until": 58,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 2,
+      "from": 41,
+      "until": 58,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 3,
+      "from": 41,
+      "until": 58,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 4,
+      "from": 41,
+      "until": 58,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 6,
+      "from": 41,
+      "until": 58,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 1,
+      "from": 41,
+      "until": 58,
+      "eyes": "up"
+    }
+  ],
+  "notes": "Passers-by: the trees watch someone walk past, show off to them, pose; a silent hum to finish. Generated by tools/loops.py; don't edit, change the scene there."
+}

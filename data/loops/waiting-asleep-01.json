@@ -1,0 +1,467 @@
+{
+  "sequence": "Waiting Asleep 1",
+  "audio": null,
+  "lyrics_timing": "Audio/Loops/Waiting.timing.json",
+  "lyrics_track": "Waiting",
+  "beats": "Audio/Loops/Waiting.beats.json",
+  "seconds": 60,
+  "groups": {},
+  "lines": {},
+  "sections": [
+    {
+      "name": "rainbow_wash",
+      "until": 999,
+      "look": "rainbow_wash",
+      "eyes": "glance",
+      "palette": "rainbow"
+    }
+  ],
+  "asleep": [
+    {
+      "tree": 5,
+      "from": null,
+      "until": null
+    }
+  ],
+  "moves": [
+    {
+      "tree": 1,
+      "from": 1.5,
+      "until": 4.0,
+      "eyes": "right",
+      "mouth": "MBP"
+    },
+    {
+      "tree": 1,
+      "from": 4.5,
+      "until": 5.9,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 1,
+      "from": 4.6,
+      "until": 5.34,
+      "mouth": "O"
+    },
+    {
+      "tree": 2,
+      "from": 5.0,
+      "until": 6.4,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 2,
+      "from": 5.1,
+      "until": 5.84,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 5.5,
+      "until": 6.9,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 3,
+      "from": 5.6,
+      "until": 6.34,
+      "mouth": "O"
+    },
+    {
+      "tree": 4,
+      "from": 6.0,
+      "until": 7.4,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 4,
+      "from": 6.1,
+      "until": 6.84,
+      "mouth": "O"
+    },
+    {
+      "tree": 6,
+      "from": 7.0,
+      "until": 8.4,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 6,
+      "from": 7.1,
+      "until": 7.84,
+      "mouth": "O"
+    },
+    {
+      "tree": 4,
+      "from": 8.5,
+      "until": 10.1,
+      "mouth": "giggle"
+    },
+    {
+      "tree": 4,
+      "from": 8.5,
+      "until": 10.1,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#FF7A00",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 4,
+      "from": 8.5,
+      "until": 11.0,
+      "outline": {
+        "look": "bounce",
+        "palette": [
+          "#FF7A00"
+        ],
+        "params": {
+          "period": 0.5,
+          "lo": 35,
+          "hi": 100
+        }
+      }
+    },
+    {
+      "tree": 6,
+      "from": 11.5,
+      "until": 12.9,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF40C0"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 6,
+      "from": 11.6,
+      "until": 12.34,
+      "mouth": "O"
+    },
+    {
+      "tree": 4,
+      "from": 12.5,
+      "until": 13.9,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF7A00"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 4,
+      "from": 12.6,
+      "until": 13.34,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 13.0,
+      "until": 14.4,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFC000"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 3,
+      "from": 13.1,
+      "until": 13.84,
+      "mouth": "O"
+    },
+    {
+      "tree": 2,
+      "from": 13.5,
+      "until": 14.9,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#20D060"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 2,
+      "from": 13.6,
+      "until": 14.34,
+      "mouth": "O"
+    },
+    {
+      "tree": 1,
+      "from": 14.0,
+      "until": 15.4,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF2020"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 1,
+      "from": 14.1,
+      "until": 14.84,
+      "mouth": "O"
+    },
+    {
+      "tree": 6,
+      "from": 15.5,
+      "until": 17.1,
+      "mouth": "giggle"
+    },
+    {
+      "tree": 6,
+      "from": 15.5,
+      "until": 17.1,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#FF40C0",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 1,
+      "from": 19.0,
+      "until": 20.2,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#C0E8FF"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 1,
+      "from": 19.1,
+      "until": 19.72,
+      "mouth": "O"
+    },
+    {
+      "tree": 2,
+      "from": 19.35,
+      "until": 20.55,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#C0E8FF"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 2,
+      "from": 19.45,
+      "until": 20.07,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 19.7,
+      "until": 20.9,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#C0E8FF"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 3,
+      "from": 19.8,
+      "until": 20.42,
+      "mouth": "O"
+    },
+    {
+      "tree": 4,
+      "from": 20.05,
+      "until": 21.25,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#C0E8FF"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 4,
+      "from": 20.15,
+      "until": 20.77,
+      "mouth": "O"
+    },
+    {
+      "tree": 6,
+      "from": 20.4,
+      "until": 21.6,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#C0E8FF"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 6,
+      "from": 20.5,
+      "until": 21.12,
+      "mouth": "O"
+    },
+    {
+      "tree": 1,
+      "from": 23.2,
+      "until": 26.5,
+      "eyes": 5
+    },
+    {
+      "tree": 2,
+      "from": 23.2,
+      "until": 26.5,
+      "eyes": 5
+    },
+    {
+      "tree": 3,
+      "from": 23.2,
+      "until": 26.5,
+      "eyes": 5
+    },
+    {
+      "tree": 4,
+      "from": 23.2,
+      "until": 26.5,
+      "eyes": 5
+    },
+    {
+      "tree": 6,
+      "from": 23.2,
+      "until": 26.5,
+      "eyes": 5
+    },
+    {
+      "tree": 1,
+      "from": 24.8,
+      "until": 26.8,
+      "eyes": "roll"
+    },
+    {
+      "tree": 6,
+      "from": 25.0,
+      "until": 26.4,
+      "mouth": "giggle"
+    },
+    {
+      "tree": 4,
+      "from": 40,
+      "until": 44,
+      "outline": {
+        "look": "bounce",
+        "palette": [
+          "#FF7A00"
+        ],
+        "params": {
+          "period": 0.5,
+          "lo": 35,
+          "hi": 100
+        }
+      }
+    },
+    {
+      "tree": 2,
+      "from": 50,
+      "until": 53,
+      "eyes": 1
+    }
+  ],
+  "notes": "Mexican wave: down the line, back in everyone's own colour, then faster; Bramble is late. Generated by tools/loops.py; don't edit, change the scene there."
+}

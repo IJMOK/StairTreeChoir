@@ -1,0 +1,534 @@
+{
+  "sequence": "Morning 5",
+  "audio": null,
+  "lyrics_timing": "Audio/Loops/Waiting.timing.json",
+  "lyrics_track": "Waiting",
+  "beats": "Audio/Loops/Waiting.beats.json",
+  "seconds": 45,
+  "groups": {},
+  "lines": {},
+  "sections": [
+    {
+      "name": "marquee",
+      "until": 999,
+      "look": "marquee",
+      "eyes": "blink",
+      "palette": [
+        "#FFF0D0",
+        "#C0E8FF",
+        "#FFFFFF"
+      ],
+      "params": {
+        "speed": 3
+      }
+    }
+  ],
+  "brightness": 85,
+  "moves": [
+    {
+      "tree": 5,
+      "from": 0,
+      "until": 45,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 6,
+      "from": 3.0,
+      "until": 4.8,
+      "eyes": "right"
+    },
+    {
+      "tree": 6,
+      "from": 4.8,
+      "until": 6.6,
+      "eyes": "down"
+    },
+    {
+      "tree": 6,
+      "from": 6.6,
+      "until": 8.4,
+      "eyes": "left"
+    },
+    {
+      "tree": 5,
+      "from": 3.3,
+      "until": 5.1,
+      "eyes": "right"
+    },
+    {
+      "tree": 5,
+      "from": 5.1,
+      "until": 6.9,
+      "eyes": "down"
+    },
+    {
+      "tree": 5,
+      "from": 6.9,
+      "until": 8.7,
+      "eyes": "left"
+    },
+    {
+      "tree": 4,
+      "from": 3.6,
+      "until": 5.4,
+      "eyes": "right"
+    },
+    {
+      "tree": 4,
+      "from": 5.4,
+      "until": 7.2,
+      "eyes": "down"
+    },
+    {
+      "tree": 4,
+      "from": 7.2,
+      "until": 9.0,
+      "eyes": "left"
+    },
+    {
+      "tree": 3,
+      "from": 3.9,
+      "until": 5.7,
+      "eyes": "right"
+    },
+    {
+      "tree": 3,
+      "from": 5.7,
+      "until": 7.5,
+      "eyes": "down"
+    },
+    {
+      "tree": 3,
+      "from": 7.5,
+      "until": 9.3,
+      "eyes": "left"
+    },
+    {
+      "tree": 2,
+      "from": 4.2,
+      "until": 6.0,
+      "eyes": "right"
+    },
+    {
+      "tree": 2,
+      "from": 6.0,
+      "until": 7.8,
+      "eyes": "down"
+    },
+    {
+      "tree": 2,
+      "from": 7.8,
+      "until": 9.6,
+      "eyes": "left"
+    },
+    {
+      "tree": 1,
+      "from": 4.5,
+      "until": 6.3,
+      "eyes": "right"
+    },
+    {
+      "tree": 1,
+      "from": 6.3,
+      "until": 8.1,
+      "eyes": "down"
+    },
+    {
+      "tree": 1,
+      "from": 8.1,
+      "until": 9.9,
+      "eyes": "left"
+    },
+    {
+      "tree": 4,
+      "from": 8,
+      "until": 13,
+      "outline": {
+        "look": "bounce",
+        "palette": [
+          "#FF7A00"
+        ],
+        "params": {
+          "period": 0.5,
+          "lo": 35,
+          "hi": 100
+        }
+      }
+    },
+    {
+      "tree": 4,
+      "from": 8,
+      "until": 13,
+      "eyes": "down",
+      "mouth": "O"
+    },
+    {
+      "tree": 1,
+      "from": 16.0,
+      "until": 17.8,
+      "eyes": "left"
+    },
+    {
+      "tree": 1,
+      "from": 17.8,
+      "until": 19.6,
+      "eyes": "down"
+    },
+    {
+      "tree": 1,
+      "from": 19.6,
+      "until": 21.4,
+      "eyes": "right"
+    },
+    {
+      "tree": 2,
+      "from": 16.3,
+      "until": 18.1,
+      "eyes": "left"
+    },
+    {
+      "tree": 2,
+      "from": 18.1,
+      "until": 19.9,
+      "eyes": "down"
+    },
+    {
+      "tree": 2,
+      "from": 19.9,
+      "until": 21.7,
+      "eyes": "right"
+    },
+    {
+      "tree": 3,
+      "from": 16.6,
+      "until": 18.4,
+      "eyes": "left"
+    },
+    {
+      "tree": 3,
+      "from": 18.4,
+      "until": 20.2,
+      "eyes": "down"
+    },
+    {
+      "tree": 3,
+      "from": 20.2,
+      "until": 22.0,
+      "eyes": "right"
+    },
+    {
+      "tree": 4,
+      "from": 16.9,
+      "until": 18.7,
+      "eyes": "left"
+    },
+    {
+      "tree": 4,
+      "from": 18.7,
+      "until": 20.5,
+      "eyes": "down"
+    },
+    {
+      "tree": 4,
+      "from": 20.5,
+      "until": 22.3,
+      "eyes": "right"
+    },
+    {
+      "tree": 5,
+      "from": 17.2,
+      "until": 19.0,
+      "eyes": "left"
+    },
+    {
+      "tree": 5,
+      "from": 19.0,
+      "until": 20.8,
+      "eyes": "down"
+    },
+    {
+      "tree": 5,
+      "from": 20.8,
+      "until": 22.6,
+      "eyes": "right"
+    },
+    {
+      "tree": 6,
+      "from": 17.5,
+      "until": 19.3,
+      "eyes": "left"
+    },
+    {
+      "tree": 6,
+      "from": 19.3,
+      "until": 21.1,
+      "eyes": "down"
+    },
+    {
+      "tree": 6,
+      "from": 21.1,
+      "until": 22.9,
+      "eyes": "right"
+    },
+    {
+      "tree": 6,
+      "from": 22,
+      "until": 23.6,
+      "mouth": "giggle"
+    },
+    {
+      "tree": 6,
+      "from": 22,
+      "until": 23.6,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#FF40C0",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 1,
+      "from": 26.0,
+      "until": 27.6,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFFFFF"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 1,
+      "from": 26.1,
+      "until": 26.96,
+      "mouth": "AI"
+    },
+    {
+      "tree": 2,
+      "from": 26.4,
+      "until": 28.0,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFFFFF"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 2,
+      "from": 26.5,
+      "until": 27.36,
+      "mouth": "AI"
+    },
+    {
+      "tree": 3,
+      "from": 26.8,
+      "until": 28.4,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFFFFF"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 3,
+      "from": 26.9,
+      "until": 27.76,
+      "mouth": "AI"
+    },
+    {
+      "tree": 4,
+      "from": 27.2,
+      "until": 28.8,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFFFFF"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 4,
+      "from": 27.3,
+      "until": 28.16,
+      "mouth": "AI"
+    },
+    {
+      "tree": 5,
+      "from": 27.6,
+      "until": 29.2,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFFFFF"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 5,
+      "from": 27.7,
+      "until": 28.56,
+      "mouth": "AI"
+    },
+    {
+      "tree": 6,
+      "from": 28.0,
+      "until": 29.6,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFFFFF"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 6,
+      "from": 28.1,
+      "until": 28.96,
+      "mouth": "AI"
+    },
+    {
+      "tree": 1,
+      "from": 32,
+      "until": 35,
+      "eyes": "right",
+      "mouth": "MBP"
+    },
+    {
+      "tree": 6,
+      "from": 36.0,
+      "until": 37.8,
+      "eyes": "right"
+    },
+    {
+      "tree": 6,
+      "from": 37.8,
+      "until": 39.6,
+      "eyes": "down"
+    },
+    {
+      "tree": 6,
+      "from": 39.6,
+      "until": 41.4,
+      "eyes": "left"
+    },
+    {
+      "tree": 5,
+      "from": 36.3,
+      "until": 38.1,
+      "eyes": "right"
+    },
+    {
+      "tree": 5,
+      "from": 38.1,
+      "until": 39.9,
+      "eyes": "down"
+    },
+    {
+      "tree": 5,
+      "from": 39.9,
+      "until": 41.7,
+      "eyes": "left"
+    },
+    {
+      "tree": 4,
+      "from": 36.6,
+      "until": 38.4,
+      "eyes": "right"
+    },
+    {
+      "tree": 4,
+      "from": 38.4,
+      "until": 40.2,
+      "eyes": "down"
+    },
+    {
+      "tree": 4,
+      "from": 40.2,
+      "until": 42.0,
+      "eyes": "left"
+    },
+    {
+      "tree": 3,
+      "from": 36.9,
+      "until": 38.7,
+      "eyes": "right"
+    },
+    {
+      "tree": 3,
+      "from": 38.7,
+      "until": 40.5,
+      "eyes": "down"
+    },
+    {
+      "tree": 3,
+      "from": 40.5,
+      "until": 42.3,
+      "eyes": "left"
+    },
+    {
+      "tree": 2,
+      "from": 37.2,
+      "until": 39.0,
+      "eyes": "right"
+    },
+    {
+      "tree": 2,
+      "from": 39.0,
+      "until": 40.8,
+      "eyes": "down"
+    },
+    {
+      "tree": 2,
+      "from": 40.8,
+      "until": 42.6,
+      "eyes": "left"
+    },
+    {
+      "tree": 1,
+      "from": 37.5,
+      "until": 39.3,
+      "eyes": "right"
+    },
+    {
+      "tree": 1,
+      "from": 39.3,
+      "until": 41.1,
+      "eyes": "down"
+    },
+    {
+      "tree": 1,
+      "from": 41.1,
+      "until": 42.9,
+      "eyes": "left"
+    }
+  ],
+  "notes": "Off to work and school: the trees watch people go past, Jingle bounces at them, everyone stretches up in daylight. Generated by tools/loops.py; don't edit, change the scene there."
+}

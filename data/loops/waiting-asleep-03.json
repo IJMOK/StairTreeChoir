@@ -1,0 +1,827 @@
+{
+  "sequence": "Waiting Asleep 3",
+  "audio": null,
+  "lyrics_timing": "Audio/Loops/Waiting.timing.json",
+  "lyrics_track": "Waiting",
+  "beats": "Audio/Loops/Waiting.beats.json",
+  "seconds": 60,
+  "groups": {},
+  "lines": {},
+  "sections": [
+    {
+      "name": "breathe",
+      "until": 999,
+      "look": "breathe",
+      "eyes": "blink",
+      "palette": "rainbow",
+      "params": {
+        "lo": 25,
+        "hi": 60,
+        "period": 4.0,
+        "stagger": 0.6
+      }
+    }
+  ],
+  "asleep": [
+    {
+      "tree": 5,
+      "from": null,
+      "until": null
+    }
+  ],
+  "moves": [
+    {
+      "tree": 6,
+      "from": 2.0,
+      "until": 3.1,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 2.0,
+      "until": 3.1,
+      "eyes": 6
+    },
+    {
+      "tree": 2,
+      "from": 2.0,
+      "until": 3.1,
+      "eyes": 6
+    },
+    {
+      "tree": 3,
+      "from": 2.0,
+      "until": 3.1,
+      "eyes": 6
+    },
+    {
+      "tree": 4,
+      "from": 2.0,
+      "until": 3.1,
+      "eyes": 6
+    },
+    {
+      "tree": 6,
+      "from": 2.0,
+      "until": 2.45,
+      "mouth": "O"
+    },
+    {
+      "tree": 4,
+      "from": 3.1,
+      "until": 4.2,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 3.1,
+      "until": 4.2,
+      "eyes": 4
+    },
+    {
+      "tree": 2,
+      "from": 3.1,
+      "until": 4.2,
+      "eyes": 4
+    },
+    {
+      "tree": 3,
+      "from": 3.1,
+      "until": 4.2,
+      "eyes": 4
+    },
+    {
+      "tree": 6,
+      "from": 3.1,
+      "until": 4.2,
+      "eyes": 4
+    },
+    {
+      "tree": 4,
+      "from": 3.1,
+      "until": 3.55,
+      "mouth": "O"
+    },
+    {
+      "tree": 6,
+      "from": 4.2,
+      "until": 5.3,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 4.2,
+      "until": 5.3,
+      "eyes": 6
+    },
+    {
+      "tree": 2,
+      "from": 4.2,
+      "until": 5.3,
+      "eyes": 6
+    },
+    {
+      "tree": 3,
+      "from": 4.2,
+      "until": 5.3,
+      "eyes": 6
+    },
+    {
+      "tree": 4,
+      "from": 4.2,
+      "until": 5.3,
+      "eyes": 6
+    },
+    {
+      "tree": 6,
+      "from": 4.2,
+      "until": 4.65,
+      "mouth": "O"
+    },
+    {
+      "tree": 4,
+      "from": 5.3,
+      "until": 6.4,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 5.3,
+      "until": 6.4,
+      "eyes": 4
+    },
+    {
+      "tree": 2,
+      "from": 5.3,
+      "until": 6.4,
+      "eyes": 4
+    },
+    {
+      "tree": 3,
+      "from": 5.3,
+      "until": 6.4,
+      "eyes": 4
+    },
+    {
+      "tree": 6,
+      "from": 5.3,
+      "until": 6.4,
+      "eyes": 4
+    },
+    {
+      "tree": 4,
+      "from": 5.3,
+      "until": 5.75,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 6.4,
+      "until": 7.5,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 6.4,
+      "until": 7.5,
+      "eyes": 3
+    },
+    {
+      "tree": 2,
+      "from": 6.4,
+      "until": 7.5,
+      "eyes": 3
+    },
+    {
+      "tree": 4,
+      "from": 6.4,
+      "until": 7.5,
+      "eyes": 3
+    },
+    {
+      "tree": 6,
+      "from": 6.4,
+      "until": 7.5,
+      "eyes": 3
+    },
+    {
+      "tree": 3,
+      "from": 6.4,
+      "until": 6.85,
+      "mouth": "O"
+    },
+    {
+      "tree": 2,
+      "from": 7.5,
+      "until": 8.6,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 7.5,
+      "until": 8.6,
+      "eyes": 2
+    },
+    {
+      "tree": 3,
+      "from": 7.5,
+      "until": 8.6,
+      "eyes": 2
+    },
+    {
+      "tree": 4,
+      "from": 7.5,
+      "until": 8.6,
+      "eyes": 2
+    },
+    {
+      "tree": 6,
+      "from": 7.5,
+      "until": 8.6,
+      "eyes": 2
+    },
+    {
+      "tree": 2,
+      "from": 7.5,
+      "until": 7.95,
+      "mouth": "O"
+    },
+    {
+      "tree": 1,
+      "from": 8.6,
+      "until": 9.7,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFD040"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 2,
+      "from": 8.6,
+      "until": 9.7,
+      "eyes": 1
+    },
+    {
+      "tree": 3,
+      "from": 8.6,
+      "until": 9.7,
+      "eyes": 1
+    },
+    {
+      "tree": 4,
+      "from": 8.6,
+      "until": 9.7,
+      "eyes": 1
+    },
+    {
+      "tree": 6,
+      "from": 8.6,
+      "until": 9.7,
+      "eyes": 1
+    },
+    {
+      "tree": 1,
+      "from": 8.6,
+      "until": 9.05,
+      "mouth": "O"
+    },
+    {
+      "tree": 1,
+      "from": 9.7,
+      "until": 12.1,
+      "outline": {
+        "look": "glow",
+        "palette": [
+          "#FFD040"
+        ]
+      },
+      "eyes": 6
+    },
+    {
+      "tree": 2,
+      "from": 9.7,
+      "until": 12.1,
+      "eyes": 1
+    },
+    {
+      "tree": 3,
+      "from": 9.7,
+      "until": 12.1,
+      "eyes": 1
+    },
+    {
+      "tree": 4,
+      "from": 9.7,
+      "until": 12.1,
+      "eyes": 1
+    },
+    {
+      "tree": 6,
+      "from": 9.7,
+      "until": 12.1,
+      "eyes": 1
+    },
+    {
+      "tree": 1,
+      "from": 12.1,
+      "until": 12.45,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFFFFF"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 2,
+      "from": 12.1,
+      "until": 12.45,
+      "eyes": 1
+    },
+    {
+      "tree": 3,
+      "from": 12.1,
+      "until": 12.45,
+      "eyes": 1
+    },
+    {
+      "tree": 4,
+      "from": 12.1,
+      "until": 12.45,
+      "eyes": 1
+    },
+    {
+      "tree": 6,
+      "from": 12.1,
+      "until": 12.45,
+      "eyes": 1
+    },
+    {
+      "tree": 2,
+      "from": 12.45,
+      "until": 12.8,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFFFFF"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 12.45,
+      "until": 12.8,
+      "eyes": 2
+    },
+    {
+      "tree": 3,
+      "from": 12.45,
+      "until": 12.8,
+      "eyes": 2
+    },
+    {
+      "tree": 4,
+      "from": 12.45,
+      "until": 12.8,
+      "eyes": 2
+    },
+    {
+      "tree": 6,
+      "from": 12.45,
+      "until": 12.8,
+      "eyes": 2
+    },
+    {
+      "tree": 3,
+      "from": 12.8,
+      "until": 13.15,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFFFFF"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 12.8,
+      "until": 13.15,
+      "eyes": 3
+    },
+    {
+      "tree": 2,
+      "from": 12.8,
+      "until": 13.15,
+      "eyes": 3
+    },
+    {
+      "tree": 4,
+      "from": 12.8,
+      "until": 13.15,
+      "eyes": 3
+    },
+    {
+      "tree": 6,
+      "from": 12.8,
+      "until": 13.15,
+      "eyes": 3
+    },
+    {
+      "tree": 4,
+      "from": 13.15,
+      "until": 13.5,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFFFFF"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 13.15,
+      "until": 13.5,
+      "eyes": 4
+    },
+    {
+      "tree": 2,
+      "from": 13.15,
+      "until": 13.5,
+      "eyes": 4
+    },
+    {
+      "tree": 3,
+      "from": 13.15,
+      "until": 13.5,
+      "eyes": 4
+    },
+    {
+      "tree": 6,
+      "from": 13.15,
+      "until": 13.5,
+      "eyes": 4
+    },
+    {
+      "tree": 1,
+      "from": 13.5,
+      "until": 13.85,
+      "eyes": 5
+    },
+    {
+      "tree": 2,
+      "from": 13.5,
+      "until": 13.85,
+      "eyes": 5
+    },
+    {
+      "tree": 3,
+      "from": 13.5,
+      "until": 13.85,
+      "eyes": 5
+    },
+    {
+      "tree": 4,
+      "from": 13.5,
+      "until": 13.85,
+      "eyes": 5
+    },
+    {
+      "tree": 6,
+      "from": 13.5,
+      "until": 13.85,
+      "eyes": 5
+    },
+    {
+      "tree": 6,
+      "from": 13.85,
+      "until": 14.2,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FFFFFF"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 13.85,
+      "until": 14.2,
+      "eyes": 6
+    },
+    {
+      "tree": 2,
+      "from": 13.85,
+      "until": 14.2,
+      "eyes": 6
+    },
+    {
+      "tree": 3,
+      "from": 13.85,
+      "until": 14.2,
+      "eyes": 6
+    },
+    {
+      "tree": 4,
+      "from": 13.85,
+      "until": 14.2,
+      "eyes": 6
+    },
+    {
+      "tree": 6,
+      "from": 14.2,
+      "until": 15.2,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFFFFF"
+        ]
+      },
+      "mouth": "O",
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 14.8,
+      "until": 16.8,
+      "eyes": "down"
+    },
+    {
+      "tree": 2,
+      "from": 14.8,
+      "until": 16.8,
+      "eyes": "down"
+    },
+    {
+      "tree": 3,
+      "from": 14.8,
+      "until": 16.8,
+      "eyes": "down"
+    },
+    {
+      "tree": 4,
+      "from": 14.8,
+      "until": 16.8,
+      "eyes": "down"
+    },
+    {
+      "tree": 6,
+      "from": 14.8,
+      "until": 16.8,
+      "eyes": "down"
+    },
+    {
+      "tree": 6,
+      "from": 16.8,
+      "until": 18.6,
+      "mouth": "giggle"
+    },
+    {
+      "tree": 6,
+      "from": 16.8,
+      "until": 18.6,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#FF40C0",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 1,
+      "from": 17.0,
+      "until": 18.8,
+      "eyes": "roll"
+    },
+    {
+      "tree": 4,
+      "from": 33,
+      "until": 37,
+      "outline": {
+        "look": "bounce",
+        "palette": [
+          "#FF7A00"
+        ],
+        "params": {
+          "period": 0.5,
+          "lo": 35,
+          "hi": 100
+        }
+      }
+    },
+    {
+      "tree": 4,
+      "from": 33,
+      "until": 37,
+      "eyes": 6
+    },
+    {
+      "tree": 6,
+      "from": 37.5,
+      "until": 38.7,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FF40C0"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 37.5,
+      "until": 38.7,
+      "eyes": 6
+    },
+    {
+      "tree": 2,
+      "from": 37.5,
+      "until": 38.7,
+      "eyes": 6
+    },
+    {
+      "tree": 3,
+      "from": 37.5,
+      "until": 38.7,
+      "eyes": 6
+    },
+    {
+      "tree": 4,
+      "from": 37.5,
+      "until": 38.7,
+      "eyes": 6
+    },
+    {
+      "tree": 6,
+      "from": 37.5,
+      "until": 37.95,
+      "mouth": "O"
+    },
+    {
+      "tree": 4,
+      "from": 38.7,
+      "until": 39.9,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FF40C0"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 25
+        }
+      },
+      "eyes": "open"
+    },
+    {
+      "tree": 1,
+      "from": 38.7,
+      "until": 39.9,
+      "eyes": 4
+    },
+    {
+      "tree": 2,
+      "from": 38.7,
+      "until": 39.9,
+      "eyes": 4
+    },
+    {
+      "tree": 3,
+      "from": 38.7,
+      "until": 39.9,
+      "eyes": 4
+    },
+    {
+      "tree": 6,
+      "from": 38.7,
+      "until": 39.9,
+      "eyes": 4
+    },
+    {
+      "tree": 4,
+      "from": 38.7,
+      "until": 39.15,
+      "mouth": "O"
+    },
+    {
+      "tree": 4,
+      "from": 39.9,
+      "until": 43.9,
+      "outline": {
+        "look": "ball",
+        "palette": [
+          "#FF40C0"
+        ],
+        "params": {
+          "size": 8,
+          "speed": 30
+        }
+      },
+      "mouth": "giggle",
+      "eyes": "up"
+    },
+    {
+      "tree": 1,
+      "from": 40.4,
+      "until": 42.9,
+      "eyes": "roll"
+    }
+  ],
+  "notes": "Pass the ball: Pip and Jingle throw a ball of light over Bramble, up to Holly, who throws it back; Pip drops it. Generated by tools/loops.py; don't edit, change the scene there."
+}

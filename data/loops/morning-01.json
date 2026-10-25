@@ -1,0 +1,332 @@
+{
+  "sequence": "Morning 1",
+  "audio": null,
+  "lyrics_timing": "Audio/Loops/Waiting.timing.json",
+  "lyrics_track": "Waiting",
+  "beats": "Audio/Loops/Waiting.beats.json",
+  "seconds": 45,
+  "groups": {},
+  "lines": {},
+  "sections": [
+    {
+      "name": "breathe",
+      "until": 999,
+      "look": "breathe",
+      "eyes": "blink",
+      "palette": [
+        "#FF6080"
+      ],
+      "params": {
+        "lo": 15,
+        "hi": 60,
+        "period": 5.0,
+        "stagger": 0.7
+      }
+    }
+  ],
+  "brightness": 85,
+  "moves": [
+    {
+      "tree": 5,
+      "from": 0,
+      "until": 2.0,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 5,
+      "from": 2.0,
+      "until": 45,
+      "eyes": "closed",
+      "outline": {
+        "look": "breathe",
+        "palette": [
+          "#3050C0"
+        ],
+        "params": {
+          "lo": 12,
+          "hi": 50,
+          "period": 4.0
+        }
+      }
+    },
+    {
+      "tree": 5,
+      "from": 2.5,
+      "until": 45,
+      "mouth": "snore"
+    },
+    {
+      "tree": 1,
+      "from": 0,
+      "until": 45,
+      "eyes": "closed"
+    },
+    {
+      "tree": 2,
+      "from": 0,
+      "until": 45,
+      "eyes": "closed"
+    },
+    {
+      "tree": 3,
+      "from": 0,
+      "until": 45,
+      "eyes": "closed"
+    },
+    {
+      "tree": 6,
+      "from": 0,
+      "until": 45,
+      "eyes": "closed"
+    },
+    {
+      "tree": 4,
+      "from": 0,
+      "until": 45,
+      "eyes": "open"
+    },
+    {
+      "tree": 4,
+      "from": 0,
+      "until": 8,
+      "outline": {
+        "look": "bounce",
+        "palette": [
+          "#FF7A00"
+        ],
+        "params": {
+          "period": 0.6,
+          "lo": 35,
+          "hi": 100
+        }
+      }
+    },
+    {
+      "tree": 1,
+      "from": 3,
+      "until": 5.5,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 1,
+      "from": 3.5,
+      "until": 6.1,
+      "mouth": "yawn"
+    },
+    {
+      "tree": 1,
+      "from": 4.15,
+      "until": 5.58,
+      "eyes": "closed"
+    },
+    {
+      "tree": 1,
+      "from": 6.5,
+      "until": 8.5,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD070"
+        ],
+        "params": {
+          "lo": 30
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 1,
+      "from": 8.5,
+      "until": 45,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 2,
+      "from": 6,
+      "until": 8.5,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 2,
+      "from": 6.5,
+      "until": 9.1,
+      "mouth": "yawn"
+    },
+    {
+      "tree": 2,
+      "from": 7.15,
+      "until": 8.58,
+      "eyes": "closed"
+    },
+    {
+      "tree": 2,
+      "from": 9.5,
+      "until": 11.5,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD070"
+        ],
+        "params": {
+          "lo": 30
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 2,
+      "from": 11.5,
+      "until": 45,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 6,
+      "from": 9,
+      "until": 11.5,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 6,
+      "from": 9.5,
+      "until": 12.1,
+      "mouth": "yawn"
+    },
+    {
+      "tree": 6,
+      "from": 10.15,
+      "until": 11.58,
+      "eyes": "closed"
+    },
+    {
+      "tree": 6,
+      "from": 12.5,
+      "until": 14.5,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD070"
+        ],
+        "params": {
+          "lo": 30
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 6,
+      "from": 14.5,
+      "until": 45,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 3,
+      "from": 12,
+      "until": 14.5,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 3,
+      "from": 12.5,
+      "until": 16.1,
+      "mouth": "yawn"
+    },
+    {
+      "tree": 3,
+      "from": 13.4,
+      "until": 15.38,
+      "eyes": "closed"
+    },
+    {
+      "tree": 3,
+      "from": 15.5,
+      "until": 17.5,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD070"
+        ],
+        "params": {
+          "lo": 30
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 3,
+      "from": 17.5,
+      "until": 45,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 4,
+      "from": 20,
+      "until": 30,
+      "eyes": "roll"
+    },
+    {
+      "tree": 4,
+      "from": 20,
+      "until": 30,
+      "outline": {
+        "look": "bounce",
+        "palette": [
+          "#FF7A00"
+        ],
+        "params": {
+          "period": 0.5,
+          "lo": 35,
+          "hi": 100
+        }
+      }
+    },
+    {
+      "tree": 1,
+      "from": 30,
+      "until": 45,
+      "eyes": "open"
+    },
+    {
+      "tree": 2,
+      "from": 30,
+      "until": 45,
+      "eyes": "open"
+    },
+    {
+      "tree": 3,
+      "from": 30,
+      "until": 45,
+      "eyes": "open"
+    },
+    {
+      "tree": 6,
+      "from": 30,
+      "until": 45,
+      "eyes": "open"
+    },
+    {
+      "tree": 2,
+      "from": 31,
+      "until": 36,
+      "eyes": 5
+    },
+    {
+      "tree": 3,
+      "from": 31,
+      "until": 36,
+      "eyes": 5
+    },
+    {
+      "tree": 4,
+      "from": 31,
+      "until": 36,
+      "eyes": 5
+    },
+    {
+      "tree": 6,
+      "from": 31,
+      "until": 36,
+      "eyes": 5
+    }
+  ],
+  "notes": "Waking up: Jingle's been awake for ages; eyes open one by one with yawns and stretches; Bramble snores on. Generated by tools/loops.py; don't edit, change the scene there."
+}

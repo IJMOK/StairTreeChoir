@@ -1,0 +1,372 @@
+{
+  "sequence": "Morning 4",
+  "audio": null,
+  "lyrics_timing": "Audio/Loops/Waiting.timing.json",
+  "lyrics_track": "Waiting",
+  "beats": "Audio/Loops/Waiting.beats.json",
+  "seconds": 45,
+  "groups": {},
+  "lines": {},
+  "sections": [
+    {
+      "name": "rainbow_wash",
+      "until": 999,
+      "look": "rainbow_wash",
+      "eyes": "blink",
+      "palette": "rainbow"
+    }
+  ],
+  "brightness": 85,
+  "moves": [
+    {
+      "tree": 5,
+      "from": 0,
+      "until": 45,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 6,
+      "from": 2,
+      "until": 5,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#FF6080",
+          "#FFA040",
+          "#FFD070"
+        ]
+      },
+      "eyes": "up",
+      "mouth": "O"
+    },
+    {
+      "tree": 6,
+      "from": 5.0,
+      "until": 6.8,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD070"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 6,
+      "from": 5.1,
+      "until": 6.08,
+      "mouth": "O"
+    },
+    {
+      "tree": 5,
+      "from": 5.6,
+      "until": 7.4,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD070"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 5,
+      "from": 5.7,
+      "until": 6.68,
+      "mouth": "O"
+    },
+    {
+      "tree": 4,
+      "from": 6.2,
+      "until": 8.0,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD070"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 4,
+      "from": 6.3,
+      "until": 7.28,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 6.8,
+      "until": 8.6,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD070"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 3,
+      "from": 6.9,
+      "until": 7.88,
+      "mouth": "O"
+    },
+    {
+      "tree": 2,
+      "from": 7.4,
+      "until": 9.2,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD070"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 2,
+      "from": 7.5,
+      "until": 8.48,
+      "mouth": "O"
+    },
+    {
+      "tree": 1,
+      "from": 8.0,
+      "until": 9.8,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FFD070"
+        ],
+        "params": {
+          "lo": 50
+        }
+      },
+      "eyes": "up"
+    },
+    {
+      "tree": 1,
+      "from": 8.1,
+      "until": 9.08,
+      "mouth": "O"
+    },
+    {
+      "tree": 1,
+      "from": 9,
+      "until": 13,
+      "eyes": "up"
+    },
+    {
+      "tree": 2,
+      "from": 9,
+      "until": 13,
+      "eyes": "up"
+    },
+    {
+      "tree": 3,
+      "from": 9,
+      "until": 13,
+      "eyes": "up"
+    },
+    {
+      "tree": 4,
+      "from": 9,
+      "until": 13,
+      "eyes": "up"
+    },
+    {
+      "tree": 5,
+      "from": 9,
+      "until": 13,
+      "eyes": "up"
+    },
+    {
+      "tree": 6,
+      "from": 9,
+      "until": 13,
+      "eyes": "up"
+    },
+    {
+      "tree": 3,
+      "from": 16,
+      "until": 30,
+      "outline": {
+        "look": "chase",
+        "palette": "rainbow",
+        "params": {
+          "colors": "Rainbow",
+          "per_bar": 1.5
+        }
+      },
+      "eyes": "rainbow"
+    },
+    {
+      "tree": 3,
+      "from": 16.0,
+      "until": 16.6,
+      "mouth": "AI"
+    },
+    {
+      "tree": 3,
+      "from": 16.6,
+      "until": 17.2,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 17.2,
+      "until": 17.8,
+      "mouth": "AI"
+    },
+    {
+      "tree": 3,
+      "from": 17.8,
+      "until": 18.4,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 18.4,
+      "until": 19.0,
+      "mouth": "AI"
+    },
+    {
+      "tree": 3,
+      "from": 19.0,
+      "until": 19.6,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 19.6,
+      "until": 20.2,
+      "mouth": "AI"
+    },
+    {
+      "tree": 3,
+      "from": 20.2,
+      "until": 20.8,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 20.8,
+      "until": 21.4,
+      "mouth": "AI"
+    },
+    {
+      "tree": 3,
+      "from": 21.4,
+      "until": 22.0,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 22.0,
+      "until": 22.6,
+      "mouth": "AI"
+    },
+    {
+      "tree": 3,
+      "from": 22.6,
+      "until": 23.2,
+      "mouth": "O"
+    },
+    {
+      "tree": 3,
+      "from": 23.2,
+      "until": 30,
+      "mouth": "AI"
+    },
+    {
+      "tree": 1,
+      "from": 17,
+      "until": 30,
+      "eyes": 3
+    },
+    {
+      "tree": 2,
+      "from": 17,
+      "until": 30,
+      "eyes": 3
+    },
+    {
+      "tree": 4,
+      "from": 17,
+      "until": 30,
+      "eyes": 3
+    },
+    {
+      "tree": 6,
+      "from": 17,
+      "until": 30,
+      "eyes": 3
+    },
+    {
+      "tree": 1,
+      "from": 24,
+      "until": 27,
+      "eyes": "roll"
+    },
+    {
+      "tree": 2,
+      "from": 24,
+      "until": 27,
+      "eyes": "roll"
+    },
+    {
+      "tree": 4,
+      "from": 26,
+      "until": 30,
+      "outline": {
+        "look": "bounce",
+        "palette": [
+          "#FF7A00"
+        ],
+        "params": {
+          "period": 0.5,
+          "lo": 35,
+          "hi": 100
+        }
+      }
+    },
+    {
+      "tree": 1,
+      "from": 30,
+      "until": 32.2,
+      "mouth": "shush",
+      "eyes": 3,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF2020"
+        ],
+        "params": {
+          "lo": 40
+        }
+      }
+    },
+    {
+      "tree": 3,
+      "from": 32.5,
+      "until": 36,
+      "eyes": "down"
+    }
+  ],
+  "notes": "Pip's sunrise: a sparkle on Pip spreads up the line in gold and everyone looks up; then Noel warms up, silently. Generated by tools/loops.py; don't edit, change the scene there."
+}

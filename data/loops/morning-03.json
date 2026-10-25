@@ -1,0 +1,316 @@
+{
+  "sequence": "Morning 3",
+  "audio": null,
+  "lyrics_timing": "Audio/Loops/Waiting.timing.json",
+  "lyrics_track": "Waiting",
+  "beats": "Audio/Loops/Waiting.beats.json",
+  "seconds": 45,
+  "groups": {},
+  "lines": {},
+  "sections": [
+    {
+      "name": "spiral",
+      "until": 999,
+      "look": "spiral",
+      "eyes": "blink",
+      "palette": [
+        "#FF6080",
+        "#FFA040",
+        "#FFD070"
+      ],
+      "params": {
+        "rotation": 1.0,
+        "movement": 0.8
+      }
+    }
+  ],
+  "brightness": 85,
+  "moves": [
+    {
+      "tree": 5,
+      "from": 0,
+      "until": 2.0,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 5,
+      "from": 2.0,
+      "until": 30,
+      "eyes": "closed",
+      "outline": {
+        "look": "breathe",
+        "palette": [
+          "#3050C0"
+        ],
+        "params": {
+          "lo": 12,
+          "hi": 50,
+          "period": 4.0
+        }
+      }
+    },
+    {
+      "tree": 5,
+      "from": 2.5,
+      "until": 30,
+      "mouth": "snore"
+    },
+    {
+      "tree": 1,
+      "from": 4.0,
+      "until": 4.9,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF2020"
+        ]
+      },
+      "eyes": 5
+    },
+    {
+      "tree": 2,
+      "from": 4.4,
+      "until": 5.3,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF2020"
+        ]
+      },
+      "eyes": 5
+    },
+    {
+      "tree": 3,
+      "from": 4.8,
+      "until": 5.7,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF2020"
+        ]
+      },
+      "eyes": 5
+    },
+    {
+      "tree": 4,
+      "from": 5.2,
+      "until": 6.1,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF2020"
+        ]
+      },
+      "eyes": 5
+    },
+    {
+      "tree": 5,
+      "from": 5.7,
+      "until": 6.4,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#3050C0"
+        ],
+        "params": {
+          "lo": 10
+        }
+      }
+    },
+    {
+      "tree": 1,
+      "from": 10.0,
+      "until": 10.9,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF2020"
+        ]
+      },
+      "eyes": 5
+    },
+    {
+      "tree": 2,
+      "from": 10.4,
+      "until": 11.3,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF2020"
+        ]
+      },
+      "eyes": 5
+    },
+    {
+      "tree": 3,
+      "from": 10.8,
+      "until": 11.7,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF2020"
+        ]
+      },
+      "eyes": 5
+    },
+    {
+      "tree": 4,
+      "from": 11.2,
+      "until": 12.1,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#FF2020"
+        ]
+      },
+      "eyes": 5
+    },
+    {
+      "tree": 5,
+      "from": 11.7,
+      "until": 12.4,
+      "outline": {
+        "look": "swell",
+        "palette": [
+          "#3050C0"
+        ],
+        "params": {
+          "lo": 10
+        }
+      }
+    },
+    {
+      "tree": 1,
+      "from": 16,
+      "until": 30,
+      "eyes": 5
+    },
+    {
+      "tree": 2,
+      "from": 16,
+      "until": 30,
+      "eyes": 5
+    },
+    {
+      "tree": 3,
+      "from": 16,
+      "until": 30,
+      "eyes": 5
+    },
+    {
+      "tree": 4,
+      "from": 16,
+      "until": 30,
+      "eyes": 5
+    },
+    {
+      "tree": 6,
+      "from": 16,
+      "until": 30,
+      "eyes": 5
+    },
+    {
+      "tree": 6,
+      "from": 18,
+      "until": 19.6,
+      "mouth": "giggle"
+    },
+    {
+      "tree": 6,
+      "from": 18,
+      "until": 19.6,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#FF40C0",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 4,
+      "from": 18.4,
+      "until": 20.0,
+      "mouth": "giggle"
+    },
+    {
+      "tree": 4,
+      "from": 18.4,
+      "until": 20.0,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#FF7A00",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 5,
+      "from": 20,
+      "until": 21,
+      "outline": {
+        "look": "sparkle",
+        "palette": [
+          "#FF40C0",
+          "#FFFFFF"
+        ]
+      }
+    },
+    {
+      "tree": 5,
+      "from": 30,
+      "until": 34,
+      "eyes": "wink"
+    },
+    {
+      "tree": 5,
+      "from": 34,
+      "until": 38,
+      "eyes": "closed",
+      "mouth": "snore",
+      "outline": {
+        "look": "breathe",
+        "palette": [
+          "#3050C0"
+        ],
+        "params": {
+          "lo": 6,
+          "hi": 35,
+          "period": 4.0
+        }
+      }
+    },
+    {
+      "tree": 1,
+      "from": 34.5,
+      "until": 37,
+      "eyes": "roll"
+    },
+    {
+      "tree": 2,
+      "from": 34.5,
+      "until": 37,
+      "eyes": "roll"
+    },
+    {
+      "tree": 5,
+      "from": 38,
+      "until": 45,
+      "eyes": "heavy"
+    },
+    {
+      "tree": 5,
+      "from": 39,
+      "until": 42.2,
+      "mouth": "yawn"
+    },
+    {
+      "tree": 5,
+      "from": 39.8,
+      "until": 41.56,
+      "eyes": "closed"
+    }
+  ],
+  "notes": "Bramble won't wake: Holly and Ivy nudge him, then Pip and Jingle from the other side; he opens one eye, and shuts it again. Generated by tools/loops.py; don't edit, change the scene there."
+}
