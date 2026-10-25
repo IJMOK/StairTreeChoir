@@ -8,10 +8,12 @@ UK sunset in December is about 15:50.
 
 | Time | What plays | Sound |
 |---|---|---|
-| 16:00 | **Waiting** loop: twelve gentle looks, a new one every 25 s (butterflies, washes, spirals, candy cane, fire); trees blink, roll their eyes, and glance: one looks up as if it heard something, the others turn to look, and now and then the whole choir looks down at you | none, or quiet instrumental |
+| 16:00 | **Waiting** loop (10 minutes, ten one-minute scenes): the choir mucking about between shows, a different background in every scene. Mexican waves, Noel showing off, a game of catch, Bramble nodding off, Ivy copying Holly, Jingle fidgeting, watching passers-by ([below](#the-silent-loops)) | none |
 | every :15, :30, :45, 16:15 to 19:45 | **Announcement** (~13 s): "Next show at five o'clock!" (the 19:xx ones announce the last show, at eight) | the trees, lip-synced |
 | 17:00, 18:00, 19:00, 20:00 (last) | **Show** (~15 min), then back to the waiting loop | full |
-| after the 20:00 show | **Goodnight** skit, then lights off | |
+| 21:00 | **Goodnight** skit; the trees settle into a dim, sleepy breath | the trees |
+| after the Goodnight | **Night** loop: the trees doze, yawn, peek and giggle, dim and slow, until lights out | none |
+| lights out | Home Assistant stops the Night loop gracefully when the living room lights go off: the scene playing finishes, then **Lights Out** (20 s: last yawns, Holly shushes, eyes close, the trees go dark one by one). FPP's backstop: the Night loop's window closes at **23:30** with the same graceful stop. | none |
 
 Specials (Saturday Special at 18:00 on December Saturdays, New Year's Eve to the midnight countdown, New Year's Day 15:00–19:00): [specials.md](specials.md).
 
@@ -107,10 +109,56 @@ Eyes in brackets: the eye moves from tools/fx.py.
 > **Holly:** That's all for tonight, everyone.
 > **Bramble:** Finally… *(eyes close)*
 > **Pip:** Goodnight! Sleep tight! Don't let the reindeer bite!
-> **Everyone:** Goodniiiight! *(outlines fade out one by one)*
+> **Everyone:** Goodniiiight! *(they settle one by one, Noel last after his long note: heavy eyes, a dim warm breath; Bramble's already asleep. That's where the Night loop picks up.)*
+
+## The silent loops
+
+Built 25 Oct 2026 (tools/loops.py, arrangements in data/loops/). No audio. Each loop is a run of short sequences, one scene each, played in order by its FPP playlist and repeated; short so that a graceful stop (lights out) only waits for the end of the scene that's playing. Each playlist has a **lead-out** that FPP plays after a graceful stop and then goes idle; a hard stop (a show cutting in) skips it. The characters act through eyes (look at each other, roll, wink, heavy lids, close), outline looks of their own (glow, breathe, bounce, swell, sparkle, a ball of light running round) and mouth shapes (yawn, silent hum, giggle, chatter, whisper, snore, shush); otherwise mouths rest on the lip. Nothing strobes; the quickest thing is Jingle's bounce on his own tree. Character colours: Holly red, Ivy green, Noel gold, Jingle orange, Bramble blue, Pip pink.
+
+| Playlist | Pieces | Lead-out | When |
+|---|---|---|---|
+| `Waiting` | Waiting 1-10, 60 s each (10 min) | Lights Out | 16:00 to the Goodnight, scheduled; shows cut in with a hard stop |
+| `Waiting Asleep` | Waiting Asleep 1-10: the same scenes with Bramble asleep throughout (the others still nudge him; he sleeps on) | Lights Out | New Year's Eve, from Bramble nodding off (23:20) to the countdown |
+| `Night` | Night 1-8, 50 s each (6:40), brightness 45 % | Lights Out (20 s, ends black) | after the 21:00 Goodnight until lights out, backstop 23:30; also 00:00-00:30 on New Year's Day, after the countdown |
+| `Night Christmas Eve` | Night Christmas Eve 1-3, 40 s each: all asleep for Santa, only the gentlest stirring | Lights Out Asleep (12 s, the sleepers fade out one by one) | Christmas Eve after the Goodnight, backstop 23:30 |
+| `Morning` | Morning 1-6, 45 s each, brightness 85 % | Morning Lights Off (15 s: a goodbye wave, a wink each, off one by one) | not scheduled: Home Assistant starts it with Rob's alarm and stops it at the morning lights out (sunrise + 90 min). Backstop: repeat off and the six pieces listed 40 times (3 hours), so it ends by itself through its lead-out |
+
+Every scene, with its background look:
+
+| Piece | Length | Background | What happens |
+|---|---|---|---|
+| Waiting 1 | 60 s | rainbow wash | Mexican wave: down the line, back in everyone's own colour, then faster; Bramble is late |
+| Waiting 2 | 60 s | choir butterfly | Noel shows off with a rainbow shimmer; the others roll their eyes; Holly stops him; he tries again |
+| Waiting 3 | 60 s | breathing rainbow | Pass the ball: Pip and Jingle throw a ball of light over Bramble, up to Holly, who throws it back; Pip drops it |
+| Waiting 4 | 60 s | spirals | Bramble nods off; Ivy tells Holly; Holly's nudge runs down the line and he wakes with a start |
+| Waiting 5 | 60 s | marquee | Ivy copies everything Holly does, a beat behind; Holly notices; Pip joins in |
+| Waiting 6 | 60 s | plasma | Jingle can't keep still: bouncing, eyes rolling, chattering; Holly shushes him; Pip joins in |
+| Waiting 7 | 60 s | rainbow sweep, then breathing | Passers-by: the trees watch someone walk past, show off to them, pose; a silent hum to finish |
+| Waiting 8 | 60 s | breathing rainbow | The silent hum: Holly conducts, Noel holds the last note far too long, Holly stops him, he bows |
+| Waiting 9 | 60 s | a colour each, then icy spirals | Colour relay: every tree passes its colour to its neighbour; Pip muddles it; then the ball goes round everyone |
+| Waiting 10 | 60 s | icy spirals, then fire | Snow: everyone looks up in wonder; Jingle's delighted; Pip catches a snowflake; then cosy by the fire |
+| Night 1 | 50 s | warm breath | Settling down: yawns go round, Bramble's already snoring, Jingle's wide awake until Holly shushes him |
+| Night 2 | 50 s | blue breath | Can't sleep: Jingle peeks, whispers to Pip, Pip whispers back; Holly shushes; Jingle peeks again |
+| Night 3 | 50 s | low fire | Doze and poke: Noel nods off, Jingle pokes him and pretends to be asleep; later Pip does it too |
+| Night 4 | 50 s | purple breath | Snore glow: Bramble snores, his glow swelling with every snore; Ivy rolls her eyes; Holly's nudge travels down the line |
+| Night 5 | 50 s | teal breath | Giggles: Pip and Jingle set each other off, a sparkle passing between them over sleeping Bramble; Holly shushes |
+| Night 6 | 50 s | navy breath | Peekaboo: they take turns to peek; Pip and Holly peek at each other at the same moment; Bramble talks in his sleep |
+| Night 7 | 50 s | slow icy spiral | Noel's dream: asleep, he glitters gold and silently sings his solo; Holly rolls her eyes |
+| Night 8 | 50 s | slow blue breath down the line | Deep sleep: slow breaths roll down the line, soft snores; Holly checks everyone's asleep |
+| Night Christmas Eve 1-3 | 40 s | everyone's sleeping breath | Pip peeks to see if Santa's been; Jingle giggles in a dream; Ivy hums in her sleep; Noel dreams in gold; Holly checks; Jingle looks up for the sleigh; Bramble snores |
+| Morning 1 | 45 s | pink breath | Waking up: Jingle's been awake for ages; eyes open one by one with yawns and stretches; Bramble snores on |
+| Morning 2 | 45 s | gold breath | Holly's roll call: she looks at each tree in turn and they answer with a blink and a colour pop; Jingle answers too early, Noel shows off, Bramble doesn't answer at all |
+| Morning 3 | 45 s | sunrise spirals | Bramble won't wake: Holly and Ivy nudge him, then Pip and Jingle from the other side; he opens one eye, and shuts it again |
+| Morning 4 | 45 s | rainbow wash | Pip's sunrise: a sparkle on Pip spreads up the line in gold and everyone looks up; then Noel warms up, silently |
+| Morning 5 | 45 s | daylight marquee | Off to work and school: the trees watch people go past, Jingle bounces at them, everyone stretches up in daylight |
+| Morning 6 | 45 s | breathing rainbow | Ready for the day: everyone hums; Bramble finally wakes properly and the others cheer with a gold wave |
+
+**Lights out** comes from Home Assistant (Rob's HA repo): in the evening when the living room lights go off, in the morning at sunrise + 90 min; it stops the playlist gracefully (`ALLPLAYLISTS` or the playlist by name). FPP doesn't restart a playlist stopped by hand in the same schedule window (Scheduler.cpp, "just force stopped"), so the trees stay dark. If HA never says, the Night loop's schedule window ends at 23:30 (00:30 on New Year's night) with a graceful stop: dark by about 23:31:30 at the latest.
+
+The Goodnight (21:00) now ends on the Night loop's first state (heavy eyes, dim warm breath, Bramble asleep) instead of black, and the Christmas Eve goodnight ends with everyone asleep instead of fading out, so each hands straight over to its night loop. The New Year's Day "Goodnight Season" still ends dark: no night loop after the season's last goodnight.
 
 ## Status (24 Oct 2026)
 
-Built: skits with ElevenLabs voices (tools/skit.py), skit arrangements, the waiting loop and the goodnight fade, FPP playlists and schedule per site (tools/gen_site_config.py), and one ready-to-copy bundle per player with the night's real running times (tools/fpp_bundle.py → [show-plan.md](show-plan.md)).
+Built: skits with ElevenLabs voices (tools/skit.py), skit arrangements, the silent loops (Waiting, Night, Morning, 25 Oct 2026), FPP playlists and schedule per site (tools/gen_site_config.py), and one ready-to-copy bundle per player with the night's real running times (tools/fpp_bundle.py → [show-plan.md](show-plan.md)).
 
 Still to do: the first run on a real FPP player (fpp/README.md "Not verified"), then HA (M7).

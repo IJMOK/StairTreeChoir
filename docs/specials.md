@@ -58,7 +58,7 @@ The Show A/B/C playlists therefore come in thank-you variants (normal, Saturday,
 | 22:00 | Set B |
 | 23:15 | **NYE show**: new skit **Bramble's staying up**. Holly: "Bramble's going to stay awake until midnight." Bramble: "Easy." Then two or three songs. Bramble nods off during the last one. |
 | 23:59:00 | **Countdown** (highest priority): 50 s of build-up, everyone counting **10…1** from 23:59:50, "**Happy New Year!**" at 00:00:00, and Bramble waking on the bang. Then **Auld Lang Syne**, with Noel holding the last "syyyyne". |
-| about 00:06 | **Goodnight (New Year)**: "See you next year!", then dark. No 21:00 goodnight that night. |
+| about 00:06 | **Goodnight (New Year)**: "See you next year!", then the **Night** loop until lights out, 00:30 at the latest. No 21:00 goodnight that night. |
 
 Things to get right:
 - **The clock.** FPP starts the countdown on its own clock, so the Pi needs internet time that night. At home the site router's WAN can plug into the home network. Check the time on FPP's Status page before 23:00. If the clock might be off, the countdown is the only thing that would be wrong.
@@ -119,6 +119,6 @@ Added 24 Oct 2026 (Rob: "the 23rd lots of people in the village congregate, as m
 
 From Sun 20 Dec the weekday thank-yous plug "Wednesday at six, the Village Special" (`thank-you-vil-week`); before that they plug the Saturday Special as usual.
 
-**Christmas Eve, 24 Dec**: a normal night's times. Santa rings the sleigh radio in every show (`santa-calls`: Bramble says he'll stay up to see him; Santa only comes when everyone's asleep). At 20:00 he's over the rooftops (`santa-nearly`). Thank-yous: leave a carrot for the reindeer. At 21:00 **Goodnight Christmas Eve**: the trees fall asleep one by one (Bramble first, Holly last), eyes shut and outlines breathing, and fade to dark.
+**Christmas Eve, 24 Dec**: a normal night's times. Santa rings the sleigh radio in every show (`santa-calls`: Bramble says he'll stay up to see him; Santa only comes when everyone's asleep). At 20:00 he's over the rooftops (`santa-nearly`). Thank-yous: leave a carrot for the reindeer. At 21:00 **Goodnight Christmas Eve**: the trees fall asleep one by one (Bramble first, Holly last), eyes shut and outlines breathing, and stay asleep: the **Night Christmas Eve** loop (everyone asleep, only the gentlest stirring) runs until lights out, then they fade out one by one (25 Oct 2026; it used to fade to dark straight away).
 
 ElevenLabs: about 2,800 characters for all 13 skits, nearly all that was left on the plan in October; lines two skits share are cached and paid for once.

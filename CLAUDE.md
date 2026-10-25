@@ -162,6 +162,7 @@ docs/test-checklist.md: every Mini560 reads 5.0V before the ESP32 is connected; 
 
 M7. Home Assistant link (later)
 Rob's Home Assistant config lives in a separate repo (C:\Users\User\Documents\HA\Homeassistant, Node-RED flows there too). Plan: start/stop the show and pick playlists from HA/Node-RED (e.g. at sunset, only when someone is home), and show what's playing on the hall board. Use the existing koolsb/ha-fpp HACS integration (FPP as a media player) rather than writing one; see docs/research.md. WLED trees also appear in HA natively, which helps for testing.
+Decided by Rob, 25 Oct 2026: after the 21:00 Goodnight the trees doze in the silent Night loop until "lights out", which HA sends (a graceful playlist stop when the living room lights go off); FPP keeps a 23:30 backstop. HA also starts the silent Morning loop with Rob's alarm and stops it at sunrise + 90 min; the Morning playlist ends by itself after 3 hours as a backstop. The loops are short pieces with a lead-out (tools/loops.py, docs/show-night.md "The silent loops").
 
 7. Constraints and conventions
 Python 3.11+, with dependencies in requirements.txt (ezdxf, pytest); optional CadQuery in requirements-cad.txt (STEP files; tools/build.py skips them without it). OpenSCAD for enclosures and boots. Local venv in .venv (not committed).

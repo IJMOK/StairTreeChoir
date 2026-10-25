@@ -136,9 +136,12 @@ Audio and player:
 - [ ] Every tree uses all four mouth shapes and rests on the lip in instrumentals
 - [ ] Eyes blink
 - [ ] Only the trees arranged to sing move their mouths
-- [ ] The waiting loop and the goodnight fade play (these are still to be built, see [show-night.md](show-night.md))
+- [ ] The Waiting loop plays and its one-minute pieces follow each other without a flicker ([show-night.md](show-night.md) "The silent loops")
 - [ ] Schedule starts the show: set ____ (16:00 is proposed), started ____
-- [ ] Schedule stops cleanly and lights go off: set ____ (21:00 after the goodnight is proposed), stopped ____
+- [ ] After the Goodnight the Night loop starts by itself, dim, with no dark gap
+- [ ] Lights out from Home Assistant: the scene playing finishes, Lights Out plays, the trees go dark and stay dark; time from lights out to dark ____ (at most ~1 min 20 s)
+- [ ] Backstop: with no lights out, the Night loop stops gracefully at 23:30 and the trees are dark by 23:32
+- [ ] Morning: HA starts it at the alarm; lights out stops it the same way (Morning Lights Off, then dark)
 - [ ] After a power cut, the player and trees come back and the schedule carries on. **TBC (Rob):** nothing in the repo says whether FPP is set to resume.
 - [ ] One whole evening runs without a dropout or anything overheating
 - [ ] Spares are on site: fuses, an ESP32, a 74AHCT125, a Mini560, spare pixels
