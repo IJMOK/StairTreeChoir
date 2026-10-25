@@ -12,6 +12,8 @@ Where effects go (verified by experiment on Rockin', 23 Oct 2026):
 - StairTreeN/Eyes      eye moves: the right ring then the left ring, 6 pixels each, clockwise
                        from the top as seen from the front. The Faces effect's own eyes must
                        be off meanwhile, or they show through wherever the eye effect is black.
+- Layers: 0 is the top layer. A look may use layers 0 and 1 itself; arrange_song shifts
+  them down by one when a section has beat accents.
 - Never on Choir (the whole trees): it shows through the Faces effect's black, opening the
   mouths and filling blinking eyes.
 """
@@ -177,6 +179,49 @@ def look_per_tree(name: str, target: str, a: int, b: int, beats: list[int], tree
                                                  "Snowflakes_Speed": p.get("speed", 10), "Falling": "Falling", **s}, colours_for("ice"))]
     if name == "strobe":
         return [Fx(target, "Strobe", a, b, {"Number_Strobes": p.get("count", 6), "Strobe_Duration": 4, **s}, cols)]
+    # Character looks (25 Oct 2026): one tree acting on its own, for the loops' "moves".
+    if name == "glow":         # a steady colour
+        return [Fx(target, "On", a, b, {"Eff_On_Start": 100, "Eff_On_End": 100, **s}, [cols[0]])]
+    if name == "off":          # black over whatever the choir look is doing (a tree sulking, lights out)
+        return [Fx(target, "On", a, b, {"Eff_On_Start": 100, "Eff_On_End": 100}, ["#000000"])]
+    if name in ("breathe", "bounce"):   # slow swell and fade / a quick fidgety bob
+        period = int(p.get("period", 4.0 if name == "breathe" else 0.5) * 1000)
+        lo, hi = p.get("lo", 15 if name == "breathe" else 35), p.get("hi", 80 if name == "breathe" else 100)
+        offset = p.get("offset", 0) + p.get("stagger", 0) * ((tree or 1) - 1)    # stagger: a slow wave down the line
+        out, up, x = [], p.get("start_up", True), a + int(offset * 1000) % max(1, period // 2)
+        if x > a:
+            out.append(Fx(target, "On", a, x, {"Eff_On_Start": hi if up else lo, "Eff_On_End": hi if up else lo, **s},
+                          [cols[0]]))
+        while x < b:
+            y = min(b, x + period // 2)
+            if y - x >= 50:
+                out.append(Fx(target, "On", x, y, {"Eff_On_Start": lo if up else hi, "Eff_On_End": hi if up else lo, **s},
+                              [cols[0]]))
+            up, x = not up, y
+        return out
+    if name == "swell":        # one rise and fall over the window (a wave passing, a nudge landing)
+        mid = min(b - 50, max(a + 50, a + (b - a) * p.get("peak", 40) // 100))
+        lo = p.get("lo", 20)
+        if mid <= a or mid >= b:
+            return [Fx(target, "On", a, b, {"Eff_On_Start": 100, "Eff_On_End": lo, **s}, [cols[0]])]
+        return [Fx(target, "On", a, mid, {"Eff_On_Start": lo, "Eff_On_End": 100, **s}, [cols[0]]),
+                Fx(target, "On", mid, b, {"Eff_On_Start": 100, "Eff_On_End": lo, **s}, [cols[0]])]
+    if name in ("sparkle", "ball"):
+        # sparkle: glitter all over the tree (a giggle, a snowflake landing); ball: one bright band
+        # running round the outline. Both over a dim glow of their first colour on the layer below
+        # ("base" %, 0 for none): with Normal blending their black pixels are see-through, so the
+        # tree isn't left dark between the twinkles or behind the ball. (Fill was tried for a
+        # rising level: it doesn't move without a value curve.)
+        if name == "sparkle":
+            top = Fx(target, "Twinkle", a, b, {"Twinkle_Count": p.get("count", 45), "Twinkle_Steps": p.get("steps", 16), **s},
+                     cols[1:] or cols)
+        else:
+            top = Fx(target, "Marquee", a, b, {"Marquee_Band_Size": p.get("size", 6), "Marquee_Skip_Size": 59 - p.get("size", 6),
+                                                "Marquee_Speed": p.get("speed", 15), **s}, cols)
+        base = p.get("base", 45)
+        if not base:
+            return [top]
+        return [top, Fx(target, "On", a, b, {"Eff_On_Start": base, "Eff_On_End": base, **s}, [cols[0]], layer=1)]
     raise KeyError(f"unknown look {name!r}")
 
 
@@ -257,6 +302,16 @@ def eyes(mode: str, tree: int, a: int, b: int, beats: list[int], cols: list[str]
                                               "Chase_Group_All": False}, RAINBOW)]
     if mode == "sparkle":
         return [Fx(t, "Twinkle", a, b, {"Twinkle_Count": 50, "Twinkle_Steps": 8}, cols)]
+    if mode == "heavy":      # heavy lids: every pixel but the top of each eye, dimmed
+        return [Fx(t, "SingleStrand", a, b, {**skips, "Skips_BandSize": 5, "Skips_SkipSize": 1, "Skips_StartPos": 2,
+                                              "Skips_Advance": 0, "brightness": 60}, WHITE)]
+    if mode == "wink":       # right eye open, left eye shut (its lower half), on two layers
+        return [Fx(t, "SingleStrand", a, b, {**skips, "Skips_BandSize": 6, "Skips_SkipSize": 6, "Skips_StartPos": 1,
+                                              "Skips_Advance": 0}, WHITE),
+                Fx(t, "SingleStrand", a, b, {**skips, "Skips_BandSize": 3, "Skips_SkipSize": 9, "Skips_StartPos": 9,
+                                              "Skips_Advance": 0}, WHITE, layer=1)]
+    if mode in EYE_POS:      # a plain look in one direction
+        return eyes("follow", tree, a, b, beats, cols, [(a, b, mode)])
     if mode == "follow":
         out = []
         for g0, g1, d in gaze or []:

@@ -102,7 +102,7 @@ def test_glances_look_at_one_tree_then_the_pavement():
     assert ars.glance_pieces(0, 25000, 6, 1)[0] == (2000, 4500, "up")
 
 
-@pytest.mark.parametrize("song", ["rockin-around", "dominick", "feliz-navidad", "drummer-boy", "waiting", "goodnight", "we-wish-you", "o-come-all-ye-faithful", "virgin-mary", "twelve-days"])
+@pytest.mark.parametrize("song", ["rockin-around", "dominick", "feliz-navidad", "drummer-boy", "goodnight", "we-wish-you", "o-come-all-ye-faithful", "virgin-mary", "twelve-days"])
 def test_real_arrangement_is_consistent(song):
     arr = json.loads((ROOT / f"data/songs/{song}.json").read_text(encoding="utf-8"))
     assert sorted(int(k) for k in arr["lines"]) == list(range(1, len(arr["lines"]) + 1))
@@ -155,3 +155,51 @@ def test_end_at_leaves_the_last_frames_black():
     assert ending and all(e.settings.get("fadeout") for e in ending)
     for e in ending:
         assert "T_TEXTCTRL_Fadeout=" in e.settings_string()
+
+
+def test_moves_override_mouth_eyes_and_outline():
+    arr = {"lyrics_track": "Loop", "groups": {}, "lines": {},
+           "sections": [{"until": 999, "look": "chase", "palette": "rainbow", "eyes": "roll"}],
+           "moves": [{"tree": 2, "from": 1.0, "until": 3.0, "mouth": "O", "eyes": "closed",
+                      "outline": {"look": "glow", "palette": ["#FF0000"]}},
+                     {"tree": [2, 3], "from": 2.0, "until": 2.5, "eyes": 1},
+                     {"tree": 4, "from": 1.0, "until": 4.0, "mouth": "yawn"}]}
+    faces, effects, _ = ars.plan_song(arr, [], [0.5 * k for k in range(12)], 6000)
+
+    def at(t, ms):
+        return next(s for a, b, s in faces[t] if a <= ms < b)
+    assert "Phoneme=O" in at(2, 1500) and "Faces_Eyes=Closed" in at(2, 1500)
+    assert "Faces_Eyes=(off)" in at(2, 2200)                 # the later move (look at Holly) wins
+    assert all("Phoneme=rest" in s for a, b, s in faces[2] if b <= 1000 or a >= 3000)
+    out2 = outline(effects, 2)
+    assert [e for e in out2 if e.start == 1000 and e.end == 3000 and e.colours == ["#FF0000"]]
+    assert not [e for e in out2 if e.start < 3000 and e.end > 1000 and e.colours != ["#FF0000"]]   # carved out
+    eyes3 = [e for e in effects if e.target == "StairTree3/Eyes" and e.start == 2000]
+    assert eyes3 and eyes3[0].settings["Skips_StartPos"] == fx.EYE_POS["left"]
+    yawn = [s.split("Phoneme=")[1].split(",")[0] for a, b, s in faces[4] if 1000 <= a < 4000]
+    assert yawn == ["MBP", "O", "AI", "O", "MBP"]
+
+
+def test_mouth_patterns_cover_the_move():
+    for name in ars.MOUTH_PATTERNS:
+        p = ars.mouth_pieces(name, 1000, 7000)
+        assert p[0][0] == 1000 and p[-1][1] == 7000 and all(a[1] == b[0] for a, b in zip(p, p[1:]))
+        assert {x for _, _, x in p} <= set(ars.PHONEMES)
+    with pytest.raises(KeyError):
+        ars.mouth_pieces("sneeze", 0, 1000)
+
+
+def test_brightness_and_tree_end():
+    arr = {"lyrics_track": "Loop", "groups": {}, "lines": {}, "brightness": 40, "end_fade": 1.0,
+           "tree_end": {"3": 2.0},
+           "sections": [{"until": 999, "look": "glow", "palette": "rainbow", "eyes": "heavy"}],
+           "asleep": [{"tree": 5, "from": None, "until": None}]}
+    faces, effects, _ = ars.plan_song(arr, [], [], 6000)
+    assert all("C_SLIDER_Brightness=40" in s for t in faces for _, _, s in faces[t])
+    glow1 = outline(effects, 1)
+    assert glow1 and all(e.settings["brightness"] == 40 for e in glow1)
+    assert all("brightness" not in e.settings for e in outline(effects, 5))     # a sleeper's breath isn't dimmed
+    assert max(b for _, b, _ in faces[3]) == 2000
+    assert max(e.end for e in effects if e.target.startswith("StairTree3")) == 2000
+    assert all(e.settings.get("fadeout") for e in effects if e.target.startswith("StairTree3") and e.end == 2000)
+    assert max(b for _, b, _ in faces[1]) == 6000

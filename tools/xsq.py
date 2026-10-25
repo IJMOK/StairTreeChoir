@@ -3,6 +3,7 @@
     python -m tools.xsq "<sequence name>"        # add any missing GROUPS to that sequence
     python -m tools.xsq "<sequence name>" --fit-audio   # also set its length to its audio's (re-voiced skits)
     python -m tools.xsq "<new name>" --clone "<template>" --media "Audio/Songs/<new name>.mp3" --track <Track>
+    python -m tools.xsq "Night 1" --clone Waiting --seconds 50     # an animation (no audio), 50 s long
 
 --clone makes a new sequence from an existing one without the GUI (xLights' New Sequence
 dialog needs clicks): the template's file with the new media, its length fitted, and the
@@ -75,6 +76,17 @@ def clone(template: Path, path: Path, media: Path, track: str) -> None:
     path.write_text(s, encoding="utf-8", newline="")
 
 
+def clone_animation(template: Path, path: Path, seconds: float) -> None:
+    """A new animation sequence (no media) from an animation template, with its own length."""
+    if path.exists():
+        raise SystemExit(f"{path.name} already exists")
+    s = template.read_text(encoding="utf-8")
+    if "<sequenceType>Animation</sequenceType>" not in s:
+        raise SystemExit(f"{template.name} is not an animation")
+    s = re.sub(r"<sequenceDuration>[^<]*</sequenceDuration>", f"<sequenceDuration>{seconds:.3f}</sequenceDuration>", s, count=1)
+    path.write_text(s, encoding="utf-8", newline="")
+
+
 def fit_audio(path: Path) -> float:
     """Set <sequenceDuration> to the length of the sequence's <mediaFile>."""
     s = path.read_text(encoding="utf-8")
@@ -94,9 +106,13 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--clone", metavar="TEMPLATE", help="create this sequence from the template sequence")
     ap.add_argument("--media", help="with --clone: the audio, relative to the show folder")
     ap.add_argument("--track", help="with --clone: the lyric timing track's name")
+    ap.add_argument("--seconds", type=float, help="with --clone of an animation: the new sequence's length")
     args = ap.parse_args(argv)
     path = SHOW_FOLDER / f"{args.sequence}.xsq"
-    if args.clone:
+    if args.clone and args.seconds:
+        clone_animation(SHOW_FOLDER / f"{args.clone}.xsq", path, args.seconds)
+        print(f"created {path.name} from {args.clone}, {args.seconds:g} s")
+    elif args.clone:
         if not (args.media and args.track):
             ap.error("--clone needs --media and --track")
         clone(SHOW_FOLDER / f"{args.clone}.xsq", path, SHOW_FOLDER / args.media, args.track)

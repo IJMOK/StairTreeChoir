@@ -31,6 +31,17 @@ sits out shared lines (a line that is only its own, a snore, still moves its mou
 "end_at" (s) clips every effect, Faces included, to end there,
 so the frames after it are black (FPP holds the last frame when a playlist ends);
 "end_fade" (s) fades the effects that end at end_at out over that time.
+"tree_end": {"<slot>": s} ends one tree early the same way (lights out one tree at a time).
+"brightness" (%) scales every effect and the Faces (eyes, mouth) but not a sleeper's breath
+(the late-night loops are dimmed this way).
+"moves": [{"tree" (slot or list), "from", "until", and any of "mouth", "eyes", "outline"}] (s):
+one character acting on its own over everything above (sections, glances, asleep), for the
+silent loops (tools/loops.py). mouth: a phoneme (rest, MBP, etc, E, FV, L, AI, O, U, WQ) or a
+pattern (MOUTH_PATTERNS: yawn, hum, giggle, chatter, whisper, snore, shush). eyes: "closed",
+"open" (staring, no blink), a direction (up, down, left, right), a slot number (look at that
+tree; its own number: up), or an fx eye mode (heavy, wink, roll, rainbow, sparkle; "eyes_bright" %
+dims it). outline: a
+per-tree look name or {"look", "palette", "params", "bright"} (fx.look_per_tree).
 An arrangement may have no lines at all (groups {}, lines {}: an animation loop).
 Faces/On settings keys are from the xLights source (data/xlights-effects.json).
 """
@@ -125,9 +136,10 @@ def cut(a: int, b: int, edges) -> list[tuple[int, int]]:
 
 
 def faces_plan(arr: dict, line_times, tree: int, song_ms: int,
-               eyes_off=(), asleep=()) -> list[tuple[int, int, str]]:
+               eyes_off=(), asleep=(), mouths=(), eye_states=()) -> list[tuple[int, int, str]]:
     """Back-to-back Faces effects covering the whole song: (start, end, settings).
-    Eyes blink (Auto), are off where an eye move runs, and are shut while asleep."""
+    Eyes blink (Auto), are off where an eye move runs, and are shut while asleep; a move's
+    (start, end, phoneme) mouths and (start, end, Faces_Eyes value) eye states win over all that."""
     sing = f"E_CHOICE_Faces_TimingTrack={arr['lyrics_track']},{FACES_COMMON}"
     rest = f"E_CHOICE_Faces_Phoneme=rest,{FACES_COMMON}"
     pieces, t = [], 0
@@ -138,12 +150,16 @@ def faces_plan(arr: dict, line_times, tree: int, song_ms: int,
         t = b
     if t < song_ms:
         pieces.append((t, song_ms, rest))
-    edges = [e for w in (*eyes_off, *asleep) for e in w]
+    edges = [e for w in (*eyes_off, *asleep) for e in w] + [e for w in (*mouths, *eye_states) for e in w[:2]]
+    bright = f",C_SLIDER_Brightness={arr['brightness']}" if arr.get("brightness", 100) != 100 else ""
     plan = []
     for a, b, s in pieces:
         for x, y in cut(a, b, edges):
-            eyes = "Closed" if inside(x, asleep) else "(off)" if inside(x, eyes_off) else "Auto"
-            plan.append((x, y, f"{s},E_CHOICE_Faces_Eyes={eyes}"))
+            m = [p for p0, p1, p in mouths if p0 <= x < p1]
+            s2 = f"E_CHOICE_Faces_Phoneme={m[-1]},{FACES_COMMON}" if m else s
+            st = [v for p0, p1, v in eye_states if p0 <= x < p1]
+            eyes = st[-1] if st else "Closed" if inside(x, asleep) else "(off)" if inside(x, eyes_off) else "Auto"
+            plan.append((x, y, f"{s2},E_CHOICE_Faces_Eyes={eyes}{bright}"))
     return plan
 
 
@@ -286,7 +302,7 @@ def plan_song(arr: dict, line_times, beats_s: list[float], song_ms: int):
         if look.startswith("choir_"):
             new = fx.look_choir(look, a, b, in_beats, fx.colours_for(spec), params)
             for e in new:
-                e.layer = layer
+                e.layer += layer
             effects += new
             if accent:
                 effects += fx.accents(accent, "Outlines", a, b, in_beats, fx.colours_for(spec), every)
@@ -303,7 +319,7 @@ def plan_song(arr: dict, line_times, beats_s: list[float], song_ms: int):
                         new += fx.look_per_tree(look, target, x, y, [z for z in in_beats if x <= z < y], t, cols,
                                                 int(100 * REST_SCALE) if dim else 100, params)
                 for e in new:
-                    e.layer = layer
+                    e.layer += layer
                 effects += new
                 if accent:
                     effects += fx.accents(accent, target, a, b, in_beats, cols, every)
@@ -322,36 +338,139 @@ def plan_song(arr: dict, line_times, beats_s: list[float], song_ms: int):
                 eyes_off[t].append((a, b))
         if mode == "glance":       # the turn of who looks up carries on into the next glance section
             glances += len(glance_pieces(a, b, 1))
+    scale_brightness(effects, arr.get("brightness", 100))
     asleep = asleep_spans(arr, song_ms)
     for t in TREES:
         if asleep[t]:
             effects = carve(effects, {f"StairTree{t}/Outline", f"StairTree{t}/Eyes"}, asleep[t])
             effects += [e for a, b in asleep[t] for e in breathing(t, a, b)]
-    faces = {t: faces_plan(arr, line_times, t, song_ms, eyes_off[t], asleep[t]) for t in TREES}
-    if arr.get("end_at") is not None:
-        faces, effects = clip_to_end(faces, effects, song_ms, arr.get("end_fade", 0))
+    effects, mouths, eye_states = apply_moves(arr, effects, beats_ms, song_ms)
+    faces = {t: faces_plan(arr, line_times, t, song_ms, eyes_off[t], asleep[t], mouths[t], eye_states[t])
+             for t in TREES}
+    ends = {int(k): snap(v * 1000) for k, v in arr.get("tree_end", {}).items()}
+    if arr.get("end_at") is not None or ends:
+        faces, effects = clip_to_end(faces, effects, song_ms, arr.get("end_fade", 0), ends)
     return faces, effects, sing
 
 
-def clip_to_end(faces: dict, effects: list, end_ms: int, fade_s: float = 0):
-    """Cut everything at end_ms; effects that now end there fade out over fade_s."""
-    def fade(a: int, b: int) -> float:
-        return round(min(fade_s, (b - a) / 1000), 2) if fade_s and b == end_ms else 0
+PHONEMES = ("rest", "MBP", "etc", "E", "FV", "L", "AI", "O", "U", "WQ")
+# Silent mouth patterns for the loops: (phonemes, seconds each), repeated over the move.
+MOUTH_PATTERNS = {
+    "hum": (("MBP", "U", "MBP", "O"), (0.7, 0.6, 0.7, 0.6)),       # lips barely moving
+    "giggle": (("E", "rest", "AI", "rest"), (0.15, 0.1, 0.15, 0.15)),
+    "chatter": (("etc", "O", "E", "MBP", "AI", "L", "rest", "U"), (0.2,) * 8),   # talking nineteen to the dozen
+    "whisper": (("etc", "rest", "O", "rest", "E", "rest"), (0.25,) * 6),
+    "snore": (("rest", "U", "O", "U"), (1.6, 0.5, 0.9, 0.5)),
+    "shush": (("U",), (1.0,)),
+}
+YAWN = (("MBP", 0.1), ("O", 0.2), ("AI", 0.45), ("O", 0.15), ("MBP", 0.1))   # share of the move
+
+
+def mouth_pieces(spec: str, a: int, b: int) -> list[tuple[int, int, str]]:
+    """(start, end, phoneme) pieces for a move's mouth over [a, b)."""
+    if spec in PHONEMES:
+        return [(a, b, spec)]
+    out, x = [], a
+    if spec == "yawn":
+        for k, (ph, share) in enumerate(YAWN):
+            y = b if k == len(YAWN) - 1 else min(b, snap(x + (b - a) * share))
+            if y > x:
+                out.append((x, y, ph))
+            x = y
+        return out
+    if spec not in MOUTH_PATTERNS:
+        raise KeyError(f"unknown mouth {spec!r}")
+    shapes, secs = MOUTH_PATTERNS[spec]
+    k = 0
+    while x < b:
+        y = min(b, x + max(FRAME_MS, snap(secs[k % len(secs)] * 1000)))
+        out.append((x, y, shapes[k % len(shapes)]))
+        x, k = y, k + 1
+    return out
+
+
+def expand_moves(arr: dict, song_ms: int) -> list[tuple[int, int, int, dict]]:
+    """(tree, start ms, end ms, move) for every tree a move names, in order, clipped to the song."""
+    out = []
+    for mv in arr.get("moves", []):
+        a, b = snap(mv["from"] * 1000), min(song_ms, snap(mv["until"] * 1000))
+        if b - a < FRAME_MS:
+            continue
+        for t in (mv["tree"] if isinstance(mv["tree"], list) else [mv["tree"]]):
+            out.append((t, a, b, mv))
+    return out
+
+
+def apply_moves(arr: dict, effects: list[fx.Fx], beats_ms: list[int], song_ms: int):
+    """Lay the arrangement's moves over the effects: (effects, mouths, eye states) per tree."""
+    mouths, eye_states = {t: [] for t in TREES}, {t: [] for t in TREES}
+    pct = arr.get("brightness", 100)
+    for t, a, b, mv in expand_moves(arr, song_ms):
+        in_beats = [x for x in beats_ms if a <= x < b]
+        if "outline" in mv:
+            spec = mv["outline"] if isinstance(mv["outline"], dict) else {"look": mv["outline"]}
+            target = f"StairTree{t}/Outline"
+            effects = carve(effects, {target}, [(a, b)])
+            pal = spec.get("palette", "xmas")
+            new = fx.look_per_tree(spec["look"], target, a, b, in_beats, t,
+                                   fx.colours_for(pal, t if pal == "rainbow" else None), spec.get("bright", 100),
+                                   spec.get("params", {}))
+            scale_brightness(new, pct)
+            effects += new
+        if "eyes" in mv:
+            target = f"StairTree{t}/Eyes"
+            effects = carve(effects, {target}, [(a, b)])
+            look = mv["eyes"]
+            if isinstance(look, int):
+                look = "up" if look == t else "right" if look > t else "left"
+            if look in ("closed", "open"):
+                eye_states[t].append((a, b, look.capitalize()))
+            else:
+                new = fx.eyes(look, t, a, b, in_beats, fx.colours_for(mv.get("eye_palette", "white"), t))
+                scale_brightness(new, pct * mv.get("eyes_bright", 100) // 100)
+                effects += new
+                eye_states[t].append((a, b, "(off)"))
+        if "mouth" in mv:
+            mouths[t] += mouth_pieces(mv["mouth"], a, b)
+    return effects, mouths, eye_states
+
+
+def scale_brightness(effects: list[fx.Fx], percent: int) -> None:
+    """Scale every effect's brightness (the shared Color panel setting) by percent."""
+    if percent == 100:
+        return
+    for e in effects:
+        e.settings = {**e.settings, "brightness": max(1, round(e.settings.get("brightness", 100) * percent / 100))}
+
+
+def clip_to_end(faces: dict, effects: list, end_ms: int, fade_s: float = 0, tree_end: dict | None = None):
+    """Cut everything at end_ms (a tree in tree_end at its own time); effects that now end there
+    fade out over fade_s."""
+    tree_end = tree_end or {}
+
+    def end_of(target: str) -> int:
+        t = target.split("/")[0].removeprefix("StairTree")
+        return min(end_ms, tree_end.get(int(t), end_ms)) if t.isdigit() else end_ms
+
+    def fade(a: int, b: int, end: int) -> float:
+        return round(min(fade_s, (b - a) / 1000), 2) if fade_s and b == end else 0
     out_faces = {}
     for t, plan in faces.items():
         out_faces[t] = []
+        end = end_of(f"StairTree{t}")
         for a, b, s in plan:
-            if a >= end_ms:
+            if a >= end:
                 continue
-            b = min(b, end_ms)
-            f = fade(a, b)
+            b = min(b, end)
+            f = fade(a, b, end)
             out_faces[t].append((a, b, s + (f",T_TEXTCTRL_Fadeout={f}" if f else "")))
     out = []
     for e in effects:
-        if e.start >= end_ms:
+        end = end_of(e.target)
+        if e.start >= end:
             continue
-        e.end = min(e.end, end_ms)
-        f = fade(e.start, e.end)
+        e.end = min(e.end, end)
+        f = fade(e.start, e.end, end)
         if f:
             e.settings = {**e.settings, "fadeout": f}
         out.append(e)
