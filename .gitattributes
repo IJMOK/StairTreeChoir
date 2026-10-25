@@ -3,3 +3,4 @@
 *.jpg binary
 *.stl binary
 *.dxf -text
+*.prt binary
