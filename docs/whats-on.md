@@ -36,7 +36,7 @@ Three different shows, so if you stay for more than one you'll see something new
 | Wednesday 23 December: **Village Night** | The big one. At 6pm the **Village Special** with every song; the 5pm and 7pm shows have auditions for new voices from the crowd. |
 | Thursday 24 December: **Christmas Eve** | Santa phones in during every show. At 9pm the choir falls asleep one by one so he can come, and they stay asleep all night. |
 | Thursday 31 December: **New Year's Eve** | Shows at 5pm, 6pm, 7pm, 8pm and 10pm, a late show at 11:15pm (Bramble swears he'll stay up), then the **midnight countdown** and Auld Lang Syne. Lights out by 12:30am. |
-| Friday 1 January: **New Year's Day** | New Year shows every hour from 3pm to 7pm: Happy New Year, Here Comes the Sun, Walking on Sunshine, What a Wonderful World, Auld Lang Syne *(to confirm)*. Then the choir says goodbye for the year at 7:30pm. |
+| Friday 1 January: **New Year's Day** | New Year shows every hour from 3pm to 7pm: Happy New Year, Here Comes the Sun, Walking on Sunshine, What a Wonderful World, Auld Lang Syne. Then the choir says goodbye for the year at 7:30pm. |
 
 ## Meet the choir
 
@@ -45,4 +45,3 @@ Left to right: **Holly** (the conductor, bossy), **Ivy** (agrees with Holly), **
 ## Still to confirm
 
 - The season dates (1 December to 1 January) are a placeholder until Rob confirms them.
-- The New Year's Day songs aren't picked yet.

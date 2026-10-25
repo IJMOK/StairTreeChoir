@@ -16,5 +16,5 @@ def test_whats_on_speaks_plainly():
         assert word not in page
     assert "about 11-14 minutes" in page and "Lights out by 11:30pm" in page
     assert "5, 12, 19 and 26 December" in page and "midnight countdown" in page
-    assert page.count("*(to confirm)*") >= 2
+    assert page.count("*(to confirm)*") == 1  # the season dates; the New Year songs are confirmed (Rob, 25 Oct)
     assert "The 5 and 8 o'clock show" in page

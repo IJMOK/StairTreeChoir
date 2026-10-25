@@ -131,7 +131,7 @@ def render(lengths: dict[str, float]) -> str:
         f"{_clock(cfg.NYE_LATE_AT)} (Bramble swears he'll stay up), then the **midnight countdown** and Auld Lang Syne. "
         f"Lights out by {_clock(cfg.NYE_NIGHT_END)}. |",
         f"| {_day(cfg.NYD)}: **New Year's Day** | New Year shows every hour from {nyd_hours[0]} to {nyd_hours[-1]}: "
-        f"{', '.join(_songs(cfg.NYD_SHOW, pls))}{TBC}. Then the choir says goodbye for the year at "
+        f"{', '.join(_songs(cfg.NYD_SHOW, pls))}. Then the choir says goodbye for the year at "
         f"{_clock(cfg.NYD_GOODNIGHT_AT)}. |",
         "",
         "## Meet the choir",
@@ -144,7 +144,6 @@ def render(lengths: dict[str, float]) -> str:
         "",
         f"- The season dates ({first.day} {first.strftime('%B')} to {season_end.day} {season_end.strftime('%B')}) "
         "are a placeholder until Rob confirms them.",
-        "- The New Year's Day songs aren't picked yet.",
         "",
     ]
     return "\n".join(lines)

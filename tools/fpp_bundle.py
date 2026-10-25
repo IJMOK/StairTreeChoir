@@ -194,29 +194,55 @@ def bundle(site_id: str) -> Path:
     return out
 
 
+def _user_env(name: str) -> str | None:
+    """A user environment variable; on Windows also read from HKCU when this process predates it."""
+    import os
+    value = os.environ.get(name)
+    if not value and os.name == "nt":
+        import winreg
+        try:
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as k:
+                value = winreg.QueryValueEx(k, name)[0]
+        except OSError:
+            pass
+    return value
+
+
 def _auth() -> dict[str, str]:
     """HTTP basic auth for a player with a UI password (FPP's user is "admin"). The password comes
     from the FPP_PASSWORD environment variable (a user variable on Windows), never from git."""
     import base64
-    import os
-    pw = os.environ.get("FPP_PASSWORD")
-    if not pw and os.name == "nt":
-        import winreg
-        try:
-            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as k:
-                pw = winreg.QueryValueEx(k, "FPP_PASSWORD")[0]
-        except OSError:
-            pass
+    pw = _user_env("FPP_PASSWORD")
     return {"Authorization": "Basic " + base64.b64encode(f"admin:{pw}".encode()).decode()} if pw else {}
 
 
-def _post(url: str, data: bytes, ctype: str) -> str:
-    req = urllib.request.Request(url, data, {"Content-Type": ctype, **_auth()}, method="POST")
+def _post(url: str, data: bytes, ctype: str, method: str = "POST") -> str:
+    req = urllib.request.Request(url, data, {"Content-Type": ctype, **_auth()}, method=method)
     with urllib.request.urlopen(req, timeout=300) as r:
         return r.read().decode(errors="replace")[:200]
 
 
-def deploy(out: Path, host: str) -> None:
+# Home Assistant (M7) at the sites that have one: Site A is at Rob's home. FPP connects out to HA's
+# Mosquitto broker (works from behind the site router's NAT) as the HA user stair-tree-choir; the
+# password is the FPP_MQTT_PASSWORD user environment variable, never in git. Topics are
+# falcon/player/<HostName>/...; the HA side is packages/stair_tree_choir.yaml in Rob's HA repo.
+HA_SITES = {"site-a": "192.168.0.100"}
+MQTT_USER = "stair-tree-choir"
+
+
+def mqtt_settings(api: str, broker: str) -> None:
+    """Point the player's MQTT client at Home Assistant (applied by the fppd restart that follows)."""
+    pw = _user_env("FPP_MQTT_PASSWORD")
+    if not pw:
+        print("MQTT not set: no FPP_MQTT_PASSWORD (Home Assistant won't see this player)")
+        return
+    for name, value in (("MQTTHost", broker), ("MQTTPort", "1883"), ("MQTTUsername", MQTT_USER),
+                        ("MQTTPassword", pw)):
+        _post(f"{api}/settings/{name}", value.encode(), "text/plain", method="PUT")
+    print(f"MQTT -> {broker} as {MQTT_USER}")
+
+
+def deploy(out: Path, host: str, site_id: str = "") -> None:
     """Upload a bundle with the FPP API (fpp/README.md, step 4 and 5)."""
     api = f"http://{host}/api"
     q = urllib.parse.quote
@@ -229,6 +255,8 @@ def deploy(out: Path, host: str) -> None:
         _post(f"{api}/playlist/{q(f.stem)}", f.read_bytes(), "application/json")
     _post(f"{api}/schedule", (out / "config" / "schedule.json").read_bytes(), "application/json")
     _post(f"{api}/schedule/reload", b"", "application/json")
+    if site_id in HA_SITES:
+        mqtt_settings(api, HA_SITES[site_id])
     _post(f"{api}/system/fppd/restart", b"", "application/json")
     print(f"deployed to {host}; check Playlists for warnings (GET {api}/playlists/validate)")
 
@@ -245,7 +273,7 @@ def main(argv: list[str] | None = None) -> None:
     for site in sites:
         out = bundle(site)
         if args.deploy:
-            deploy(out, args.deploy)
+            deploy(out, args.deploy, site)
 
 
 if __name__ == "__main__":
