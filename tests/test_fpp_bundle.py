@@ -21,11 +21,12 @@ def show(tmp_path, monkeypatch):
     monkeypatch.setattr(fpp_bundle, "SHOW_FOLDER", tmp_path)
     monkeypatch.setattr(fpp_bundle, "BUNDLE_DIR", tmp_path / "FPP")
     monkeypatch.setattr(fpp_bundle, "PLAN_FILE", tmp_path / "show-plan.md")
+    monkeypatch.setattr(fpp_bundle, "WHATS_ON_FILE", tmp_path / "whats-on.md")
     for d in fpp_bundle.AUDIO_DIRS:
         (tmp_path / d).mkdir(parents=True)
     pls, _, _ = fpp_bundle.site_files("site-a")
     for pl in pls.values():
-        for e in pl["mainPlaylist"]:
+        for e in cfg.entries(pl):
             if e["type"] != "pause":
                 fake_fseq(tmp_path / e["sequenceName"], 60)
                 if e.get("mediaName"):
@@ -38,7 +39,7 @@ def test_bundle_lays_out_fpp_media(show):
     assert (out / "config" / "schedule.json").exists()
     assert (out / "config" / "co-universes.json").exists()
     assert (out / "playlists" / "Show A.json").exists()
-    assert (out / "sequences" / "Waiting.fseq").exists()
+    assert (out / "sequences" / "Waiting 1.fseq").exists() and (out / "sequences" / "Lights Out.fseq").exists()
     assert any((out / "music").iterdir())
     plan = (out / "show-plan.md").read_text(encoding="utf-8")
     assert "| 17:00:00 | Show A SAT week |" in plan and "| 16:00:00 | Waiting | loops |" in plan
@@ -57,10 +58,19 @@ def test_show_length_counts_pauses(show):
 
 
 def test_missing_or_stale_render_refused(show):
-    (show / "Waiting.fseq").unlink()
+    (show / "Lights Out.fseq").unlink()
     (show / "Goodnight.xsq").write_text("x")
     import os
     os.utime(show / "Goodnight.fseq", (1, 1))
     with pytest.raises(SystemExit) as e:
         fpp_bundle.bundle("site-a")
-    assert "no Waiting.fseq" in str(e.value) and "older than its .xsq" in str(e.value)
+    assert "no Lights Out.fseq" in str(e.value) and "older than its .xsq" in str(e.value)
+
+
+def test_plan_lists_the_loops_and_whats_on_is_written(show):
+    fpp_bundle.bundle("site-a")
+    plan = (show / "show-plan.md").read_text(encoding="utf-8")
+    assert "| 21:00:00 | Night | loops | to 23:29:59 |" in plan
+    assert "# Silent loops" in plan and "| Morning | Morning 1 ... Morning 6 (6) |" in plan
+    page = (show / "whats-on.md").read_text(encoding="utf-8")
+    assert "Lights out by 11:30pm" in page and "5, 12, 19 and 26 December" in page

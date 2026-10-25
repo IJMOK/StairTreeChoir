@@ -7,7 +7,7 @@ Per-site FPP player config (DDP outputs per tree) and provisioning notes (milest
 | File | What it is | Goes to |
 |---|---|---|
 | `<site>/co-universes.json` | FPP channel outputs: one **DDP - One Based** output per tree (tree IP, start channel `(slot-1)*276+1`, 276 channels) | `POST /api/channel/output/universeOutputs` |
-| `<site>/playlists/*.json` | Waiting, Announce 17/18/19/20/last, Show A/B/C, Goodnight | `POST /api/playlist/<name>` |
+| `<site>/playlists/*.json` | Waiting, Announce 17/18/19/20/last, Show A/B/C, Goodnight, Night, Morning (and the specials) | `POST /api/playlist/<name>` |
 | `<site>/schedule.json` | The nightly schedule from `docs/show-night.md` | `POST /api/schedule`, then `POST /api/schedule/reload` |
 
 **One folder per player:** `python -m tools.fpp_bundle site-a` (or `--all`) gathers a site's config, playlists, the rendered `.fseq` files and their audio from the show folder into `Documents\xLights\FPP\<site>\` (`config/`, `playlists/`, `sequences/`, `music/`, laid out like FPP's `/home/fpp/media`). It refuses if anything a playlist names is missing or a sequence was saved after its last render. It also writes the night with real running times to `show-plan.md` there and to [docs/show-plan.md](../docs/show-plan.md). `--deploy <pi address>` uploads the bundle with the API calls in step 4 and 5 below (unverified until there is a player).
@@ -30,9 +30,10 @@ Every site plays the same thing (only its trees differ). Times are the proposal 
 | 17:00 and 20:00 | `Show A` | |
 | 18:00 | `Show B` | Frosty the Snowman is its second song |
 | 19:00 | `Show C` | |
-| 21:00 | `Goodnight`, then nothing | the waiting window ends at 21:00; the date range is 1 to 31 Dec 2026 |
+| 21:00 | `Goodnight`, then `Night` | the waiting window ends at 21:00 |
+| 21:00 to 23:30 | `Night` | loops, no audio, graceful stop: the scene playing ends, then the playlist's lead-out `Lights Out`, then dark. Home Assistant normally stops it earlier (lights out); a playlist stopped by hand isn't restarted in the same window. Christmas Eve: `Night Christmas Eve` |
 
-How FPP resolves this (read from `src/Scheduler.cpp`): an entry's priority is its position in `schedule.json` (earlier wins). Goodnight is first, then the shows, then the announcements, then `Waiting`. A higher-priority entry starting stops whatever is running, using the running entry's stop type, and the interrupted entry is restarted afterwards if its window is still open; a lower-priority entry waits for a running one and starts when the player is idle if its window is still open. So after a show or announcement the waiting loop comes back by itself, and a show that runs past :15 just delays that quarter-hour announcement. Show windows are 30 minutes (so a 15 minute show is never cut off), announcement windows 10 minutes. Entries of the same kind never overlap; the tests check the priority order.
+How FPP resolves this (read from `src/Scheduler.cpp`): an entry's priority is its position in `schedule.json` (earlier wins). Goodnight is first, then the shows, then the announcements, then `Night`, then `Waiting`. A higher-priority entry starting stops whatever is running, using the running entry's stop type, and the interrupted entry is restarted afterwards if its window is still open; a lower-priority entry waits for a running one and starts when the player is idle if its window is still open. So after a show or announcement the waiting loop comes back by itself, and a show that runs past :15 just delays that quarter-hour announcement. Show windows are 30 minutes (so a 15 minute show is never cut off), announcement windows 10 minutes. Entries of the same kind never overlap; the tests check the priority order.
 
 ## Provisioning a site player
 
@@ -64,7 +65,9 @@ How FPP resolves this (read from `src/Scheduler.cpp`): an entry's priority is it
 ## Not verified (no hardware yet), for the bench
 
 - The generated schedule has never run on a device. On the Scheduler page check that the order is the priority described above, that `Waiting` resumes after an announcement or a show, and that a show started by hand is not cut off.
-- Whether the trees go dark after `Goodnight`. The `Goodnight` sequence should end on black. FPP's "Blank between sequences" setting is left off.
+- Whether the trees go dark after `Lights Out` (the Night and Waiting playlists' lead-out, which ends on black; FPP holds the last frame). FPP's "Blank between sequences" setting is left off.
+- Whether the hand-over between the loops' one-minute pieces is seamless on the trees (no flicker between sequences).
+- `Morning` is not scheduled: Home Assistant starts it (`/api/playlist/Morning/start`, MQTT `set/playlist/Morning/start`). Its playlist has repeat off and lists its pieces for 3 hours, so it ends by itself through `Morning Lights Off`.
 - Media file types: songs `.mp3` and skits `.wav` are assumptions from the audio tools; change `SONG_MEDIA_EXT` / `SKIT_MEDIA_EXT` in the generator if the files differ. The media names come from each arrangement's `audio` (`data/songs/*.json`); the extensions are only the fallback.
 - Pacing (90 Mbps) and "multi-threaded blocking" are the FPP UI defaults; frame timing over the site Wi-Fi is the M0 test.
 - The playlist `playlistInfo` durations are 0; FPP fills them in when a playlist is saved from its own UI. They only affect the duration shown.

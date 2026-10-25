@@ -1,0 +1,1471 @@
+{
+  "name": "Morning",
+  "version": 4,
+  "repeat": 0,
+  "loopCount": 1,
+  "desc": "Morning, started by Home Assistant: waking up. No audio. Ends by itself after about 3 hours; Morning Lights Off when stopped gracefully.",
+  "random": 0,
+  "globalPauseBetweenSequencesMS": 0,
+  "empty": false,
+  "leadIn": [],
+  "mainPlaylist": [
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning 6.fseq"
+    }
+  ],
+  "leadOut": [
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Morning Lights Off.fseq"
+    }
+  ],
+  "playlistInfo": {
+    "total_duration": 0,
+    "total_items": 241,
+    "leadIn_duration": 0,
+    "leadIn_items": 0,
+    "mainPlaylist_duration": 0,
+    "mainPlaylist_items": 240,
+    "leadOut_duration": 0,
+    "leadOut_items": 1
+  }
+}

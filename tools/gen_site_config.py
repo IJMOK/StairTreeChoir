@@ -46,7 +46,10 @@ FPP 10.3 (tag 10.3, commit da997bd), github.com/FalconChristmas/fpp:
         www/playlistEntryTypes.json (entry types "both": sequenceName, mediaName, videoOut;
         "sequence": sequenceName; "pause": duration in seconds, outputs keep their last values);
         www/js/fpp.js SavePlaylistAs() (version 4, repeat 0 "currently unused by player", empty,
-        playlistInfo). Saved with POST /api/playlist/<name> and Content-Type application/json
+        playlistInfo). A graceful stop (Playlist::StopGracefully) lets the playing entry finish,
+        then plays leadOut (SwitchToLeadOut) and goes idle; a hard stop (StopNow) skips leadOut.
+        With repeat off, or once loopCount passes are done, the main section ends into leadOut.
+        Saved with POST /api/playlist/<name> and Content-Type application/json
         (www/api/controllers/playlist.php playlist_update(); www/api/lib/limonade.php only fills
         the body for application/json). Names: letters, numbers, spaces, hyphens, underscores
         (fpp.js PlaylistNameOK).
@@ -59,6 +62,10 @@ FPP 10.3 (tag 10.3, commit da997bd), github.com/FalconChristmas/fpp:
         running lower-priority one using the running entry's stop type, and the pre-empted entry
         is restarted afterwards if its window is still open; a lower-priority entry waits while a
         higher-priority one is running and starts when the player is idle if its window is open.
+        A playlist stopped by hand (API, MQTT, a command: forceStop 1) is not restarted by the
+        scheduler in the same window (doScheduledPlaylist "just force stopped"), so Home
+        Assistant's lights out sticks. At the end of a window the entry's stop type applies
+        (Player.cpp: graceful plays the lead-out).
   Files: POST /api/file/Sequences/<name>.fseq and /api/file/Music/<name> (files.php PostFile(),
         config.php GetDirSetting()).
 
@@ -70,6 +77,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from tools import loops
 from tools.gen_site_wiring import ip, load_sites
 from tools.tree_layout import ROOT
 
@@ -112,8 +120,16 @@ SONGS = (
     # New Year (Rob, 24 Oct 2026)
     "Auld Lang Syne", "Happy New Year", "Here Comes the Sun", "Walking on Sunshine", "What a Wonderful World",
 )
-WAITING, GOODNIGHT = "Waiting", "Goodnight"
-WAITING_ASLEEP = "Waiting Asleep"   # the waiting loop with Bramble asleep (New Year's Eve, before midnight)
+GOODNIGHT = "Goodnight"
+# The silent loops (tools/loops.py): each playlist plays its short pieces in order, then its lead-out
+# when it's stopped gracefully. The playlist names are what Home Assistant stops and watches for.
+WAITING = loops.WAITING                 # between shows
+WAITING_ASLEEP = loops.WAITING_ASLEEP   # the waiting loop with Bramble asleep (New Year's Eve, before midnight)
+NIGHT = loops.NIGHT                     # after the Goodnight until lights out (Home Assistant) or NIGHT_END
+NIGHT_XMAS_EVE = loops.NIGHT_XMAS_EVE   # Christmas Eve: everyone asleep for Santa
+MORNING = loops.MORNING                 # not scheduled: Home Assistant starts it with the alarm
+LEAD_OUT = {WAITING: loops.LIGHTS_OUT, WAITING_ASLEEP: loops.LIGHTS_OUT, NIGHT: loops.LIGHTS_OUT,
+            NIGHT_XMAS_EVE: loops.LIGHTS_OUT_ASLEEP, MORNING: loops.MORNING_OFF}
 FROSTY = "Frosty the Snowman"   # Set B's second song
 
 # show-night.md "A show": (kind, name) with kind "skit" (data/skits/<name>.json) or "song".
@@ -138,12 +154,15 @@ SLEEPY_SONGS = ("Little Drummer Boy", "Twelve Days of Christmas")
 SHOW_HOURS = (17, 18, 19, 20)
 SHOW_SETS = ("A", "B", "C", "A")             # 17:00 A, 18:00 B, 19:00 C, 20:00 A
 WAITING_FROM, WAITING_TO = 16 * 60, 21 * 60  # minutes after midnight
+NIGHT_END = 23 * 60 + 30                     # backstop: lights out by 23:30 if Home Assistant hasn't
+NYE_NIGHT_END = 30                           # New Year's Day 00:30, after the countdown
 GOODNIGHT_AT, GOODNIGHT_WINDOW = 21 * 60, 5
 SHOW_WINDOW = 30                             # a ~15 minute show is never cut off by its end time
 ANNOUNCE_LABELS = ("17", "18", "19", "last")    # skits announce-<label>; "last" = the 20:00 show
 ANNOUNCE_WINDOW = 10                         # latest late start of a quarter-hour announcement
 # priority order (earlier in schedule.json wins)
-CLASS_RANK = {"countdown": 0, "goodnight": 1, "show": 2, "announcement": 3, "waiting_asleep": 4, "waiting": 5}
+CLASS_RANK = {"countdown": 0, "goodnight": 1, "show": 2, "announcement": 3, "waiting_asleep": 4, "night": 5,
+              "waiting": 6}
 
 # Thank-you variants by date (docs/specials.md): plain to 26 Dec, plugging New Year's Eve 27-30 Dec,
 # "see you at midnight" on the night. Playlist names: letters, numbers, spaces only.
@@ -227,7 +246,7 @@ def skit_sequence(name: str) -> str:
 
 
 def known_sequences() -> set[str]:
-    return set(SONGS) | {skit_sequence(n) for n in skit_names()} | {WAITING, WAITING_ASLEEP, GOODNIGHT}
+    return set(SONGS) | {skit_sequence(n) for n in skit_names()} | {GOODNIGHT} | loops.all_sequences()
 
 
 # ---------------------------------------------------------------------------- tree configs ----
@@ -319,18 +338,32 @@ def _piece(kind: str, name: str) -> tuple[str, dict]:
     return seq, _entry(seq, media_for(seq, seq + SKIT_MEDIA_EXT))
 
 
-def _playlist(name: str, desc: str, main: list[dict], repeat: int = 0) -> dict:
+def _playlist(name: str, desc: str, main: list[dict], repeat: int = 0, lead_out: list[dict] = (),
+              loop_count: int = 0) -> dict:
     return {
-        "name": name, "version": 4, "repeat": repeat, "loopCount": 0, "desc": desc, "random": 0,
+        "name": name, "version": 4, "repeat": repeat, "loopCount": loop_count, "desc": desc, "random": 0,
         "globalPauseBetweenSequencesMS": 0, "empty": False,
-        "leadIn": [], "mainPlaylist": main, "leadOut": [],
+        "leadIn": [], "mainPlaylist": main, "leadOut": list(lead_out),
         "playlistInfo": {
-            "total_duration": 0, "total_items": len(main),
+            "total_duration": 0, "total_items": len(main) + len(lead_out),
             "leadIn_duration": 0, "leadIn_items": 0,
             "mainPlaylist_duration": 0, "mainPlaylist_items": len(main),
-            "leadOut_duration": 0, "leadOut_items": 0,
+            "leadOut_duration": 0, "leadOut_items": len(lead_out),
         },
     }
+
+
+def loop_playlist(name: str, desc: str, passes: int = 1) -> dict:
+    """A silent loop: its pieces in order (passes times over), then its lead-out on a graceful stop."""
+    main = [_entry(seq, None) for _ in range(passes) for seq in loops.loop_sequences(name)]
+    return _playlist(name, desc, main, lead_out=[_entry(LEAD_OUT[name], None)], loop_count=1 if passes > 1 else 0)
+
+
+def morning_passes() -> int:
+    """How often the Morning pieces are listed so the playlist runs loops.MORNING_HOURS by itself."""
+    import math
+    one = len(loops.morning_scenes()) * loops.MORNING_S
+    return math.ceil(loops.MORNING_HOURS * 3600 / one)
 
 
 def announce_playlist_name(label: str) -> str:
@@ -340,8 +373,17 @@ def announce_playlist_name(label: str) -> str:
 def playlists() -> dict[str, dict]:
     """Playlist name -> FPP playlist JSON. The same at every site."""
     out: dict[str, dict] = {}
-    out[WAITING] = _playlist(WAITING, "Waiting loop: rainbow, blinking, glancing. No audio.",
-                             [_entry(WAITING, None)])
+    out[WAITING] = loop_playlist(WAITING, "Between shows: the choir mucking about. No audio. Lights Out when stopped gracefully.")
+    out[NIGHT] = loop_playlist(NIGHT, "After the Goodnight: dozing, yawning, giggling, dim. No audio. "
+                                      "Lights Out when stopped gracefully (Home Assistant or the 23:30 backstop).")
+    out[NIGHT_XMAS_EVE] = loop_playlist(NIGHT_XMAS_EVE, "Christmas Eve after the Goodnight: all asleep for Santa. "
+                                                        "No audio. Fades out when stopped gracefully.")
+    # Home Assistant starts it at the alarm and stops it gracefully at the morning lights out. Repeat
+    # is off and the pieces are listed for loops.MORNING_HOURS, so it ends by itself (through its lead-out)
+    # if the stop never comes; loopCount 1 keeps it to one pass even if it's started with repeat on.
+    out[MORNING] = loop_playlist(MORNING, f"Morning, started by Home Assistant: waking up. No audio. Ends by itself "
+                                          f"after about {loops.MORNING_HOURS} hours; Morning Lights Off when stopped gracefully.",
+                                 morning_passes())
     for label in ANNOUNCE_LABELS:
         seq, entry = _piece("skit", f"announce-{label}")
         n = announce_playlist_name(label)
@@ -354,8 +396,7 @@ def playlists() -> dict[str, dict]:
     out[GOODNIGHT] = _playlist(GOODNIGHT, "Goodnight skit; the lights go out.",
                                [_entry(GOODNIGHT, media_for(GOODNIGHT, GOODNIGHT_MEDIA))])
     # New Year's Eve and New Year's Day (docs/specials.md)
-    out[WAITING_ASLEEP] = _playlist(WAITING_ASLEEP, "Waiting loop with Bramble asleep, until the countdown.",
-                                    [_entry(WAITING_ASLEEP, None)])
+    out[WAITING_ASLEEP] = loop_playlist(WAITING_ASLEEP, "Waiting loop with Bramble asleep, until the countdown.")
     for n, skit in (("Announce NYE", "announce-nye"), ("Announce New Year", "announce-newyear")):
         out[n] = _playlist(n, "Quarter-hour announcement.", [_piece("skit", skit)[1]])
     out[NYE_LATE] = _set_playlist(NYE_LATE, "23:15: Bramble is staying up. He isn't.", NYE_LATE_SET)
@@ -391,6 +432,11 @@ def _set_playlist(name: str, desc: str, pieces, pause: int = BETWEEN_PAUSE_S) ->
     return _playlist(name, desc, main)
 
 
+def entries(playlist: dict) -> list[dict]:
+    """Every entry the playlist can play, lead-in to lead-out."""
+    return [e for sec in ("leadIn", "mainPlaylist", "leadOut") for e in playlist[sec]]
+
+
 def sequences_used(playlist: dict) -> list[str]:
     return [e["sequenceName"].removesuffix(".fseq") for sec in ("leadIn", "mainPlaylist", "leadOut")
             for e in playlist[sec] if "sequenceName" in e]
@@ -422,11 +468,15 @@ def weekdays(day: int) -> set[int]:
 
 def normal_night(dates: tuple[str, str], suffix: str = "", day: int = DOW_EVERY_DAY,
                  shows: dict[int, str] | None = None, announce: dict[int, tuple[str, str]] | None = None,
-                 goodnight: str = GOODNIGHT) -> list[dict]:
+                 goodnight: str = GOODNIGHT, night: str = NIGHT) -> list[dict]:
     """show-night.md's night; suffix picks the shows' thank-you variant (THANKS_VARIANTS). shows
     and announce replace the playlist at an hour (the Saturday teaser and special, Village Night)."""
     shows, announce = shows or {}, announce or {}
     plan = [_e(goodnight, "goodnight", GOODNIGHT_AT, GOODNIGHT_AT + GOODNIGHT_WINDOW, dates, day=day)]
+    # After the Goodnight (higher priority, so it goes first) the trees doze until Home Assistant's
+    # lights out stops this gracefully (Lights Out plays, then dark). Backstop: the window closes at
+    # NIGHT_END with a graceful stop, so it's dark within a piece (<= 1 min) plus Lights Out (20 s).
+    plan.append(_e(night, "night", GOODNIGHT_AT, NIGHT_END, dates, STOP_GRACEFUL, 1, day=day))
     for hour, letter in zip(SHOW_HOURS, SHOW_SETS):
         window = SAT_SPECIAL_WINDOW if shows.get(hour) in SPECIALS else SHOW_WINDOW
         plan.append(_e(shows.get(hour, f"Show {letter}{suffix}"), "show", hour * 60, hour * 60 + window, dates, day=day))
@@ -468,6 +518,10 @@ def nyd_night() -> list[dict]:
     """New Year's Day: hourly New Year shows 15:00-19:00, then the season's goodbye."""
     d = (NYD, NYD)
     plan = [_e(NYD_GOODNIGHT, "goodnight", NYD_GOODNIGHT_AT, NYD_GOODNIGHT_AT + GOODNIGHT_WINDOW, d)]
+    # Just after midnight, the end of New Year's Eve: once the countdown playlist (which plays on
+    # past midnight, "stop after loop") has finished, the trees doze until 00:30. An entry of its own
+    # on 1 January, so no entry crosses midnight. Nothing after the season's last Goodnight.
+    plan.append(_e(NIGHT, "night", 0, NYE_NIGHT_END, d, STOP_GRACEFUL, 1))
     for hour in NYD_HOURS:
         plan.append(_e(NYD_SHOW, "show", hour * 60, hour * 60 + SHOW_WINDOW, d))
     for hour in NYD_HOURS[:-1]:
@@ -491,7 +545,7 @@ def schedule_plan() -> list[dict]:
             + normal_night((VILLAGE_NIGHT, VILLAGE_NIGHT), shows={h: n for h, (n, _) in VILLAGE_SHOWS.items()},
                            announce=VILLAGE_ANNOUNCE)
             + normal_night((XMAS_EVE, XMAS_EVE), shows={h: n for h, (n, _) in XMAS_EVE_SHOWS.items()},
-                           goodnight=XMAS_EVE_GOODNIGHT)
+                           goodnight=XMAS_EVE_GOODNIGHT, night=NIGHT_XMAS_EVE)
             + normal_night((XMAS_DAY, _day_before(NYE_WEEK_START)), " SAT week",
                            DOW_SUN_TO_FRI)
             + normal_night(december, "", DOW_SATURDAY, shows={17: SAT_TEASER, 18: SAT_SPECIAL}, announce=SAT_ANNOUNCE)

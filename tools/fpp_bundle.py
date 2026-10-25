@@ -11,10 +11,12 @@ tools/gen_site_config.py) and the xLights render output (show folder):
   sequences/<name>.fseq                             ->  /home/fpp/media/sequences/
   music/<audio>                                     ->  /home/fpp/media/music/
   show-plan.md                                      the night with real running times
+The show plan is also written to docs/show-plan.md, and the public version of it (tools/whats_on.py)
+to docs/whats-on.md.
 so it can be copied onto the Pi as it is (Samba/SFTP into /home/fpp/media, then restart
 FPPD) or uploaded with --deploy, which uses the API calls in fpp/README.md. It stops with
 a list if anything a playlist names is missing or a sequence is older than its .xsq
-(saved but not rendered). The show plan is also written to docs/show-plan.md.
+(saved but not rendered).
 
 --deploy worked against Rob's bench Pi 3 (FPP 10.3, 24 Oct 2026): every file, playlist, the
 schedule and the outputs arrived and validated. If the player has a UI password, set it in the
@@ -32,6 +34,7 @@ import urllib.request
 from pathlib import Path
 
 from tools import gen_site_config as cfg
+from tools import whats_on
 from tools.arrange_song import SHOW_FOLDER
 from tools.gen_site_wiring import load_sites
 from tools.tree_layout import ROOT
@@ -39,6 +42,7 @@ from tools.tree_layout import ROOT
 BUNDLE_DIR = SHOW_FOLDER / "FPP"
 AUDIO_DIRS = ("Audio/Songs", "Audio/Skits")
 PLAN_FILE = ROOT / "docs" / "show-plan.md"
+WHATS_ON_FILE = whats_on.OUT_FILE
 
 
 def fseq_seconds(path: Path) -> float:
@@ -69,7 +73,7 @@ def check(pls: dict[str, dict]) -> tuple[dict[str, Path], dict[str, Path], list[
     """(sequence files, audio files, problems) for everything the playlists name."""
     seqs, audio, problems = {}, {}, []
     for name, pl in pls.items():
-        for e in pl["mainPlaylist"]:
+        for e in cfg.entries(pl):
             if e["type"] == "pause":
                 continue
             f = SHOW_FOLDER / e["sequenceName"]
@@ -89,9 +93,13 @@ def check(pls: dict[str, dict]) -> tuple[dict[str, Path], dict[str, Path], list[
     return seqs, audio, problems
 
 
-def playlist_seconds(pl: dict, seqs: dict[str, Path]) -> float:
+def playlist_seconds(pl: dict, seqs: dict[str, Path], section: str = "mainPlaylist") -> float:
     return sum(e["duration"] if e["type"] == "pause" else fseq_seconds(seqs[e["sequenceName"]])
-               for e in pl["mainPlaylist"])
+               for e in pl[section])
+
+
+def _hmmss(s: float) -> str:
+    return f"{int(s // 3600)}:{int(s // 60 % 60):02d}:{int(round(s % 60)):02d}" if s >= 3600 else _mmss(s)
 
 
 def _mmss(s: float) -> str:
@@ -110,7 +118,10 @@ def show_plan(pls: dict[str, dict], schedule: list[dict], seqs: dict[str, Path])
              "(tools/gen_site_config.py) and the rendered sequences; don't edit, change those and re-run. "
              "Every site plays the same nights; only its trees differ.", "",
              f"Season: {first} to {last}. Priority when two overlap (fpp/README.md): the countdown, "
-             "then goodnights, shows, announcements, and the waiting loop, which comes back by itself after each.", ""]
+             "then goodnights, shows, announcements, the Night loop, and the waiting loop, which comes back by itself "
+             "after each. The Night loop runs from the Goodnight until Home Assistant's lights out, or the end of its "
+             "window at the latest; either way it stops gracefully: the piece playing ends, then Lights Out. "
+             "The Morning loop isn't scheduled: Home Assistant starts it.", ""]
     for (a, b, day), entries in sorted(nights.items()):
         lines += [f"## {a}" + ("" if a == b else f" to {b}") + day_names[day], "",
                   "| Time | Playlist | Runs | Window |", "|---|---|---|---|"]
@@ -119,9 +130,10 @@ def show_plan(pls: dict[str, dict], schedule: list[dict], seqs: dict[str, Path])
             lines.append(f"| {e['startTime']} | {e['playlist']} | {run} | to {e['endTime']} |")
         lines.append("")
     lines += ["# Playlists", ""]
+    loops_ = {n: pl for n, pl in pls.items() if pl["leadOut"]}
     for name in sorted(pls, key=lambda n: (not n.startswith("Show"), n)):
         pl = pls[name]
-        if len(pl["mainPlaylist"]) < 2:
+        if len(pl["mainPlaylist"]) < 2 or name in loops_:
             continue
         lines += [f"## {name} ({_mmss(playlist_seconds(pl, seqs))})", "", "| Starts | Piece | Length |", "|---|---|---|"]
         t = 0.0
@@ -133,7 +145,22 @@ def show_plan(pls: dict[str, dict], schedule: list[dict], seqs: dict[str, Path])
             lines.append(f"| {_mmss(t)} | {e['sequenceName'].removesuffix('.fseq')} | {_mmss(n)} |")
             t += n
         lines.append(f"\n{cfg.BETWEEN_PAUSE_S} s pause between pieces.\n")
-    singles = [(n, pl) for n, pl in pls.items() if len(pl["mainPlaylist"]) == 1]
+    lines += ["# Silent loops", "",
+              "Short pieces played in order and repeated; a graceful stop lets the piece playing finish, "
+              "then plays the lead-out (tools/loops.py).", "",
+              "| Playlist | Pieces | One pass | Lead-out | Ends by itself |", "|---|---|---|---|---|"]
+    for name, pl in sorted(loops_.items()):
+        names = [e["sequenceName"].removesuffix(".fseq") for e in pl["mainPlaylist"]]
+        one = list(dict.fromkeys(names))
+        passes = len(names) // len(one)
+        one_s = sum(fseq_seconds(seqs[f"{n}.fseq"]) for n in one)
+        lo = pl["leadOut"][0]["sequenceName"].removesuffix(".fseq")
+        ends = (f"after {passes} passes ({_hmmss(playlist_seconds(pl, seqs))}), then {lo}" if passes > 1
+                else "no: it loops while its schedule window is open")
+        lines.append(f"| {name} | {one[0]} ... {one[-1]} ({len(one)}) | {_mmss(one_s)} | {lo} "
+                     f"({_mmss(playlist_seconds(pl, seqs, 'leadOut'))}) | {ends} |")
+    lines.append("")
+    singles = [(n, pl) for n, pl in pls.items() if len(pl["mainPlaylist"]) == 1 and not pl["leadOut"]]
     lines += ["## Single-piece playlists", "", "| Playlist | Sequence | Length |", "|---|---|---|"]
     for n, pl in sorted(singles):
         e = pl["mainPlaylist"][0]
@@ -159,6 +186,9 @@ def bundle(site_id: str) -> Path:
     plan = show_plan(pls, schedule, seqs)
     (out / "show-plan.md").write_text(plan, encoding="utf-8")
     PLAN_FILE.write_text(plan, encoding="utf-8", newline="\n")
+    scheduled = {e["playlist"] for e in schedule if not e["repeat"]}
+    WHATS_ON_FILE.write_text(whats_on.render({n: playlist_seconds(pls[n], seqs) for n in scheduled}),
+                             encoding="utf-8", newline="\n")
     size = sum(f.stat().st_size for f in out.rglob("*") if f.is_file()) / 1e6
     print(f"{site_id}: {len(pls)} playlists, {len(seqs)} sequences, {len(audio)} audio files, {size:.0f} MB -> {out}")
     return out

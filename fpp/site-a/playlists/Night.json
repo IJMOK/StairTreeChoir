@@ -1,0 +1,79 @@
+{
+  "name": "Night",
+  "version": 4,
+  "repeat": 0,
+  "loopCount": 0,
+  "desc": "After the Goodnight: dozing, yawning, giggling, dim. No audio. Lights Out when stopped gracefully (Home Assistant or the 23:30 backstop).",
+  "random": 0,
+  "globalPauseBetweenSequencesMS": 0,
+  "empty": false,
+  "leadIn": [],
+  "mainPlaylist": [
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Night 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Night 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Night 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Night 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Night 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Night 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Night 7.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Night 8.fseq"
+    }
+  ],
+  "leadOut": [
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Lights Out.fseq"
+    }
+  ],
+  "playlistInfo": {
+    "total_duration": 0,
+    "total_items": 9,
+    "leadIn_duration": 0,
+    "leadIn_items": 0,
+    "mainPlaylist_duration": 0,
+    "mainPlaylist_items": 8,
+    "leadOut_duration": 0,
+    "leadOut_items": 1
+  }
+}

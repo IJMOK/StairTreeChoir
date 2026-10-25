@@ -3,7 +3,7 @@
   "version": 4,
   "repeat": 0,
   "loopCount": 0,
-  "desc": "Waiting loop: rainbow, blinking, glancing. No audio.",
+  "desc": "Between shows: the choir mucking about. No audio. Lights Out when stopped gracefully.",
   "random": 0,
   "globalPauseBetweenSequencesMS": 0,
   "empty": false,
@@ -13,18 +13,79 @@
       "type": "sequence",
       "enabled": 1,
       "playOnce": 0,
-      "sequenceName": "Waiting.fseq"
+      "sequenceName": "Waiting 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Waiting 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Waiting 3.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Waiting 4.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Waiting 5.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Waiting 6.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Waiting 7.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Waiting 8.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Waiting 9.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Waiting 10.fseq"
     }
   ],
-  "leadOut": [],
+  "leadOut": [
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Lights Out.fseq"
+    }
+  ],
   "playlistInfo": {
     "total_duration": 0,
-    "total_items": 1,
+    "total_items": 11,
     "leadIn_duration": 0,
     "leadIn_items": 0,
     "mainPlaylist_duration": 0,
-    "mainPlaylist_items": 1,
+    "mainPlaylist_items": 10,
     "leadOut_duration": 0,
-    "leadOut_items": 0
+    "leadOut_items": 1
   }
 }

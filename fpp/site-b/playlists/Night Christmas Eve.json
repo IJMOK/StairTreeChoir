@@ -1,0 +1,49 @@
+{
+  "name": "Night Christmas Eve",
+  "version": 4,
+  "repeat": 0,
+  "loopCount": 0,
+  "desc": "Christmas Eve after the Goodnight: all asleep for Santa. No audio. Fades out when stopped gracefully.",
+  "random": 0,
+  "globalPauseBetweenSequencesMS": 0,
+  "empty": false,
+  "leadIn": [],
+  "mainPlaylist": [
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Night Christmas Eve 1.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Night Christmas Eve 2.fseq"
+    },
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Night Christmas Eve 3.fseq"
+    }
+  ],
+  "leadOut": [
+    {
+      "type": "sequence",
+      "enabled": 1,
+      "playOnce": 0,
+      "sequenceName": "Lights Out Asleep.fseq"
+    }
+  ],
+  "playlistInfo": {
+    "total_duration": 0,
+    "total_items": 4,
+    "leadIn_duration": 0,
+    "leadIn_items": 0,
+    "mainPlaylist_duration": 0,
+    "mainPlaylist_items": 3,
+    "leadOut_duration": 0,
+    "leadOut_items": 1
+  }
+}

@@ -4,6 +4,7 @@ import re
 import pytest
 
 from tools import gen_site_config as sc
+from tools import loops
 from tools import wled_apply
 from tools.gen_site_wiring import load_sites
 
@@ -66,7 +67,7 @@ def test_playlists_reference_only_known_sequences():
         used = sc.sequences_used(pl)
         assert used, name
         assert set(used) <= known, (name, set(used) - known)
-        assert pl["playlistInfo"]["total_items"] == len(pl["mainPlaylist"])
+        assert pl["playlistInfo"]["total_items"] == len(sc.entries(pl))
     assert "Frosty the Snowman" in sc.sequences_used(pls["Show B"])
 
 
@@ -272,10 +273,72 @@ def test_generated_files_are_current_and_secret_free(tmp_path):
 def test_playlist_media_are_the_arranged_audio_files():
     """Every song/skit in a playlist plays its arrangement's real audio file (data/songs/*.json)."""
     media = sc.arranged_media()
-    missing = sorted({s for pl in sc.playlists().values() for s in sc.sequences_used(pl)} - set(media) - {sc.WAITING, sc.WAITING_ASLEEP})
+    missing = sorted({s for pl in sc.playlists().values() for s in sc.sequences_used(pl)} - set(media) - loops.all_sequences())
     for pl in sc.playlists().values():
         for e in pl["mainPlaylist"]:
             seq = e.get("sequenceName", "").removesuffix(".fseq")
             if "mediaName" in e and seq in media:
                 assert e["mediaName"] == media[seq]
     assert not missing, f"not arranged yet: {missing}"
+
+
+NORMAL_NIGHTS = [(EARLY_DEC, sc.DOW_SUN_TO_FRI), (VIL_WEEK, sc.DOW_SUN_TO_FRI), (XMAS_DAY, sc.DOW_SUN_TO_FRI),
+                 (DECEMBER, sc.DOW_SATURDAY), (("2026-12-27", "2026-12-30"), 7), ((sc.VILLAGE_NIGHT, sc.VILLAGE_NIGHT), 7),
+                 ((sc.XMAS_EVE, sc.XMAS_EVE), 7)]
+
+
+def test_night_loop_follows_every_goodnight_until_the_backstop():
+    pls = sc.playlists()
+    for dates, day in NORMAL_NIGHTS:
+        plan = _on(dates, day)
+        gn = [e for e in plan if e["cls"] == "goodnight"]
+        night = [e for e in plan if e["cls"] == "night"]
+        assert len(gn) == 1 and len(night) == 1, dates
+        n = night[0]
+        assert n["playlist"] == (sc.NIGHT_XMAS_EVE if dates[0] == sc.XMAS_EVE else sc.NIGHT)
+        assert n["start"] == gn[0]["start"] == 21 * 60                      # the Goodnight outranks it and goes first
+        assert sc._hms(n["end"], last_second=True) == "23:29:59"           # backstop: lights out by 23:30
+        assert n["stop"] == sc.STOP_GRACEFUL and n["repeat"] == 1          # graceful: Lights Out plays
+        w = [e for e in plan if e["cls"] == "waiting"]
+        assert w[0]["end"] <= n["start"]
+    assert sc.CLASS_RANK["goodnight"] < sc.CLASS_RANK["night"]
+    assert sorted(sc.CLASS_RANK, key=sc.CLASS_RANK.get)[-2:] == ["night", "waiting"]   # lowest priority but one
+    for name, lead in ((sc.NIGHT, "Lights Out"), (sc.NIGHT_XMAS_EVE, "Lights Out Asleep")):
+        pl = pls[name]
+        assert sc.sequences_used(pl)[-1] == lead and len(pl["leadOut"]) == 1
+        assert [e["sequenceName"] for e in pl["mainPlaylist"]] == [f"{s}.fseq" for s in loops.loop_sequences(name)]
+        assert all(e["type"] == "sequence" for e in sc.entries(pl))          # silent
+
+
+def test_no_night_loop_after_the_seasons_last_goodnight():
+    plan = _on((sc.NYD, sc.NYD))
+    gn = [e for e in plan if e["cls"] == "goodnight"][0]
+    night = [e for e in plan if e["cls"] == "night"]
+    assert all(e["end"] <= gn["start"] for e in night)                      # nothing after "Goodnight Season"
+    # the one on 1 January is New Year's Eve's, after the countdown, and stops at 00:30
+    assert [(e["start"], sc._hms(e["end"], last_second=True), e["stop"]) for e in night] == [(0, "00:29:59", sc.STOP_GRACEFUL)]
+    assert not [e for e in _on((sc.NYE, sc.NYE)) if e["cls"] == "night"]   # the countdown runs past midnight instead
+
+
+def test_loop_playlists_end_with_their_lead_out():
+    pls = sc.playlists()
+    for name in (sc.WAITING, sc.WAITING_ASLEEP, sc.NIGHT, sc.NIGHT_XMAS_EVE, sc.MORNING):
+        pl = pls[name]
+        assert pl["leadOut"] and pl["playlistInfo"]["leadOut_items"] == 1
+        assert len({e["sequenceName"] for e in pl["mainPlaylist"]}) >= 3      # short pieces, not one long one
+        assert set(sc.sequences_used(pl)) <= sc.known_sequences()
+    for e in sc.schedule_plan():
+        if e["cls"] == "waiting":
+            assert e["stop"] == sc.STOP_HARD          # a show pre-empts it at once (a hard stop skips Lights Out)
+
+
+def test_morning_ends_by_itself_after_about_three_hours():
+    pl = sc.playlists()[sc.MORNING]
+    assert sc.MORNING not in {e["playlist"] for e in sc.schedule_plan()}   # Home Assistant starts it
+    assert pl["repeat"] == 0 and pl["loopCount"] == 1                      # one pass, however it's started
+    one = loops.loop_sequences(sc.MORNING)
+    names = [e["sequenceName"].removesuffix(".fseq") for e in pl["mainPlaylist"]]
+    assert names == one * (len(names) // len(one))
+    seconds = len(names) * loops.MORNING_S
+    assert loops.MORNING_HOURS * 3600 <= seconds < loops.MORNING_HOURS * 3600 + len(one) * loops.MORNING_S
+    assert sc.sequences_used(pl)[-1] == loops.MORNING_OFF
