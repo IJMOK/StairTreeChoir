@@ -41,10 +41,14 @@ Tree controller: DIY boards (Rob, 21 Oct 2026). See electronics/README.md.
 
 Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 
-**Already covered** (bought or in hand): ESP32 boards and antennas (10), 74AHCT125s, Mini560s (10: 6 trees + the Pi 3 + 3 spare), prototype boards (10), the controller bits (female header strip, DIP-14 sockets, 2-way 5.08mm terminals, 10kΩ, 0.1µF), the PAM8610, a USB sound card, PG9 and PG7 glands (20 each; Site A needs 6 of each), the Pi 3 player with its microSD, the Cudy WR3000, the RCD outdoor socket, a mains lead with a 13A plug, PETG, hot glue, heatshrink, lid cord, and 18mm sheet for the CNC fixture plate.
+**Already covered** (bought or in hand): ESP32 boards and antennas (10), 74AHCT125s, Mini560s (10: 6 trees + the Pi 3 + 3 spare), prototype boards (10), the PAM8610, a USB sound card, PG9 and PG7 glands (20 each; Site A needs 6 of each), the Pi 3 player with its microSD, the Cudy WR3000, the RCD outdoor socket, a mains lead with a 13A plug, PETG, hot glue, heatshrink, lid cord, and 18mm sheet for the CNC fixture plate.
 
 | Qty | Item | Notes | Approx. |
 |---|---|---|---|
+| 7 | 1×40 2.54mm female header strip | One per board: cut two 1×19 for the ESP32. 6 boards + 1 spare | £3 |
+| 7 | DIP-14 socket | For the 74AHCT125 | £2 |
+| 14 | 2-way 5.08mm PCB screw terminal | JP (12V in) and JD (data out), 2 per board | £3 |
+| 7 + 7 | 10kΩ resistor, 0.1µF capacitor | R2 data pull-down; level-shifter decoupling. Rob has the 33Ω and 100µF | £2 |
 | 1 | Mean Well LRS-200-12 (12V 17A, enclosed, fanless, 215 × 115 × 30mm) | Site A's PSU: 15.1A with the trees at WLED's 2A cap, the player and the router (89%). No spare for December (Rob, 26 Oct 2026); Site B's LRS-150-12 can stand in later. RS 106-5859, £30.56 ex VAT | £37 |
 | 1 | DRiBOX Large (internal 330 × 230 × 140mm at the top, narrower at the floor; IP55) | The site box. Amazon (Festive Lights), £19.99 | £20 |
 | 1 | 10-way blade fuse box with a negative bus (marine type, screw or stud input) | Replaces the DIN fuse holders (Rob, 26 Oct 2026): 6 tree runs, the player, the router + 2 spare. Its negative bus is the 0V common, so the site box needs no Wagos | £8 |
@@ -55,7 +59,7 @@ Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 | 1 pair | Outdoor 8Ω speakers: PD BGO40 4" pair, IP56 | Stereo off the PAM8610 (Rob, 26 Oct 2026). ElectroMarket, £53.99. Speaker runs on ordinary speaker wire or the same flex | £54 |
 | 6 | Small TVS diodes (optional) | Data line protection; skip for December | – |
 
-Site A total: about **£175**, less whatever flex Rob already has. The pixel disks (552 + spares) are printed from `fixtures/pixel-disk.scad`; print the bore test strip first.
+Site A total: about **£185**, less whatever flex Rob already has. The pixel disks (552 + spares) are printed from `fixtures/pixel-disk.scad`; print the bore test strip first.
 
 ### Later: sites B to D, trees 7 to 14 (or 15)
 
