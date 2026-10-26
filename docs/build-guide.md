@@ -151,9 +151,9 @@ The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals
 3. Subnet: 192.168.8.x, with the router at 192.168.8.1. OpenWrt starts at 192.168.1.1, so change the LAN address at first set-up.
 4. Fixed addresses: tree NN is `stairtree-NN` at `192.168.8.(100+NN)`, the same at every site. Tree 7 is `stairtree-07` at 192.168.8.107. Reserve each IP in the router as well as setting it in WLED.
 5. Each router keeps two configs. "Show" is the setup above. "Home" makes it an 802.11s mesh node of Rob's home OpenWrt network for the rest of the year (5 GHz backhaul, home SSID on 2.4 GHz). Save both as `sysupgrade -b` backups outside git, because they hold the Wi-Fi passwords. Restore "show" before each season.
-6. **TBC (Rob):** whether the router goes in the site box or beside it under cover. The WR3000 is an indoor router and bigger than a travel router: check it fits the DRiBOX beside the PSU and fuse box; plastic doesn't block Wi-Fi. Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
-7. Power the router from the site PSU through its own 2A fuse (Rob, 26 Oct 2026). The WR3000 takes 12V 1A (the WR3000H 1.5A): check the label and the barrel's polarity on the real one. Site A is then 15.1A of 17A with every tree at its cap.
-8. Connect the Pi to the router by Ethernet.
+6. Not in the site box: inside the DRiBOX the router's 175mm antennas would lie flat over the PSU at ground level. Put it up high with its antennas upright (Site A: indoors at the front window, about 5ft from the trees). Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
+7. Site A: the router stands indoors at the front window, about 5ft from the trees, with its antennas upright, on its own mains adapter. Other sites: in a small covered box mounted high, on the site PSU through its own 2A fuse (the WR3000 takes 12V 1A, the WR3000H 1.5A; check the label and the barrel's polarity). Set `"router"` in `data/sites.json` to match.
+8. Connect the Pi to the router by Ethernet: at Site A, outdoor Cat6 from the site box (through its lid seal) to the window.
 
 ## 11. Provisioning
 

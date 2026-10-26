@@ -20,6 +20,8 @@ def test_one_psu_per_site_within_its_margin():
 
 def test_psu_picks_the_smallest_that_fits():
     assert sw.psu_for(6 * sw.TREE_A + sw.PLAYER_A + sw.ROUTER_A)[0] == "LRS-200-12"
+    a = sw.plan({"id": "a", "router": "indoors", "trees": [{"slot": 1, "tree": 1, "run_m": 5}]})
+    assert not a["router_on_psu"] and a["psu"]["amps"] == pytest.approx(sw.TREE_A + sw.PLAYER_A)
     assert sw.psu_for(2 * sw.TREE_A + sw.PLAYER_A)[0] == "LRS-100-12"
     with pytest.raises(ValueError):
         sw.psu_for(20)

@@ -29,7 +29,7 @@ TREE_FULL_A = PIXELS * PIXEL_W / VOLTS   # 2.3A, every pixel full white
 TREE_LIMIT_A = 2.0                  # WLED brightness limiter, per tree (pixels only)
 TREE_A = TREE_LIMIT_A + 0.1         # + the ESP32 and its buck
 PLAYER_A = 1.5                      # Pi + USB sound card + PAM8610 at show volume, at 12V
-ROUTER_A = 1.0                      # Cudy WR3000 (12V 1A adapter), on the site PSU (Rob, 26 Oct 2026)
+ROUTER_A = 1.0                      # Cudy WR3000 (12V 1A adapter), on the site PSU unless the site's "router" is "indoors"
 PSUS = [("LRS-100-12", 8.5), ("LRS-150-12", 12.5), ("LRS-200-12", 17.0)]   # Mean Well, enclosed, fanless
 PSU_MAX_LOAD = 0.9                  # the smallest PSU that carries the site at no more than 90% (all white)
 FUSE_A = 3                          # every tree: 2.3A even unlimited; under the bayonet's ~4A (Rob, 26 Oct 2026)
@@ -84,9 +84,11 @@ def plan(site: dict) -> dict:
         mm2 = flex_for(t["run_m"])
         d = drop(t["run_m"], mm2)
         runs.append({**t, "ip": ip(t["tree"]), "mm2": mm2, "drop": d, "v_tree": VOLTS - d})
-    amps = len(runs) * TREE_A + PLAYER_A + ROUTER_A
+    router_on_psu = site.get("router", "psu") != "indoors"
+    amps = len(runs) * TREE_A + PLAYER_A + (ROUTER_A if router_on_psu else 0)
     name, rating = psu_for(amps)
-    return {"site": site, "runs": runs, "psu": {"name": name, "rating": rating, "amps": amps}}
+    return {"site": site, "runs": runs, "router_on_psu": router_on_psu,
+            "psu": {"name": name, "rating": rating, "amps": amps}}
 
 
 def totals(plans: list[dict]) -> dict:
@@ -133,7 +135,9 @@ def write_md(plans: list[dict], confirmed: bool, path: Path = MD_FILE) -> None:
         out += [f"## {s['name']} ({len(p['runs'])} trees, player {s['player']})", "",
                 f"![{s['name']} wiring]({s['id']}.svg)", "",
                 f"PSU: Mean Well {p['psu']['name']}, {p['psu']['amps']:.1f}A of {p['psu']['rating']:g}A "
-                f"({p['psu']['amps'] / p['psu']['rating']:.0%}).", "",
+                f"({p['psu']['amps'] / p['psu']['rating']:.0%}). "
+                + (f"The router is on the PSU ({ROUTER_FUSE_A}A fuse)." if p["router_on_psu"]
+                   else "The router is indoors on its own adapter, cabled to the Pi by Ethernet."), "",
                 "| Slot | Tree | IP | Fuse | Run | Flex | Drop | At the tree |",
                 "|---|---|---|---|---|---|---|---|"]
         for r in p["runs"]:
@@ -144,7 +148,7 @@ def write_md(plans: list[dict], confirmed: bool, path: Path = MD_FILE) -> None:
             *[f"- {n} × Mean Well {name}" for name, n in t["psus"].items() if n],
             f"- 1 spare Mean Well {PSUS[-1][0]} later: it covers any site",
             f"- {len(plans)} × blade fuse boxes with a negative bus (10-way); {t['fuses'] + len(plans)} × 3A "
-            f"and {len(plans)} × {ROUTER_FUSE_A}A blade fuses (plus spares)"]
+            f"and {sum(p['router_on_psu'] for p in plans)} × {ROUTER_FUSE_A}A blade fuses (plus spares)"]
     out += [f"- {m}m of 2-core {fmt_mm2(mm2)} outdoor flex (runs + 10%)" for mm2, m in t["flex"].items()]
     out.append(f"- {t['fuses']} × PY07 Z108 2-pin bayonet connector sets, one per run (plus spares): "
                "socket on the run, pins on the tree's pigtail, red to +")

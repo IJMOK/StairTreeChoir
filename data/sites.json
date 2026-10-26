@@ -1,11 +1,12 @@
 {
-  "_comment": "Hand-edited INPUT: the sites, which physical tree (1-14) stands in which sequence slot (1-6), and each tree's 12V run from the site box in metres. DEFAULTS until Rob confirms (23 Oct 2026): 6/4/2/2 trees, every run 5m. Slots must start at 1 and run without gaps; tree IDs are used once across all sites.",
+  "_comment": "Hand-edited INPUT: the sites, which physical tree (1-14) stands in which sequence slot (1-6), and each tree's 12V run from the site box in metres. \"router\": \"indoors\" means the site router is on its own adapter (not the site PSU); default is on the site PSU. DEFAULTS until Rob confirms (23 Oct 2026): 6/4/2/2 trees, every run 5m. Slots must start at 1 and run without gaps; tree IDs are used once across all sites.",
   "confirmed": false,
   "sites": [
     {
       "id": "site-a",
       "name": "Site A",
       "player": "Pi 3",
+      "router": "indoors",
       "trees": [
         {"slot": 1, "tree": 1, "run_m": 5},
         {"slot": 2, "tree": 2, "run_m": 5},
