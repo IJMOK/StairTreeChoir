@@ -84,10 +84,10 @@ Tree controller    ESP32 running WLED, one per tree (14). Decided by Rob, 21 Oct
 ESP32 data pin    GPIO16 (not a strapping pin; proven in the M0 prototype with WLED 16.0.1). GPIO 5/18/19/23 kept free for an optional SD breakout (ESPixelStick fallback).
 Level shifter    74AHCT125N (DIP-14, in a socket), one channel used per tree, 33Ω series resistor on the data line, 10k pull-down on its input, 100µF across 5V, 0.1µF at the chip.
 Tree logic power    Mini560 fixed 5V buck (12V in) for the ESP32 and level shifter.
-Pixel power    12V to each tree on its own run from the site box, fused 5A at the site box (decided 23 Oct 2026).
-Mains PSU    Mean Well LPV-100-12 (genuine, UK distributor, IP67, 12V 8.5A), one per pair of trees, all beside the site box; PSU 1 also runs the player (decided 23 Oct 2026). 7 + 1 spare. electronics/site-wiring.md (generated from data/sites.json) has every run, fuse and load. Mains never enters a printed enclosure; RCD-protected outdoor socket. 0.75mm² flex up to ~7m, 1.5mm² beyond.
-12V leads    3-core 0.75mm² outdoor flex (outer diameter < 8mm) through PG7/PG9 glands; xConnect pigtails for the pixel string.
-Show player    One Raspberry Pi per site running FPP (4 sites): Rob's Pi 3 and Pi 5, plus 2 to buy (Pi 3 A+ is fine). Outdoors in a site box (decided 23 Oct 2026) with the amp, a 5V buck, the tree fuse block and optionally the router.
+Pixel power    12V to each tree on its own run from the site box, fused 5A at the site box (decided 23 Oct 2026). Each tree's WLED brightness limiter holds its pixels to 2A (gen_site_config.py; 2.3A would be full white), so a tree draws 2.1A (26 Oct 2026).
+Mains PSU    One enclosed, fanless Mean Well LRS per site, inside the site box (Rob, 26 Oct 2026: no outdoor PSUs, replacing the LPV-100-12 per pair): the smallest that carries the site at ≤ 85% (A LRS-200-12, B LRS-150-12, C/D LRS-100-12) + 1 spare LRS-200-12. It also runs the player. electronics/site-wiring.md (generated from data/sites.json) has every run, fuse and load. Mains comes in on a plug lead (3A fuse) to the PSU's terminals, which sit under a printed cover; it never enters a printed enclosure and is never on an open terminal; RCD-protected outdoor socket. 0.75mm² flex up to ~7m, 1.5mm² beyond.
+12V leads    2-core 0.75mm² outdoor flex (outer diameter 3–8mm). Each run ends in a PY07 Z108 2-pin bayonet connector (IP67 mated, Rob 26 Oct 2026): socket on the run (powered side), pins on a short pigtail out of the tree box's PG9 gland; red to +. The site end goes straight to its DIN fuse. xConnect pigtails for the pixel string.
+Show player    One Raspberry Pi per site running FPP (4 sites): Rob's Pi 3 and Pi 5, plus 2 to buy (Pi 3 A+ is fine). Outdoors in the site box (decided 23 Oct 2026) with the PSU, the amp, a 5V buck, the DIN-rail fuses and optionally the router.
 Site network    One Cudy WR3000 per site on vanilla OpenWrt (~£30–40, decided 24 Oct 2026 over the GL.iNet Mango). It is dual-band with external antennas and doubles as a home mesh node off-season. Same SSID, password and subnet everywhere; the show uses 2.4 GHz.
 Audio    USB sound card → PAM8610 2×15W (12V) → speaker, one set per site.
 
@@ -139,7 +139,7 @@ Add a short doc: import the model, copy it to 6 trees (slots), set start channel
 
 M3. Enclosures (OpenSCAD, parametric)
 Tree controller box (14): first version done 23 Oct 2026 (enclosure/tree-box.scad, sits on the control boot's tower). PETG, lid sealed with 2.7mm rubber cord in a groove (enclosure/seal.scad), M3 heat-set inserts, drip hole, PG9/PG7 in the floor, RP-SMA in the roof, standoffs for the 5×7 board. Board hole positions and ESP32 height still to be measured.
-Site box: first version done 23 Oct 2026 (enclosure/site-box.scad): upright wall box, lid on the front, glands in the floor per PSU/tree/speaker, Pi standoffs and a zip-tie anchor grid for the rest; per-PSU inline 5A fuses (PSUs never paralleled). Mains stays outside.
+Site box: a bought DRiBOX Large (Rob, 26 Oct 2026; internal 330 × 230 × 140mm at the top, tapering with ribs, so plan on ~290 × 190 at the floor; IP55; cables pass through its lid seals, no glands), replacing the printed box of 23 Oct (enclosure/site-box.scad, now superseded). Inside: a printed plate carrying the LRS PSU with a cover over its mains terminals, Rob's DIN rail with the 10×38 fuse holders and Wago carriers, the Pi, buck, amp and sound card, and the router if it fits. Plate still to design; measure the box when it arrives.
 Every dimension a named parameter at the top of the file. Export STLs.
 
 M3b. Tree boots (rough-in done)
@@ -178,11 +178,11 @@ You can't test the hardware. Say plainly what Rob needs to verify on the bench, 
 Tape-check the photo measurements: narrow end ~92mm, wide end ~382mm, length ~894mm.
 Tree controller board: DIY ESP32-32U on stripboard, or a ready-made WLED board? (Decide after M0.)
 WLED streaming (DDP) or ESPixelStick FPP Remote? (Decide after M0.)
-Site router: inside the site box or beside it, and 12V from PSU 1 or its own adapter? (Cudy WR3000, decided 24 Oct 2026.)
+Site router: inside the site box or beside it, and 12V from the site PSU or its own adapter? (Cudy WR3000, decided 24 Oct 2026.)
 Boots: test-fit the first printed pair and pegs (peg fit, tread thickness in the slot, pilot hole diameter and screw size, xConnect plug through the 16mm shelf hole, 50mm clearance enough?).
 The clip barb flare diameter on a real pixel. It sets Params.clearance_dia (15mm assumed).
 The disk bore, from the test strip (11.8–12.2; Params.hole_dia, 12.0 assumed), and that the flange doesn't crack the disk.
-Measured sizes: chosen ESP32 board, Mini560, PAM8610, PG7/PG9 glands, outer diameter of the outdoor flex.
+Measured sizes: chosen ESP32 board, Mini560, PAM8610, PG7/PG9 glands, outer diameter of the outdoor flex, the DRiBOX's inside at the floor, the LRS PSU.
 The pixel colour order (RGB, GRB and so on), from the first-light test.
 Which song to sequence first.
 

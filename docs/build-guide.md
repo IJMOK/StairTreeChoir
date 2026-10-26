@@ -131,16 +131,18 @@ Run checklist section C (including the soak test of at least one box).
 
 Each site's PSUs, fuses and runs are in [electronics/site-wiring.md](../electronics/site-wiring.md), generated from `data/sites.json`. **TBC (Rob):** the tree counts per site and every run length are defaults, not confirmed. Edit `data/sites.json` and run `make all` when they are. Current defaults: Site A 6 trees (Pi 5), Site B 4 trees (Pi 3), Sites C and D 2 trees each (Pi still to buy).
 
-**Mains.** Each PSU has its own mains lead to an RCD-protected outdoor socket (or a weatherproof multi-way box on one). Mains never enters a printed box. The repo does not specify the socket, the lead or who inspects the mains side. **TBC (Rob):** have the mains side checked by a competent electrician.
+**Mains.** One plug lead (3-core 1.0mm² H05RN-F, 13A plug with a 3A fuse) per site, from an RCD-protected outdoor socket into the site box, clamped to the plate and wired to the PSU's input terminals under their printed cover. Mains goes nowhere else in the box. The repo does not specify the socket or who inspects the mains side. **TBC (Rob):** have the mains side checked by a competent electrician.
 
-1. Print the box for the site's tree count (`trees=6`, `4` or `2`). Fit 8 M3 heat-set inserts for the lid.
-2. Fit PG9 glands in the floor: one per PSU input and one per tree run. Fit a PG7 for the speaker (two rows for a 6-tree site). Leave the drip hole open.
-3. Lay the parts on the back wall before tying anything down: Pi on its standoffs (58 × 49mm M2.5 pattern, top left), router, 12V to 5V buck, PAM8610, USB sound card, Wagos and fuse holders on the zip-tie anchors. **TBC (Rob):** these sizes are not confirmed, nor that they fit the 64mm depth.
-4. Wire each PSU's 12V input to **its own** pair of Wagos (+ and −), and from there through its own 5A blade fuses to its two tree runs. **Never join two PSUs' +12V.** The negatives may be joined.
-5. PSU 1 also feeds the player: a 3A fuse, then the buck to the Pi (a Pi 5 needs a 5V 5A buck, a Pi 3 is happy with 2.5A). The PAM8610 runs straight off 12V.
-6. Fuse each run at the site box, where it starts, so the fuse protects the flex. Use 3-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, and 1.5mm² beyond.
-7. Run each flex to its tree and through the back arch of the control boot to the PG9 gland. Label both ends with the tree number.
-8. Stand the PSUs outside, beside the site box. Screw the box to a post or fence through its lugs (5 × 40 exterior screws).
+The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals in its lid, so it needs no glands. Its inside tapers towards the floor, with ribs: measure it before printing the plate. **The plate is still to design** (CLAUDE.md §5); the steps below are the plan.
+
+1. Fit the PSU (Site A: LRS-200-12) at the top of the plate with air round it, then the terminal cover over its mains side.
+2. Fit Rob's DIN rail below it: one 10×38 fuse holder per tree run (5A) and one for the player (3A), and Wago 221 carriers for the 12V and 0V commons.
+3. Fit the Pi, the 12V to 5V buck (a Pi 5 needs 5V 5A, a Pi 3 is happy with 2.5A), the PAM8610 (straight off 12V after the player fuse) and the USB sound card.
+4. Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the socket half of a PY07 Z108 2-pin bayonet connector on the tree end. Red to +, the same pin every time. Label both ends with the tree number.
+5. Make up each tree's pigtail: 2-core flex out of the tree box's PG9 gland, with the pin half of the connector. Solder and heatshrink inside the connector.
+6. Wire each run to its fuse at the site box, lay the cables through the DRiBOX lid seals with the cable guides, and clamp the lid.
+7. Plug each run into its tree. Keep the joints off the ground where water pools (IP67 only when mated).
+8. Stand the box upright with the seals facing down, or screw it to a post or fence.
 
 ## 10. Network
 
@@ -149,8 +151,8 @@ Each site's PSUs, fuses and runs are in [electronics/site-wiring.md](../electron
 3. Subnet: 192.168.8.x, with the router at 192.168.8.1. OpenWrt starts at 192.168.1.1, so change the LAN address at first set-up.
 4. Fixed addresses: tree NN is `stairtree-NN` at `192.168.8.(100+NN)`, the same at every site. Tree 7 is `stairtree-07` at 192.168.8.107. Reserve each IP in the router as well as setting it in WLED.
 5. Each router keeps two configs. "Show" is the setup above. "Home" makes it an 802.11s mesh node of Rob's home OpenWrt network for the rest of the year (5 GHz backhaul, home SSID on 2.4 GHz). Save both as `sysupgrade -b` backups outside git, because they hold the Wi-Fi passwords. Restore "show" before each season.
-6. **TBC (Rob):** whether the router goes in the site box or beside it under cover. The WR3000 is an indoor router and bigger than a travel router: check it fits the 64mm depth with the antennas folded, since PETG doesn't block Wi-Fi. Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
-7. **TBC (Rob):** how to power the router. The WR3000 is believed to take 12V 1A; check the label on the real one. On PSU 1 with its own 1A fuse, that PSU's load goes from 6.1A to about 7.1A of 8.5A. If so, add it to `PLAYER_A` in `tools/gen_site_wiring.py` and regenerate. Otherwise use its own mains adapter, plugged in outside the box.
+6. **TBC (Rob):** whether the router goes in the site box or beside it under cover. The WR3000 is an indoor router and bigger than a travel router: check it fits the DRiBOX beside the PSU and DIN rail; plastic doesn't block Wi-Fi. Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
+7. **TBC (Rob):** how to power the router. The WR3000 is believed to take 12V 1A; check the label on the real one. On the site PSU with its own 1A fuse, Site A goes from 14.1A to about 15.1A of 17A (89%, over the 85% rule): either drop the trees' WLED cap to 1.9A (`TREE_LIMIT_A` in `tools/gen_site_wiring.py`) or use the router's own mains adapter, plugged in outside the box.
 8. Connect the Pi to the router by Ethernet.
 
 ## 11. Provisioning

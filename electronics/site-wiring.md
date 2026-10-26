@@ -65,4 +65,5 @@ PSU: Mean Well LRS-100-12, 5.7A of 8.5A (67%).
 - 1 × Mean Well LRS-200-12
 - 1 spare Mean Well LRS-200-12: it covers any site
 - 18 × DIN-rail 10×38 fuse holders and 14 × 5A + 4 × 3A 10×38 fuses (plus spares)
-- 77m of 3-core 0.75mm² outdoor flex (runs + 10%)
+- 77m of 2-core 0.75mm² outdoor flex (runs + 10%)
+- 14 × PY07 Z108 2-pin bayonet connector sets, one per run (plus spares): socket on the run, pins on the tree's pigtail, red to +

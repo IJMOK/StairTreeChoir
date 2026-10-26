@@ -38,7 +38,7 @@ Why each part is there:
 
 ## Inside the box
 
-- 12V comes in on 3-core flex through the PG9 gland in the box floor. It is already fused (5A) at the site box, where the run starts, so the fuse protects the flex as well as the tree. There is no fuse in the tree box.
+- 12V comes in on a short 2-core pigtail through the PG9 gland in the box floor, ending in the pin half of a PY07 Z108 2-pin bayonet connector; the run from the site box carries the socket. It is already fused (5A) at the site box, where the run starts, so the fuse protects the flex as well as the tree. There is no fuse in the tree box.
 - Two Wago 221-413 lever connectors split the supply: one joins +12V to the pixel string and to JP 12V, the other joins GND the same way. The pixel current (about 2.3A at full white) stays on 18AWG wire and the Wagos, never on the prototype board.
 - The pixel lead leaves through the PG7 gland in the box floor, as a short round tail ending in an xConnect plug down in the boot tower, where the tree's own pigtail comes up from the shelf hole. Its data wire goes to JD DATA. JD GND is spare: fit the optional TVS diode across JD (DATA to GND) if you use one.
 - The Mini560 sits off the board on short leads (double-sided foam tape to the box floor), wired to the four pads in column A.
@@ -70,19 +70,21 @@ Full-white current per tree and the soak test belong in docs/test-checklist.md (
 
 ## Site wiring
 
-Decided 23 Oct 2026: PSUs beside an outdoor site box, star-wired from it. **Per-site tables and diagrams: [site-wiring.md](site-wiring.md)** (generated from data/sites.json).
+Decided 26 Oct 2026 (Rob): one enclosed Mean Well LRS PSU per site, inside the site box (a DRiBOX Large), star-wired from it; no outdoor PSUs. **Per-site tables and diagrams: [site-wiring.md](site-wiring.md)** (generated from data/sites.json).
 
 ```
-Mains (RCD socket) ── Mean Well LPV-100-12 per pair of trees (IP67, outside any box, beside the site box)
-                         │ 12V
-                    Site box ─┬─ 5A fuse ── 3-core flex ──► Tree boot/box ── pixels   (one run per tree)
-                              ├─ 5A fuse ── 3-core flex ──► Tree boot/box ── pixels
-                              └─ 3A fuse ── 12V→5V buck ── Pi (FPP) ── USB sound card ── PAM8610 ── speaker
-                                            (PSU 1 only)       │ Ethernet
-                                                          Site router ·····Wi-Fi·····► every tree's ESP32 (DDP)
+Mains (RCD socket) ── plug lead (3A fuse) ──┐
+                    Site box (DRiBOX Large) │
+                      Mean Well LRS (A: LRS-200-12) ── 12V ─┬─ 5A fuse ── 2-core flex ──◄► Tree box ── pixels   (one run per tree)
+                                                            ├─ 5A fuse ── 2-core flex ──◄► Tree box ── pixels
+                                                            └─ 3A fuse ── 12V→5V buck ── Pi (FPP) ── USB sound card ── PAM8610 ── speaker
+                                                                                          │ Ethernet
+                                                                                     Site router ·····Wi-Fi·····► every tree's ESP32 (DDP)
+                                                                         ◄► = PY07 Z108 2-pin bayonet connector
 ```
 
-- One LPV-100-12 (12V 8.5A) per pair of trees: 4.6A at full white, 6.1A on the PSU that also runs the player. Same part at every site, so one spare covers all. Checked 23 Oct 2026: the LPV series stops at LPV-150-12 (10A), which can't take 4 trees plus the player (10.7A); a single 16A HLG-240H-12A for 6 trees costs more and sits at its limit.
-- Voltage drop: 2.3A over 5m of 0.75mm² flex (10m of conductor, ~0.27Ω) is about 0.55V, so a tree sees ~11.5V; fine for 12V pixels. The generator moves a run to 1.5mm² past about 7m.
-- The fuse sits where each run starts, so it protects the flex (a fuse at the tree end would not). 0.75mm² flex is good for ~6A; 5A fuses suit it.
-- Mains never enters a printed box. A Pi 5 in the site box needs a 5V 5A buck; a Pi 3 is happy with 2.5A.
+- One LRS per site, the smallest that carries it at no more than 85%: Site A LRS-200-12 (17A) at 14.1A, B LRS-150-12 at 9.9A, C and D LRS-100-12 at 5.7A. One spare LRS-200-12 covers any site. Enclosed and fanless; it sits at the top of the plate with air round it, and its mains terminals are under a printed cover.
+- Each tree's WLED brightness limiter (`ledma` 25, `maxpwr` 2120 incl. WLED's 120mA ESP allowance; tools/gen_site_config.py) holds its pixels to 2A, so a tree draws 2.1A whatever a sequence does (2.3A would be full white). Check it with a meter at the M0 bench test.
+- Voltage drop: 2.1A over 5m of 0.75mm² flex (10m of conductor, ~0.23Ω) is about 0.5V, so a tree sees ~11.5V; fine for 12V pixels. The generator moves a run to 1.5mm² past about 7m.
+- The fuse (10×38 on the DIN rail) sits where each run starts, so it protects the flex (a fuse at the tree end would not). 0.75mm² flex is good for ~6A; 5A fuses suit it.
+- Mains reaches only the PSU's covered terminals, on its own lead; never a printed box. A Pi 5 in the site box needs a 5V 5A buck; a Pi 3 is happy with 2.5A.

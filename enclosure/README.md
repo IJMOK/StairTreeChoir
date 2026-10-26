@@ -39,4 +39,6 @@ Outside 235 × 195mm plus the roof (prints 235 × 241mm with the lugs, inside th
 - **12V inside**: each PSU's input goes to its own Wago pair (+ and −) and from there through its own inline 5A blade fuses to its two tree runs. Never join two PSUs' +12V. PSU 1 also feeds the player through a 3A fuse (buck → Pi; PAM8610 straight off 12V). The negatives may be joined.
 - The Mean Well PSUs stand outside, beside the box (IP67); mains never enters it.
 
+**Superseded 26 Oct 2026 (Rob):** the site box is now a bought DRiBOX Large with the site's one LRS PSU inside it, on a printed plate still to design (CLAUDE.md §4). This printed box and its notes above are kept for reference only.
+
 **Unverified:** gland threads, M3 insert hole, and that the router, buck and amp fit the 64mm depth. A Pi 5 needs a 5V 5A buck.

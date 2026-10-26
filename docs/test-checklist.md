@@ -84,24 +84,25 @@ Rain and soak test of at least one box. **TBC (Rob):** the repo does not give a 
 Site ____  Trees ____  Player ____
 
 Mains and fuses:
-- [ ] Mains never enters a printed box
-- [ ] Each PSU has its own lead to an RCD-protected outdoor socket
+- [ ] Mains reaches only the PSU's input terminals, under their printed cover; never a printed box
+- [ ] The site's one mains lead goes to an RCD-protected outdoor socket, with a 3A plug fuse
 - [ ] RCD test button trips it: ____
-- [ ] PSU outputs with no load: ____ V, ____ V, ____ V (12V nominal)
-- [ ] No two PSUs' +12V are joined: meter between the +12V of each pair of PSUs, with the mains off
-- [ ] A 5A blade fuse sits at the site box on every tree run
-- [ ] A 3A fuse sits on the player feed (PSU 1)
+- [ ] PSU output with no load: ____ V (12V nominal)
+- [ ] A 5A 10×38 fuse sits on the DIN rail on every tree run
+- [ ] A 3A fuse sits on the player feed
+- [ ] Every run's bayonet connector: socket on the run, pins on the tree, red to + (meter it before plugging in)
 - [ ] The wiring matches this site's table in [site-wiring.md](../electronics/site-wiring.md)
 
-PSU loads, all trees at full white with the player running (the PSU is 8.5A):
+Site load, all trees at full white with the player running. WLED's limiter should hold each tree to about 2.1A; this checks it does:
 
-| PSU | Feeds | Expected | Measured |
+| Site | PSU | Expected | Measured |
 |---|---|---|---|
-| 1 | 2 trees plus the player | 6.1A | ____ A |
-| 2 | 2 trees (sites A and B) | 4.6A | ____ A |
-| 3 | 2 trees (site A only) | 4.6A | ____ A |
+| A (6 trees) | LRS-200-12, 17A | 14.1A | ____ A |
+| B (4 trees) | LRS-150-12, 12.5A | 9.9A | ____ A |
+| C, D (2 trees) | LRS-100-12, 8.5A | 5.7A | ____ A |
 
-- [ ] No PSU is over 8.5A, and none gets hot
+- [ ] One tree at full white draws no more than about 2.1A (the limiter works on DDP frames)
+- [ ] The PSU is within its rating, and the box isn't hot after 30 minutes with the lid shut
 
 Voltage at the far tree (all trees white):
 

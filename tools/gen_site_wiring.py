@@ -34,7 +34,7 @@ PSU_MAX_LOAD = 0.85                 # the smallest PSU that carries the site at 
 FUSE_A = 5
 PLAYER_FUSE_A = 3
 COPPER = 0.0175                     # ohm mm²/m, copper at ~25°C
-FLEX = (0.75, 1.5, 2.5)             # mm², 3-core outdoor flex
+FLEX = (0.75, 1.5, 2.5)             # mm², 2-core outdoor flex
 MAX_DROP = 0.8                      # volts lost on a run (out and back) before going up a size
 SPARE = 1.1                         # buy 10% more flex than the runs add up to
 
@@ -143,7 +143,9 @@ def write_md(plans: list[dict], confirmed: bool, path: Path = MD_FILE) -> None:
             f"- 1 spare Mean Well {PSUS[-1][0]}: it covers any site",
             f"- {t['fuses'] + len(plans)} × DIN-rail 10×38 fuse holders and {t['fuses']} × {FUSE_A}A + "
             f"{len(plans)} × {PLAYER_FUSE_A}A 10×38 fuses (plus spares)"]
-    out += [f"- {m}m of 3-core {fmt_mm2(mm2)} outdoor flex (runs + 10%)" for mm2, m in t["flex"].items()]
+    out += [f"- {m}m of 2-core {fmt_mm2(mm2)} outdoor flex (runs + 10%)" for mm2, m in t["flex"].items()]
+    out.append(f"- {t['fuses']} × PY07 Z108 2-pin bayonet connector sets, one per run (plus spares): "
+               "socket on the run, pins on the tree's pigtail, red to +")
     out.append("")
     path.write_text("\n".join(out), encoding="utf-8", newline="\n")
 
@@ -190,7 +192,7 @@ def write_svg(p: dict, path: Path) -> None:
         el.append(f'<rect x="{tree_x}" y="{y - 20}" width="160" height="40" fill="#e8f5e9" stroke="#2a7" rx="4"/>')
         el.append(f'<text x="{tree_x + 80}" y="{y - 3}" text-anchor="middle">tree {r["tree"]} · slot {r["slot"]}</text>')
         el.append(f'<text x="{tree_x + 80}" y="{y + 12}" text-anchor="middle" fill="#666">{r["ip"]}</text>')
-    # player: row 0, inside the box, on its own fuse from PSU 1
+    # player: row 0, inside the box, on its own fuse
     y = ty(0)
     el.append(f'<rect x="{box_x + 20}" y="{y - 9}" width="44" height="18" fill="#ffe" stroke="#333"/>')
     el.append(f'<text x="{box_x + 42}" y="{y + 4}" text-anchor="middle">{PLAYER_FUSE_A}A</text>')
