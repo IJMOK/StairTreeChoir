@@ -70,7 +70,7 @@ Full-white current per tree and the soak test belong in docs/test-checklist.md (
 
 ## Site wiring
 
-Decided 26 Oct 2026 (Rob): one enclosed Mean Well LRS PSU per site, inside the site box (a DRiBOX Large), star-wired from it; no outdoor PSUs. **Per-site tables and diagrams: [site-wiring.md](site-wiring.md)** (generated from data/sites.json).
+Decided 26 Oct 2026 (Rob): one enclosed Mean Well LRS PSU per site, inside the site box (a DRiBOX Large), star-wired from it; no outdoor PSUs. **Per-site tables and diagrams: [site-wiring.md](site-wiring.md)** (generated from data/sites.json). Drawings of how it all connects and where each part sits in the site box and tree box: [docs/wiring.html](../docs/wiring.html) (open it in a browser).
 
 ```
 Mains (RCD socket) ── plug lead (3A fuse) ──┐
