@@ -48,17 +48,18 @@ Already covered by what's bought: ESP32 boards and antennas (10 for 6 + spares),
 | 7 | 0.1µF capacitor | Level-shifter decoupling |
 | 20 | Wago 221-413 (3-way) | 2 per tree box (12) + the 12V and 0V commons in the site box (on DIN-rail carriers) + spare |
 | 2 | Wago 221 DIN-rail mounting carriers (221-500) | Site box |
-| 2 | Mean Well LRS-200-12 (12V 17A, enclosed, fanless) | Site A's PSU (14.1A with WLED's 2A cap per tree, 83%) + 1 spare that covers any site (Rob, 26 Oct 2026: no outdoor PSUs). Genuine, UK distributor; price TBC (~£20–25 ex VAT, not yet checked) |
+| 2 | Mean Well LRS-200-12 (12V 17A, enclosed, fanless, 215 × 115 × 30mm) | Site A's PSU (15.1A: trees at WLED's 2A cap, player and router; 89%) + 1 spare that covers any site (Rob, 26 Oct 2026: no outdoor PSUs). RS 106-5859, £30.56 ex VAT each (26 Oct 2026) |
 | 1 | DRiBOX Large (internal 330 × 230 × 140mm at the top, narrower at the floor; IP55) | The site box: PSU, DIN rail, Pi, amp, router on a printed plate. £19.99, Amazon (Festive Lights), 26 Oct 2026 |
 | 1 | Mains lead: 3-core 1.0mm² H05RN-F + 13A plug, 3A fuse | To the PSU's input terminals (under a printed cover), clamped on the plate; plugs into the RCD-protected outdoor socket |
-| 1 | 12V→5V 5A buck for the Pi 5 | In the site box after the player's 3A fuse (electronics/README.md). A Pi 3 would manage on 2.5A |
-| 7 | DIN-rail 10×38 fuse holders, + 6 × 5A and 1 × 3A 10×38 fuses (+ spares) | 6 tree runs and the player, on Rob's DIN rail |
-| 10 sets | PY07 Z108 2P bayonet waterproof connectors (IP67 mated, cable 3–8mm, solder) | One per tree run + spares. Socket on the run cable (powered side), pins on the tree's pigtail; red to +. **TBC:** rated current ≥ 5A on the listing |
-| ~35m | 2-core 0.75mm² outdoor flex (H05RN-F rubber if you can) | Site A: 6 runs at the default 5m (electronics/site-wiring.md) + the trees' pigtails; outer diameter 3–8mm for the connectors and glands |
-| 1 | Cudy WR3000 router (AX3000, vanilla OpenWrt), ~£30–40 | Check the hardware version is on the OpenWrt Table of Hardware before buying |
+| 1 | 12V→5V 5A buck with a USB-C lead, for the Pi 5 | After the player's 3A fuse. A plain buck can't do the Pi 5's USB-PD handshake: set `PSU_MAX_CURRENT=5000` in the Pi's EEPROM (`rpi-eeprom-config --edit`) so it trusts it. A Pi 3 would manage on 2.5A |
+| 10 | DIN-rail 10×38 fuse holders (generic RT18-32 is fine at 12V) | 6 tree runs, the player and the router, + 2 spare, on Rob's DIN rail |
+| 10 + 5 | 10×38 fuses: 3A (+ spares), 2A | 3A on every tree run and the player, 2A on the router (Rob, 26 Oct 2026) |
+| 10 sets | PY07 Z108 2P bayonet waterproof connectors (IP67 mated, cable 3–8mm, solder) | One per tree run + spares. Socket on the run cable (powered side), pins on the tree's pigtail; red to +. No Z108 rating found; the PY07 series is ~4A on its small contacts, so the runs are fused 3A |
+| 50m | 2-core 0.75mm² outdoor flex (H05RN-F rubber if you can) | Site A: 6 runs at the default 5m (electronics/site-wiring.md) + the trees' pigtails + the two speaker runs; outer diameter 3–8mm for the connectors and glands |
+| 1 | Cudy WR3000 router (AX3000, vanilla OpenWrt), ~£30–40 | 12V 1A (the WR3000H is 1.5A); runs off the site PSU on a 2A fuse, so keep or cut the adapter's barrel lead. Check the hardware version is on the OpenWrt Table of Hardware before buying |
 | 1 | High-endurance microSD | For the Pi 5. UK retailer, not AliExpress |
-| 1 | Speaker | |
-| 1 | RCD-protected outdoor socket or weatherproof multi-way box | The mains side; not designed in this repo. **TBC (Rob):** have it checked by a competent electrician |
+| 1 pair | Outdoor 8Ω speakers: PD BGO40 4" pair, IP56 | Stereo off the PAM8610, each on its own 2-core run (Rob, 26 Oct 2026). ElectroMarket, £53.99 (26 Oct 2026) |
+| – | RCD-protected outdoor socket | Rob has one where the site box goes (26 Oct 2026). **TBC (Rob):** have the mains side checked by a competent electrician |
 | – | Adhesive-lined heatshrink; PETG | Boots (12), tree boxes (6), the site box plate, pixel disks. Lid cord: Rob has it (tree boxes) |
 | 552 + spares | Printed pixel disks (PETG, fixtures/pixel-disk.scad) | 92 per tree × 6, glued into the front counterbores (Rob, 25 Oct 2026). Print the test strip first for the bore |
 | 1 pack | Hot-glue sticks (outdoor-rated if you can) | Pixel disks into the counterbores; CA or epoxy also work |
@@ -87,7 +88,7 @@ Already covered by what's bought: ESP32 boards and antennas (10 for 6 + spares),
 | 2 | Raspberry Pi 3 Model A+ (or any Pi) | Players for sites C and D; Rob's Pi 3 is Site B's. The Pi Hut, about £24 |
 | 3 | High-endurance microSD | One per player |
 | 3 | Cudy WR3000 router | One per site; out of season they become home mesh nodes |
-| 3 | Speakers | One per site |
+| 3 pairs | Outdoor 8Ω speakers | One stereo pair per site |
 | 8 | Small TVS diodes (optional) | |
 | 736 + spares | Printed pixel disks (PETG) | 92 per tree × 8 (trees 7–14) |
 

@@ -84,12 +84,12 @@ Tree controller    ESP32 running WLED, one per tree (14). Decided by Rob, 21 Oct
 ESP32 data pin    GPIO16 (not a strapping pin; proven in the M0 prototype with WLED 16.0.1). GPIO 5/18/19/23 kept free for an optional SD breakout (ESPixelStick fallback).
 Level shifter    74AHCT125N (DIP-14, in a socket), one channel used per tree, 33Ω series resistor on the data line, 10k pull-down on its input, 100µF across 5V, 0.1µF at the chip.
 Tree logic power    Mini560 fixed 5V buck (12V in) for the ESP32 and level shifter.
-Pixel power    12V to each tree on its own run from the site box, fused 5A at the site box (decided 23 Oct 2026). Each tree's WLED brightness limiter holds its pixels to 2A (gen_site_config.py; 2.3A would be full white), so a tree draws 2.1A (26 Oct 2026).
-Mains PSU    One enclosed, fanless Mean Well LRS per site, inside the site box (Rob, 26 Oct 2026: no outdoor PSUs, replacing the LPV-100-12 per pair): the smallest that carries the site at ≤ 85% (A LRS-200-12, B LRS-150-12, C/D LRS-100-12) + 1 spare LRS-200-12. It also runs the player. electronics/site-wiring.md (generated from data/sites.json) has every run, fuse and load. Mains comes in on a plug lead (3A fuse) to the PSU's terminals, which sit under a printed cover; it never enters a printed enclosure and is never on an open terminal; RCD-protected outdoor socket. 0.75mm² flex up to ~7m, 1.5mm² beyond.
+Pixel power    12V to each tree on its own run from the site box, fused 3A at the site box (5A decided 23 Oct 2026; 3A by Rob, 26 Oct 2026: a tree can't draw more than 2.3A, and it keeps under the bayonet connector's ~4A). Each tree's WLED brightness limiter holds its pixels to 2A (gen_site_config.py; 2.3A would be full white), so a tree draws 2.1A (26 Oct 2026).
+Mains PSU    One enclosed, fanless Mean Well LRS per site, inside the site box (Rob, 26 Oct 2026: no outdoor PSUs, replacing the LPV-100-12 per pair): the smallest that carries the site at ≤ 90% with every tree at its cap (A LRS-200-12 at 15.1A of 17A, B LRS-150-12, C/D LRS-100-12) + 1 spare LRS-200-12. It also runs the player (3A fuse) and the site router (2A fuse; Rob, 26 Oct 2026). electronics/site-wiring.md (generated from data/sites.json) has every run, fuse and load. Mains comes in on a plug lead (3A fuse) to the PSU's terminals, which sit under a printed cover; it never enters a printed enclosure and is never on an open terminal; RCD-protected outdoor socket. 0.75mm² flex up to ~7m, 1.5mm² beyond.
 12V leads    2-core 0.75mm² outdoor flex (outer diameter 3–8mm). Each run ends in a PY07 Z108 2-pin bayonet connector (IP67 mated, Rob 26 Oct 2026): socket on the run (powered side), pins on a short pigtail out of the tree box's PG9 gland; red to +. The site end goes straight to its DIN fuse. xConnect pigtails for the pixel string.
 Show player    One Raspberry Pi per site running FPP (4 sites): Rob's Pi 3 and Pi 5, plus 2 to buy (Pi 3 A+ is fine). Outdoors in the site box (decided 23 Oct 2026) with the PSU, the amp, a 5V buck, the DIN-rail fuses and optionally the router.
 Site network    One Cudy WR3000 per site on vanilla OpenWrt (~£30–40, decided 24 Oct 2026 over the GL.iNet Mango). It is dual-band with external antennas and doubles as a home mesh node off-season. Same SSID, password and subnet everywhere; the show uses 2.4 GHz.
-Audio    USB sound card → PAM8610 2×15W (12V) → speaker, one set per site.
+Audio    USB sound card → PAM8610 2×15W (12V) → a stereo pair of outdoor 8Ω speakers per site (Site A: PD BGO40 4" IP56 pair, Rob, 26 Oct 2026), each on its own 2-core run.
 
 Pixel power: about 0.3W per pixel at full white → about 28W (2.3A) per tree. Voltage drop over 5m of 0.75mm² at 2.3A is about 0.6V, fine at 12V.
 
@@ -146,7 +146,7 @@ M3b. Tree boots (rough-in done)
 feet/stair-tree-foot.scad, left and right STLs. Printed upright on the P1S, no supports, ~145–175g each. Next: Rob test-fits one pair on a tread, then tune spigot fit, shelf height and wing length.
 
 M4. Electronics documentation (done 21 Oct 2026: tools/gen_controller.py → electronics/tree-controller-board.svg + connections.md, electronics/README.md for the schematic, box wiring, bench test and site wiring. Unverified until parts arrive: header row spacing, Mini560 size, xConnect colours)
-Tree controller stripboard layout (diagram plus connection table): ESP32 data pin → 74AHCT125 (powered at 5V, unused inputs tied to GND, /OE of the used channel tied low) → 33Ω → pixel data; 100µF across 5V; 0.1µF at the chip; Mini560 from 12V; pixel 12V fused 5A at the site box. Optional TVS diode on the data line at the box.
+Tree controller stripboard layout (diagram plus connection table): ESP32 data pin → 74AHCT125 (powered at 5V, unused inputs tied to GND, /OE of the used channel tied low) → 33Ω → pixel data; 100µF across 5V; 0.1µF at the chip; Mini560 from 12V; pixel 12V fused 3A at the site box. Optional TVS diode on the data line at the box.
 Site wiring diagram: PSU → fused splits → trees; player, amp, speaker.
 
 M5. Site and tree configuration
@@ -178,7 +178,7 @@ You can't test the hardware. Say plainly what Rob needs to verify on the bench, 
 Tape-check the photo measurements: narrow end ~92mm, wide end ~382mm, length ~894mm.
 Tree controller board: DIY ESP32-32U on stripboard, or a ready-made WLED board? (Decide after M0.)
 WLED streaming (DDP) or ESPixelStick FPP Remote? (Decide after M0.)
-Site router: inside the site box or beside it, and 12V from the site PSU or its own adapter? (Cudy WR3000, decided 24 Oct 2026.)
+Site router: inside the site box or beside it? (Cudy WR3000, decided 24 Oct 2026; 12V from the site PSU on a 2A fuse, Rob, 26 Oct 2026.)
 Boots: test-fit the first printed pair and pegs (peg fit, tread thickness in the slot, pilot hole diameter and screw size, xConnect plug through the 16mm shelf hole, 50mm clearance enough?).
 The clip barb flare diameter on a real pixel. It sets Params.clearance_dia (15mm assumed).
 The disk bore, from the test strip (11.8–12.2; Params.hole_dia, 12.0 assumed), and that the flange doesn't crack the disk.

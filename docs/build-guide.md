@@ -120,7 +120,7 @@ Box details are in [enclosure/README.md](../enclosure/README.md).
 1. Push 6 M3 heat-set inserts into the lid side (near the rim's outer edge) of the box. The 4 tower inserts are done in stage 7.
 2. Fit the PG9 (12V flex in) and PG7 (pixel lead tail out) glands in the floor, both pointing down into the tower, and the RP-SMA bulkhead in the roof. Leave the 3mm drip hole open.
 3. Screw the controller board onto the four standoffs on the front wall (M2 self-tapping), components facing the lid. Foam-tape the Mini560 and the two Wago 221-413 below the board.
-4. Wire to the schematic in [electronics/README.md](../electronics/README.md). The pixel current (about 2.3A at full white) goes through the Wagos on 18AWG wire, never through the board. The pixel lead's data wire goes to JD DATA. The optional TVS diode goes across JD (data to GND). There is no fuse in the box: the 5A fuse is at the site box.
+4. Wire to the schematic in [electronics/README.md](../electronics/README.md). The pixel current (about 2.3A at full white) goes through the Wagos on 18AWG wire, never through the board. The pixel lead's data wire goes to JD DATA. The optional TVS diode goes across JD (data to GND). There is no fuse in the box: the 3A fuse is at the site box.
 5. Connect the antenna: U.FL to RP-SMA pigtail, then the dipole on the outside of the roof, pointing up. Where you can, put the box on the side of the tree that faces the router.
 6. **Cord seal.** Lay the 2.7mm rubber cord in the lid groove (3.8 × 2.05mm, about 25% squeeze), cut it to length and superglue the butt joint. Fit the lid with six M3 screws, tightening evenly.
 7. Fit the box on the tower with four M3 screws through its ears. Plug the pixel lead's xConnect into the PG7 tail.
@@ -136,8 +136,8 @@ Each site's PSUs, fuses and runs are in [electronics/site-wiring.md](../electron
 The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals in its lid, so it needs no glands. Its inside tapers towards the floor, with ribs: measure it before printing the plate. **The plate is still to design** (CLAUDE.md §5); the steps below are the plan.
 
 1. Fit the PSU (Site A: LRS-200-12) at the top of the plate with air round it, then the terminal cover over its mains side.
-2. Fit Rob's DIN rail below it: one 10×38 fuse holder per tree run (5A) and one for the player (3A), and Wago 221 carriers for the 12V and 0V commons.
-3. Fit the Pi, the 12V to 5V buck (a Pi 5 needs 5V 5A, a Pi 3 is happy with 2.5A), the PAM8610 (straight off 12V after the player fuse) and the USB sound card.
+2. Fit Rob's DIN rail below it: one 10×38 fuse holder per tree run (3A), one for the player (3A) and one for the router (2A), and Wago 221 carriers for the 12V and 0V commons.
+3. Fit the Pi, the 12V to 5V buck (a Pi 5 needs 5V 5A; a plain buck can't do its USB-PD handshake, so set `PSU_MAX_CURRENT=5000` with `rpi-eeprom-config --edit`; a Pi 3 is happy with 2.5A), the PAM8610 (straight off 12V after the player fuse) and the USB sound card. Each speaker gets its own 2-core run from the amp.
 4. Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the socket half of a PY07 Z108 2-pin bayonet connector on the tree end. Red to +, the same pin every time. Label both ends with the tree number.
 5. Make up each tree's pigtail: 2-core flex out of the tree box's PG9 gland, with the pin half of the connector. Solder and heatshrink inside the connector.
 6. Wire each run to its fuse at the site box, lay the cables through the DRiBOX lid seals with the cable guides, and clamp the lid.
@@ -152,7 +152,7 @@ The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals
 4. Fixed addresses: tree NN is `stairtree-NN` at `192.168.8.(100+NN)`, the same at every site. Tree 7 is `stairtree-07` at 192.168.8.107. Reserve each IP in the router as well as setting it in WLED.
 5. Each router keeps two configs. "Show" is the setup above. "Home" makes it an 802.11s mesh node of Rob's home OpenWrt network for the rest of the year (5 GHz backhaul, home SSID on 2.4 GHz). Save both as `sysupgrade -b` backups outside git, because they hold the Wi-Fi passwords. Restore "show" before each season.
 6. **TBC (Rob):** whether the router goes in the site box or beside it under cover. The WR3000 is an indoor router and bigger than a travel router: check it fits the DRiBOX beside the PSU and DIN rail; plastic doesn't block Wi-Fi. Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
-7. **TBC (Rob):** how to power the router. The WR3000 is believed to take 12V 1A; check the label on the real one. On the site PSU with its own 1A fuse, Site A goes from 14.1A to about 15.1A of 17A (89%, over the 85% rule): either drop the trees' WLED cap to 1.9A (`TREE_LIMIT_A` in `tools/gen_site_wiring.py`) or use the router's own mains adapter, plugged in outside the box.
+7. Power the router from the site PSU through its own 2A fuse (Rob, 26 Oct 2026). The WR3000 takes 12V 1A (the WR3000H 1.5A): check the label and the barrel's polarity on the real one. Site A is then 15.1A of 17A with every tree at its cap.
 8. Connect the Pi to the router by Ethernet.
 
 ## 11. Provisioning

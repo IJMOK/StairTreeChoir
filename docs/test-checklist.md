@@ -88,7 +88,7 @@ Mains and fuses:
 - [ ] The site's one mains lead goes to an RCD-protected outdoor socket, with a 3A plug fuse
 - [ ] RCD test button trips it: ____
 - [ ] PSU output with no load: ____ V (12V nominal)
-- [ ] A 5A 10×38 fuse sits on the DIN rail on every tree run
+- [ ] A 3A 10×38 fuse sits on the DIN rail on every tree run, and a 2A on the router
 - [ ] A 3A fuse sits on the player feed
 - [ ] Every run's bayonet connector: socket on the run, pins on the tree, red to + (meter it before plugging in)
 - [ ] The wiring matches this site's table in [site-wiring.md](../electronics/site-wiring.md)
@@ -97,9 +97,9 @@ Site load, all trees at full white with the player running. WLED's limiter shoul
 
 | Site | PSU | Expected | Measured |
 |---|---|---|---|
-| A (6 trees) | LRS-200-12, 17A | 14.1A | ____ A |
-| B (4 trees) | LRS-150-12, 12.5A | 9.9A | ____ A |
-| C, D (2 trees) | LRS-100-12, 8.5A | 5.7A | ____ A |
+| A (6 trees) | LRS-200-12, 17A | 15.1A | ____ A |
+| B (4 trees) | LRS-150-12, 12.5A | 10.9A | ____ A |
+| C, D (2 trees) | LRS-100-12, 8.5A | 6.7A | ____ A |
 
 - [ ] One tree at full white draws no more than about 2.1A (the limiter works on DDP frames)
 - [ ] The PSU is within its rating, and the box isn't hot after 30 minutes with the lid shut
@@ -127,7 +127,7 @@ Audio and player:
 - [ ] FPP has one DDP output per tree: right IP, start channel of its slot, 276 channels
 - [ ] Slot-to-tree mapping matches `data/sites.json`
 - [ ] USB sound card selected as the FPP audio output
-- [ ] Audio test plays through the PAM8610 and speaker with no hum or crackle
+- [ ] Audio test plays through the PAM8610 and both speakers (left and right) with no hum or crackle
 - [ ] Volume set for the site: ____ (a quieter level after 20:00 is proposed in [show-night.md](show-night.md))
 - [ ] PAM8610 is not hot after 10 minutes
 
