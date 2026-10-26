@@ -2,7 +2,7 @@
 
 Power at each site (CLAUDE.md §4, Rob 26 Oct 2026): one enclosed Mean Well LRS PSU per
 site, inside the site box (a DRiBOX Large), sized to the site's trees; every tree has
-its own 12V run from the site box, fused 3A on the DIN rail. The show player (Pi + amp)
+its own 12V run from the site box, fused 3A in its blade fuse box. The show player (Pi + amp)
 and the site router are on their own fuses. Flex is 0.75mm² unless the voltage drop at the tree's limit needs more.
 
 Each tree's WLED brightness limiter caps its pixels at TREE_LIMIT_A (gen_site_config.py
@@ -118,7 +118,7 @@ def write_md(plans: list[dict], confirmed: bool, path: Path = MD_FILE) -> None:
                 "Edit data/sites.json and run `make all`.", ""]
     out += [
         "Each site: one enclosed Mean Well LRS PSU inside the site box (a DRiBOX Large), sized to the site; "
-        f"each tree on its own run from the site box, fused {FUSE_A}A on the DIN rail. "
+        f"each tree on its own run from the site box, fused {FUSE_A}A in a blade fuse box with a negative bus. "
         f"The show player (Pi, sound card, PAM8610) has its own {PLAYER_FUSE_A}A fuse and the router its own {ROUTER_FUSE_A}A. "
         f"Loads: {TREE_A:.1f}A per tree (WLED's brightness limiter holds the pixels to {TREE_LIMIT_A:g}A; "
         f"full white unlimited would be {TREE_FULL_A:.1f}A), {PLAYER_A}A for the player, {ROUTER_A}A for the router. "
@@ -142,9 +142,9 @@ def write_md(plans: list[dict], confirmed: bool, path: Path = MD_FILE) -> None:
         out.append("")
     out += ["## Shopping totals", "",
             *[f"- {n} × Mean Well {name}" for name, n in t["psus"].items() if n],
-            f"- 1 spare Mean Well {PSUS[-1][0]}: it covers any site",
-            f"- {t['fuses'] + 2 * len(plans)} × DIN-rail 10×38 fuse holders; {t['fuses'] + len(plans)} × 3A "
-            f"and {len(plans)} × {ROUTER_FUSE_A}A 10×38 fuses (plus spares)"]
+            f"- 1 spare Mean Well {PSUS[-1][0]} later: it covers any site",
+            f"- {len(plans)} × blade fuse boxes with a negative bus (10-way); {t['fuses'] + len(plans)} × 3A "
+            f"and {len(plans)} × {ROUTER_FUSE_A}A blade fuses (plus spares)"]
     out += [f"- {m}m of 2-core {fmt_mm2(mm2)} outdoor flex (runs + 10%)" for mm2, m in t["flex"].items()]
     out.append(f"- {t['fuses']} × PY07 Z108 2-pin bayonet connector sets, one per run (plus spares): "
                "socket on the run, pins on the tree's pigtail, red to +")

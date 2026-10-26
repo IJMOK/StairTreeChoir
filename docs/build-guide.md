@@ -26,7 +26,7 @@ Two safety rules cover the whole project:
 
 ## 1. Buy and print first
 
-1. Order from [bom.md](bom.md). The AliExpress order (18 Oct 2026) is due 25 to 31 Oct 2026. The "Still to buy" list has the rest: the Mean Well PSUs (7 plus 1 spare), the ESP32-DevKitC-32U boards with antennas, the Pis for two sites, the routers, flex and fasteners. The BOM says to buy 15 or more extra PG9 glands, since the 20 bought are not enough.
+1. Order from [bom.md](bom.md). The AliExpress order (18 Oct 2026) is due 25 to 31 Oct 2026. The "Still to buy" list has the rest: the Mean Well PSU (one LRS per site), the ESP32-DevKitC-32U boards with antennas, the Pis for two sites, the routers, flex and fasteners. The BOM says to buy 15 or more extra PG9 glands, since the 20 bought are not enough.
 2. Measure the parts the design only assumes. The READMEs list these as unverified, and they may change files before you print or cut 14 of anything:
    - ESP32 board header row spacing (assumed 25.4mm), Mini560 size and pad positions, and that the 5×7cm board is 24×18 holes ([electronics/README.md](../electronics/README.md)).
    - Board hole positions and ESP32 height in the box, PG9 and PG7 thread sizes, RP-SMA bulkhead thread, and the M3 insert hole size (4.0mm) ([enclosure/README.md](../enclosure/README.md)).
@@ -136,7 +136,7 @@ Each site's PSUs, fuses and runs are in [electronics/site-wiring.md](../electron
 The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals in its lid, so it needs no glands. Its inside tapers towards the floor, with ribs: measure it before printing the plate. **The plate is still to design** (CLAUDE.md §5); the steps below are the plan.
 
 1. Fit the PSU (Site A: LRS-200-12) at the top of the plate with air round it, then the terminal cover over its mains side.
-2. Fit Rob's DIN rail below it: one 10×38 fuse holder per tree run (3A), one for the player (3A) and one for the router (2A), and Wago 221 carriers for the 12V and 0V commons.
+2. Fit the 10-way blade fuse box below it: the PSU's +12V to its input, 0V to its negative bus. One way per tree run (3A), one for the player (3A), one for the router (2A); every negative to the bus.
 3. Fit the Pi and its Mini560 5V buck (Site A: the Pi 3, which needs 2.5A; keep the 5V leads short. A Pi 5 would need 5A, and `PSU_MAX_CURRENT=5000` set with `rpi-eeprom-config --edit` because a plain buck can't do its USB-PD handshake), the PAM8610 (straight off 12V after the player fuse) and the USB sound card. Each speaker gets its own 2-core run from the amp.
 4. Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the socket half of a PY07 Z108 2-pin bayonet connector on the tree end. Red to +, the same pin every time. Label both ends with the tree number.
 5. Make up each tree's pigtail: 2-core flex out of the tree box's PG9 gland, with the pin half of the connector. Solder and heatshrink inside the connector.
@@ -151,7 +151,7 @@ The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals
 3. Subnet: 192.168.8.x, with the router at 192.168.8.1. OpenWrt starts at 192.168.1.1, so change the LAN address at first set-up.
 4. Fixed addresses: tree NN is `stairtree-NN` at `192.168.8.(100+NN)`, the same at every site. Tree 7 is `stairtree-07` at 192.168.8.107. Reserve each IP in the router as well as setting it in WLED.
 5. Each router keeps two configs. "Show" is the setup above. "Home" makes it an 802.11s mesh node of Rob's home OpenWrt network for the rest of the year (5 GHz backhaul, home SSID on 2.4 GHz). Save both as `sysupgrade -b` backups outside git, because they hold the Wi-Fi passwords. Restore "show" before each season.
-6. **TBC (Rob):** whether the router goes in the site box or beside it under cover. The WR3000 is an indoor router and bigger than a travel router: check it fits the DRiBOX beside the PSU and DIN rail; plastic doesn't block Wi-Fi. Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
+6. **TBC (Rob):** whether the router goes in the site box or beside it under cover. The WR3000 is an indoor router and bigger than a travel router: check it fits the DRiBOX beside the PSU and fuse box; plastic doesn't block Wi-Fi. Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
 7. Power the router from the site PSU through its own 2A fuse (Rob, 26 Oct 2026). The WR3000 takes 12V 1A (the WR3000H 1.5A): check the label and the barrel's polarity on the real one. Site A is then 15.1A of 17A with every tree at its cap.
 8. Connect the Pi to the router by Ethernet.
 

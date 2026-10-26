@@ -88,7 +88,7 @@ Mains and fuses:
 - [ ] The site's one mains lead goes to an RCD-protected outdoor socket, with a 3A plug fuse
 - [ ] RCD test button trips it: ____
 - [ ] PSU output with no load: ____ V (12V nominal)
-- [ ] A 3A 10×38 fuse sits on the DIN rail on every tree run, and a 2A on the router
+- [ ] A 3A blade fuse on every tree run and the player, and a 2A on the router
 - [ ] A 3A fuse sits on the player feed
 - [ ] Every run's bayonet connector: socket on the run, pins on the tree, red to + (meter it before plugging in)
 - [ ] The wiring matches this site's table in [site-wiring.md](../electronics/site-wiring.md)
