@@ -28,6 +28,8 @@ AliExpress order of 18 Oct 2026 (£277.80, due 25–31 Oct), plus the ESP32 orde
 - M3 heat-set inserts and stainless screws (count them against the fastener list below)
 - 33Ω resistors, 100µF capacitors
 - Lid sealing cord, RS 159-1490
+- Cudy WR3000 router (bought by 26 Oct 2026): 12V 1A (the WR3000H is 1.5A); runs off the site PSU on a 2A fuse. Check the label and barrel polarity
+- High-endurance microSD (bought; now in the Pi 3 bench player, FPP 10.3)
 
 ## Still to buy
 
@@ -56,8 +58,7 @@ Already covered by what's bought: ESP32 boards and antennas (10 for 6 + spares),
 | 10 + 5 | 10×38 fuses: 3A (+ spares), 2A | 3A on every tree run and the player, 2A on the router (Rob, 26 Oct 2026) |
 | 10 sets | PY07 Z108 2P bayonet waterproof connectors (IP67 mated, cable 3–8mm, solder) | One per tree run + spares. Socket on the run cable (powered side), pins on the tree's pigtail; red to +. No Z108 rating found; the PY07 series is ~4A on its small contacts, so the runs are fused 3A |
 | 50m | 2-core 0.75mm² outdoor flex (H05RN-F rubber if you can) | Site A: 6 runs at the default 5m (electronics/site-wiring.md) + the trees' pigtails + the two speaker runs; outer diameter 3–8mm for the connectors and glands |
-| 1 | Cudy WR3000 router (AX3000, vanilla OpenWrt), ~£30–40 | 12V 1A (the WR3000H is 1.5A); runs off the site PSU on a 2A fuse, so keep or cut the adapter's barrel lead. Check the hardware version is on the OpenWrt Table of Hardware before buying |
-| 1 | High-endurance microSD | For the Pi 5. UK retailer, not AliExpress |
+| 1 | Boot medium for the Pi 5: a second high-endurance microSD (~£10), or an M.2 HAT + small NVMe (~£35) | The bought microSD is in the Pi 3 bench player. **TBC (Rob):** SD or NVMe |
 | 1 pair | Outdoor 8Ω speakers: PD BGO40 4" pair, IP56 | Stereo off the PAM8610, each on its own 2-core run (Rob, 26 Oct 2026). ElectroMarket, £53.99 (26 Oct 2026) |
 | – | RCD-protected outdoor socket | Rob has one where the site box goes (26 Oct 2026). **TBC (Rob):** have the mains side checked by a competent electrician |
 | – | Adhesive-lined heatshrink; PETG | Boots (12), tree boxes (6), the site box plate, pixel disks. Lid cord: Rob has it (tree boxes) |
