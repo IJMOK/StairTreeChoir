@@ -51,7 +51,7 @@ Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 | 7 + 7 | 10kΩ resistor, 0.1µF capacitor | R2 data pull-down; level-shifter decoupling. Rob has the 33Ω and 100µF | £2 |
 | 1 | Mean Well LRS-200-12 (12V 17A, enclosed, fanless, 215 × 115 × 30mm) | Site A's PSU: 14.1A with the trees at WLED's 2A cap and the player (83%); the router is indoors on its own adapter. No spare for December (Rob, 26 Oct 2026); Site B's LRS-150-12 can stand in later. RS 106-5859, £30.56 ex VAT | £37 |
 | 1 | DRiBOX Large (internal 330 × 230 × 140mm at the top, narrower at the floor; IP55) | The site box (PSU, fuses, Pi, amp; the router stays indoors). Amazon (Festive Lights), £19.99 | £20 |
-| 1 | 10-way blade fuse box with a negative bus (marine type, screw or stud input) | Replaces the DIN fuse holders (Rob, 26 Oct 2026): 6 tree runs, the player, the router + 2 spare. Its negative bus is the 0V common, so the site box needs no Wagos | £8 |
+| 1 | 10-way blade fuse box with a negative bus (marine type, screw or stud input) | Replaces the DIN fuse holders (Rob, 26 Oct 2026): 6 tree runs and the player + 3 spare (the router is indoors). Its negative bus is the 0V common, so the site box needs no Wagos | £8 |
 | 10 | Blade fuses: 3A (standard ATO/ATC size, to suit the box) | Every tree run and the player. Rob's 5A blades are spares only | £3 |
 | ~10m | Outdoor Cat6 (UV-rated), flat if it has to pass a window frame | Pi in the site box to the router indoors at the front window (Rob, 26 Oct 2026). Measure the route | £10 |
 | 15 | Wago 221-413 (3-way) | 2 per tree box (12) + 3 spare | £10 |
