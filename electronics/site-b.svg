@@ -47,7 +47,7 @@
 <text x="272" y="102.0" text-anchor="middle">3A</text>
 <line x1="294" y1="98.0" x2="314" y2="98.0" stroke="#c00" stroke-width="2"/>
 <rect x="314" y="76.0" width="156" height="44" fill="white" stroke="#36c" rx="4"/>
-<text x="392" y="92.0" text-anchor="middle">Pi 3 + FPP, router</text>
+<text x="392" y="92.0" text-anchor="middle">Pi 5 + FPP, router</text>
 <text x="392" y="108.0" text-anchor="middle" fill="#666" font-size="10">5V buck · sound card · amp</text>
 <line x1="470" y1="98.0" x2="640" y2="98.0" stroke="#555" stroke-dasharray="6 3"/>
 <text x="520" y="92.0" fill="#555">speaker cable</text>

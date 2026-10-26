@@ -19,7 +19,7 @@ A camera in the farmer's hedge across the road streams the Site A shows live to 
 [hedge]  WiFi camera (12V) <- MOSFET <- ESP32 (deep sleep) <- 3A fuse <- 12V 20Ah LiFePO4   (one box at the foot of a stake)
              ~~~ 2.4 GHz WiFi, ~20 m open air ~~~
 [garden] Site A Cudy WR3000 (outdoors at the site box) -> home LAN
-         Site A Pi 5 (FPP): ffmpeg takes the camera's RTSP feed (video copied) + FPP's own audio
+         Site A Pi 5 (FPP; see the note below): ffmpeg takes the camera's RTSP feed (video copied) + FPP's own audio
                             -> YouTube Live (auto-muted, see below)  and  -> local recording (full audio)
 ```
 
@@ -65,6 +65,7 @@ For comparison, a plain 12V timer can't follow the specials. With one window of 
 
 ### Stream and recording
 
+- **Note (Rob, 26 Oct 2026):** Site A's player is now the Pi 3, which is too slow to relay as well. Before the webcam goes ahead: either swap the Pi 5 back in as the Site A player, or run the relay on the Pi 5 beside it with FPP's audio sent across the network. Undecided.
 - **Relay process.** ffmpeg runs on the Site A Pi 5 at low priority (`nice`) and copies the video, so the Pi never transcodes. Audio comes from FPP's own output through an ALSA loopback and is encoded to AAC. A one-off `-itsoffset` cancels the camera's ~1–2 s delay.
 - **Start and stop.** The relay starts at the camera's on-time and stops after each show, following the same schedule as the ESP32.
 - **Live.** The stream goes to YouTube Live with one persistent stream key and auto-start/stop, so each show becomes its own live video. The channel's `/live` link always points at whichever is on, so one link serves the whole season for family and the village Facebook group. About 720p–1080p at 2.5–4 Mbps, roughly 4 GB a night.

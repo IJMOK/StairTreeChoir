@@ -5,7 +5,7 @@
     {
       "id": "site-a",
       "name": "Site A",
-      "player": "Pi 5",
+      "player": "Pi 3",
       "trees": [
         {"slot": 1, "tree": 1, "run_m": 5},
         {"slot": 2, "tree": 2, "run_m": 5},
@@ -18,7 +18,7 @@
     {
       "id": "site-b",
       "name": "Site B",
-      "player": "Pi 3",
+      "player": "Pi 5",
       "trees": [
         {"slot": 1, "tree": 7, "run_m": 5},
         {"slot": 2, "tree": 8, "run_m": 5},

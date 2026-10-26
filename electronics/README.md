@@ -88,4 +88,4 @@ Mains (RCD socket) ── plug lead (3A fuse) ──┐
 - Each tree's WLED brightness limiter (`ledma` 25, `maxpwr` 2120 incl. WLED's 120mA ESP allowance; tools/gen_site_config.py) holds its pixels to 2A, so a tree draws 2.1A whatever a sequence does (2.3A would be full white). Check it with a meter at the M0 bench test.
 - Voltage drop: 2.1A over 5m of 0.75mm² flex (10m of conductor, ~0.23Ω) is about 0.5V, so a tree sees ~11.5V; fine for 12V pixels. The generator moves a run to 1.5mm² past about 7m.
 - The fuse (10×38 on the DIN rail) sits where each run starts, so it protects the flex (a fuse at the tree end would not). 0.75mm² flex is good for ~6A. 3A fuses (Rob, 26 Oct 2026): a tree can't draw more than 2.3A even with no limiter, and the bayonet connectors are ~4A.
-- Mains reaches only the PSU's covered terminals, on its own lead; never a printed box. A Pi 5 in the site box needs a 5V 5A buck; a Pi 3 is happy with 2.5A.
+- Mains reaches only the PSU's covered terminals, on its own lead; never a printed box. The player runs off a Mini560 (5V) after its 3A fuse: Site A's Pi 3 needs 2.5A at most. A Pi 5 would need 5A.

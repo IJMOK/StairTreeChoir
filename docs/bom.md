@@ -39,7 +39,7 @@ Tree controller: DIY boards (Rob, 21 Oct 2026). See electronics/README.md.
 
 ### For December: Site A, 6 trees
 
-Already covered by what's bought: ESP32 boards and antennas (10 for 6 + spares), 74AHCT125s, Mini560s and prototype boards (10 each), the PAM8610, a USB sound card, PG9 glands (Site A needs 6, one per tree box; 20 bought) and PG7 glands (6; 20 bought), Rob's DIN rail. The player is Rob's Pi 5 (`data/sites.json`); his Pi 3 is the bench player meanwhile.
+Already covered by what's bought: ESP32 boards and antennas (10 for 6 + spares), 74AHCT125s, Mini560s (10: 6 trees + the Pi 3 + 3 spare) and prototype boards (10 each), the PAM8610, a USB sound card, PG9 glands (Site A needs 6, one per tree box; 20 bought) and PG7 glands (6; 20 bought), Rob's DIN rail. The player is Rob's Pi 5 (`data/sites.json`); his Pi 3 is the bench player meanwhile.
 
 | Qty | Item | Notes |
 |---|---|---|
@@ -53,12 +53,10 @@ Already covered by what's bought: ESP32 boards and antennas (10 for 6 + spares),
 | 2 | Mean Well LRS-200-12 (12V 17A, enclosed, fanless, 215 × 115 × 30mm) | Site A's PSU (15.1A: trees at WLED's 2A cap, player and router; 89%) + 1 spare that covers any site (Rob, 26 Oct 2026: no outdoor PSUs). RS 106-5859, £30.56 ex VAT each (26 Oct 2026) |
 | 1 | DRiBOX Large (internal 330 × 230 × 140mm at the top, narrower at the floor; IP55) | The site box: PSU, DIN rail, Pi, amp, router on a printed plate. £19.99, Amazon (Festive Lights), 26 Oct 2026 |
 | 1 | Mains lead: 3-core 1.0mm² H05RN-F + 13A plug, 3A fuse | To the PSU's input terminals (under a printed cover), clamped on the plate; plugs into the RCD-protected outdoor socket |
-| 1 | 12V→5V 5A buck with a USB-C lead, for the Pi 5 | After the player's 3A fuse. A plain buck can't do the Pi 5's USB-PD handshake: set `PSU_MAX_CURRENT=5000` in the Pi's EEPROM (`rpi-eeprom-config --edit`) so it trusts it. A Pi 3 would manage on 2.5A |
 | 10 | DIN-rail 10×38 fuse holders (generic RT18-32 is fine at 12V) | 6 tree runs, the player and the router, + 2 spare, on Rob's DIN rail |
 | 10 + 5 | 10×38 fuses: 3A (+ spares), 2A | 3A on every tree run and the player, 2A on the router (Rob, 26 Oct 2026) |
 | 10 sets | PY07 Z108 2P bayonet waterproof connectors (IP67 mated, cable 3–8mm, solder) | One per tree run + spares. Socket on the run cable (powered side), pins on the tree's pigtail; red to +. No Z108 rating found; the PY07 series is ~4A on its small contacts, so the runs are fused 3A |
 | 50m | 2-core 0.75mm² outdoor flex (H05RN-F rubber if you can) | Site A: 6 runs at the default 5m (electronics/site-wiring.md) + the trees' pigtails + the two speaker runs; outer diameter 3–8mm for the connectors and glands |
-| 1 | Boot medium for the Pi 5: a second high-endurance microSD (~£10), or an M.2 HAT + small NVMe (~£35) | The bought microSD is in the Pi 3 bench player. **TBC (Rob):** SD or NVMe |
 | 1 pair | Outdoor 8Ω speakers: PD BGO40 4" pair, IP56 | Stereo off the PAM8610, each on its own 2-core run (Rob, 26 Oct 2026). ElectroMarket, £53.99 (26 Oct 2026) |
 | – | RCD-protected outdoor socket | Rob has one where the site box goes (26 Oct 2026). **TBC (Rob):** have the mains side checked by a competent electrician |
 | – | Adhesive-lined heatshrink; PETG | Boots (12), tree boxes (6), the site box plate, pixel disks. Lid cord: Rob has it (tree boxes) |
@@ -82,7 +80,7 @@ Already covered by what's bought: ESP32 boards and antennas (10 for 6 + spares),
 | 20 | Wago 221-413 | Trees 7–14 and the other site boxes |
 | 3 | Mean Well LRS-150-12 (site B) and 2 × LRS-100-12 (sites C, D) | electronics/site-wiring.md |
 | 3 | DRiBOX (Large for B; C and D may fit a Medium) + mains leads | |
-| 3 | 12V→5V buck for the players (Pi 3 / Pi 3 A+: 2.5A is enough) | One per site box |
+| 3 | Mini560 5V buck for the players (a Pi 3 / 3 A+ needs 2.5A; a Pi 5 needs 5A and `PSU_MAX_CURRENT=5000`) | One per site box; Site B's Pi 5 also needs its own microSD |
 | 11 | DIN-rail 10×38 fuse holders (+ fuses) | 8 tree runs (sites B 4, C 2, D 2) + 3 players |
 | 10 sets | PY07 Z108 2P bayonet connectors | Trees 7–14 + spares |
 | ~45m | 2-core 0.75mm² outdoor flex | The other sites' runs |

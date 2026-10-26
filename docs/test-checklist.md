@@ -123,7 +123,7 @@ Network:
 - [ ] If it jitters, note the tree and the distance, and decide about ESPixelStick FPP Remote (needs SD-equipped ESP32s)
 
 Audio and player:
-- [ ] Pi supply at its input: ____ V (Pi 5 needs a 5V 5A buck, Pi 3 2.5A or more)
+- [ ] Pi supply at its input: ____ V (at least 4.9V under load; no under-voltage warning in FPP's status)
 - [ ] FPP has one DDP output per tree: right IP, start channel of its slot, 276 channels
 - [ ] Slot-to-tree mapping matches `data/sites.json`
 - [ ] USB sound card selected as the FPP audio output

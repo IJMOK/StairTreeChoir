@@ -8,7 +8,7 @@ Each site: one enclosed Mean Well LRS PSU inside the site box (a DRiBOX Large), 
 
 The PSU's mains terminals sit under a printed cover; its mains lead comes in through a cord grip and plugs into an RCD-protected outdoor socket (or a weatherproof socket box on one).
 
-## Site A (6 trees, player Pi 5)
+## Site A (6 trees, player Pi 3)
 
 ![Site A wiring](site-a.svg)
 
@@ -23,7 +23,7 @@ PSU: Mean Well LRS-200-12, 15.1A of 17A (89%).
 | 5 | 5 (stairtree-05) | 192.168.8.105 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
 | 6 | 6 (stairtree-06) | 192.168.8.106 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
 
-## Site B (4 trees, player Pi 3)
+## Site B (4 trees, player Pi 5)
 
 ![Site B wiring](site-b.svg)
 
