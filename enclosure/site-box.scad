@@ -27,7 +27,7 @@
 
 include <sealed-box.scad>
 
-part   = "assembly";     // "box", "lid", "assembly"
+part   = "assembly";     // "box", "lid", "assembly"; "box-fitted", "lid-fitted": as fitted (STEP export)
 trees  = 6;              // glands for this many tree runs (6, 4 or 2)
 psus   = ceil(trees / 2);
 
@@ -135,6 +135,8 @@ module lid() { sb_lid(W, H, lid_t, lid_panel_t, corner_r, all_screws, groove_in)
 
 if (part == "box") rotate([90, 0, 0]) box();   // back face on the bed, open side up
 else if (part == "lid") lid();
+else if (part == "box-fitted") box();
+else if (part == "lid-fitted") translate([0, D + lid_t, 0]) rotate([90, 0, 0]) lid();
 else {
     color("SteelBlue") box();
     color("LightSteelBlue", 0.5) translate([0, D + lid_t, 0]) rotate([90, 0, 0]) lid();

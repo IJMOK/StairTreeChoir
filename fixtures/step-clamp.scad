@@ -11,7 +11,7 @@
 // sheet (the holes go through), the heel stands on the topper beside it.
 // Bolt length: printed with the clamp's console echo (M6 x that, or the next size up).
 
-part = "clamp";          // "clamp" or "washer"
+part = "clamp";          // "clamp" or "washer"; "clamp-fitted": the right way up (STEP export)
 
 bolt_d     = 6.5;        // M6 clearance
 tree_t     = 30;         // tread
@@ -72,4 +72,5 @@ module washer() {
 }
 
 if (part == "clamp") rotate([-90, 0, 0]) translate([0, -bar_w, 0]) clamp();   // on its side
+else if (part == "clamp-fitted") clamp();
 else washer();

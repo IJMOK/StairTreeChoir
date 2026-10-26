@@ -50,7 +50,7 @@ The procedure, layers and feeds are in [cnc-cutting.md](cnc-cutting.md). In outl
 
 Each tree is cut in one op, front face up, with no flip and nothing cut from the back (Rob, 25 Oct 2026). Rob does the CAM in NX from the STEP files in `cad/` (`tools/gen_step.py`).
 
-1. **Offcut test first.** Print the disk test strip (`fixtures/pixel-disk.scad`, bores 11.8 to 12.2mm). Cut one Ø19 × 2mm counterbore and a Ø15 clearance hole in an oak offcut and glue a disk in. Check a pixel snaps in and its clips clear the hole. Set `hole_dia` (the disk bore) and `clearance_dia` in `tools/tree_layout.py` and run `make all`. **TBC (Rob):** the disk bore and the clip barb flare. These wait on the pixels arriving.
+1. **Offcut test first.** Print the disk test strip (`fixtures/pixel-disk.scad`, bores 11.8 to 12.2mm). Cut one Ø19 × 6mm counterbore and a Ø15 clearance hole in an oak offcut and glue a disk in. Check a pixel snaps in and its clips clear the hole. Set `hole_dia` (the disk bore) and `clearance_dia` in `tools/tree_layout.py` and run `make all`. **TBC (Rob):** the disk bore and the clip barb flare. These wait on the pixels arriving.
 2. **Op 0, once:** screw an MDF sheet to the bed and pocket it 4mm deep to the blank's shape. Don't move it again.
 3. Cut a **pilot tree first**. Op 1: drop the tread into the pocket, face up, and clamp it with the clamps clear of the counterbores. Cut the 92 counterbores, then the clearance holes through into the MDF (helical bore, clear the chips every 6 to 8mm). Watch the first tree all the way through.
 4. Fit a pixel string and a boot to the pilot tree before cutting the other 13.
@@ -79,7 +79,7 @@ Each tree takes one string of 92 pixels. The strings have 100: cut off the surpl
    | eye_right | 81 to 86, viewer's right, top node first, clockwise |
    | eye_left | 87 to 92, viewer's left, top node first, clockwise |
 
-3. **Glue in the disks** first: one printed PETG disk (Ø18.5 × 2mm) in each front counterbore, flush with the face, with hot glue (or CA or epoxy). Keep glue out of the bore.
+3. **Glue in the disks** first: one printed PETG disk (Ø18.5 × 6mm) in each front counterbore, flush with the face, with hot glue (or CA or epoxy). Keep glue out of the bore.
 4. Push each pixel in from the front, through the disk, until its clips snap behind it. The flange rests on the disk, about 1mm proud. The 30mm body ends level with the back face, so the leads come straight out of the back.
 5. Loop each lead across the back face to the next pixel in the same order.
 6. Node 1 is at the base-left. The string's input lead runs down the back face into the control boot's shelf hole, with its xConnect plug at the end and a loop of slack.

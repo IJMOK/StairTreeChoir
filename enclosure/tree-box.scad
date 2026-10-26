@@ -20,7 +20,7 @@
 include <tree-box-params.scad>
 include <sealed-box.scad>
 
-part = "assembly";       // "box", "lid" or "assembly"
+part = "assembly";       // "box", "lid" or "assembly"; "box-fitted", "lid-fitted": as fitted (STEP export)
 
 // Board: 5x7cm prototype board, M2 screws into the standoffs
 pb_w          = 70;
@@ -122,4 +122,6 @@ module tree_box_assembly() {
 
 if (part == "box") rotate([90, 0, 0]) box();   // front face on the bed, open side up
 else if (part == "lid") lid();
+else if (part == "box-fitted") box();
+else if (part == "lid-fitted") translate([0, box_body_d + box_lid_t, 0]) rotate([90, 0, 0]) lid();
 else if (part == "assembly") tree_box_assembly();

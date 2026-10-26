@@ -1,13 +1,14 @@
 // Printed retaining disk for the 12mm bullet pixels (Ray Wu: body 12, front flange 13.6,
 // dome 8, 30mm body behind the flange, side clips that grip a 2mm-thick panel).
-// Each tree hole is cut from the front only: a 19 x 2mm counterbore, then a 15mm
+// Each tree hole is cut from the front only: a 19 x 6mm counterbore, then a 15mm
 // clearance hole through the 30mm oak. This disk sits flush in the counterbore (hot glue,
 // or CA/epoxy); the bullet pushes in from the front, its flange rests on the disk and the
-// clips snap behind it into the clearance hole. The disk's bore sets the fit.
+// clips snap behind the 2mm front lip into the relief. The lip's bore sets the fit.
 //
-// Prints flat, front face on the bed (smooth face under the flange), no supports.
-// The 0.4mm chamfer is on the back edge of the bore (the top as printed), to lead the clips.
-// PETG, 100% infill (or 4+ walls: it's only 2mm thick). A tree needs 92.
+// Prints flat, front face on the bed (smooth face under the flange), no supports: the
+// relief opens upwards from the lip. The 0.4mm chamfer is on the back edge of the bore
+// (the lip's top as printed), to lead the clips.
+// PETG, 100% infill (or 4+ walls). A tree needs 92.
 //
 // Print the test strip first (bores 11.8 to 12.2, labelled on snap-off tabs); put the
 // chosen bore in tools/tree_layout.py Params.hole_dia and in `bore` below.
@@ -15,7 +16,9 @@
 part = "disk";           // "disk", "plate" (5 x 4 = 20) or "test" (5 bores, labelled)
 
 disk_od   = 18.5;        // in a 19mm counterbore: 0.25mm glue gap all round
-disk_t    = 2.0;         // = the clip gap; must match the counterbore depth
+disk_t    = 6.0;         // must match the counterbore depth (tree_layout.py)
+lip_t     = 2.0;         // = the clip gap: the clips snap behind this
+relief_d  = 15.0;        // behind the lip, room for the clips to spring out (= clearance_dia)
 bore      = 12.0;        // pixel body 12: set from the test strip
 chamfer   = 0.4;         // back edge of the bore, leads the clips through
 notches   = 3;           // glue notches on the OD (0 for none)
@@ -44,8 +47,9 @@ module disk(b = bore) {
     difference() {
         cylinder(d = disk_od, h = disk_t);
         translate([0, 0, -1]) cylinder(d = b, h = disk_t + 2);
-        // back-edge chamfer (top as printed)
-        translate([0, 0, disk_t - chamfer]) cylinder(d1 = b, d2 = b + 2 * chamfer + 0.02, h = chamfer + 0.01);
+        translate([0, 0, lip_t]) cylinder(d = relief_d, h = disk_t);
+        // back-edge chamfer of the lip (top as printed)
+        translate([0, 0, lip_t - chamfer]) cylinder(d1 = b, d2 = b + 2 * chamfer + 0.02, h = chamfer + 0.01);
         // glue notches through the full thickness
         for (i = [0 : notches - 1]) if (notches > 0)
             rotate(i * 360 / notches + 90)

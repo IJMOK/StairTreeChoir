@@ -24,7 +24,7 @@
   "params": {
     "hole_dia": 12.0,
     "front_counterbore_dia": 19.0,
-    "front_counterbore_depth": 2.0,
+    "front_counterbore_depth": 6.0,
     "clearance_dia": 15.0,
     "edge_inset": 22.0,
     "min_spacing": 24.4,
