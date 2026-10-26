@@ -57,10 +57,10 @@ Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 | 15 | Wago 221-413 (3-way) | 2 per tree box (12) + 3 spare | £10 |
 | 10 sets | PY07 Z108 2P bayonet waterproof connectors (IP67 mated, cable 3–8mm, solder) | One per tree run + spares. Socket on the run (powered side), pins on the tree's pigtail; red to +. No Z108 rating found; the PY07 series is ~4A on its small contacts, so the runs are fused 3A. Check the price is per mated pair | £12 |
 | ~35m | 2-core 0.75mm² outdoor flex (H05RN-F rubber if you can; 3-core is fine with the earth unused) | 6 runs at the default 5m (electronics/site-wiring.md) + the trees' pigtails. Rob has some flex but not enough (26 Oct 2026); buy the balance | £15–30 |
-| 1 pair | Outdoor 8Ω speakers: PD BGO40 4" pair, IP56 | Stereo off the PAM8610 (Rob, 26 Oct 2026). ElectroMarket, £53.99. Speaker runs on ordinary speaker wire or the same flex | £54 |
+| 1 pair | Outdoor speakers, 4–8Ω, second-hand (Rob, 26 Oct 2026): e.g. Yamaha NS-AW150/190/350, Bose 151 SE, JBL Control 25, Polk Atrium 4/5, Klipsch AW-400 | Stereo off the PAM8610 (2 × 10W, fine on 4Ω or 8Ω). eBay used, collection near NN3. Not 100V-line only; rubber surrounds; brackets included. Fallback: PD BGO40 4" IP56 pair new, ElectroMarket ~£51 | £20–40 |
 | 6 | Small TVS diodes (optional) | Data line protection; skip for December | – |
 
-Site A total: about **£185**, less whatever flex Rob already has. The pixel disks (552 + spares) are printed from `fixtures/pixel-disk.scad`; print the bore test strip first.
+Site A total: about **£155–175**, less whatever flex Rob already has. The pixel disks (552 + spares) are printed from `fixtures/pixel-disk.scad`; print the bore test strip first.
 
 ### Later: sites B to D, trees 7 to 14 (or 15)
 
