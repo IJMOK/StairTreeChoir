@@ -55,7 +55,7 @@ Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 | 10 + 5 | Blade fuses: 3A, 2A (standard ATO/ATC size, to suit the box) | 3A on every tree run and the player, 2A on the router. Rob's 5A blades are spares only | £3 |
 | 15 | Wago 221-413 (3-way) | 2 per tree box (12) + 3 spare | £10 |
 | 10 sets | PY07 Z108 2P bayonet waterproof connectors (IP67 mated, cable 3–8mm, solder) | One per tree run + spares. Socket on the run (powered side), pins on the tree's pigtail; red to +. No Z108 rating found; the PY07 series is ~4A on its small contacts, so the runs are fused 3A. Check the price is per mated pair | £12 |
-| ~35m | 2-core 0.75mm² outdoor flex (H05RN-F rubber if you can; 3-core is fine with the earth unused) | 6 runs at the default 5m (electronics/site-wiring.md) + the trees' pigtails. **TBC (Rob):** what he has | £30 |
+| ~35m | 2-core 0.75mm² outdoor flex (H05RN-F rubber if you can; 3-core is fine with the earth unused) | 6 runs at the default 5m (electronics/site-wiring.md) + the trees' pigtails. Rob has some flex but not enough (26 Oct 2026); buy the balance | £15–30 |
 | 1 pair | Outdoor 8Ω speakers: PD BGO40 4" pair, IP56 | Stereo off the PAM8610 (Rob, 26 Oct 2026). ElectroMarket, £53.99. Speaker runs on ordinary speaker wire or the same flex | £54 |
 | 6 | Small TVS diodes (optional) | Data line protection; skip for December | – |
 
