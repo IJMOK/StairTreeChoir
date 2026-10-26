@@ -25,8 +25,13 @@ WLED v16.0.1 (tag v16.0.1, commit 29b389d), github.com/wled/WLED, wled00/:
            /json/cfg (needed for the static IP to take effect).
   wled_server.cpp  POST /json/cfg -> deserializeConfig(root); a bus change is applied and the
            config saved by the main loop (doInitBusses).
-NOT written (left at the device's value): hw.led.maxpwr and per-bus ledma (WLED's brightness
-limiter, see wled/README.md: to be rechecked for 12V strings), nw.dns, ap.*, timers, ntp.
+  cfg.cpp  brightness limiter: hw.led.maxpwr (global mA) and per bus ins[].ledma (mA per LED at
+           full white) and ins[].maxpwr (that bus's mA).
+  bus_manager.cpp  BusManager::show() runs applyABL() before every bus's show(), whatever the
+           source (so DDP frames are limited too); the estimate is the sum of r+g+b over the
+           pixels x ledma / (255 x 3) + 1mA per LED, against maxpwr minus MA_FOR_ESP
+           (bus_manager.h: 120mA on an ESP32).
+NOT written (left at the device's value): nw.dns, ap.*, timers, ntp.
 
 FPP 10.3 (tag 10.3, commit da997bd), github.com/FalconChristmas/fpp:
   www/js/fpp.js postUniverseJSON()     the file the UI saves: {"channelOutputs":[{"type":"universes",
@@ -78,9 +83,12 @@ import json
 from pathlib import Path
 
 from tools import loops
-from tools.gen_site_wiring import ip, load_sites
+from tools.gen_site_wiring import PIXEL_W, TREE_LIMIT_A, ip, load_sites
 from tools.tree_layout import ROOT
 
+# Brightness limiter (Rob, 26 Oct 2026: one LRS PSU per site, sized for this cap; gen_site_wiring.py).
+LED_MA = round(PIXEL_W / 12.0 * 1000)                    # 25mA per 12V bullet at full white
+LIMIT_MA = round(TREE_LIMIT_A * 1000) + 120              # + MA_FOR_ESP (bus_manager.h: 120 on an ESP32)
 WLED_DIR = ROOT / "wled"
 FPP_DIR = ROOT / "fpp"
 SKITS_DIR = ROOT / "data" / "skits"
@@ -265,8 +273,10 @@ def wled_config(tree: int, ssid: str = SSID_PLACEHOLDER) -> dict:
         }]},
         "hw": {"led": {
             "total": PIXELS,
+            "maxpwr": LIMIT_MA,
             "ins": [{"start": 0, "len": PIXELS, "pin": [DATA_PIN], "order": COLOR_ORDER,
-                     "rev": False, "skip": 0, "type": LED_TYPE_WS281X, "ref": False}],
+                     "rev": False, "skip": 0, "type": LED_TYPE_WS281X, "ref": False,
+                     "ledma": LED_MA, "maxpwr": LIMIT_MA}],
         }},
         "if": {"live": {"en": True}},
     }

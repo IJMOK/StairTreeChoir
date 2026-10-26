@@ -32,6 +32,7 @@
   "hw": {
     "led": {
       "total": 92,
+      "maxpwr": 2120,
       "ins": [
         {
           "start": 0,
@@ -43,7 +44,9 @@
           "rev": false,
           "skip": 0,
           "type": 22,
-          "ref": false
+          "ref": false,
+          "ledma": 25,
+          "maxpwr": 2120
         }
       ]
     }

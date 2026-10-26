@@ -11,17 +11,23 @@ def test_sites_file_is_valid_and_covers_14_trees():
     assert trees == list(range(1, 15))
 
 
-def test_no_psu_overloaded_and_every_tree_fused():
+def test_one_psu_per_site_within_its_margin():
     for site in sw.load_sites()["sites"]:
         p = sw.plan(site)
-        assert all(psu["amps"] <= sw.PSU[1] for psu in p["psus"])
-        assert sum(len(psu["trees"]) for psu in p["psus"]) == len(site["trees"])
-        assert sum(psu["player"] for psu in p["psus"]) == 1
+        assert p["psu"]["amps"] <= p["psu"]["rating"] * sw.PSU_MAX_LOAD
+        assert len(p["runs"]) == len(site["trees"])
+
+
+def test_psu_picks_the_smallest_that_fits():
+    assert sw.psu_for(6 * sw.TREE_A + sw.PLAYER_A)[0] == "LRS-200-12"
+    assert sw.psu_for(2 * sw.TREE_A + sw.PLAYER_A)[0] == "LRS-100-12"
+    with pytest.raises(ValueError):
+        sw.psu_for(20)
 
 
 def test_flex_size_keeps_the_drop_in_limit():
     assert sw.flex_for(5) == 0.75
-    assert sw.drop(5, 0.75) == pytest.approx(0.54, abs=0.01)
+    assert sw.drop(5, 0.75) == pytest.approx(0.49, abs=0.01)
     assert sw.flex_for(12) == 1.5
     with pytest.raises(ValueError):
         sw.flex_for(200)

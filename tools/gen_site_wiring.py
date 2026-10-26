@@ -1,12 +1,13 @@
 """Site wiring from data/sites.json: electronics/site-wiring.md and electronics/<site id>.svg.
 
-Power at each site (CLAUDE.md §4, decided 23 Oct 2026): IP67 Mean Well PSUs beside
-the outdoor site box, one per pair of trees; every tree has its own 12V run from the
-site box, fused 5A where the run starts. The show player (Pi + amp) hangs off the
-first PSU. Flex is 0.75mm² unless the voltage drop at full white needs more.
+Power at each site (CLAUDE.md §4, Rob 26 Oct 2026): one enclosed Mean Well LRS PSU per
+site, inside the site box (a DRiBOX Large), sized to the site's trees; every tree has
+its own 12V run from the site box, fused 5A on the DIN rail. The show player (Pi + amp)
+is on its own fuse. Flex is 0.75mm² unless the voltage drop at the tree's limit needs more.
 
-Loads are worst case (every pixel full white), so a PSU is never overloaded whatever
-a sequence does.
+Each tree's WLED brightness limiter caps its pixels at TREE_LIMIT_A (gen_site_config.py
+writes it), so a PSU is never overloaded whatever a sequence does. Full white
+unlimited would be TREE_FULL_A.
 """
 
 from __future__ import annotations
@@ -24,10 +25,12 @@ SVG_DIR = ROOT / "electronics"
 PIXELS = 92
 PIXEL_W = 0.3                       # 12V WS2811 bullet at full white
 VOLTS = 12.0
-TREE_A = PIXELS * PIXEL_W / VOLTS   # 2.3A
+TREE_FULL_A = PIXELS * PIXEL_W / VOLTS   # 2.3A, every pixel full white
+TREE_LIMIT_A = 2.0                  # WLED brightness limiter, per tree (pixels only)
+TREE_A = TREE_LIMIT_A + 0.1         # + the ESP32 and its buck
 PLAYER_A = 1.5                      # Pi + USB sound card + PAM8610 at show volume, at 12V
-TREES_PER_PSU = 2
-PSU = ("LPV-100-12", 8.5)           # Mean Well, IP67, 12V 8.5A (102W)
+PSUS = [("LRS-100-12", 8.5), ("LRS-150-12", 12.5), ("LRS-200-12", 17.0)]   # Mean Well, enclosed, fanless
+PSU_MAX_LOAD = 0.85                 # the smallest PSU that carries the site at no more than 85%
 FUSE_A = 5
 PLAYER_FUSE_A = 3
 COPPER = 0.0175                     # ohm mm²/m, copper at ~25°C
@@ -65,22 +68,23 @@ def load_sites(path: Path = SITES_FILE) -> dict:
     return data
 
 
+def psu_for(amps: float) -> tuple[str, float]:
+    for name, rating in PSUS:
+        if amps <= rating * PSU_MAX_LOAD:
+            return name, rating
+    raise ValueError(f"{amps:.1f}A is more than an {PSUS[-1][0]} should carry; split the site")
+
+
 def plan(site: dict) -> dict:
-    """PSUs, runs and their sizes for one site."""
+    """The PSU, runs and their sizes for one site."""
     runs = []
-    for i, t in enumerate(site["trees"]):
+    for t in site["trees"]:
         mm2 = flex_for(t["run_m"])
         d = drop(t["run_m"], mm2)
-        runs.append({**t, "ip": ip(t["tree"]), "psu": i // TREES_PER_PSU + 1, "mm2": mm2,
-                     "drop": d, "v_tree": VOLTS - d})
-    psus = []
-    for n in range(1, runs[-1]["psu"] + 1):
-        trees = [r for r in runs if r["psu"] == n]
-        amps = len(trees) * TREE_A + (PLAYER_A if n == 1 else 0)
-        if amps > PSU[1]:
-            raise ValueError(f"{site['id']} PSU {n}: {amps:.1f}A over {PSU[1]}A")
-        psus.append({"n": n, "trees": trees, "amps": amps, "player": n == 1})
-    return {"site": site, "runs": runs, "psus": psus}
+        runs.append({**t, "ip": ip(t["tree"]), "mm2": mm2, "drop": d, "v_tree": VOLTS - d})
+    amps = len(runs) * TREE_A + PLAYER_A
+    name, rating = psu_for(amps)
+    return {"site": site, "runs": runs, "psu": {"name": name, "rating": rating, "amps": amps}}
 
 
 def totals(plans: list[dict]) -> dict:
@@ -89,7 +93,7 @@ def totals(plans: list[dict]) -> dict:
         for r in p["runs"]:
             flex[r["mm2"]] = flex.get(r["mm2"], 0) + r["run_m"]
     return {
-        "psus": sum(len(p["psus"]) for p in plans),
+        "psus": {name: sum(p["psu"]["name"] == name for p in plans) for name, _ in PSUS},
         "fuses": sum(len(p["runs"]) for p in plans),
         "flex": {mm2: round(m * SPARE + 0.49) for mm2, m in sorted(flex.items())},
     }
@@ -111,44 +115,46 @@ def write_md(plans: list[dict], confirmed: bool, path: Path = MD_FILE) -> None:
         out += ["**Defaults, not yet confirmed by Rob:** tree counts per site and every run length. "
                 "Edit data/sites.json and run `make all`.", ""]
     out += [
-        f"Each site: Mean Well {PSU[0]} ({PSU[1]}A, IP67) beside the site box, one per pair of trees; "
-        f"each tree on its own run from the site box, fused {FUSE_A}A where the run starts. "
-        f"The show player (Pi, sound card, PAM8610) runs off PSU 1 on its own {PLAYER_FUSE_A}A fuse. "
-        f"Loads are full white: {TREE_A:.1f}A per tree, {PLAYER_A}A for the player.",
+        "Each site: one enclosed Mean Well LRS PSU inside the site box (a DRiBOX Large), sized to the site; "
+        f"each tree on its own run from the site box, fused {FUSE_A}A on the DIN rail. "
+        f"The show player (Pi, sound card, PAM8610) has its own {PLAYER_FUSE_A}A fuse. "
+        f"Loads: {TREE_A:.1f}A per tree (WLED's brightness limiter holds the pixels to {TREE_LIMIT_A:g}A; "
+        f"full white unlimited would be {TREE_FULL_A:.1f}A), {PLAYER_A}A for the player. "
+        f"The PSU is the smallest that carries the site at no more than {PSU_MAX_LOAD:.0%}.",
         "",
-        "Mains never enters a printed box. Each PSU has its own mains lead to an RCD-protected outdoor socket "
-        "(or a weatherproof multi-way box on one).",
+        "The PSU's mains terminals sit under a printed cover; its mains lead comes in through a cord grip "
+        "and plugs into an RCD-protected outdoor socket (or a weatherproof socket box on one).",
         "",
     ]
     for p in plans:
         s = p["site"]
         out += [f"## {s['name']} ({len(p['runs'])} trees, player {s['player']})", "",
                 f"![{s['name']} wiring]({s['id']}.svg)", "",
-                "| PSU | Feeds | Load | Of |", "|---|---|---|---|"]
-        for psu in p["psus"]:
-            feeds = ", ".join(f"tree {r['tree']}" for r in psu["trees"]) + (" + player" if psu["player"] else "")
-            out.append(f"| {psu['n']} | {feeds} | {psu['amps']:.1f}A | {PSU[1]}A |")
-        out += ["", "| Slot | Tree | IP | PSU | Fuse | Run | Flex | Drop | At the tree |",
-                "|---|---|---|---|---|---|---|---|---|"]
+                f"PSU: Mean Well {p['psu']['name']}, {p['psu']['amps']:.1f}A of {p['psu']['rating']:g}A "
+                f"({p['psu']['amps'] / p['psu']['rating']:.0%}).", "",
+                "| Slot | Tree | IP | Fuse | Run | Flex | Drop | At the tree |",
+                "|---|---|---|---|---|---|---|---|"]
         for r in p["runs"]:
-            out.append(f"| {r['slot']} | {r['tree']} (stairtree-{r['tree']:02d}) | {r['ip']} | {r['psu']} | {FUSE_A}A "
+            out.append(f"| {r['slot']} | {r['tree']} (stairtree-{r['tree']:02d}) | {r['ip']} | {FUSE_A}A "
                        f"| {r['run_m']:g}m | {fmt_mm2(r['mm2'])} | {r['drop']:.2f}V | {r['v_tree']:.1f}V |")
         out.append("")
     out += ["## Shopping totals", "",
-            f"- {t['psus']} × Mean Well {PSU[0]} (plus 1 spare: every site uses the same part)",
-            f"- {t['fuses']} × {FUSE_A}A and {len(plans)} × {PLAYER_FUSE_A}A blade fuses, in a blade fuse block per site box (plus spares)"]
+            *[f"- {n} × Mean Well {name}" for name, n in t["psus"].items() if n],
+            f"- 1 spare Mean Well {PSUS[-1][0]}: it covers any site",
+            f"- {t['fuses'] + len(plans)} × DIN-rail 10×38 fuse holders and {t['fuses']} × {FUSE_A}A + "
+            f"{len(plans)} × {PLAYER_FUSE_A}A 10×38 fuses (plus spares)"]
     out += [f"- {m}m of 3-core {fmt_mm2(mm2)} outdoor flex (runs + 10%)" for mm2, m in t["flex"].items()]
     out.append("")
     path.write_text("\n".join(out), encoding="utf-8", newline="\n")
 
 
 def write_svg(p: dict, path: Path) -> None:
-    runs, psus = p["runs"], p["psus"]
+    runs = p["runs"]
     row = 56
     top = 70
     h = top + (len(runs) + 1) * row + 30       # row 0 is the player
     w = 820
-    box_x, box_w = 250, 250
+    box_x, box_w = 230, 270
     tree_x = 640
     el = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
           'font-family="sans-serif" font-size="12">',
@@ -158,20 +164,22 @@ def write_svg(p: dict, path: Path) -> None:
     def ty(i: int) -> float:                    # i = row; trees are rows 1..n
         return top + i * row + row / 2
 
-    # site box
-    el.append(f'<rect x="{box_x}" y="{top - 30}" width="{box_w}" height="{h - top}" fill="#eef4fb" stroke="#36c" rx="6"/>')
-    el.append(f'<text x="{box_x + 8}" y="{top - 14}" fill="#36c">site box (printed)</text>')
-    # PSUs, left, outside the box
-    for psu in psus:
-        idx = ([0] if psu["player"] else []) + [runs.index(r) + 1 for r in psu["trees"]]
-        y = (ty(idx[0]) + ty(idx[-1])) / 2
-        el.append(f'<rect x="60" y="{y - 20}" width="120" height="40" fill="#fff3e0" stroke="#c60" rx="4"/>')
-        el.append(f'<text x="120" y="{y - 3}" text-anchor="middle">PSU {psu["n"]} {PSU[0]}</text>')
-        el.append(f'<text x="120" y="{y + 12}" text-anchor="middle" fill="#666">{psu["amps"]:.1f} / {PSU[1]}A</text>')
-        el.append(f'<line x1="20" y1="{y}" x2="60" y2="{y}" stroke="#a00" stroke-width="2"/>')
-        el.append(f'<text x="18" y="{y - 6}" fill="#a00" font-size="10">mains</text>')
-        for i in idx:
-            el.append(f'<polyline points="180,{y} 215,{y} 215,{ty(i)} {box_x + 20},{ty(i)}" fill="none" stroke="#c00" stroke-width="2"/>')
+    # site box (it holds the PSU too)
+    el.append(f'<rect x="{box_x - 165}" y="{top - 30}" width="{box_w + 165}" height="{h - top}" fill="#eef4fb" stroke="#36c" rx="6"/>')
+    el.append(f'<text x="{box_x - 157}" y="{top - 14}" fill="#36c">site box (DRiBOX Large)</text>')
+    # the PSU, inside the box on the left, feeding every fuse
+    psu = p["psu"]
+    y = (ty(0) + ty(len(runs))) / 2
+    bus_x = box_x - 15
+    el.append(f'<rect x="{box_x - 150}" y="{y - 20}" width="120" height="40" fill="#fff3e0" stroke="#c60" rx="4"/>')
+    el.append(f'<text x="{box_x - 90}" y="{y - 3}" text-anchor="middle">{psu["name"]}</text>')
+    el.append(f'<text x="{box_x - 90}" y="{y + 12}" text-anchor="middle" fill="#666">{psu["amps"]:.1f} / {psu["rating"]:g}A</text>')
+    el.append(f'<line x1="20" y1="{y}" x2="{box_x - 150}" y2="{y}" stroke="#a00" stroke-width="2"/>')
+    el.append(f'<text x="18" y="{y - 6}" fill="#a00" font-size="10">mains (plug lead, cord grip)</text>')
+    el.append(f'<line x1="{box_x - 30}" y1="{y}" x2="{bus_x}" y2="{y}" stroke="#c00" stroke-width="2"/>')
+    el.append(f'<line x1="{bus_x}" y1="{ty(0)}" x2="{bus_x}" y2="{ty(len(runs))}" stroke="#c00" stroke-width="2"/>')
+    for i in range(len(runs) + 1):
+        el.append(f'<line x1="{bus_x}" y1="{ty(i)}" x2="{box_x + 20}" y2="{ty(i)}" stroke="#c00" stroke-width="2"/>')
     # fuses and runs
     for i, r in enumerate(runs):
         y = ty(i + 1)
