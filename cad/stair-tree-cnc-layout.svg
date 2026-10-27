@@ -4,7 +4,7 @@
 <g id="BLANK" inkscape:groupmode="layer" inkscape:label="BLANK" fill="none" stroke="#000" stroke-width="0.5">
 <polygon points="0,894 382,894 237,0 145,0"/>
 </g>
-<g id="FRONT_COUNTERBORE" inkscape:groupmode="layer" inkscape:label="FRONT_COUNTERBORE (2 deep)" fill="none" stroke="#c60" stroke-width="0.5">
+<g id="FRONT_COUNTERBORE" inkscape:groupmode="layer" inkscape:label="FRONT_COUNTERBORE (6 deep)" fill="none" stroke="#c60" stroke-width="0.5">
 <circle cx="25.9" cy="872" r="9.5"/>
 <circle cx="55.9" cy="872" r="9.5"/>
 <circle cx="85.9" cy="872" r="9.5"/>

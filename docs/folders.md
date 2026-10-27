@@ -7,7 +7,7 @@
 | Folder | What's in it | Edited by |
 |---|---|---|
 | `CLAUDE.md`, `README.md` | Project brief and decisions; quick start | hand |
-| `cad/` | STEP solids for CAM in NX (tree, fixture plate, assembly); 2D CNC layout of one tree (`.svg`, `.dxf`) | generated (`tools/gen_step.py`, `tools/gen_cnc.py`) |
+| `cad/` | STEP solids for CAM in NX (tree, fixture plate, assembly); `printed/` every printed part as a STEP solid, as fitted; `stair-tree-kit.step` one tree with everything on it; 2D CNC layout of one tree (`.svg`, `.dxf`) | generated (`tools/gen_step.py`, `tools/gen_printed.py`, `tools/gen_cnc.py`) |
 | `data/` | `blank.json` (tread outline), `sites.json`, `voices.json` | hand |
 | | `tree-layout.json` | generated (`tools/tree_layout.py`) |
 | | `xlights-effects.json` (effect settings keys) | generated (`tools/xl_keys.py` from the xLights source) |

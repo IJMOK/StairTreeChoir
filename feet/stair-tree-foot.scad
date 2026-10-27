@@ -28,8 +28,8 @@
 //
 // Boot coordinates: x along the tree's width (+x = towards the tree centre),
 // y through the tree (front face y = 0, back face y = tree_t, toe at -y),
-// z up, ground z = 0. Built as the right boot seen from the front; the left
-// (control) boot is mirrored.
+// z up, ground z = 0. Built as the left (control) boot seen from the front, which
+// puts +x to the right as you face it; the right (plain) boot is mirrored.
 //
 // Printing (Bambu P1S): upright on the sole, no supports. Cavity roofs are sloped
 // and horizontal holes are teardrops. PETG, 3 walls, 15% infill. Peg: head down.
@@ -43,6 +43,7 @@ use <../enclosure/tree-box.scad>
 
 hand = "right";          // "right" (plain) or "left" (control boot)
 part = "boot";           // "boot", "peg", or "preview" (boot + peg + box, not for printing)
+                         // "peg-fitted", "box-fitted", "lid-fitted": as fitted, in boot coordinates (STEP export)
 controller = hand == "left";
 
 // Tree (from data/blank.json and data/tree-layout.json)
@@ -328,11 +329,14 @@ module boot() {
 }
 
 module hand() {
-    if (hand == "left") mirror([1, 0, 0]) children(); else children();
+    if (hand == "right") mirror([1, 0, 0]) children(); else children();
 }
 
 if (part == "boot") hand() boot();
 else if (part == "peg") peg_print();
+else if (part == "peg-fitted") hand() peg();
+else if (part == "box-fitted") hand() translate([box_x, y_back, zb]) box();
+else if (part == "lid-fitted") hand() translate([box_x, y_back + box_body_d + box_lid_t, zb]) rotate([90, 0, 0]) lid();
 else if (part == "preview") hand() {
     color("Peru") boot();
     color("DarkOrange") peg();

@@ -22,12 +22,12 @@ LAYOUT_FILE = ROOT / "data" / "tree-layout.json"
 
 @dataclass(frozen=True)
 class Params:
-    # Pixel mount, all cut from the front in one op (Rob, 25 Oct 2026): a printed 2mm disk
+    # Pixel mount, all cut from the front in one op (Rob, 25 Oct 2026): a printed disk
     # (fixtures/pixel-disk.scad) sits flush in a front counterbore and the bullet's clips
-    # snap behind it, so the 30mm body ends level with the back face.
+    # snap behind its 2mm front lip, so the 30mm body ends level with the back face.
     hole_dia: float = 12.0          # bullet bore in the printed disk; pick it from the disk test strip
     front_counterbore_dia: float = 19.0   # disk OD 18.5 + 0.5
-    front_counterbore_depth: float = 2.0  # = disk thickness (the gap the bullet's clips grip)
+    front_counterbore_depth: float = 6.0  # = disk thickness (Rob, first-off run 26 Oct 2026; was 2)
     # TODO(Rob): must clear the clip barbs once they spring out; measure a real pixel.
     clearance_dia: float = 15.0     # through the oak behind the disk
     edge_inset: float = 22.0        # outline node centres from the blank edge

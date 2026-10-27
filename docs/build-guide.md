@@ -26,7 +26,7 @@ Two safety rules cover the whole project:
 
 ## 1. Buy and print first
 
-1. Order from [bom.md](bom.md). The AliExpress order (18 Oct 2026) is due 25 to 31 Oct 2026. The "Still to buy" list has the rest: the Mean Well PSUs (7 plus 1 spare), the ESP32-DevKitC-32U boards with antennas, the Pis for two sites, the routers, flex and fasteners. The BOM says to buy 15 or more extra PG9 glands, since the 20 bought are not enough.
+1. Order from [bom.md](bom.md). The AliExpress order (18 Oct 2026) is due 25 to 31 Oct 2026. The "Still to buy" list has the rest: the Mean Well PSU (one LRS per site), the ESP32-DevKitC-32U boards with antennas, the Pis for two sites, the routers, flex and fasteners. The BOM says to buy 15 or more extra PG9 glands, since the 20 bought are not enough.
 2. Measure the parts the design only assumes. The READMEs list these as unverified, and they may change files before you print or cut 14 of anything:
    - ESP32 board header row spacing (assumed 25.4mm), Mini560 size and pad positions, and that the 5×7cm board is 24×18 holes ([electronics/README.md](../electronics/README.md)).
    - Board hole positions and ESP32 height in the box, PG9 and PG7 thread sizes, RP-SMA bulkhead thread, and the M3 insert hole size (4.0mm) ([enclosure/README.md](../enclosure/README.md)).
@@ -50,7 +50,7 @@ The procedure, layers and feeds are in [cnc-cutting.md](cnc-cutting.md). In outl
 
 Each tree is cut in one op, front face up, with no flip and nothing cut from the back (Rob, 25 Oct 2026). Rob does the CAM in NX from the STEP files in `cad/` (`tools/gen_step.py`).
 
-1. **Offcut test first.** Print the disk test strip (`fixtures/pixel-disk.scad`, bores 11.8 to 12.2mm). Cut one Ø19 × 2mm counterbore and a Ø15 clearance hole in an oak offcut and glue a disk in. Check a pixel snaps in and its clips clear the hole. Set `hole_dia` (the disk bore) and `clearance_dia` in `tools/tree_layout.py` and run `make all`. **TBC (Rob):** the disk bore and the clip barb flare. These wait on the pixels arriving.
+1. **Offcut test first.** Print the disk test strip (`fixtures/pixel-disk.scad`, bores 11.8 to 12.2mm). Cut one Ø19 × 6mm counterbore and a Ø15 clearance hole in an oak offcut and glue a disk in. Check a pixel snaps in and its clips clear the hole. Set `hole_dia` (the disk bore) and `clearance_dia` in `tools/tree_layout.py` and run `make all`. **TBC (Rob):** the disk bore and the clip barb flare. These wait on the pixels arriving.
 2. **Op 0, once:** screw an MDF sheet to the bed and pocket it 4mm deep to the blank's shape. Don't move it again.
 3. Cut a **pilot tree first**. Op 1: drop the tread into the pocket, face up, and clamp it with the clamps clear of the counterbores. Cut the 92 counterbores, then the clearance holes through into the MDF (helical bore, clear the chips every 6 to 8mm). Watch the first tree all the way through.
 4. Fit a pixel string and a boot to the pilot tree before cutting the other 13.
@@ -79,7 +79,7 @@ Each tree takes one string of 92 pixels. The strings have 100: cut off the surpl
    | eye_right | 81 to 86, viewer's right, top node first, clockwise |
    | eye_left | 87 to 92, viewer's left, top node first, clockwise |
 
-3. **Glue in the disks** first: one printed PETG disk (Ø18.5 × 2mm) in each front counterbore, flush with the face, with hot glue (or CA or epoxy). Keep glue out of the bore.
+3. **Glue in the disks** first: one printed PETG disk (Ø18.5 × 6mm) in each front counterbore, flush with the face, with hot glue (or CA or epoxy). Keep glue out of the bore.
 4. Push each pixel in from the front, through the disk, until its clips snap behind it. The flange rests on the disk, about 1mm proud. The 30mm body ends level with the back face, so the leads come straight out of the back.
 5. Loop each lead across the back face to the next pixel in the same order.
 6. Node 1 is at the base-left. The string's input lead runs down the back face into the control boot's shelf hole, with its xConnect plug at the end and a loop of slack.
@@ -120,7 +120,7 @@ Box details are in [enclosure/README.md](../enclosure/README.md).
 1. Push 6 M3 heat-set inserts into the lid side (near the rim's outer edge) of the box. The 4 tower inserts are done in stage 7.
 2. Fit the PG9 (12V flex in) and PG7 (pixel lead tail out) glands in the floor, both pointing down into the tower, and the RP-SMA bulkhead in the roof. Leave the 3mm drip hole open.
 3. Screw the controller board onto the four standoffs on the front wall (M2 self-tapping), components facing the lid. Foam-tape the Mini560 and the two Wago 221-413 below the board.
-4. Wire to the schematic in [electronics/README.md](../electronics/README.md). The pixel current (about 2.3A at full white) goes through the Wagos on 18AWG wire, never through the board. The pixel lead's data wire goes to JD DATA. The optional TVS diode goes across JD (data to GND). There is no fuse in the box: the 5A fuse is at the site box.
+4. Wire to the schematic in [electronics/README.md](../electronics/README.md). The pixel current (about 2.3A at full white) goes through the Wagos on 18AWG wire, never through the board. The pixel lead's data wire goes to JD DATA. The optional TVS diode goes across JD (data to GND). There is no fuse in the box: the 3A fuse is at the site box.
 5. Connect the antenna: U.FL to RP-SMA pigtail, then the dipole on the outside of the roof, pointing up. Where you can, put the box on the side of the tree that faces the router.
 6. **Cord seal.** Lay the 2.7mm rubber cord in the lid groove (3.8 × 2.05mm, about 25% squeeze), cut it to length and superglue the butt joint. Fit the lid with six M3 screws, tightening evenly.
 7. Fit the box on the tower with four M3 screws through its ears. Plug the pixel lead's xConnect into the PG7 tail.
@@ -131,16 +131,18 @@ Run checklist section C (including the soak test of at least one box).
 
 Each site's PSUs, fuses and runs are in [electronics/site-wiring.md](../electronics/site-wiring.md), generated from `data/sites.json`. **TBC (Rob):** the tree counts per site and every run length are defaults, not confirmed. Edit `data/sites.json` and run `make all` when they are. Current defaults: Site A 6 trees (Pi 5), Site B 4 trees (Pi 3), Sites C and D 2 trees each (Pi still to buy).
 
-**Mains.** Each PSU has its own mains lead to an RCD-protected outdoor socket (or a weatherproof multi-way box on one). Mains never enters a printed box. The repo does not specify the socket, the lead or who inspects the mains side. **TBC (Rob):** have the mains side checked by a competent electrician.
+**Mains.** One plug lead (3-core 1.0mm² H05RN-F, 13A plug with a 3A fuse) per site, from an RCD-protected outdoor socket into the site box, clamped to the plate and wired to the PSU's input terminals under their printed cover. Mains goes nowhere else in the box. The repo does not specify the socket or who inspects the mains side. **TBC (Rob):** have the mains side checked by a competent electrician.
 
-1. Print the box for the site's tree count (`trees=6`, `4` or `2`). Fit 8 M3 heat-set inserts for the lid.
-2. Fit PG9 glands in the floor: one per PSU input and one per tree run. Fit a PG7 for the speaker (two rows for a 6-tree site). Leave the drip hole open.
-3. Lay the parts on the back wall before tying anything down: Pi on its standoffs (58 × 49mm M2.5 pattern, top left), router, 12V to 5V buck, PAM8610, USB sound card, Wagos and fuse holders on the zip-tie anchors. **TBC (Rob):** these sizes are not confirmed, nor that they fit the 64mm depth.
-4. Wire each PSU's 12V input to **its own** pair of Wagos (+ and −), and from there through its own 5A blade fuses to its two tree runs. **Never join two PSUs' +12V.** The negatives may be joined.
-5. PSU 1 also feeds the player: a 3A fuse, then the buck to the Pi (a Pi 5 needs a 5V 5A buck, a Pi 3 is happy with 2.5A). The PAM8610 runs straight off 12V.
-6. Fuse each run at the site box, where it starts, so the fuse protects the flex. Use 3-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, and 1.5mm² beyond.
-7. Run each flex to its tree and through the back arch of the control boot to the PG9 gland. Label both ends with the tree number.
-8. Stand the PSUs outside, beside the site box. Screw the box to a post or fence through its lugs (5 × 40 exterior screws).
+The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals in its lid, so it needs no glands. Its inside tapers towards the floor, with ribs: measure it before printing the plate. **The plate is still to design** (CLAUDE.md §5); the steps below are the plan.
+
+1. Fit the PSU (Site A: LRS-200-12) at the top of the plate with air round it, then the terminal cover over its mains side.
+2. Fit the 10-way blade fuse box below it: the PSU's +12V to its input, 0V to its negative bus. One way per tree run (3A), one for the player (3A), one for the router (2A); every negative to the bus.
+3. Fit the Pi and its Mini560 5V buck (Site A: the Pi 3, which needs 2.5A; keep the 5V leads short. A Pi 5 would need 5A, and `PSU_MAX_CURRENT=5000` set with `rpi-eeprom-config --edit` because a plain buck can't do its USB-PD handshake), the PAM8610 (straight off 12V after the player fuse) and the USB sound card. Each speaker gets its own 2-core run from the amp.
+4. Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the socket half of a PY07 Z108 2-pin bayonet connector on the tree end. Red to +, the same pin every time. Label both ends with the tree number.
+5. Make up each tree's pigtail: 2-core flex out of the tree box's PG9 gland, with the pin half of the connector. Solder and heatshrink inside the connector.
+6. Wire each run to its fuse at the site box, lay the cables through the DRiBOX lid seals with the cable guides, and clamp the lid.
+7. Plug each run into its tree. Keep the joints off the ground where water pools (IP67 only when mated).
+8. Stand the box upright with the seals facing down, or screw it to a post or fence.
 
 ## 10. Network
 
@@ -149,9 +151,9 @@ Each site's PSUs, fuses and runs are in [electronics/site-wiring.md](../electron
 3. Subnet: 192.168.8.x, with the router at 192.168.8.1. OpenWrt starts at 192.168.1.1, so change the LAN address at first set-up.
 4. Fixed addresses: tree NN is `stairtree-NN` at `192.168.8.(100+NN)`, the same at every site. Tree 7 is `stairtree-07` at 192.168.8.107. Reserve each IP in the router as well as setting it in WLED.
 5. Each router keeps two configs. "Show" is the setup above. "Home" makes it an 802.11s mesh node of Rob's home OpenWrt network for the rest of the year (5 GHz backhaul, home SSID on 2.4 GHz). Save both as `sysupgrade -b` backups outside git, because they hold the Wi-Fi passwords. Restore "show" before each season.
-6. **TBC (Rob):** whether the router goes in the site box or beside it under cover. The WR3000 is an indoor router and bigger than a travel router: check it fits the 64mm depth with the antennas folded, since PETG doesn't block Wi-Fi. Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
-7. **TBC (Rob):** how to power the router. The WR3000 is believed to take 12V 1A; check the label on the real one. On PSU 1 with its own 1A fuse, that PSU's load goes from 6.1A to about 7.1A of 8.5A. If so, add it to `PLAYER_A` in `tools/gen_site_wiring.py` and regenerate. Otherwise use its own mains adapter, plugged in outside the box.
-8. Connect the Pi to the router by Ethernet.
+6. Not in the site box: inside the DRiBOX the router's 175mm antennas would lie flat over the PSU at ground level. Put it up high with its antennas upright (Site A: indoors at the front window, about 5ft from the trees). Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
+7. Site A: the router stands indoors at the front window, about 5ft from the trees, with its antennas upright, on its own mains adapter. Other sites: in a small covered box mounted high, on the site PSU through its own 2A fuse (the WR3000 takes 12V 1A, the WR3000H 1.5A; check the label and the barrel's polarity). Set `"router"` in `data/sites.json` to match.
+8. Connect the Pi to the router by Ethernet: at Site A, outdoor Cat6 from the site box (through its lid seal) to the window.
 
 ## 11. Provisioning
 

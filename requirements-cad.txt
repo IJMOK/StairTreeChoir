@@ -1,3 +1,3 @@
-# Optional: tools/gen_step.py (STEP solids for CAM in NX). Wheels exist for Windows on Python 3.10-3.12.
+# Optional: tools/gen_step.py and tools/gen_printed.py (STEP solids for NX). Installs on Python 3.14 (CadQuery 2.8).
 #   .venv/Scripts/python -m pip install -r requirements-cad.txt
 cadquery>=2.4
