@@ -138,8 +138,8 @@ The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals
 1. Fit the PSU (Site A: LRS-200-12) at the top of the plate with air round it, then the terminal cover over its mains side.
 2. Fit the 10-way blade fuse box below it: the PSU's +12V to its input, 0V to its negative bus. One way per tree run (3A), one for the player (3A), one for the router (2A); every negative to the bus.
 3. Fit the Pi and its Mini560 5V buck (Site A: the Pi 3, which needs 2.5A; keep the 5V leads short. A Pi 5 would need 5A, and `PSU_MAX_CURRENT=5000` set with `rpi-eeprom-config --edit` because a plain buck can't do its USB-PD handshake), the PAM8610 (straight off 12V after the player fuse) and the USB sound card. Each speaker gets its own 2-core run from the amp.
-4. Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the socket half of a PY07 Z108 2-pin bayonet connector on the tree end. Red to +, the same pin every time. Label both ends with the tree number.
-5. Make up each tree's pigtail: 2-core flex out of the tree box's PG9 gland, with the pin half of the connector. Solder and heatshrink inside the connector.
+4. Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the female half of an SP16/SP17 2-pin screw-terminal aviation connector on the tree end (screw terminals, no solder). Red to +, the same pin every time. Label both ends with the tree number.
+5. Make up each tree's pigtail: 2-core flex out of the tree box's PG9 gland, with the male half of the connector. Strip, screw down and tighten the cable gland nut; check the seal sits on the outer sheath.
 6. Wire each run to its fuse at the site box, lay the cables through the DRiBOX lid seals with the cable guides, and clamp the lid.
 7. Plug each run into its tree. Keep the joints off the ground where water pools (IP67 only when mated).
 8. Stand the box upright with the seals facing down, or screw it to a post or fence.

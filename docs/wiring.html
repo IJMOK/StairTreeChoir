@@ -118,7 +118,7 @@ svg .net-text { fill: var(--net); }
     <h2>1 · What connects to what</h2>
     <figure>
       <div class="scroll">
-        <svg viewBox="0 0 1000 590" role="img" aria-label="Mains plug into the site box power supply, then a blade fuse box with six 3A tree runs and a 3A player feed. Each tree run leaves the box on 2-core flex, through a bayonet connector, to its tree box. The player feed powers a Mini560 for the Pi 3 and the PAM8610 amp, which drives two speakers. The router stands indoors at the window; it connects to the Pi by Ethernet and to the trees by Wi-Fi.">
+        <svg viewBox="0 0 1000 590" role="img" aria-label="Mains plug into the site box power supply, then a blade fuse box with six 3A tree runs and a 3A player feed. Each tree run leaves the box on 2-core flex, through an SP17 aviation connector, to its tree box. The player feed powers a Mini560 for the Pi 3 and the PAM8610 amp, which drives two speakers. The router stands indoors at the window; it connects to the Pi by Ethernet and to the trees by Wi-Fi.">
           <!-- socket -->
           <rect class="part" x="20" y="52" width="122" height="54" rx="4"/>
           <text x="81" y="75" text-anchor="middle">RCD outdoor</text>
@@ -167,7 +167,7 @@ svg .net-text { fill: var(--net); }
             <polyline class="w v12" points="370,320 606,320"/><polyline class="w v0" points="370,326 606,326"/>
             <polyline class="w v12" points="370,348 606,348"/><polyline class="w v0" points="370,354 606,354"/>
           </g>
-          <!-- bayonets and flex -->
+          <!-- connectors and flex -->
           <g>
             <rect class="part" x="606" y="203" width="12" height="16" rx="2"/><rect class="soft" x="620" y="203" width="12" height="16" rx="2"/>
             <rect class="part" x="606" y="231" width="12" height="16" rx="2"/><rect class="soft" x="620" y="231" width="12" height="16" rx="2"/>
@@ -192,8 +192,8 @@ svg .net-text { fill: var(--net); }
             <rect class="part" x="760" y="340" width="220" height="22" rx="3"/><text x="770" y="355">Tree 6 box → 92 pixels</text>
           </g>
           <!-- run annotations -->
-          <text class="s" x="604" y="186">bayonet:</text>
-          <text class="s" x="604" y="172">socket ▌ pins</text>
+          <text class="s" x="604" y="186">SP17:</text>
+          <text class="s" x="604" y="172">female ▌ male</text>
           <text class="s" x="690" y="186" text-anchor="middle">5m 2-core 0.75mm²</text>
           <text class="s" x="870" y="186" text-anchor="middle">pixels limited to 2A per tree</text>
           <text class="net-text" x="870" y="386" text-anchor="middle">Wi-Fi: show frames to every tree ↑</text>
@@ -230,7 +230,7 @@ svg .net-text { fill: var(--net); }
           <text class="s" x="640" y="536" text-anchor="middle">2 runs</text>
         </svg>
       </div>
-      <figcaption>Everything at Site A runs from one Mean Well LRS-200-12. The blade fuse box gives each tree its own 3A fuse, plus 3A for the player (Pi and amp). Every run leaves on 2-core flex and ends in a bayonet connector: the socket is on the powered cable, the pins on the tree. Full load is 14.1A of 17A. The router stands indoors at the front window, about 5ft from the trees, on its own adapter, with Ethernet out to the Pi.</figcaption>
+      <figcaption>Everything at Site A runs from one Mean Well LRS-200-12. The blade fuse box gives each tree its own 3A fuse, plus 3A for the player (Pi and amp). Every run leaves on 2-core flex and ends in an SP17 aviation connector: the female half is on the powered cable, the male on the tree. Full load is 14.1A of 17A. The router stands indoors at the front window, about 5ft from the trees, on its own adapter, with Ethernet out to the Pi.</figcaption>
     </figure>
   </section>
 
@@ -321,7 +321,7 @@ svg .net-text { fill: var(--net); }
     <p>The tree box sits on the tower of the left boot (the control boot), behind the tree. Power comes in through its floor; the pixel lead goes out through its floor, down into the tower, and up to the tree's own pigtail.</p>
     <figure>
       <div class="scroll">
-        <svg viewBox="0 0 1000 430" role="img" aria-label="Left: the tree box with the lid off. The controller board, with the ESP32, level shifter and two screw terminals, is on four standoffs. Below it are the Mini560 and two Wago connectors. The 12V pigtail enters through a PG9 gland in the floor, and the pixel lead leaves through a PG7 gland. The antenna is on the roof. Right: from the front, the tree stands in two boots; the box sits behind the tree on the left boot's tower, and the 12V run and bayonet arrive at the back of that boot.">
+        <svg viewBox="0 0 1000 430" role="img" aria-label="Left: the tree box with the lid off. The controller board, with the ESP32, level shifter and two screw terminals, is on four standoffs. Below it are the Mini560 and two Wago connectors. The 12V pigtail enters through a PG9 gland in the floor, and the pixel lead leaves through a PG7 gland. The antenna is on the roof. Right: from the front, the tree stands in two boots; the box sits behind the tree on the left boot's tower, and the 12V run and SP17 connector arrive at the back of that boot.">
           <!-- box interior -->
           <rect class="enclosure" x="60" y="44" width="320" height="320" rx="8"/>
           <text class="t" x="60" y="30">TREE BOX · lid off</text>
@@ -389,7 +389,7 @@ svg .net-text { fill: var(--net); }
           <rect class="soft" x="600" y="347" width="12" height="16" rx="2"/>
           <rect class="part" x="613" y="347" width="12" height="16" rx="2"/>
           <text class="s" x="560" y="338">from the site box</text>
-          <text class="s" x="606" y="384" text-anchor="middle">bayonet</text>
+          <text class="s" x="606" y="384" text-anchor="middle">SP17</text>
           <text class="s" x="560" y="420">the pigtail goes up inside the tower to the PG9</text>
         </svg>
       </div>
@@ -409,7 +409,7 @@ svg .net-text { fill: var(--net); }
           <tr><td>Pi 3 + USB sound card</td><td class="num">56 × 85</td><td>Site box, back right</td><td>Mini560 5V (player fuse, 3A)</td></tr>
           <tr><td>PAM8610 amp</td><td class="num">≈ 63 × 40</td><td>Site box, front right</td><td>12V (player fuse, 3A)</td></tr>
           <tr><td>Cudy WR3000 router</td><td class="num">183 × 109 × 35</td><td>Indoors at the front window, antennas upright</td><td>Its own adapter; outdoor Cat6 to the Pi</td></tr>
-          <tr><td>Tree run</td><td class="num">5m, 2-core 0.75mm²</td><td>Ground, site box to tree</td><td>Tree fuse, 3A; bayonet at the tree</td></tr>
+          <tr><td>Tree run</td><td class="num">5m, 2-core 0.75mm²</td><td>Ground, site box to tree</td><td>Tree fuse, 3A; SP17 connector at the tree</td></tr>
           <tr><td>Controller board</td><td class="num">50 × 70</td><td>Tree box, on 4 standoffs</td><td>Wago +12V → JP</td></tr>
           <tr><td>Mini560 (tree)</td><td class="num">≈ 22 × 18</td><td>Tree box, below the board</td><td>JP 12V</td></tr>
           <tr><td>2 × Wago 221-413</td><td class="num">—</td><td>Tree box, below the board</td><td>The 12V pigtail via PG9</td></tr>
@@ -418,8 +418,8 @@ svg .net-text { fill: var(--net); }
     </div>
     <ul class="notes">
       <li>Earth the PSU: the mains lead's earth goes to its earth terminal.</li>
-      <li>Meter every bayonet before plugging in: red to +, the same pin every time.</li>
-      <li>Keep bayonet joints off the ground where water pools. They're only waterproof when plugged together.</li>
+      <li>Meter every connector before plugging in: red to +, the same pin every time.</li>
+      <li>Keep connector joints off the ground where water pools. They're only waterproof when plugged together.</li>
     </ul>
   </section>
 </main>

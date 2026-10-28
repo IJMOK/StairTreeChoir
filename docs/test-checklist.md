@@ -90,7 +90,7 @@ Mains and fuses:
 - [ ] PSU output with no load: ____ V (12V nominal)
 - [ ] A 3A blade fuse on every tree run and the player, and a 2A on the router
 - [ ] A 3A fuse sits on the player feed
-- [ ] Every run's bayonet connector: socket on the run, pins on the tree, red to + (meter it before plugging in)
+- [ ] Every run's aviation connector: female on the run, male on the tree, red to + (meter it before plugging in); gland nut tight on the sheath
 - [ ] The wiring matches this site's table in [site-wiring.md](../electronics/site-wiring.md)
 
 Site load, all trees at full white with the player running. WLED's limiter should hold each tree to about 2.1A; this checks it does:

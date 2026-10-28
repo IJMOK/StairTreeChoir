@@ -1,6 +1,6 @@
 # Bill of materials
 
-Kept current from CLAUDE.md §4. 14 trees (maybe 15), each with its own ESP32 controller; one show player per site (4 sites). First goal: 6 trees at Site A by 1 Dec 2026. Updated 24 Oct 2026 with deliveries; pixel disks and the fixture plate added 25 Oct 2026.
+Kept current from CLAUDE.md §4. 14 trees (maybe 15), each with its own ESP32 controller; one show player per site (4 sites). First goal: 6 trees at Site A by 1 Dec 2026. Updated 24 Oct 2026 with deliveries; pixel disks and the fixture plate added 25 Oct 2026; the 27 Oct orders added 28 Oct 2026.
 
 ## Bought
 
@@ -21,6 +21,16 @@ AliExpress order of 18 Oct 2026 (£277.80, due 25–31 Oct), plus the ESP32 orde
 | 10 | ESP32-DevKitC-32U dev board, 38-pin | 16 needed; 6 more to buy | Ordered 22 Oct (AliExpress) |
 | 10 | 2.4GHz antenna: U.FL to RP-SMA bulkhead pigtail + RP-SMA dipole | 16 needed; 6 more to buy | Ordered 22 Oct (AliExpress) |
 
+Orders of 27 Oct 2026 (Site A wiring, speakers, router):
+
+| Qty | Item | Notes | Status |
+|---|---|---|---|
+| 1 | Cudy WR3000 V2 (AX3000) | Site A router, indoors at the front window. eBay (lekafindslimited), £29.99, order 11-15340-22895. V2: check the adapter label (12V, 1A or more) and set up OpenWrt from the V2 image | Due 29–31 Oct |
+| 1 pair | PD BGO40 outdoor speakers, black (MPN 100.044): 4" + 3/4" dome, 8Ω, 30W RMS, 89dB 1W/1m, 100Hz–20kHz, IP56, speaker cable included | Site A's stereo pair off the PAM8610. eBay listing called them "BC040" but the box says BGO40 (Rob, 28 Oct 2026); £15.88 against £51 at ElectroMarket. eBay (zahumble-0), order 09-15354-62517 | Arrived 28 Oct |
+| 25 | Wago 221-413 (3-way) | 12 for Site A's tree boxes + 13 toward trees 7–14. CPC CN20136, order 21543768 | Shipped 28 Oct (UPS 1Z63024Y6888853378; one of two shipments) |
+| 50m | Pro Power H05RR-F 2-core 0.75mm² rubber cable, black | Site A's ~35m of runs and pigtails + ~15m toward the later sites. H05RR-F is lighter duty than H05RN-F but fine laid on the ground for a season. CPC CB19470 (order 21543768 also lists SU00243, 1 off) | Shipped 28 Oct (UPS, as above) |
+| 15 sets | SP16/SP17 2-pin screw-terminal aviation connectors, male + female (solderless) | Replace the PY07 Z108 bayonets: one per tree run, 14 trees + 1 spare. SP17 2-pin is rated 10A, IP68 mated, cable 6–10mm (SP16 is smaller: check the H05RR-F sheath fits the gland). Female on the run, male on the tree's pigtail, red to +. AliExpress (Ti Socket Store), 10 + 5 sets, £32.06 | Shipped 28 Oct, due 7 Nov |
+
 ## Rob already has
 
 - DIP sockets
@@ -28,7 +38,6 @@ AliExpress order of 18 Oct 2026 (£277.80, due 25–31 Oct), plus the ESP32 orde
 - M3 heat-set inserts and stainless screws (count them against the fastener list below)
 - 33Ω resistors, 100µF capacitors
 - Lid sealing cord, RS 159-1490
-- Cudy WR3000 router (bought by 26 Oct 2026): 12V 1A (the WR3000H is 1.5A); runs off the site PSU on a 2A fuse. Check the label and barrel polarity
 - High-endurance microSD (bought; now in the Pi 3 bench player, FPP 10.3)
 
 ## Still to buy
@@ -41,7 +50,7 @@ Tree controller: DIY boards (Rob, 21 Oct 2026). See electronics/README.md.
 
 Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 
-**Already covered** (bought or in hand): ESP32 boards and antennas (10), 74AHCT125s, Mini560s (10: 6 trees + the Pi 3 + 3 spare), prototype boards (10), the PAM8610, a USB sound card, PG9 and PG7 glands (20 each; Site A needs 6 of each), the Pi 3 player with its microSD, the Cudy WR3000, the RCD outdoor socket, a mains lead with a 13A plug, PETG, hot glue, heatshrink, lid cord, and 18mm sheet for the CNC fixture plate.
+**Already covered** (bought or in hand): ESP32 boards and antennas (10), 74AHCT125s, Mini560s (10: 6 trees + the Pi 3 + 3 spare), prototype boards (10), the PAM8610, a USB sound card, PG9 and PG7 glands (20 each; Site A needs 6 of each), the Pi 3 player with its microSD, the Cudy WR3000 V2, the 27 Oct orders (Wagos, 50m of flex, the aviation connectors, the BGO40 speakers), the RCD outdoor socket, a mains lead with a 13A plug, PETG, hot glue, heatshrink, lid cord, and 18mm sheet for the CNC fixture plate.
 
 | Qty | Item | Notes | Approx. |
 |---|---|---|---|
@@ -54,13 +63,9 @@ Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 | 1 | 10-way blade fuse box with a negative bus (marine type, screw or stud input) | Replaces the DIN fuse holders (Rob, 26 Oct 2026): 6 tree runs and the player + 3 spare (the router is indoors). Its negative bus is the 0V common, so the site box needs no Wagos | £8 |
 | 10 | Blade fuses: 3A (standard ATO/ATC size, to suit the box) | Every tree run and the player. Rob's 5A blades are spares only | £3 |
 | ~10m | Outdoor Cat6 (UV-rated), flat if it has to pass a window frame | Pi in the site box to the router indoors at the front window (Rob, 26 Oct 2026). Measure the route | £10 |
-| 15 | Wago 221-413 (3-way) | 2 per tree box (12) + 3 spare | £10 |
-| 10 sets | PY07 Z108 2P bayonet waterproof connectors (IP67 mated, cable 3–8mm, solder) | One per tree run + spares. Socket on the run (powered side), pins on the tree's pigtail; red to +. No Z108 rating found; the PY07 series is ~4A on its small contacts, so the runs are fused 3A. Check the price is per mated pair | £12 |
-| ~35m | 2-core 0.75mm² outdoor flex (H05RN-F rubber if you can; 3-core is fine with the earth unused) | 6 runs at the default 5m (electronics/site-wiring.md) + the trees' pigtails. Rob has some flex but not enough (26 Oct 2026); buy the balance | £15–30 |
-| 1 pair | PD BGO40 outdoor speakers (MPN 100.044): 4" + 3/4" dome, 8Ω, 30W RMS, 89dB 1W/1m, 100Hz–20kHz, IP56, 130 × 155 × 200mm, speaker cable included | Stereo off the PAM8610 (10W/ch into 8Ω). Chosen 26 Oct 2026 after UK eBay had no second-hand outdoor pairs. ElectroMarket | £51 |
 | 6 | Small TVS diodes (optional) | Data line protection; skip for December | – |
 
-Site A total: about **£185**, less whatever flex Rob already has. The pixel disks (552 + spares) are printed from `fixtures/pixel-disk.scad`; print the bore test strip first.
+Still to buy for Site A: about **£90** (the 27 Oct orders covered the Wagos, flex, connectors and speakers, about £77 plus CPC). The pixel disks (552 + spares) are printed from `fixtures/pixel-disk.scad`; print the bore test strip first.
 
 ### Later: sites B to D, trees 7 to 14 (or 15)
 
@@ -73,17 +78,17 @@ Site A total: about **£185**, less whatever flex Rob already has. The pixel dis
 | 6 | 5×7cm prototype boards | 16 boards |
 | 9 | 1×40 female header strip, DIP-14 sockets, 10kΩ, 0.1µF (each) | The rest of the 16 boards |
 | 18 | 2-way 5.08mm PCB screw terminal | The rest of the 16 boards |
-| 20 | Wago 221-413 | Trees 7–14 and the other site boxes |
+| 0 | Wago 221-413 | 13 left over from the 27 Oct CPC order cover trees 7–14 (16) less 3; buy a 10-pack if the site boxes need any |
 | 3 | Mean Well LRS-150-12 (site B) and 2 × LRS-100-12 (sites C, D) | electronics/site-wiring.md |
 | 3 | DRiBOX (Large for B; C and D may fit a Medium) + mains leads | |
 | 3 | Mini560 5V buck for the players (a Pi 3 / 3 A+ needs 2.5A; a Pi 5 needs 5A and `PSU_MAX_CURRENT=5000`) | One per site box; Site B's Pi 5 also needs its own microSD |
 | 3 | Blade fuse boxes with a negative bus (+ 3A and 2A blades) | One per site box: the runs, the player and the router |
 | 1 | Spare Mean Well LRS-200-12 | Covers any site; skipped for December |
-| 10 sets | PY07 Z108 2P bayonet connectors | Trees 7–14 + spares |
-| ~45m | 2-core 0.75mm² outdoor flex | The other sites' runs |
+| 0 | SP16/SP17 2-pin aviation connectors | The 15 sets bought 27 Oct cover all 14 runs + 1 spare; buy a few more spares |
+| ~30m | 2-core 0.75mm² rubber flex | The other sites' runs, less the ~15m left from the 50m reel |
 | 2 | Raspberry Pi 3 Model A+ (or any Pi) | Players for sites C and D; Rob's Pi 3 is Site B's. The Pi Hut, about £24 |
 | 3 | High-endurance microSD | One per player |
-| 3 | Cudy WR3000 router | One per site; out of season they become home mesh nodes |
+| 3 | Cudy WR3000 router (V2 like Site A's) | One per site; out of season they become home mesh nodes |
 | 3 pairs | Outdoor 8Ω speakers | One stereo pair per site |
 | 8 | Small TVS diodes (optional) | |
 | 736 + spares | Printed pixel disks (PETG) | 92 per tree × 8 (trees 7–14) |

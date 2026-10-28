@@ -32,7 +32,7 @@ PLAYER_A = 1.5                      # Pi + USB sound card + PAM8610 at show volu
 ROUTER_A = 1.0                      # Cudy WR3000 (12V 1A adapter), on the site PSU unless the site's "router" is "indoors"
 PSUS = [("LRS-100-12", 8.5), ("LRS-150-12", 12.5), ("LRS-200-12", 17.0)]   # Mean Well, enclosed, fanless
 PSU_MAX_LOAD = 0.9                  # the smallest PSU that carries the site at no more than 90% (all white)
-FUSE_A = 3                          # every tree: 2.3A even unlimited; under the bayonet's ~4A (Rob, 26 Oct 2026)
+FUSE_A = 3                          # every tree: 2.3A even unlimited; well under the SP17 connector's 10A (Rob, 26 Oct 2026)
 PLAYER_FUSE_A = 3
 ROUTER_FUSE_A = 2
 COPPER = 0.0175                     # ohm mm²/m, copper at ~25°C
@@ -150,8 +150,8 @@ def write_md(plans: list[dict], confirmed: bool, path: Path = MD_FILE) -> None:
             f"- {len(plans)} × blade fuse boxes with a negative bus (10-way); {t['fuses'] + len(plans)} × 3A "
             f"and {sum(p['router_on_psu'] for p in plans)} × {ROUTER_FUSE_A}A blade fuses (plus spares)"]
     out += [f"- {m}m of 2-core {fmt_mm2(mm2)} outdoor flex (runs + 10%)" for mm2, m in t["flex"].items()]
-    out.append(f"- {t['fuses']} × PY07 Z108 2-pin bayonet connector sets, one per run (plus spares): "
-               "socket on the run, pins on the tree's pigtail, red to +")
+    out.append(f"- {t['fuses']} × SP16/SP17 2-pin screw-terminal aviation connector sets, one per run (plus spares): "
+               "female on the run, male on the tree's pigtail, red to +")
     out.append("")
     path.write_text("\n".join(out), encoding="utf-8", newline="\n")
 
