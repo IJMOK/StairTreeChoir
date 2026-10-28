@@ -6,11 +6,11 @@ Status: **measured** = calipers on Rob's part; **datasheet** = maker's drawing; 
 
 ## Checks
 
-- RP-SMA bulkhead: the roof is 11.1mm thick along the antenna axis (roof, hollow wedge and nut seat); the bulkhead takes 3.2mm at most. **Too thick: counterbore the roof from inside or move the antenna.**
+- RP-SMA bulkhead: through the 2.4mm outer side wall; it takes 3.2mm at most. OK.
 - SP16 and PG7: the floor is 3.5mm. PG7 thread is 8mm long (nut 3mm): OK. SP16 thread length past the flange is unknown: measure it.
 - SP16 plug: 63mm below the floor's outer face (plug 60 + flange), plus the cable bend: the new boot needs that clear under the box.
-- Clashes (overlap over 1mm³): sp16 / box: 295 mm³; pg7 / box: 125 mm³; rpsma / box: 14 mm³.
-- Board stack: the ESP32's tallest part reaches y = 27.9mm; the rim face is at y = 33, so 5.1mm spare under the lid (rim ledge and bosses not included).
+- Clashes (overlap over 1mm³): none.
+- Board stack: the ESP32's tallest part reaches y = 27.9mm; the rim face is at y = 43, so 15.1mm spare under the lid (rim ledge and bosses not included).
 - ESP32 USB end reaches x = 11.0mm; the inside wall is at x = 2.4.
 
 ## Sizes

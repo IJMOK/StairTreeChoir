@@ -321,15 +321,16 @@ svg .net-text { fill: var(--net); }
     <p>The tree box sits on the tower of the left boot (the control boot), behind the tree. Power plugs into an SP16 socket in its floor; the pixel lead goes out through its floor, down into the tower, and up to the tree's own pigtail.</p>
     <figure>
       <div class="scroll">
-        <svg viewBox="0 0 1000 430" role="img" aria-label="Left: the tree box with the lid off. The controller board, with the ESP32, level shifter and two screw terminals, is on four standoffs. Below it are the Mini560 and two Wago connectors. The 12V run's plug screws onto an SP16 panel socket in the floor, and the pixel lead leaves through a PG7 gland. The antenna is on the roof. Right: from the front, the tree stands in two boots; the box sits behind the tree on the left boot's tower, and the 12V run comes in at the back of that boot and up inside the tower.">
+        <svg viewBox="0 0 1000 430" role="img" aria-label="Left: the tree box with the lid off. The controller board, with the ESP32, level shifter and two screw terminals, is on four standoffs. Below it are the Mini560 and two Wago connectors. The 12V run's plug screws onto an SP16 panel socket in the floor, and the pixel lead leaves through a PG7 gland. The antenna is on the outer side wall, near the top. Right: from the front, the tree stands in two boots; the box sits behind the tree on the left boot's tower, and the 12V run comes in at the back of that boot and up inside the tower.">
           <!-- box interior -->
           <rect class="enclosure" x="60" y="44" width="320" height="320" rx="8"/>
           <text class="t" x="60" y="30">TREE BOX · lid off</text>
-          <text class="s" x="380" y="30" text-anchor="end">inside 91 × 92 × 30mm</text>
+          <text class="s" x="380" y="30" text-anchor="end">inside 91 × 92 × 40mm</text>
           <!-- antenna -->
-          <line x1="320" y1="44" x2="320" y2="12" stroke="var(--fg)" stroke-width="2.4"/>
-          <circle cx="320" cy="10" r="4" fill="var(--fg)"/>
-          <text class="s" x="330" y="16">RP-SMA, dipole outside</text>
+          <line x1="60" y1="70" x2="44" y2="70" stroke="var(--fg)" stroke-width="2.4"/>
+          <line x1="44" y1="70" x2="44" y2="20" stroke="var(--fg)" stroke-width="2.4"/>
+          <circle cx="44" cy="18" r="4" fill="var(--fg)"/>
+          <text class="s" x="200" y="16">RP-SMA in the side wall, dipole hinged up</text>
           <!-- board -->
           <rect class="part" x="80" y="64" width="280" height="176" rx="4"/>
           <text class="s" x="220" y="82" text-anchor="middle">controller board 5 × 7cm, on 4 standoffs</text>

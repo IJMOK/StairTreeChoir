@@ -118,10 +118,10 @@ The peg is separate because the tree has to drop into the slot from above; do no
 Box details are in [enclosure/README.md](../enclosure/README.md).
 
 1. Push 6 M3 heat-set inserts into the lid side (near the rim's outer edge) of the box. The 4 tower inserts are done in stage 7.
-2. Fit the SP16 panel socket (12V in; rear nut, the D flat stops it turning) and the PG7 gland (pixel lead tail out) in the floor, both pointing down into the tower, and the RP-SMA bulkhead in the roof. Leave the 3mm drip hole open.
+2. Fit the SP16 panel socket (12V in; rear nut, the D flat stops it turning) and the PG7 gland (pixel lead tail out) in the floor, both pointing down into the tower, and the RP-SMA bulkhead in the outer side wall, near the top. Leave the 3mm drip hole open.
 3. Screw the controller board onto the four standoffs on the front wall (M2 self-tapping), components facing the lid. Foam-tape the Mini560 and the two Wago 221-413 below the board.
 4. Wire to the schematic in [electronics/README.md](../electronics/README.md). The pixel current (about 2.3A at full white) goes through the Wagos on 18AWG wire, never through the board. The pixel lead's data wire goes to JD DATA. The optional TVS diode goes across JD (data to GND). There is no fuse in the box: the 3A fuse is at the site box.
-5. Connect the antenna: U.FL to RP-SMA pigtail, then the dipole on the outside of the roof, pointing up. Where you can, put the box on the side of the tree that faces the router.
+5. Connect the antenna: U.FL to RP-SMA pigtail, then the dipole on the outside of the side wall, hinged to point up. Where you can, put the box on the side of the tree that faces the router.
 6. **Cord seal.** Lay the 2.7mm rubber cord in the lid groove (3.8 × 2.05mm, about 25% squeeze), cut it to length and superglue the butt joint. Fit the lid with six M3 screws, tightening evenly.
 7. Fit the box on the tower with four M3 screws through its ears. Plug the pixel lead's xConnect into the PG7 tail.
 

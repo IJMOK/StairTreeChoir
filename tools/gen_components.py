@@ -119,8 +119,9 @@ def scad_params() -> dict[str, float]:
     p["box_w"] = p["box_in_w"] + 2 * p["box_wall"]
     p["box_h"] = p["box_in_h"] + 2 * p["box_floor_t"]
     p["box_body_d"] = p["box_front_t"] + p["box_in_d"]
-    p["gland_y"] = p["box_front_t"] + p["box_in_d"] / 2
-    p["ant_x"] = p["box_w"] - 18
+    p["floor_y"] = p["box_front_t"] + 13
+    p["ant_y"] = p["box_front_t"] + 9
+    p["ant_z"] = p["box_h"] - p["box_floor_t"] - 6
     p["board_x0"] = p["box_wall"] + (p["box_in_w"] - p["pb_w"]) / 2
     p["board_z0"] = p["box_h"] - p["box_floor_t"] - p["pb_top_gap"] - p["pb_h"]
     return p
@@ -233,7 +234,7 @@ def sp16(floor_t: float) -> cq.Workplane:
     """Axis z, 0 = the floor's outer face, +z into the box; plug mated below."""
     ft = v("sp16", "flange_t")
     flange = cyl(0, 0, -ft, v("sp16", "flange_d"), ft)
-    body = d_profile(v("sp16", "thread"), v("sp16", "flat") - 0.1, v("sp16", "body") - ft, 0)
+    body = d_profile(v("sp16", "thread"), v("sp16", "flat") - 0.4, v("sp16", "body") - ft, 0)   # flat 6.9 off the axis, the hole's 7.05
     nut = hexnut(0, 0, floor_t, v("sp16", "nut_af"), v("sp16", "nut_t"), v("sp16", "thread"))
     plug = cyl(0, 0, -ft - v("sp16", "plug_l"), v("sp16", "plug_d"), v("sp16", "plug_l"))
     return flange.union(body).union(nut).union(plug)
@@ -248,8 +249,8 @@ def pg7(floor_t: float) -> cq.Workplane:
 
 
 def rpsma(grip: float) -> cq.Workplane:
-    """Axis z, 0 = the roof's outer (top) face, +z down into the box; dipole above.
-    grip = material the thread has to pass through, outer face to the nut."""
+    """Axis z, 0 = the wall's outer face, +z into the box; dipole outside (shown straight
+    out; it hinges up). grip = material the thread has to pass through, outer face to the nut."""
     th = cyl(0, 0, -1, v("rpsma", "thread"), grip + v("rpsma", "nut_t") + 1)
     nut = hexnut(0, 0, grip, v("rpsma", "nut_af"), v("rpsma", "nut_t"), v("rpsma", "thread"))
     body = cyl(0, 0, grip + v("rpsma", "nut_t"), 7, v("rpsma", "body_in"))
@@ -267,15 +268,6 @@ def loc(rows: tuple, origin: tuple) -> cq.Location:
     return cq.Location(t)
 
 
-def roof_grip(box_shape: cq.Shape, p: dict) -> tuple[float, float]:
-    """Material along the antenna axis just outside the hole (the nut and washer bear there):
-    returns (outer face z, total grip from the roof's inner face)."""
-    x, y = p["ant_x"] + v("rpsma", "thread") / 2 + 1.5, p["gland_y"]
-    probe = cq.Solid.makeCylinder(0.4, 200, cq.Vector(x, y, p["box_h"] - p["box_floor_t"] - 1))
-    top = max(s.BoundingBox().zmax for s in box_shape.intersect(probe).Solids())
-    return top, top - (p["box_h"] - p["box_floor_t"])
-
-
 def placed(p: dict, box_shape: cq.Shape) -> tuple[dict[str, cq.Shape], dict[str, cq.Location], dict]:
     ft = p["box_floor_t"]
     board_rows = ((-1, 0, 0), (0, 0, 1), (0, 1, 0))          # board x -> -X, y -> Z, z -> Y
@@ -283,7 +275,7 @@ def placed(p: dict, box_shape: cq.Shape) -> tuple[dict[str, cq.Shape], dict[str,
                     p["board_z0"] + p["pb_h"] / 2)
     on_board = loc(board_rows, board_origin)
     up = ((1, 0, 0), (0, 1, 0), (0, 0, 1))
-    top, grip = roof_grip(box_shape, p)
+    grip = p["box_wall"]
     shapes = {"protoboard": protoboard(), "header": headers(), "esp32": esp32(), "u1": u1(),
               "terminal": terminals(), "c1": c1(), "mini560": mini560(), "wago": wago(),
               "sp16": sp16(ft), "pg7": pg7(ft), "rpsma": rpsma(grip)}
@@ -298,18 +290,17 @@ def placed(p: dict, box_shape: cq.Shape) -> tuple[dict[str, cq.Shape], dict[str,
     locs["wago"] = loc(on_wall, (wx, in_wall + v("wago", "h"), ft + 7))
     locs["wago2"] = loc(on_wall, (wx, in_wall + 2 * v("wago", "h"), ft + 7))
     shapes["wago2"] = shapes["wago"]
-    locs["sp16"] = loc(up, (p["sp16_x"], p["gland_y"], 0))
-    locs["pg7"] = loc(up, (p["pg7_x"], p["gland_y"], 0))
-    locs["rpsma"] = loc(((1, 0, 0), (0, -1, 0), (0, 0, -1)), (p["ant_x"], p["gland_y"], top))
-    return {k: s.val() for k, s in shapes.items()}, locs, {"grip": grip, "roof_top": top}
+    locs["sp16"] = loc(up, (p["sp16_x"], p["floor_y"], 0))
+    locs["pg7"] = loc(up, (p["pg7_x"], p["floor_y"], 0))
+    locs["rpsma"] = loc(((0, 0, 1), (0, 1, 0), (-1, 0, 0)), (0, p["ant_y"], p["ant_z"]))   # axis z -> +X
+    return {k: s.val() for k, s in shapes.items()}, locs, {"grip": grip}
 
 
 def checks(p: dict, solids: dict, locs: dict, box_shape: cq.Shape, lid_shape: cq.Shape, info: dict) -> list[str]:
     out = []
     g, mx = info["grip"], v("rpsma", "max_panel")
-    out.append(f"RP-SMA bulkhead: the roof is {g:.1f}mm thick along the antenna axis (roof, hollow wedge and "
-               f"nut seat); the bulkhead takes {mx:.1f}mm at most. "
-               + ("OK." if g <= mx else "**Too thick: counterbore the roof from inside or move the antenna.**"))
+    out.append(f"RP-SMA bulkhead: through the {g:.1f}mm outer side wall; it takes {mx:.1f}mm at most. "
+               + ("OK." if g <= mx else "**Too thick.**"))
     out.append(f"SP16 and PG7: the floor is {p['box_floor_t']:.1f}mm. PG7 thread is {v('pg7', 'thread_l'):.0f}mm long "
                f"(nut {v('pg7', 'nut_t'):.0f}mm): OK. SP16 thread length past the flange is unknown: measure it.")
     out.append(f"SP16 plug: {v('sp16', 'plug_l') + v('sp16', 'flange_t'):.0f}mm below the floor's outer face "

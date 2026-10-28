@@ -66,6 +66,7 @@ STLS = [
     Part("feet/stair-tree-peg.stl", FOOT, {"part": "peg"}),
     Part("enclosure/tree-box-box.stl", TREE_BOX, {"part": "box"}),
     Part("enclosure/tree-box-lid.stl", TREE_BOX, {"part": "lid"}),
+    Part("enclosure/tree-box-coupon.stl", TREE_BOX, {"part": "coupon"}),
     *[Part(f"enclosure/site-box-{n}-trees.stl", SITE_BOX, {"part": "box", "trees": n}) for n in (6, 4, 2)],
     Part("enclosure/site-box-lid.stl", SITE_BOX, {"part": "lid"}),
     Part("fixtures/step-clamp.stl", CLAMP),

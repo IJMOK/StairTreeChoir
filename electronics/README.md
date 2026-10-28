@@ -43,7 +43,7 @@ Why each part is there:
 - The pixel lead leaves through the PG7 gland in the box floor, as a short round tail ending in an xConnect plug down in the boot tower, where the tree's own pigtail comes up from the shelf hole. Its data wire goes to JD DATA. JD GND is spare: fit the optional TVS diode across JD (DATA to GND) if you use one.
 - The Mini560 sits off the board on short leads (double-sided foam tape to the box floor), wired to the four pads in column A.
 - The ESP32 and U1 plug into sockets, so a controller can be swapped without a soldering iron.
-- **Antenna**: the WROOM-32U has a U.FL socket on the module. Use a U.FL to RP-SMA bulkhead pigtail and a small dipole on the outside of the box, pointing up beside the tree. 30mm of wet oak between the antenna and the router costs signal, so put the box on the side of the tree that faces the router where you can.
+- **Antenna**: the WROOM-32U has a U.FL socket on the module. Use a U.FL to RP-SMA bulkhead pigtail and a small dipole on the box's outer side wall, hinged to point up beside the tree. 30mm of wet oak between the antenna and the router costs signal, so put the box on the side of the tree that faces the router where you can.
 
 **Unverified until the parts arrive:**
 - xConnect wire colours (which is data). Check against the arrows on the string and with a meter before connecting anything.

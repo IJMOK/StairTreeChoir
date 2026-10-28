@@ -8,7 +8,9 @@
 //
 // As fitted: in the floor, the SP16 panel socket for the 12V run (rear nut, firing
 // down; Rob, 28 Oct 2026, replacing the PG9 gland and pigtail) and the PG7 gland
-// for the pixel lead, both pointing down into the boot tower; RP-SMA antenna bulkhead in the roof; lid on the back, facing away
+// for the pixel lead, both pointing down into the boot tower; RP-SMA antenna bulkhead in the outer side wall
+// (x = 0, away from the tree's centre) above the board, dipole hinged up (28 Oct 2026:
+// the roof was 11mm thick there, the bulkhead clamps 3.2mm at most); lid on the back, facing away
 // from the tree. Drip hole in the floor.
 //
 // Printing: box on its front face (open side up), no supports: the rim ledge and
@@ -21,7 +23,7 @@
 include <tree-box-params.scad>
 include <sealed-box.scad>
 
-part = "assembly";       // "box", "lid" or "assembly"; "box-fitted", "lid-fitted": as fitted (STEP export)
+part = "assembly";       // "box", "lid", "coupon" or "assembly"; "box-fitted", "lid-fitted": as fitted (STEP export)
 
 // Board: 5x7cm prototype board, M2 screws into the standoffs
 pb_w          = 70;
@@ -38,10 +40,12 @@ sp16_flat     = 15.4;    // ... with one flat, 15.3 from the far side (stops it 
 sp16_x        = 22;      // from the box's outer left
 pg7_d         = 12.9;    // PG7 thread 12.5
 pg7_x         = 59;
-gland_y       = box_front_t + box_in_d / 2;
+floor_y       = box_front_t + 13;   // floor parts' centre: their nuts (up to ~25 across corners) stay
+                                    // on flat floor, in front of the rim ledge's slope
 drip_d        = 3;
 ant_d         = 6.6;     // RP-SMA bulkhead (1/4"-36)
-ant_x         = box_w - 18;
+ant_y         = box_front_t + 9;    // in the side wall: clear of the rim ledge (nut 8 AF)
+ant_z         = box_h - box_floor_t - 6;   // above the board, below the roof
 
 // Lid
 lid_screw_in  = 3.5;     // lid screw centres from the outer edges; the cord runs inside them
@@ -50,9 +54,11 @@ lid_panel_t   = 2;       // lid panel inside the thick frame
 boss_d        = 7;
 boss_len      = 10;      // screw bosses run this far in from the rim face
 corner_r      = 4;       // outline corner radius
-ant_boss_d    = 14;      // flat seat for the antenna nut on the sloped roof
 
 $fn = 48;
+
+assert(floor_y + 12.7 <= box_body_d - 4 - (box_rim - box_wall),
+       "floor sockets' nuts reach the rim ledge: deepen the box or move floor_y");
 
 lid_screws = [
     for (x = [lid_screw_in, box_w - lid_screw_in])
@@ -65,9 +71,6 @@ board_holes = [
     for (x = [pb_hole_in, pb_w - pb_hole_in])
         for (z = [pb_hole_in, pb_h - pb_hole_in]) [board_x0 + x, board_z0 + z]
 ];
-
-// roof surface height at depth y (sealed-box.scad's wedge)
-function roof_z(y) = box_h + sb_hood_gap + sb_skin + sb_rise(box_body_d + box_lid_t + sb_hood_over) - sb_rise(y);
 
 module along_y(d, l) {                          // cylinder along +y from y = 0
     rotate([-90, 0, 0]) cylinder(d = d, h = l);
@@ -105,17 +108,37 @@ module box() {
             // mounting ears either side of the floor
             translate([-box_ear_w + 0.5, 0, 0]) ear();
             translate([box_w - 0.5, 0, 0]) ear();
-            // flat seat for the antenna bulkhead nut, on top of the sloped roof
-            translate([ant_x, gland_y, box_h - 1]) cylinder(d = ant_boss_d, h = roof_z(gland_y - ant_boss_d / 2) - box_h + 1.5);
         }
         for (s = lid_screws) translate([s[0], box_body_d - m3_insert_len, s[1]]) along_y(m3_insert_d, m3_insert_len + 1);
         for (p = board_holes) translate([p[0], box_front_t - 1, p[1]]) along_y(standoff_hole, standoff_h + 1);
         for (h = box_ear_holes) translate([h[0], h[1], -1]) cylinder(d = m3_clear, h = box_ear_t + 2);
-        // floor: SP16 socket, gland and drip hole; roof: antenna bulkhead
-        translate([sp16_x, gland_y, -1]) sp16_hole(box_floor_t + 2);
-        translate([pg7_x, gland_y, -1]) cylinder(d = pg7_d, h = box_floor_t + 2);
+        // floor: SP16 socket, gland and drip hole; outer side wall: antenna bulkhead
+        translate([sp16_x, floor_y, -1]) sp16_hole(box_floor_t + 2);
+        translate([pg7_x, floor_y, -1]) cylinder(d = pg7_d, h = box_floor_t + 2);
         translate([box_w / 2, box_front_t + 4, -1]) cylinder(d = drip_d, h = box_floor_t + 2);
-        translate([ant_x, gland_y, box_h - box_floor_t - 1]) cylinder(d = ant_d, h = 50);
+        translate([-1, ant_y, ant_z]) rotate([0, 90, 0]) cylinder(d = ant_d, h = box_wall + 2);
+    }
+}
+
+// Fit coupon (28 Oct 2026): the box's holes in a 15-minute print, to try the real parts
+// before printing a box. Floor plate (box_floor_t) with the SP16 D hole, the PG7 hole
+// and the drip hole; a side-wall fin (box_wall) with the RP-SMA hole; a lid screw boss
+// with its M3 insert hole; a board standoff. Prints flat as it lies, no supports.
+module coupon() {
+    l = 76; w = 30; fin_h = 18;
+    difference() {
+        union() {
+            translate([0, 0, 0]) cube([l, w, box_floor_t]);
+            translate([0, w - box_wall, 0]) cube([30, box_wall, fin_h]);                 // side-wall fin
+            translate([44, w - boss_d / 2 - 1, 0]) cylinder(d = boss_d, h = boss_len);    // lid screw boss
+            translate([66, w - standoff_d / 2 - 2, 0]) cylinder(d = standoff_d, h = box_floor_t + standoff_h);
+        }
+        translate([14, 13, -1]) sp16_hole(box_floor_t + 2);
+        translate([38, 11, -1]) cylinder(d = pg7_d, h = box_floor_t + 2);
+        translate([56, 8, -1]) cylinder(d = drip_d, h = box_floor_t + 2);
+        translate([15, w - box_wall - 1, box_floor_t + 7]) rotate([-90, 0, 0]) cylinder(d = ant_d, h = box_wall + 2);
+        translate([44, w - boss_d / 2 - 1, boss_len - m3_insert_len]) cylinder(d = m3_insert_d, h = m3_insert_len + 1);
+        translate([66, w - standoff_d / 2 - 2, box_floor_t]) cylinder(d = standoff_hole, h = standoff_h + 1);
     }
 }
 
@@ -134,3 +157,4 @@ else if (part == "lid") lid();
 else if (part == "box-fitted") box();
 else if (part == "lid-fitted") translate([0, box_body_d + box_lid_t, 0]) rotate([90, 0, 0]) lid();
 else if (part == "assembly") tree_box_assembly();
+else if (part == "coupon") coupon();
