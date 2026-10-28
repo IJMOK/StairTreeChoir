@@ -151,7 +151,7 @@ def write_md(plans: list[dict], confirmed: bool, path: Path = MD_FILE) -> None:
             f"and {sum(p['router_on_psu'] for p in plans)} × {ROUTER_FUSE_A}A blade fuses (plus spares)"]
     out += [f"- {m}m of 2-core {fmt_mm2(mm2)} outdoor flex (runs + 10%)" for mm2, m in t["flex"].items()]
     out.append(f"- {t['fuses']} × SP16/SP17 2-pin screw-terminal aviation connector sets, one per run (plus spares): "
-               "female on the run, male on the tree's pigtail, red to +")
+               "SP17 plug on the run, SP16 socket in the tree box floor, red to +")
     out.append("")
     path.write_text("\n".join(out), encoding="utf-8", newline="\n")
 

@@ -29,7 +29,7 @@ Two safety rules cover the whole project:
 1. Order from [bom.md](bom.md). The AliExpress order (18 Oct 2026) is due 25 to 31 Oct 2026. The "Still to buy" list has the rest: the Mean Well PSU (one LRS per site), the ESP32-DevKitC-32U boards with antennas, the Pis for two sites, the routers, flex and fasteners. The BOM says to buy 15 or more extra PG9 glands, since the 20 bought are not enough.
 2. Measure the parts the design only assumes. The READMEs list these as unverified, and they may change files before you print or cut 14 of anything:
    - ESP32 board header row spacing (assumed 25.4mm), Mini560 size and pad positions, and that the 5×7cm board is 24×18 holes ([electronics/README.md](../electronics/README.md)).
-   - Board hole positions and ESP32 height in the box, PG9 and PG7 thread sizes, RP-SMA bulkhead thread, and the M3 insert hole size (4.0mm) ([enclosure/README.md](../enclosure/README.md)).
+   - Board hole positions and ESP32 height in the box, the SP16 socket's hole and nut clearance, the PG7 thread size, RP-SMA bulkhead thread, and the M3 insert hole size (4.0mm) ([enclosure/README.md](../enclosure/README.md)).
    - The outer diameter of the outdoor flex (under 8mm for the glands).
 3. Print **one control boot, one plain boot, two pegs, one tree box and lid** before printing the rest. PETG, 3 walls, 15% infill. Boots stand upright on the sole with no supports; pegs print head down. The export commands are in [feet/README.md](../feet/README.md) and [enclosure/README.md](../enclosure/README.md), and the STLs are committed.
 4. Print 4 step clamps and 4 washers for the CNC bed, and the pixel disk test strip ([fixtures/README.md](../fixtures/README.md)): PETG, 4 walls, 40% infill for the clamps.
@@ -118,7 +118,7 @@ The peg is separate because the tree has to drop into the slot from above; do no
 Box details are in [enclosure/README.md](../enclosure/README.md).
 
 1. Push 6 M3 heat-set inserts into the lid side (near the rim's outer edge) of the box. The 4 tower inserts are done in stage 7.
-2. Fit the PG9 (12V flex in) and PG7 (pixel lead tail out) glands in the floor, both pointing down into the tower, and the RP-SMA bulkhead in the roof. Leave the 3mm drip hole open.
+2. Fit the SP16 panel socket (12V in; rear nut, the D flat stops it turning) and the PG7 gland (pixel lead tail out) in the floor, both pointing down into the tower, and the RP-SMA bulkhead in the roof. Leave the 3mm drip hole open.
 3. Screw the controller board onto the four standoffs on the front wall (M2 self-tapping), components facing the lid. Foam-tape the Mini560 and the two Wago 221-413 below the board.
 4. Wire to the schematic in [electronics/README.md](../electronics/README.md). The pixel current (about 2.3A at full white) goes through the Wagos on 18AWG wire, never through the board. The pixel lead's data wire goes to JD DATA. The optional TVS diode goes across JD (data to GND). There is no fuse in the box: the 3A fuse is at the site box.
 5. Connect the antenna: U.FL to RP-SMA pigtail, then the dipole on the outside of the roof, pointing up. Where you can, put the box on the side of the tree that faces the router.
@@ -138,8 +138,8 @@ The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals
 1. Fit the PSU (Site A: LRS-200-12) at the top of the plate with air round it, then the terminal cover over its mains side.
 2. Fit the 10-way blade fuse box below it: the PSU's +12V to its input, 0V to its negative bus. One way per tree run (3A), one for the player (3A), one for the router (2A); every negative to the bus.
 3. Fit the Pi and its Mini560 5V buck (Site A: the Pi 3, which needs 2.5A; keep the 5V leads short. A Pi 5 would need 5A, and `PSU_MAX_CURRENT=5000` set with `rpi-eeprom-config --edit` because a plain buck can't do its USB-PD handshake), the PAM8610 (straight off 12V after the player fuse) and the USB sound card. Each speaker gets its own 2-core run from the amp.
-4. Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the female half of an SP16/SP17 2-pin screw-terminal aviation connector on the tree end (screw terminals, no solder). Red to +, the same pin every time. Label both ends with the tree number.
-5. Make up each tree's pigtail: 2-core flex out of the tree box's PG9 gland, with the male half of the connector. Strip, screw down and tighten the cable gland nut; check the seal sits on the outer sheath.
+4. Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the SP17 cable plug of an SP16/SP17 2-pin aviation connector on the tree end (screw terminals, no solder; tighten its gland nut on the sheath). Red to +, the same pin every time. Label both ends with the tree number.
+5. Wire each tree box's SP16 socket to its two Wagos with short 0.75mm² tails, red to +, the same pin as the plugs.
 6. Wire each run to its fuse at the site box, lay the cables through the DRiBOX lid seals with the cable guides, and clamp the lid.
 7. Plug each run into its tree. Keep the joints off the ground where water pools (IP67 only when mated).
 8. Stand the box upright with the seals facing down, or screw it to a post or fence.

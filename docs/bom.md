@@ -17,7 +17,7 @@ AliExpress order of 18 Oct 2026 (£277.80, due 25–31 Oct), plus the ESP32 orde
 | 15 | Micro-USB OTG cables | Spares | Arrived 24 Oct |
 | 10 | 2×20 pin headers | Spares | Arrived 24 Oct |
 | 10 | Mini560 5V buck | One per tree controller; 6 more for 16 boards | Arrived 24 Oct |
-| 20 + 20 | PG7 and PG9 cable glands | Needed (23 Oct 2026 design): PG9 14 = the tree boxes' 12V lead; PG7 14 = the tree boxes. The site box is now a DRiBOX, whose lid seals clamp the cables, so it needs no glands (26 Oct 2026). Both are covered. | Arrived 24 Oct |
+| 20 + 20 | PG7 and PG9 cable glands | Needed: PG7 14 = the tree boxes' pixel lead. PG9 no longer needed: the 12V run plugs into an SP16 panel socket in the tree box floor (28 Oct 2026), so the PG9s are spares. The site box is now a DRiBOX, whose lid seals clamp the cables, so it needs no glands (26 Oct 2026). Both are covered. | Arrived 24 Oct |
 | 10 | ESP32-DevKitC-32U dev board, 38-pin | 16 needed; 6 more to buy | Ordered 22 Oct (AliExpress) |
 | 10 | 2.4GHz antenna: U.FL to RP-SMA bulkhead pigtail + RP-SMA dipole | 16 needed; 6 more to buy | Ordered 22 Oct (AliExpress) |
 
@@ -28,8 +28,8 @@ Orders of 27 Oct 2026 (Site A wiring, speakers, router):
 | 1 | Cudy WR3000 V2 (AX3000) | Site A router, indoors at the front window. eBay (lekafindslimited), £29.99, order 11-15340-22895. V2: check the adapter label (12V, 1A or more) and set up OpenWrt from the V2 image | Due 29–31 Oct |
 | 1 pair | PD BGO40 outdoor speakers, black (MPN 100.044): 4" + 3/4" dome, 8Ω, 30W RMS, 89dB 1W/1m, 100Hz–20kHz, IP56, speaker cable included | Site A's stereo pair off the PAM8610. eBay listing called them "BC040" but the box says BGO40 (Rob, 28 Oct 2026); £15.88 against £51 at ElectroMarket. eBay (zahumble-0), order 09-15354-62517 | Arrived 28 Oct |
 | 25 | Wago 221-413 (3-way) | 12 for Site A's tree boxes + 13 toward trees 7–14. CPC CN20136, order 21543768 | Shipped 28 Oct (UPS 1Z63024Y6888853378; one of two shipments) |
-| 50m | Pro Power H05RR-F 2-core 0.75mm² rubber cable, black | Site A's ~35m of runs and pigtails + ~15m toward the later sites. H05RR-F is lighter duty than H05RN-F but fine laid on the ground for a season. CPC CB19470 (order 21543768 also lists SU00243, 1 off) | Shipped 28 Oct (UPS, as above) |
-| 15 sets | SP16/SP17 2-pin screw-terminal aviation connectors, male + female (solderless) | Replace the PY07 Z108 bayonets: one per tree run, 14 trees + 1 spare. SP17 2-pin is rated 10A, IP68 mated, cable 6–10mm (SP16 is smaller: check the H05RR-F sheath fits the gland). Female on the run, male on the tree's pigtail, red to +. AliExpress (Ti Socket Store), 10 + 5 sets, £32.06 | Shipped 28 Oct, due 7 Nov |
+| 50m | Pro Power H05RR-F 2-core 0.75mm² rubber cable, black | Site A's ~35m of runs + ~15m toward the later sites. H05RR-F is lighter duty than H05RN-F but fine laid on the ground for a season. CPC CB19470 (order 21543768 also lists SU00243, 1 off) | Shipped 28 Oct (UPS, as above) |
+| 15 sets | SP16/SP17 2-pin screw-terminal aviation connectors (solderless): SP16 panel socket (rear nut, M16 × 1.5, D hole 16.5mm with a flat at 15.3mm) + SP17 cable plug | Replace the PY07 Z108 bayonets: one per tree run, 14 trees + 1 spare. SP17 2-pin is rated 10A, IP68 mated, cable 6–10mm (SP16 is smaller: check the H05RR-F sheath fits the gland). The SP16 goes in the tree box floor, firing down (Rob, 28 Oct 2026); the SP17 goes on the tree end of the run. Red to +. Check which half has the pins when they arrive (due 7 Nov): the powered run should carry the shrouded contacts. AliExpress (Ti Socket Store), 10 + 5 sets, £32.06 | Shipped 28 Oct, due 7 Nov |
 
 ## Rob already has
 
@@ -50,7 +50,7 @@ Tree controller: DIY boards (Rob, 21 Oct 2026). See electronics/README.md.
 
 Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 
-**Already covered** (bought or in hand): ESP32 boards and antennas (10), 74AHCT125s, Mini560s (10: 6 trees + the Pi 3 + 3 spare), prototype boards (10), the PAM8610, a USB sound card, PG9 and PG7 glands (20 each; Site A needs 6 of each), the Pi 3 player with its microSD, the Cudy WR3000 V2, the 27 Oct orders (Wagos, 50m of flex, the aviation connectors, the BGO40 speakers), the RCD outdoor socket, a mains lead with a 13A plug, PETG, hot glue, heatshrink, lid cord, and 18mm sheet for the CNC fixture plate.
+**Already covered** (bought or in hand): ESP32 boards and antennas (10), 74AHCT125s, Mini560s (10: 6 trees + the Pi 3 + 3 spare), prototype boards (10), the PAM8610, a USB sound card, PG7 glands (20; Site A needs 6), the Pi 3 player with its microSD, the Cudy WR3000 V2, the 27 Oct orders (Wagos, 50m of flex, the aviation connectors, the BGO40 speakers), the RCD outdoor socket, a mains lead with a 13A plug, PETG, hot glue, heatshrink, lid cord, and 18mm sheet for the CNC fixture plate.
 
 | Qty | Item | Notes | Approx. |
 |---|---|---|---|

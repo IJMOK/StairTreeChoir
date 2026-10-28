@@ -6,15 +6,16 @@
 // boot (feet/), behind the tree, with a gap to the oak; four M3 screws through its
 // ears into heat-set inserts in the tower.
 //
-// As fitted: glands in the floor (PG9 12V in, PG7 pixel lead), pointing down into
-// the boot tower; RP-SMA antenna bulkhead in the roof; lid on the back, facing away
+// As fitted: in the floor, the SP16 panel socket for the 12V run (rear nut, firing
+// down; Rob, 28 Oct 2026, replacing the PG9 gland and pigtail) and the PG7 gland
+// for the pixel lead, both pointing down into the boot tower; RP-SMA antenna bulkhead in the roof; lid on the back, facing away
 // from the tree. Drip hole in the floor.
 //
 // Printing: box on its front face (open side up), no supports: the rim ledge and
 // the lid screw bosses have 45 degree undersides. Lid flat, outer face down.
 //
-// UNVERIFIED until the parts arrive: board hole positions (pb_*), the gland and
-// bulkhead thread sizes, and that the ESP32 on its headers clears box_in_d.
+// UNVERIFIED until the parts arrive: board hole positions (pb_*), the SP16 hole and
+// its nut clearance, the gland and bulkhead thread sizes, and that the ESP32 on its headers clears box_in_d.
 // Sizes shared with the boot are in tree-box-params.scad.
 
 include <tree-box-params.scad>
@@ -32,9 +33,10 @@ standoff_d    = 6;
 standoff_hole = 1.8;     // M2 self-tapping
 
 // Entries
-pg9_d         = 15.6;    // PG9 thread 15.2
+sp16_d        = 16.7;    // SP16 panel socket, M16x1.5: listing hole 16.5 ...
+sp16_flat     = 15.4;    // ... with one flat, 15.3 from the far side (stops it turning)
+sp16_x        = 22;      // from the box's outer left
 pg7_d         = 12.9;    // PG7 thread 12.5
-pg9_x         = 22;      // from the box's outer left
 pg7_x         = 59;
 gland_y       = box_front_t + box_in_d / 2;
 drip_d        = 3;
@@ -71,6 +73,13 @@ module along_y(d, l) {                          // cylinder along +y from y = 0
     rotate([-90, 0, 0]) cylinder(d = d, h = l);
 }
 
+module sp16_hole(h) {                           // D hole along z; the flat towards the lid (+y): the top when printed
+    intersection() {
+        cylinder(d = sp16_d, h = h);
+        translate([-sp16_d / 2, -sp16_d / 2, 0]) cube([sp16_d, sp16_flat, h]);
+    }
+}
+
 module ear() {                                  // mounting ear, top edges chamfered
     l = box_body_d - 4;
     hull() {
@@ -102,8 +111,8 @@ module box() {
         for (s = lid_screws) translate([s[0], box_body_d - m3_insert_len, s[1]]) along_y(m3_insert_d, m3_insert_len + 1);
         for (p = board_holes) translate([p[0], box_front_t - 1, p[1]]) along_y(standoff_hole, standoff_h + 1);
         for (h = box_ear_holes) translate([h[0], h[1], -1]) cylinder(d = m3_clear, h = box_ear_t + 2);
-        // floor: glands and drip hole; roof: antenna bulkhead
-        translate([pg9_x, gland_y, -1]) cylinder(d = pg9_d, h = box_floor_t + 2);
+        // floor: SP16 socket, gland and drip hole; roof: antenna bulkhead
+        translate([sp16_x, gland_y, -1]) sp16_hole(box_floor_t + 2);
         translate([pg7_x, gland_y, -1]) cylinder(d = pg7_d, h = box_floor_t + 2);
         translate([box_w / 2, box_front_t + 4, -1]) cylinder(d = drip_d, h = box_floor_t + 2);
         translate([ant_x, gland_y, box_h - box_floor_t - 1]) cylinder(d = ant_d, h = 50);

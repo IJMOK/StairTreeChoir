@@ -96,7 +96,7 @@ svg .net-text { fill: var(--net); }
 <body>
 <main>
   <header>
-    <div class="status">Stair Tree Choir · Site A, December 2026 · plan as of 28 Oct</div>
+    <div class="status">Stair Tree Choir · Site A, December 2026 · plan as of 28 Oct (SP16 in the tree box)</div>
     <h1>How the power, sound and data go together</h1>
     <p class="sub">One mains plug feeds one power supply in the site box. Every tree gets its own fused 12V run and a plug-in connector. The trees get their show over Wi-Fi, so the only cable to a tree is power.</p>
   </header>
@@ -193,7 +193,7 @@ svg .net-text { fill: var(--net); }
           </g>
           <!-- run annotations -->
           <text class="s" x="604" y="186">SP17:</text>
-          <text class="s" x="604" y="172">female ▌ male</text>
+          <text class="s" x="604" y="172">plug at the tree</text>
           <text class="s" x="690" y="186" text-anchor="middle">5m rubber 2 × 0.75mm²</text>
           <text class="s" x="870" y="186" text-anchor="middle">pixels limited to 2A per tree</text>
           <text class="net-text" x="870" y="386" text-anchor="middle">Wi-Fi: show frames to every tree ↑</text>
@@ -230,7 +230,7 @@ svg .net-text { fill: var(--net); }
           <text class="s" x="640" y="536" text-anchor="middle">2 runs</text>
         </svg>
       </div>
-      <figcaption>Everything at Site A runs from one Mean Well LRS-200-12. The blade fuse box gives each tree its own 3A fuse, plus 3A for the player (Pi and amp). Every run leaves on 2-core 0.75mm² rubber flex (H05RR-F) and ends in an SP17 aviation connector with screw terminals, so there's nothing to solder: the female half is on the powered cable, the male on the tree. Full load is 14.1A of 17A. The router stands indoors at the front window, about 5ft from the trees, on its own adapter, with Ethernet out to the Pi.</figcaption>
+      <figcaption>Everything at Site A runs from one Mean Well LRS-200-12. The blade fuse box gives each tree its own 3A fuse, plus 3A for the player (Pi and amp). Every run leaves on 2-core 0.75mm² rubber flex (H05RR-F) and ends in an SP17 aviation plug with screw terminals, so there's nothing to solder. It screws onto the SP16 socket in the tree box's floor. Full load is 14.1A of 17A. The router stands indoors at the front window, about 5ft from the trees, on its own adapter, with Ethernet out to the Pi.</figcaption>
     </figure>
   </section>
 
@@ -318,10 +318,10 @@ svg .net-text { fill: var(--net); }
   <!-- 3. Tree end -->
   <section>
     <h2>3 · At each tree</h2>
-    <p>The tree box sits on the tower of the left boot (the control boot), behind the tree. Power comes in through its floor; the pixel lead goes out through its floor, down into the tower, and up to the tree's own pigtail.</p>
+    <p>The tree box sits on the tower of the left boot (the control boot), behind the tree. Power plugs into an SP16 socket in its floor; the pixel lead goes out through its floor, down into the tower, and up to the tree's own pigtail.</p>
     <figure>
       <div class="scroll">
-        <svg viewBox="0 0 1000 430" role="img" aria-label="Left: the tree box with the lid off. The controller board, with the ESP32, level shifter and two screw terminals, is on four standoffs. Below it are the Mini560 and two Wago connectors. The 12V pigtail enters through a PG9 gland in the floor, and the pixel lead leaves through a PG7 gland. The antenna is on the roof. Right: from the front, the tree stands in two boots; the box sits behind the tree on the left boot's tower, and the 12V run and SP17 connector arrive at the back of that boot.">
+        <svg viewBox="0 0 1000 430" role="img" aria-label="Left: the tree box with the lid off. The controller board, with the ESP32, level shifter and two screw terminals, is on four standoffs. Below it are the Mini560 and two Wago connectors. The 12V run's plug screws onto an SP16 panel socket in the floor, and the pixel lead leaves through a PG7 gland. The antenna is on the roof. Right: from the front, the tree stands in two boots; the box sits behind the tree on the left boot's tower, and the 12V run comes in at the back of that boot and up inside the tower.">
           <!-- box interior -->
           <rect class="enclosure" x="60" y="44" width="320" height="320" rx="8"/>
           <text class="t" x="60" y="30">TREE BOX · lid off</text>
@@ -353,8 +353,8 @@ svg .net-text { fill: var(--net); }
           <!-- glands -->
           <rect class="soft" x="138" y="356" width="28" height="18" rx="2"/>
           <rect class="soft" x="292" y="356" width="28" height="18" rx="2"/>
-          <text x="152" y="394" text-anchor="middle">PG9</text>
-          <text class="s" x="152" y="410" text-anchor="middle">12V pigtail in</text>
+          <text x="152" y="394" text-anchor="middle">SP16</text>
+          <text class="s" x="152" y="410" text-anchor="middle">12V socket, plug below</text>
           <text x="306" y="394" text-anchor="middle">PG7</text>
           <text class="s" x="306" y="410" text-anchor="middle">pixel lead out</text>
           <!-- short wires -->
@@ -384,13 +384,10 @@ svg .net-text { fill: var(--net); }
           <text class="s" x="640" y="190" text-anchor="end">behind the tree,</text>
           <text class="s" x="640" y="204" text-anchor="end">on the boot's tower</text>
           <!-- run arriving -->
-          <polyline class="w v12" points="560,352 600,352"/>
-          <polyline class="w v0" points="560,358 600,358"/>
-          <rect class="soft" x="600" y="347" width="12" height="16" rx="2"/>
-          <rect class="part" x="613" y="347" width="12" height="16" rx="2"/>
+          <polyline class="w v12" points="560,352 640,352"/>
+          <polyline class="w v0" points="560,358 640,358"/>
           <text class="s" x="560" y="338">from the site box</text>
-          <text class="s" x="606" y="384" text-anchor="middle">SP17</text>
-          <text class="s" x="560" y="420">the pigtail goes up inside the tower to the PG9</text>
+          <text class="s" x="560" y="420">up inside the tower; the SP17 plug screws onto the box</text>
         </svg>
       </div>
       <figcaption>Two Wagos split the 12V: one side feeds the pixels directly, the other feeds the board's JP terminal, and from there the Mini560 makes 5V for the ESP32 and level shifter. Pixel current never crosses the board. Data leaves JD and goes out through the PG7 gland with the pixel power. There's no fuse in the tree box, because the run is fused at the site box.</figcaption>
@@ -409,11 +406,12 @@ svg .net-text { fill: var(--net); }
           <tr><td>Pi 3 + USB sound card</td><td class="num">56 × 85</td><td>Site box, back right</td><td>Mini560 5V (player fuse, 3A)</td></tr>
           <tr><td>PAM8610 amp</td><td class="num">≈ 63 × 40</td><td>Site box, front right</td><td>12V (player fuse, 3A)</td></tr>
           <tr><td>Cudy WR3000 V2 router</td><td class="num">183 × 109 × 35</td><td>Indoors at the front window, antennas upright</td><td>Its own adapter; outdoor Cat6 to the Pi</td></tr>
-          <tr><td>Tree run</td><td class="num">5m, H05RR-F 2 × 0.75mm²</td><td>Ground, site box to tree</td><td>Tree fuse, 3A; SP17 connector at the tree (female on the run)</td></tr>
+          <tr><td>Tree run</td><td class="num">5m, H05RR-F 2 × 0.75mm²</td><td>Ground, site box to tree</td><td>Tree fuse, 3A; SP17 plug onto the tree box's SP16 socket</td></tr>
           <tr><td>PD BGO40 speakers (pair)</td><td class="num">130 × 155 × 200</td><td>Outdoors near the trees, IP56</td><td>PAM8610, one 2-core run each (cable in the box)</td></tr>
+          <tr><td>SP16 panel socket</td><td class="num">hole 16.5, flat 15.3</td><td>Tree box floor, firing down</td><td>The run's SP17 plug</td></tr>
           <tr><td>Controller board</td><td class="num">50 × 70</td><td>Tree box, on 4 standoffs</td><td>Wago +12V → JP</td></tr>
           <tr><td>Mini560 (tree)</td><td class="num">≈ 22 × 18</td><td>Tree box, below the board</td><td>JP 12V</td></tr>
-          <tr><td>2 × Wago 221-413</td><td class="num">—</td><td>Tree box, below the board</td><td>The 12V pigtail via PG9</td></tr>
+          <tr><td>2 × Wago 221-413</td><td class="num">—</td><td>Tree box, below the board</td><td>The SP16 socket in the floor</td></tr>
         </tbody>
       </table>
     </div>

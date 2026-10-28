@@ -24,8 +24,8 @@ Two boots per tree, one at each old 17mm fixing hole in the wide end; 28 in all,
 Node 1, where the pixel data goes in, is at the base-left of the tree, right behind the left boot. So the left boot is the **control boot**: behind the shaft it has a hollow tower, and the tree controller box (`enclosure/tree-box.scad`) sits on top of it, behind the tree and inside its outline, so you can't see it from the front.
 
 - **Pixel lead**: down the back face of the tree from node 1, through the 16mm hole in the shelf into the toe hollow, back through the arch in the shaft into the tower, where it plugs into the box's PG7 tail.
-- **12V flex**: in through the arch at the bottom of the tower's back wall, up to the box's PG9 gland.
-- Both glands point down into the tower, so no entry on the box faces the rain. The tower is open underneath, so it drains and airs.
+- **12V flex**: in through the arch at the bottom of the tower's back wall, up to the SP16 socket in the box floor, where its SP17 plug screws on (28 Oct 2026; the boot is being redesigned, so leave room under the box for the plug and its cable bend).
+- The socket and the gland both point down into the tower, so no entry on the box faces the rain. The tower is open underneath, so it drains and airs.
 - The box sits on four corner posts and is held by four M3 screws through its ears into heat-set inserts.
 
 ## Assembly

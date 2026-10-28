@@ -66,4 +66,4 @@ PSU: Mean Well LRS-100-12, 6.7A of 8.5A (79%). The router is on the PSU (2A fuse
 - 1 spare Mean Well LRS-200-12 later: it covers any site
 - 4 × blade fuse boxes with a negative bus (10-way); 18 × 3A and 3 × 2A blade fuses (plus spares)
 - 77m of 2-core 0.75mm² outdoor flex (runs + 10%)
-- 14 × SP16/SP17 2-pin screw-terminal aviation connector sets, one per run (plus spares): female on the run, male on the tree's pigtail, red to +
+- 14 × SP16/SP17 2-pin screw-terminal aviation connector sets, one per run (plus spares): SP17 plug on the run, SP16 socket in the tree box floor, red to +
