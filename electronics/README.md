@@ -29,7 +29,7 @@ ESP32 GND (J3.1) ── GND rail
 ```
 
 Why each part is there:
-- **74AHCT125**: the ESP32 gives 3.3V logic; WS2811 pixels on 12V want close to 5V. An AHCT part powered at 5V reads 3.3V as a clean high. In a socket, so a dead one is a 10-second swap.
+- **74AHCT125**: the ESP32 gives 3.3V logic; WS2811 pixels on 12V want close to 5V. An AHCT part powered at 5V reads 3.3V as a clean high. Soldered in (no sockets, Rob 28 Oct 2026), so check the 5V rail before it goes in.
 - **R1 33Ω**: damps ringing on the data lead.
 - **R2 10k pull-down**: holds the data line low while the ESP32 boots, so the tree doesn't flash random colours at power-on.
 - **C1 100µF, C2 0.1µF**: bulk and local decoupling for the 5V rail.
@@ -42,7 +42,7 @@ Why each part is there:
 - Two Wago 221-413 lever connectors split the supply: one joins +12V to the pixel string and to JP 12V, the other joins GND the same way. The pixel current (about 2.3A at full white) stays on 18AWG wire and the Wagos, never on the prototype board.
 - The pixel lead leaves through the PG7 gland in the box floor, as a short round tail ending in an xConnect plug down in the boot tower, where the tree's own pigtail comes up from the shelf hole. Its data wire goes to JD DATA. JD GND is spare: fit the optional TVS diode across JD (DATA to GND) if you use one.
 - The Mini560 sits off the board on short leads (double-sided foam tape to the box floor), wired to the four pads in column A.
-- The ESP32 and U1 plug into sockets, so a controller can be swapped without a soldering iron.
+- The ESP32 and U1 are soldered straight in (no sockets, Rob 28 Oct 2026); a dead one means a desolder or a new board.
 - **Antenna**: the WROOM-32U has a U.FL socket on the module. Use a U.FL to RP-SMA bulkhead pigtail and a small dipole on the box's outer side wall, hinged to point up beside the tree. 30mm of wet oak between the antenna and the router costs signal, so put the box on the side of the tree that faces the router where you can.
 
 **Unverified until the parts arrive:**
@@ -59,11 +59,11 @@ Espressif's DevKitC guide says to power the board from exactly one source: USB, 
 
 ## Building and testing one board
 
-1. Solder the headers, the DIP socket, the terminals and the passives. Don't fit the ESP32, U1 or the Mini560 yet.
+1. Solder the terminals and the passives. Don't fit the ESP32, U1 or the Mini560 yet.
 2. Do the underside joins from connections.md, ticking them off. Bridges are a solder blob between neighbouring holes; everything else is insulated wire.
 3. Continuity check: 12V, 5V and GND are not shorted to each other. 12V reaches only JP 12V and the Mini560 IN+ pad.
-4. Wire the Mini560 in. Bench supply at 12V, current limit 200mA, into JP. Check 5.0V (±0.1V) at J2.19 and at U1.14 (socket pin 14). A Mini560 of the wrong voltage version shows here, before it can kill an ESP32.
-5. Power off. Fit U1 (notch to the right, towards R1) and the ESP32 (antenna end left). Power on: the ESP32's LED lights and WLED joins Wi-Fi; current should sit under 150mA at 12V.
+4. Wire the Mini560 in. Bench supply at 12V, current limit 200mA, into JP. Check 5.0V (±0.1V) at the J2.19 and U1.14 holes. A Mini560 of the wrong voltage version shows here, before it can kill an ESP32.
+5. Power off. Solder in U1 (notch to the right, towards R1) and the ESP32 on its own pins (antenna end left). Power on: the ESP32's LED lights and WLED joins Wi-Fi; current should sit under 150mA at 12V.
 6. Connect the pixel string through the Wagos and JD. First-light test in WLED (solid red, then green, then blue) to confirm the colour order; then the xLights test chase to confirm node 1 and the wiring order match the model.
 
 Full-white current per tree and the soak test belong in docs/test-checklist.md (M6).

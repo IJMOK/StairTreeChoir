@@ -35,22 +35,44 @@ module rprism(w, h, d, r, ch0, ch1) {
 function sb_rise(len) = len * tan(sb_slope);
 
 // Roof wedge on top of a box of outer height H, depth D, lid lid_t: high at y = 0,
-// running past the rim to overhang the lid.
+// running past the rim to overhang the lid. Blended into the body (Rob, 28 Oct 2026):
+// it starts below the body's rounded top edges so the walls run flush into it, its top
+// edges keep the body's radius r all along the slope, and the hood's back corners are
+// rounded in plan.
 module sb_roof(W, H, D, lid_t, r) {
     y_end = D + lid_t + sb_hood_over;
     top0 = H + sb_hood_gap + sb_skin + sb_rise(y_end);       // at y = 0
     top1 = H + sb_hood_gap + sb_skin;                        // at the hood tip
-    outer = [[0, H - 1], [0, top0], [y_end, top1], [y_end, H - sb_drip],
-             [y_end - 1.6, H - sb_drip], [y_end - 1.6, H + sb_hood_gap], [D, H + sb_hood_gap], [D, H - 1]];
+    zb = H - r;                                              // below the body's top rounding
+    // x-z section at depth y: flat bottom at zb, top at `top`, top corners rounded
+    module slice(y, top, inset) {
+        translate([0, y + 0.01, zb]) rotate([90, 0, 0]) linear_extrude(0.01)
+            offset(delta = -inset) intersection() {
+                square([W, top - zb]);
+                translate([0, -r]) rrect(W, top - zb + r, r);
+            }
+    }
     void = [[sb_skin, H + 0.01], [sb_skin, top0 - sb_skin - sb_rise(sb_skin)],
             [D - sb_skin, top1 + sb_rise(y_end - D + sb_skin) - sb_skin], [D - sb_skin, H + 0.01]];
     difference() {
         intersection() {
-            rotate([90, 0, 90]) linear_extrude(W) polygon(outer);
-            // round the roof's corners like the box
-            translate([0, -1, 0]) rotate([-90, 0, 0]) mirror([0, 1, 0]) linear_extrude(y_end + 2) rrect(W, top0 + 1, r);
+            hull() {
+                slice(0, top0, sb_bed_ch);
+                slice(sb_bed_ch, top0 - sb_rise(sb_bed_ch), 0);
+                slice(y_end - sb_edge_ch, top1 + sb_rise(sb_edge_ch), 0);
+                slice(y_end, top1, sb_edge_ch);
+            }
+            // hood's back corners rounded in plan
+            translate([0, 0, zb - 1]) linear_extrude(top0 - zb + 2) intersection() {
+                square([W, y_end]);
+                translate([0, -r]) rrect(W, y_end + r, r);
+            }
         }
-        translate([sb_skin, 0, 0]) rotate([90, 0, 90]) linear_extrude(W - 2 * sb_skin) polygon(void);
+        // under the hood: clear of the lid, with the drip lip at the tip
+        translate([-1, D, zb - 1]) cube([W + 2, y_end - 1.6 - D, H + sb_hood_gap - zb + 1]);
+        translate([-1, y_end - 1.6 - 0.01, zb - 1]) cube([W + 2, 2.62, H - sb_drip - zb + 1]);
+        // hollow, kept a little further in from the rounded side edges
+        translate([sb_skin + 1, 0, 0]) rotate([90, 0, 90]) linear_extrude(W - 2 * sb_skin - 2) polygon(void);
     }
 }
 

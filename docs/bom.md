@@ -33,7 +33,6 @@ Orders of 27 Oct 2026 (Site A wiring, speakers, router):
 
 ## Rob already has
 
-- DIP sockets
 - 5A blade fuses (spares only: the runs are fused 3A in a blade fuse box, 26 Oct 2026)
 - M3 heat-set inserts and stainless screws (count them against the fastener list below)
 - 33Ω resistors, 100µF capacitors
@@ -54,8 +53,6 @@ Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 
 | Qty | Item | Notes | Approx. |
 |---|---|---|---|
-| 7 | 1×40 2.54mm female header strip | One per board: cut two 1×19 for the ESP32. 6 boards + 1 spare | £3 |
-| 7 | DIP-14 socket | For the 74AHCT125 | £2 |
 | 14 | 2-way 5.08mm PCB screw terminal | JP (12V in) and JD (data out), 2 per board | £3 |
 | 7 + 7 | 10kΩ resistor, 0.1µF capacitor | R2 data pull-down; level-shifter decoupling. Rob has the 33Ω and 100µF | £2 |
 | 1 | Mean Well LRS-200-12 (12V 17A, enclosed, fanless, 215 × 115 × 30mm) | Site A's PSU: 14.1A with the trees at WLED's 2A cap and the player (83%); the router is indoors on its own adapter. No spare for December (Rob, 26 Oct 2026); Site B's LRS-150-12 can stand in later. RS 106-5859, £30.56 ex VAT | £37 |
@@ -76,7 +73,7 @@ Still to buy for Site A: about **£90** (the 27 Oct orders covered the Wagos, fl
 | 6 | 74AHCT125N DIP-14 | 16 boards |
 | 6 | Mini560 5V buck (fixed 5V version) | 16 boards |
 | 6 | 5×7cm prototype boards | 16 boards |
-| 9 | 1×40 female header strip, DIP-14 sockets, 10kΩ, 0.1µF (each) | The rest of the 16 boards |
+| 9 | 10kΩ, 0.1µF (each) | The rest of the 16 boards (no sockets or female headers: Rob solders the ESP32 and the 74AHCT125 in, 28 Oct 2026) |
 | 18 | 2-way 5.08mm PCB screw terminal | The rest of the 16 boards |
 | 0 | Wago 221-413 | 13 left over from the 27 Oct CPC order cover trees 7–14 (16) less 3; buy a 10-pack if the site boxes need any |
 | 3 | Mean Well LRS-150-12 (site B) and 2 × LRS-100-12 (sites C, D) | electronics/site-wiring.md |
@@ -99,8 +96,9 @@ Lids and box mounts use M3 brass heat-set inserts, not captive nuts: the screws 
 
 | December | All | Item | Where |
 |---|---|---|---|
-| 80 | 200 | M3 brass heat-set inserts, for a 4.0mm hole (e.g. M3 × 5 × 4.2 OD) | Tree box lid 6 + control-boot tower 4 = 10 per tree. Check the hole size against the ones Rob has (`m3_insert_d`) |
-| 80 | 200 | M3 × 10 stainless button/pan head screws | Same places: 4mm lid frame or 5mm box ear + 6mm in the insert |
+| 30 | 70 | M3 brass heat-set inserts, for a 4.0mm hole (CNC Kitchen / Ruthex M3 × 5.7) | Tree box: 4 per tree, in the base's plug for the cover screws (28 Oct 2026). Check the hole size against the ones Rob has (`m3_insert_d`) |
+| 30 | 70 | M3 × 10 stainless button/pan head screws | The cover's sides into the plug's inserts, 4 per tree |
+| 28 | 64 | 4 × 40 stainless pan-head wood screws + washers | Tree box to the back of the tree, through the flange slots and 10mm printed spacers, 4 per tree |
 | 30 | 70 | M2 × 6 self-tapping screws for plastic | Controller board into its standoffs, 4 per board |
 | 4 | 20 | M2.5 × 6 self-tapping screws for plastic | Pi into the site box plate's standoffs, 4 per site |
 | 14 | 32 | 4 × 30 stainless countersunk wood screws | Through each peg's tab and the boot shaft into the old pilot hole, 2 per tree. Pilot hole size still to measure |

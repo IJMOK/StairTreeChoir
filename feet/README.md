@@ -1,5 +1,7 @@
 # Tree boots
 
+**Parked (Rob, 28 Oct 2026):** Rob doesn't like this design and will rethink it later, possibly as a trunk. The tree box no longer sits on the control boot's tower; it screws straight to the back of the tree (enclosure/README.md). The boot files still build but are out of date.
+
 ![plain boot](boot-preview.png) ![control boot with the controller box](control-boot-preview.png)
 
 `stair-tree-foot.scad` is parametric (every dimension at the top). The STLs are exported from it:

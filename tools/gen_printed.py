@@ -12,8 +12,7 @@ Frames (mm, Z up unless said):
   boots, pegs          boot coordinates (feet/stair-tree-foot.scad): origin on the old
                        fixing hole's axis at the tree's front face, ground z = 0, toe at
                        -y, +x towards the tree centre (mirrored on the right boot)
-  tree-box-*-on-boot   the tree box and lid in the left boot's coordinates
-  tree-box-box/-lid    box coordinates (enclosure/tree-box.scad), lid on its back
+  tree-box-base/-cover box coordinates (enclosure/tree-box.scad), as fitted
   site-box-*           box coordinates (enclosure/site-box.scad), lid on the front
   step-clamp           the right way up, heel on the bed at z = 0
   pixel-disk           front face (under the pixel flange) at z = 0, back at +z
@@ -64,9 +63,11 @@ STLS = [
     Part("feet/stair-tree-foot-right.stl", FOOT, {"hand": "right"}),
     Part("feet/stair-tree-foot-left.stl", FOOT, {"hand": "left"}),
     Part("feet/stair-tree-peg.stl", FOOT, {"part": "peg"}),
-    Part("enclosure/tree-box-box.stl", TREE_BOX, {"part": "box"}),
-    Part("enclosure/tree-box-lid.stl", TREE_BOX, {"part": "lid"}),
+    Part("enclosure/tree-box-base.stl", TREE_BOX, {"part": "base"}),
+    Part("enclosure/tree-box-cover.stl", TREE_BOX, {"part": "cover"}),
     Part("enclosure/tree-box-coupon.stl", TREE_BOX, {"part": "coupon"}),
+    Part("enclosure/tree-box-seal-test.stl", TREE_BOX, {"part": "seal-test"}),
+    Part("enclosure/tree-box-spacer.stl", TREE_BOX, {"part": "spacer"}),
     *[Part(f"enclosure/site-box-{n}-trees.stl", SITE_BOX, {"part": "box", "trees": n}) for n in (6, 4, 2)],
     Part("enclosure/site-box-lid.stl", SITE_BOX, {"part": "lid"}),
     Part("fixtures/step-clamp.stl", CLAMP),
@@ -80,10 +81,8 @@ STEPS = [
     Part("boot-right", FOOT, {"hand": "right"}),
     Part("peg-left", FOOT, {"hand": "left", "part": "peg-fitted"}),
     Part("peg-right", FOOT, {"hand": "right", "part": "peg-fitted"}),
-    Part("tree-box-box-on-boot", FOOT, {"hand": "left", "part": "box-fitted"}),
-    Part("tree-box-lid-on-boot", FOOT, {"hand": "left", "part": "lid-fitted"}),
-    Part("tree-box-box", TREE_BOX, {"part": "box-fitted"}),
-    Part("tree-box-lid", TREE_BOX, {"part": "lid-fitted"}),
+    Part("tree-box-base", TREE_BOX, {"part": "base-fitted"}),
+    Part("tree-box-cover", TREE_BOX, {"part": "cover-fitted"}),
     *[Part(f"site-box-{n}-trees", SITE_BOX, {"part": "box-fitted", "trees": n}) for n in (6, 4, 2)],
     Part("site-box-lid", SITE_BOX, {"part": "lid-fitted"}),
     Part("step-clamp", CLAMP, {"part": "clamp-fitted"}),
@@ -93,7 +92,7 @@ STEPS = [
 
 # The kit leaves out the site box and the CNC fixtures.
 KIT_COLOURS = {"boot": cq.Color(0.80, 0.52, 0.25), "peg": cq.Color(1.0, 0.55, 0.0),
-               "tree-box-box": cq.Color(0.27, 0.51, 0.71), "tree-box-lid": cq.Color(0.69, 0.77, 0.87),
+               "tree-box-base": cq.Color(0.27, 0.51, 0.71), "tree-box-cover": cq.Color(0.69, 0.77, 0.87),
                "tree": cq.Color(0.72, 0.53, 0.30), "pixel-disk": cq.Color(0.15, 0.15, 0.15)}
 
 
@@ -174,9 +173,7 @@ def kit(layout: dict, solids: dict[str, cq.Shape]) -> cq.Assembly:
     kit.add(tree_solid(layout), name="tree", color=KIT_COLOURS["tree"])
     for side, hole in (("left", "fixing_bottom_left"), ("right", "fixing_bottom_right")):
         loc = boot_to_tree(layout, hole)
-        names = [f"boot-{side}", f"peg-{side}"]
-        if side == "left":
-            names += ["tree-box-box-on-boot", "tree-box-lid-on-boot"]
+        names = [f"boot-{side}", f"peg-{side}"]   # the tree box now screws to the tree's back (not placed yet)
         for name in names:
             colour = KIT_COLOURS[name.removesuffix("-on-boot").removesuffix(f"-{side}")]
             kit.add(solids[name], name=name, loc=loc, color=colour)

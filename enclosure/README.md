@@ -2,26 +2,28 @@
 
 ## Tree controller box
 
-`tree-box.scad`, one per tree, sitting on the tower of the control boot (`feet/`). Sizes shared with the boot are in `tree-box-params.scad`; change them there, then re-export the box and the left boot together.
+`tree-box.scad`, one per tree, a **base + cover** (Rob, 28 Oct 2026), screwed straight to the back of the tree. Shared sizes are in `tree-box-params.scad`; `python -m tools.gen_printed` exports everything and `python -m tools.gen_components` checks that the bought parts fit ([docs/tree-box-parts.md](../docs/tree-box-parts.md)).
 
 ```
-openscad -o tree-box-box.stl    -D 'part="box"'    tree-box.scad   # PETG, front face on the bed, no supports
-openscad -o tree-box-lid.stl    -D 'part="lid"'    tree-box.scad   # PETG, flat
-openscad -o tree-box-coupon.stl -D 'part="coupon"' tree-box.scad   # PETG, flat: print first, try the SP16, PG7, RP-SMA, an M3 insert and an M2 screw
+openscad -o tree-box-base.stl      -D 'part="base"'      tree-box.scad   # PETG, tree face on the bed, no supports
+openscad -o tree-box-cover.stl     -D 'part="cover"'     tree-box.scad   # PETG, back on the bed, no supports
+openscad -o tree-box-spacer.stl    -D 'part="spacer"'    tree-box.scad   # 4 per tree
+openscad -o tree-box-coupon.stl    -D 'part="coupon"'    tree-box.scad   # print first: SP16, PG7, RP-SMA, an M3 insert, an M2 screw
+openscad -o tree-box-seal-test.stl -D 'part="seal-test"' tree-box.scad   # print first: the cord seal and the cover's fit
 ```
 
-Outside 96 × 108 × 50mm including the roof and hood (115mm wide with the ears); inside 91 × 92 × 40mm (30mm until 28 Oct 2026: the floor nuts landed on the rim ledge). Built on the shared shell in `sealed-box.scad`: rounded corners, chamfered edges, and a hollow roof sloping 8° away from the tree, with a hood and drip lip over the lid joint. The lid is a thin 2mm panel inside a 4mm frame that carries the screws and the cord.
+About 119 × 61 × 107mm overall with the flanges and the roof; inside 76 wide, 44 deep, about 86 high.
 
-- **Front wall** (towards the tree): four standoffs for the 5×7cm controller board, M2 self-tapping screws. The board sits at the top, components facing the lid.
-- **Below the board**: the Mini560 and the two Wago 221-413s (foam tape), the SP16 socket's nut and the gland nut.
-- **Floor**: the SP16 panel socket (12V run in: D hole 16.5mm with a flat at 15.3mm, `sp16_*`; flat towards the lid so it bridges when printed) and PG7 (pixel lead tail out), both pointing down into the boot tower, and a 3mm drip hole.
-- **Outer side wall** (x = 0, away from the tree's centre): RP-SMA bulkhead for the antenna, above the board; the dipole hinges up beside the tree. The 2.4mm wall is within the bulkhead's 3.2mm; the roof (11mm with its hollow wedge) was not.
-- **Lid** on the back: six M3 screws into heat-set inserts near the rim's outer edge; 2.7mm rubber cord in a groove in the lid (`seal.scad`: 3.8 × 2.05mm, ~25% squeeze, superglue the butt joint) presses on the flat rim inside the screws; a rain skirt hangs over the joint. The rim opening is 72 × 73mm, so the 70 × 50mm board goes in flat.
-- **Ears**: four M3 screws down into inserts in the boot tower's posts.
+- **Base** (everything is built on it, on the bench): an L. The tree plate, with a flange down each side (two 4.6mm slots each, for 4 × 40 stainless pan-head wood screws), and a shelf along its bottom.
+  - The controller board sits on four M2 standoffs on the plate, components facing the back. The Mini560 stands on the board. The two Wago 221-413s sit on the plate below the board.
+  - The shelf's 3.5mm floor carries the SP16 panel socket (12V run in, firing down: D hole 16.5mm with a flat at 15.3mm, rear nut) and the PG7 gland (pixel lead out), plus a 3mm drip hole.
+  - The **plug** is an 8mm-thick rim running 16mm back from the plate (top and sides) and up from the floor (sides and back), which the cover slides over. One continuous cord groove (`seal.scad`, 3.8 × 2.05mm) runs round its outside: across the top and down the sides 12mm behind the plate, then through an 8mm bend into the shelf's rim 12mm above the underside, and across the back.
+- **Cover**: back, sides and a roof sloping 8° away from the tree, open at the front and the bottom, with a 1mm lead-in round its mouth. It slides on from behind; the 2.7mm cord squeezes radially between the plug and its walls (0.25mm fit each side), so the screws only hold it. Four M3 × 10 screws through its sides into heat-set inserts in the plug, in front of and below the seal line. The RP-SMA antenna bulkhead goes through its outer side wall (x = 0, away from the tree's centre), behind the plug: leave the U.FL pigtail long enough to lift the cover off and set it down beside the base.
+- **Spacers**: 10mm printed tubes between the plate's flanges and the oak, so rain runs down between the tree and the box.
 
 No fuse in the box: each tree's 12V is fused at the site box, where the run starts (CLAUDE.md §4).
 
-**Unverified until the parts arrive:** the board's hole positions (`pb_*`, assumed 2.5mm in from the corners), that the ESP32 on its headers clears 40mm, the SP16 hole and nut clearance, the PG7 thread size, the RP-SMA bulkhead thread, and the M3 insert hole size (4.0mm).
+**Unverified until the parts arrive:** the board's hole positions (`pb_*`, assumed 2.5mm in from the corners), the SP16 nut and thread length, the PG7 and RP-SMA sizes, the M3 insert hole (4.0mm), and the seal's squeeze. Print the coupon and the seal test first.
 
 ## Site box
 

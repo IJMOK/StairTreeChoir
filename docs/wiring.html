@@ -96,7 +96,7 @@ svg .net-text { fill: var(--net); }
 <body>
 <main>
   <header>
-    <div class="status">Stair Tree Choir · Site A, December 2026 · plan as of 28 Oct (SP16 in the tree box)</div>
+    <div class="status">Stair Tree Choir · Site A, December 2026 · plan as of 28 Oct (tree box: base + cover)</div>
     <h1>How the power, sound and data go together</h1>
     <p class="sub">One mains plug feeds one power supply in the site box. Every tree gets its own fused 12V run and a plug-in connector. The trees get their show over Wi-Fi, so the only cable to a tree is power.</p>
   </header>
@@ -318,13 +318,13 @@ svg .net-text { fill: var(--net); }
   <!-- 3. Tree end -->
   <section>
     <h2>3 · At each tree</h2>
-    <p>The tree box sits on the tower of the left boot (the control boot), behind the tree. Power plugs into an SP16 socket in its floor; the pixel lead goes out through its floor, down into the tower, and up to the tree's own pigtail.</p>
+    <p>The tree box screws to the back of the tree on 10mm spacers, low down on the node 1 side. It is a base (the plate against the tree, plus a shelf) that carries everything, and a cover that slides on from behind. The 12V run's plug screws onto the SP16 socket under the shelf; the pixel lead leaves through the PG7 beside it.</p>
     <figure>
       <div class="scroll">
-        <svg viewBox="0 0 1000 430" role="img" aria-label="Left: the tree box with the lid off. The controller board, with the ESP32, level shifter and two screw terminals, is on four standoffs. Below it are the Mini560 and two Wago connectors. The 12V run's plug screws onto an SP16 panel socket in the floor, and the pixel lead leaves through a PG7 gland. The antenna is on the outer side wall, near the top. Right: from the front, the tree stands in two boots; the box sits behind the tree on the left boot's tower, and the 12V run comes in at the back of that boot and up inside the tower.">
+        <svg viewBox="0 0 1000 430" role="img" aria-label="Left: the tree box with the lid off. The controller board, with the ESP32, level shifter and two screw terminals, is on four standoffs. Below it are the Mini560 and two Wago connectors. The 12V run's plug screws onto an SP16 panel socket in the floor, and the pixel lead leaves through a PG7 gland. The antenna is on the outer side wall, near the top. Right: from the front, the box sits behind the tree, screwed to its back; the 12V run comes up to the socket under the box.">
           <!-- box interior -->
           <rect class="enclosure" x="60" y="44" width="320" height="320" rx="8"/>
-          <text class="t" x="60" y="30">TREE BOX · lid off</text>
+          <text class="t" x="60" y="30">TREE BOX · cover off</text>
           <text class="s" x="380" y="30" text-anchor="end">inside 91 × 92 × 40mm</text>
           <!-- antenna -->
           <line x1="60" y1="70" x2="44" y2="70" stroke="var(--fg)" stroke-width="2.4"/>
@@ -374,8 +374,8 @@ svg .net-text { fill: var(--net); }
           <text class="s" x="770" y="206" text-anchor="middle">92 pixels</text>
           <rect class="part" x="640" y="330" width="96" height="44" rx="4"/>
           <rect class="part" x="804" y="330" width="96" height="44" rx="4"/>
-          <text class="s" x="688" y="392" text-anchor="middle">control boot</text>
-          <text class="s" x="852" y="392" text-anchor="middle">plain boot</text>
+          <text class="s" x="688" y="392" text-anchor="middle">stand</text>
+          <text class="s" x="852" y="392" text-anchor="middle">(being rethought)</text>
           <!-- tower and box behind -->
           <rect class="ghost" x="664" y="232" width="48" height="98"/>
           <rect class="ghost" x="650" y="186" width="76" height="46" rx="4"/>
@@ -383,12 +383,12 @@ svg .net-text { fill: var(--net); }
           <circle cx="700" cy="158" r="3" fill="var(--muted)"/>
           <text class="s" x="640" y="176" text-anchor="end">tree box</text>
           <text class="s" x="640" y="190" text-anchor="end">behind the tree,</text>
-          <text class="s" x="640" y="204" text-anchor="end">on the boot's tower</text>
+          <text class="s" x="640" y="204" text-anchor="end">screwed to its back</text>
           <!-- run arriving -->
           <polyline class="w v12" points="560,352 640,352"/>
           <polyline class="w v0" points="560,358 640,358"/>
           <text class="s" x="560" y="338">from the site box</text>
-          <text class="s" x="560" y="420">up inside the tower; the SP17 plug screws onto the box</text>
+          <text class="s" x="560" y="420">up to the box: the SP17 plug screws on underneath</text>
         </svg>
       </div>
       <figcaption>Two Wagos split the 12V: one side feeds the pixels directly, the other feeds the board's JP terminal, and from there the Mini560 makes 5V for the ESP32 and level shifter. Pixel current never crosses the board. Data leaves JD and goes out through the PG7 gland with the pixel power. There's no fuse in the tree box, because the run is fused at the site box.</figcaption>

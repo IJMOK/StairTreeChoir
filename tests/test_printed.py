@@ -35,8 +35,7 @@ def test_every_part_is_a_closed_solid():
         assert shape.Volume() > 0, p.out
 
 
-@pytest.mark.parametrize("name", ["boot-left", "boot-right", "peg-left", "peg-right",
-                                  "tree-box-box-on-boot", "tree-box-lid-on-boot"])
+@pytest.mark.parametrize("name", ["boot-left", "boot-right", "peg-left", "peg-right"])
 def test_fitted_parts_clear_the_tree(layout, tree, name):
     # Facets cut a hair inside curved holes, so allow a sliver.
     assert tree.intersect(placed(layout, name)).Volume() < 5
@@ -49,15 +48,6 @@ def test_pegs_go_into_the_old_fixing_holes(layout):
         h = holes[f"fixing_bottom_{side}"]
         assert bb.xmin < h["x"] < bb.xmax
         assert bb.zmin < -layout["blank"]["thickness"] < bb.zmax  # shaft into the back face, head behind it
-
-
-def test_control_boot_is_at_node_1(layout):
-    # Node 1 (data in) is at the base-left seen from the front; the box sits behind the tree on that side.
-    node1 = layout["nodes"][0]
-    box = placed(layout, "tree-box-box-on-boot").BoundingBox()
-    assert node1["x"] < layout["blank"]["width"] / 2
-    assert box.xmax < layout["blank"]["width"] / 2
-    assert box.zmax < -layout["blank"]["thickness"]
 
 
 def test_boots_stand_on_the_ground(layout):
