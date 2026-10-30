@@ -70,18 +70,18 @@ DIMS = {
         seat=(0.5, "guess"), top=(5.1, "datasheet"),
         note="TI N package body 19.3 x 6.35, rows 7.62; up to 5.08 above the seating plane"),
     "terminal": dict(
-        desc="2-way 5.08mm PCB screw terminal (JP, JD)", have=False,
+        desc="2-way 5.08mm PCB screw terminal (JD)", have=False,
         d=(7.6, "guess"), h=(10.0, "guess"),
         note="KF128 / KF301 type: 10.16 along the pitch; depth and height vary by make"),
     "c1": dict(desc="100uF electrolytic, standing", have=True,
                d=(6.3, "guess"), h=(11.0, "guess"), note="6.3 x 11 or 5 x 11 can"),
     "mini560": dict(
-        desc="Mini560 5V buck module (standing on its input end on the protoboard)", have=True,
-        l=(31.8, "photo"), w=(18.27, "measured"), h=(5.4, "listing"), lift=(1.0, "guess"),
-        note="Width 18.27 (Rob, 28 Oct 2026); length about 31.8 scaled from the photo of 30 Oct, 2 + 2 pads at "
-             "each end. Stands on one end in the free strip at the board's column A-D edge, that end's pads on "
-             "pins into the board (lift). Measure the length, the height to the top of the inductor, the pad "
-             "pitch, and which end is IN"),
+        desc="Mini560 5V buck module (standing on its OUT end on the protoboard)", have=True,
+        l=(30, "measured"), w=(18.27, "measured"), h=(5.4, "listing"), lift=(3.0, "guess"),
+        note="Width 18.27 (Rob, 28 Oct 2026); about 30 long (Rob, 30 Oct), IN at one end and OUT at the other, "
+             "a pair of + pads and a pair of - pads at each end. Stands on its OUT end at the board's column A-D "
+             "edge on a 90 degree header (lift = the header's plastic); its IN end is wired from the Wagos. "
+             "Measure the height to the top of the inductor, the pad spacing and the header"),
     "wago": dict(
         desc="WAGO 221-413 lever connector", have=True,
         l=(18.6, "listing"), w=(18.7, "listing"), h=(8.3, "listing"), lever_open=(20, "guess"),
@@ -194,7 +194,7 @@ def two_lead(part: str) -> tuple[float, float, bool]:
 
 def terminals() -> cq.Workplane:
     out = None
-    for part in ("JP", "JD"):
+    for part in ("JD",):
         x, y, along_x = two_lead(part)
         lx, ly = (10.16, v("terminal", "d")) if along_x else (v("terminal", "d"), 10.16)
         s = box(x, y, 0, lx, ly, v("terminal", "h"))
@@ -276,7 +276,7 @@ def placed(p: dict) -> tuple[dict[str, cq.Shape], dict[str, cq.Location], dict]:
     # its length out of the board (+z), width along the rows, thickness along the columns
     l, w, h = v("mini560", "l"), v("mini560", "w"), v("mini560", "h")
     x0 = grid(0, 0)[0] - PITCH / 2 + 0.5
-    yc = grid(0, 6.5)[1]
+    yc = grid(0, 6)[1]
     shapes["mini560"] = box(x0 + h / 2, yc, v("mini560", "lift"), h, w, l)
     locs["mini560"] = on_board
     # the Wagos flat on the plate below the board, side by side, clear of the SP16 body, above the PG7 nut

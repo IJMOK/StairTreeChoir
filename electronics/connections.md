@@ -8,30 +8,28 @@ Bridge = neighbouring holes, join with a solder blob or a bent lead. Wire = insu
 
 | Part | What | Holes |
 |---|---|---|
-| J2/J3 | ESP32 dev board in two 1×19 female headers | J2 F3–X3, J3 F13–X13 (pin 1 at the antenna end) |
-| U1 | 74AHCT125N in a DIP-14 socket, notch to the right | pin 1 M15, pin 7 G15, pin 8 G18, pin 14 M18 |
+| J2/J3 | ESP32 dev board, soldered in on its own pins | J2 F3–X3, J3 F13–X13 (pin 1 at the antenna end) |
+| U1 | 74AHCT125N, soldered in, notch to the right | pin 1 M15, pin 7 G15, pin 8 G18, pin 14 M18 |
 | R1 | 33Ω data resistor, lying flat | 1 O17, 2 S17 |
 | R2 | 10kΩ pull-down, standing | 1 L14, 2 M14 |
 | C1 | 100µF 16V+ electrolytic, standing | + D17, - E17 |
 | C2 | 0.1µF ceramic, standing | GND N16, 5V N18 |
-| JP | 12V in, 2-way 5.08mm screw terminal | 12V A14, GND A16 |
 | JD | Pixel data out, 2-way 5.08mm screw terminal | DATA U17, GND W17 |
-| M | Mini560 5V buck, off the board on short leads | IN+ A5, IN- A7, OUT- A9, OUT+ A11 |
+| M | Mini560 5V buck, standing on its OUT end on a 90 degree header; its IN end is wired straight from the Wagos | OUT+ C5, OUT- C9 |
 
 ## Joins
 
 | Net | From | To | Type |
 |---|---|---|---|
-| 12V | JP 12V (A14) | M IN+ (A5) | wire |
-| 5V | M OUT+ (A11) | C1 + (D17) | wire |
+| 5V | M OUT+ (C5) | C1 + (D17) | wire |
 | 5V | C1 + (D17) | U1.14 VCC (M18) | wire |
 | 5V | U1.14 VCC (M18) | C2 5V (N18) | bridge |
 | 5V | C2 5V (N18) | ESP32 J2.19 5V (X3) | wire |
-| GND | JP GND (A16) | C1 - (E17) | wire |
-| GND | C1 - (E17) | U1.7 GND (G15) | wire |
+| GND | M OUT- (C9) | ESP32 J3.1 GND (F13) | wire |
+| GND | ESP32 J3.1 GND (F13) | U1.7 GND (G15) | wire |
 | GND | U1.7 GND (G15) | U1.5 2A (I15) | wire |
 | GND | U1.5 2A (I15) | U1.4 2OE (J15) | bridge |
-| GND | U1.7 GND (G15) | ESP32 J3.1 GND (F13) | wire |
+| GND | U1.7 GND (G15) | C1 - (E17) | wire |
 | GND | U1.5 2A (I15) | U1.10 3OE (I18) | wire |
 | GND | U1.10 3OE (I18) | U1.9 3A (H18) | bridge |
 | GND | U1.10 3OE (I18) | U1.12 4A (K18) | wire |
@@ -39,8 +37,6 @@ Bridge = neighbouring holes, join with a solder blob or a bent lead. Wire = insu
 | GND | U1.13 4OE (L18) | C2 GND (N16) | wire |
 | GND | C2 GND (N16) | U1.1 1OE (M15) | wire |
 | GND | U1.1 1OE (M15) | R2 2 (M14) | bridge |
-| GND | ESP32 J3.1 GND (F13) | M OUT- (A9) | wire |
-| GND | M OUT- (A9) | M IN- (A7) | wire |
 | GND | C2 GND (N16) | JD GND (W17) | wire |
 | DATA 3.3V | ESP32 J3.12 IO16 (Q13) | R2 1 (L14) | wire |
 | DATA 3.3V | R2 1 (L14) | U1.2 1A (L15) | bridge |

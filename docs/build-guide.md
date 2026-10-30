@@ -119,7 +119,7 @@ L base + clip-on cover; details in [enclosure/README.md](../enclosure/README.md)
 
 1. **Base, on the bench.** Push the M3 heat-set insert into the block on the shelf. Fit the SP16 panel socket (rear nut; the D flat stops it turning), the PG7 gland and the RP-SMA bulkhead in the shelf, all firing down, with the dipole on the bulkhead.
 2. Screw the controller board onto the plate's four standoffs (M2 self-tapping), components facing the back. Fit the two Wago 221-413 on the plate below the board.
-3. Wire to the schematic in [electronics/README.md](../electronics/README.md): SP16 to the Wagos, Wagos to JP and the pixel lead. The pixel current (about 2.3A at full white) goes through the Wagos on 18AWG wire, never through the board. The pixel lead's data wire goes to JD DATA. Plug the U.FL pigtail onto the ESP32. There is no fuse in the box: the 3A fuse is at the site box.
+3. Wire to the schematic in [electronics/README.md](../electronics/README.md): SP16 to the Wagos, Wagos to the Mini560's IN pads and the pixel lead. The pixel current (about 2.3A at full white) goes through the Wagos on 18AWG wire, never through the board. The pixel lead's data wire goes to JD DATA. Plug the U.FL pigtail onto the ESP32. There is no fuse in the box: the 3A fuse is at the site box.
 4. **Cord seal.** Press the 2.7mm rubber cord into the plate's groove, under every pinch point, from one end over the top to the other. It doesn't need joining.
 5. **On the tree.** Four 4 × 40 stainless pan-head wood screws with washers through the ear slots and the 10mm spacers into the back of the tree, the shelf level. Plug the run's SP17 plug onto the SP16 underneath and the pixel lead's xConnect onto its tail.
 6. **Cover.** Lift it, put the two hook tabs through the plate's slots and drop it so the teeth catch behind the plate. Swing it in and fit the one M3 × 10 screw at the lower back corner, until the rim lands on the plate.
@@ -132,7 +132,7 @@ Each site's PSUs, fuses and runs are in [electronics/site-wiring.md](../electron
 
 The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals in its lid, so it needs no glands. Its inside tapers towards the floor, with ribs: measure it before printing the plate. **The plate is still to design** (CLAUDE.md §5); the steps below are the plan.
 
-1. Fit the PSU (Site A: LRS-200-12) at the top of the plate with air round it, then the terminal cover over its mains side.
+1. Fit the PSU (Site A: S-400-12, input switch on 230V, with `enclosure/psu-cover.stl` held by two M4 × 6 screws) at the top of the plate with air round it, then the terminal cover over its mains side.
 2. Fit the 10-way blade fuse box below it: the PSU's +12V to its input, 0V to its negative bus. One way per tree run (3A), one for the player (3A), one for the router (2A); every negative to the bus.
 3. Fit the Pi and its Mini560 5V buck (Site A: the Pi 3, which needs 2.5A; keep the 5V leads short. A Pi 5 would need 5A, and `PSU_MAX_CURRENT=5000` set with `rpi-eeprom-config --edit` because a plain buck can't do its USB-PD handshake), the PAM8610 (straight off 12V after the player fuse) and the USB sound card. Each speaker gets its own 2-core run from the amp.
 4. Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the SP17 cable plug of an SP16/SP17 2-pin aviation connector on the tree end (screw terminals, no solder; tighten its gland nut on the sheath). Red to +, the same pin every time. Label both ends with the tree number.

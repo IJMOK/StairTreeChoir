@@ -12,7 +12,7 @@ The PSU's mains terminals sit under a printed cover; its mains lead comes in thr
 
 ![Site A wiring](site-a.svg)
 
-PSU: Mean Well LRS-200-12, 14.1A of 17A (83%). The router is indoors on its own adapter, cabled to the Pi by Ethernet.
+PSU: S-400-12, 14.1A of 33A (43%). The router is indoors on its own adapter, cabled to the Pi by Ethernet.
 
 | Slot | Tree | IP | Fuse | Run | Flex | Drop | At the tree |
 |---|---|---|---|---|---|---|---|
@@ -27,7 +27,7 @@ PSU: Mean Well LRS-200-12, 14.1A of 17A (83%). The router is indoors on its own 
 
 ![Site B wiring](site-b.svg)
 
-PSU: Mean Well LRS-150-12, 10.9A of 12.5A (87%). The router is on the PSU (2A fuse).
+PSU: LRS-150-12, 10.9A of 12.5A (87%). The router is on the PSU (2A fuse).
 
 | Slot | Tree | IP | Fuse | Run | Flex | Drop | At the tree |
 |---|---|---|---|---|---|---|---|
@@ -40,7 +40,7 @@ PSU: Mean Well LRS-150-12, 10.9A of 12.5A (87%). The router is on the PSU (2A fu
 
 ![Site C wiring](site-c.svg)
 
-PSU: Mean Well LRS-100-12, 6.7A of 8.5A (79%). The router is on the PSU (2A fuse).
+PSU: LRS-100-12, 6.7A of 8.5A (79%). The router is on the PSU (2A fuse).
 
 | Slot | Tree | IP | Fuse | Run | Flex | Drop | At the tree |
 |---|---|---|---|---|---|---|---|
@@ -51,7 +51,7 @@ PSU: Mean Well LRS-100-12, 6.7A of 8.5A (79%). The router is on the PSU (2A fuse
 
 ![Site D wiring](site-d.svg)
 
-PSU: Mean Well LRS-100-12, 6.7A of 8.5A (79%). The router is on the PSU (2A fuse).
+PSU: LRS-100-12, 6.7A of 8.5A (79%). The router is on the PSU (2A fuse).
 
 | Slot | Tree | IP | Fuse | Run | Flex | Drop | At the tree |
 |---|---|---|---|---|---|---|---|
@@ -62,7 +62,6 @@ PSU: Mean Well LRS-100-12, 6.7A of 8.5A (79%). The router is on the PSU (2A fuse
 
 - 2 × Mean Well LRS-100-12
 - 1 × Mean Well LRS-150-12
-- 1 × Mean Well LRS-200-12
 - 1 spare Mean Well LRS-200-12 later: it covers any site
 - 4 × blade fuse boxes with a negative bus (10-way); 18 × 3A and 3 × 2A blade fuses (plus spares)
 - 77m of 2-core 0.75mm² outdoor flex (runs + 10%)

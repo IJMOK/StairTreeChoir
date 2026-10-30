@@ -15,7 +15,7 @@ Tree no. ____  Board no. ____  Date ____
 With the ESP32, U1 and the Mini560 not yet plugged in or powered:
 - [ ] 12V is not shorted to 5V or GND
 - [ ] 5V is not shorted to GND
-- [ ] 12V reaches only JP 12V and the Mini560 IN+ pad
+- [ ] No 12V on the board: it reaches only the Mini560's IN pads, by wire from the Wagos
 
 Power-up on the bench supply, 12V, current limit 200mA, **ESP32 not yet fitted**:
 - [ ] Mini560 output: ____ V (pass: 5.0V plus or minus 0.1V)
@@ -97,7 +97,7 @@ Site load, all trees at full white with the player running. WLED's limiter shoul
 
 | Site | PSU | Expected | Measured |
 |---|---|---|---|
-| A (6 trees) | LRS-200-12, 17A | 15.1A | ____ A |
+| A (6 trees) | S-400-12, 33A | 14.1A | ____ A |
 | B (4 trees) | LRS-150-12, 12.5A | 10.9A | ____ A |
 | C, D (2 trees) | LRS-100-12, 8.5A | 6.7A | ____ A |
 

@@ -45,8 +45,8 @@ def test_circuit():
     # SD card fallback pins (VSPI) stay free.
     for name in ("IO5", "IO18", "IO19", "IO23"):
         assert ("J3", gc.J3.index(name) + 1) not in net_of
-    # 12V only reaches the buck input.
-    assert gc.NETS["12V"] == [("JP", "12V"), ("M", "IN+")]
+    # No 12V on the board: the Wagos feed the buck's input directly.
+    assert "12V" not in gc.NETS and "JP" not in gc.SMALL_PARTS
 
 
 def test_bridges_never_skip_a_pad():

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Site A wiring diagrams (26 Oct 2026; parts from the 27 Oct orders added 28 Oct). Published copy: https://claude.ai/artifact/D7S2aqDR7d8ZSA9qU48DHn. Hand-made, not generated: update it when the design changes. -->
+<!-- Site A wiring diagrams (26 Oct 2026; parts from the 27 Oct orders added 28 Oct; tree box updated 30 Oct). Published copy: https://claude.ai/artifact/D7S2aqDR7d8ZSA9qU48DHn. Hand-made, not generated: update it when the design changes. -->
 <title>Stair Tree Choir Wiring</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,7 +96,7 @@ svg .net-text { fill: var(--net); }
 <body>
 <main>
   <header>
-    <div class="status">Stair Tree Choir · Site A, December 2026 · plan as of 28 Oct (tree box: base + cover)</div>
+    <div class="status">Stair Tree Choir · Site A, December 2026 · plan as of 30 Oct (tree box: L base + clip-on cover)</div>
     <h1>How the power, sound and data go together</h1>
     <p class="sub">One mains plug feeds one power supply in the site box. Every tree gets its own fused 12V run and a plug-in connector. The trees get their show over Wi-Fi, so the only cable to a tree is power.</p>
   </header>
@@ -134,9 +134,9 @@ svg .net-text { fill: var(--net); }
           <text class="t" x="184" y="44">SITE BOX · DRiBOX Large</text>
 
           <rect class="part" x="230" y="58" width="150" height="66" rx="4"/>
-          <text x="305" y="84" text-anchor="middle">Mean Well</text>
-          <text x="305" y="100" text-anchor="middle">LRS-200-12</text>
-          <text class="s" x="305" y="116" text-anchor="middle">230V → 12V 17A</text>
+          <text x="305" y="84" text-anchor="middle">Power supply</text>
+          <text x="305" y="100" text-anchor="middle">S-400-12</text>
+          <text class="s" x="305" y="116" text-anchor="middle">230V → 12V 33A</text>
 
           <polyline class="w v12" points="280,124 280,170"/>
           <polyline class="w v0" points="330,124 330,170"/>
@@ -230,14 +230,14 @@ svg .net-text { fill: var(--net); }
           <text class="s" x="640" y="536" text-anchor="middle">2 runs</text>
         </svg>
       </div>
-      <figcaption>Everything at Site A runs from one Mean Well LRS-200-12. The blade fuse box gives each tree its own 3A fuse, plus 3A for the player (Pi and amp). Every run leaves on 2-core 0.75mm² rubber flex (H05RR-F) and ends in an SP17 aviation plug with screw terminals, so there's nothing to solder. It screws onto the SP16 socket in the tree box's floor. Full load is 14.1A of 17A. The router stands indoors at the front window, about 5ft from the trees, on its own adapter, with Ethernet out to the Pi.</figcaption>
+      <figcaption>Everything at Site A runs from one S-400-12. The blade fuse box gives each tree its own 3A fuse, plus 3A for the player (Pi and amp). Every run leaves on 2-core 0.75mm² rubber flex (H05RR-F) and ends in an SP17 aviation plug with screw terminals, so there's nothing to solder. It screws onto the SP16 socket under the tree box's shelf. Full load is 14.1A of 33A. The router stands indoors at the front window, about 5ft from the trees, on its own adapter, with Ethernet out to the Pi.</figcaption>
     </figure>
   </section>
 
   <!-- 2. Site box plan -->
   <section>
     <h2>2 · Inside the site box</h2>
-    <p>Seen from above with the lid open, to scale (1 square = 10mm). The DRiBOX narrows towards the floor and has ribs, so plan on about 290 × 190mm of flat floor. The parts sit on one printed plate. <strong>The plate isn't designed yet</strong>; measure the box and the PSU when they arrive.</p>
+    <p>Seen from above with the lid open, to scale (1 square = 10mm). The DRiBOX narrows towards the floor and has ribs, so plan on about 290 × 190mm of flat floor. The parts sit on one printed plate. <strong>The plate isn't designed yet.</strong></p>
     <figure>
       <div class="scroll">
         <svg viewBox="0 0 740 560" role="img" aria-label="Plan of the site box floor, 330 by 230mm. The PSU fills the back left, with a hatched cover over its mains terminals on the left end. The Pi 3 and its USB sound card sit at the back right. Along the front are the mains cord grip, the blade fuse box, the Mini560 and the PAM8610 amp. Every cable leaves through the lid seals along the front edge. An Ethernet cable runs from the Pi out through the seals to the router indoors.">
@@ -258,11 +258,11 @@ svg .net-text { fill: var(--net); }
           <text class="s" x="76" y="64">usable floor ≈ 290 × 190mm</text>
 
           <!-- PSU -->
-          <rect class="part" x="90" y="74" width="430" height="230" rx="4"/>
-          <rect class="cover" x="80" y="70" width="58" height="238" rx="3"/>
-          <text x="330" y="196" text-anchor="middle">Mean Well LRS-200-12</text>
-          <text class="s" x="330" y="214" text-anchor="middle">215 × 115 × 30mm · keep air round it</text>
-          <text class="s" x="109" y="320" text-anchor="middle">cover</text>
+          <rect class="part" x="90" y="74" width="434" height="228" rx="4"/>
+          <rect class="cover" x="70" y="68" width="96" height="240" rx="3"/>
+          <text x="330" y="196" text-anchor="middle">S-400-12</text>
+          <text class="s" x="330" y="214" text-anchor="middle">217 × 114 × 50mm · keep air round it</text>
+          <text class="s" x="118" y="320" text-anchor="middle">terminal cover</text>
 
           <!-- Pi and sound card -->
           <rect class="part" x="534" y="74" width="112" height="170" rx="6"/>
@@ -311,87 +311,131 @@ svg .net-text { fill: var(--net); }
           <text class="s" x="360" y="540" text-anchor="middle">front edge: every cable passes through the lid seals here; stand this edge down</text>
         </svg>
       </div>
-      <figcaption>Mains goes only from the cord grip to the PSU's terminals, under a printed cover (hatched). Everything else is 12V or lower. The PSU's +12V and 0V go to the fuse box: +12V to its input, 0V to its negative bus. The player fuse feeds the Mini560 (5V for the Pi) and the amp. Sizes for the fuse box and amp are typical, not measured.</figcaption>
+      <figcaption>Mains goes only from the cord grip to the PSU's terminals, under a printed cover (hatched), so it takes a tool to reach them. The S-400-12's terminals, facing them, left to right: ADJ, +V × 3, −V × 3, earth, N, L. Its input switch is set to 230V and its fan is temperature-controlled, so keep air above it. The cover is held by two M4 screws in the case's side holes. Everything else is 12V or lower. The PSU's +12V and 0V go to the fuse box: +12V to its input, 0V to its negative bus. The player fuse feeds the Mini560 (5V for the Pi) and the amp. Sizes for the fuse box and amp are typical, not measured.</figcaption>
     </figure>
   </section>
 
   <!-- 3. Tree end -->
   <section>
     <h2>3 · At each tree</h2>
-    <p>The tree box screws to the back of the tree on 10mm spacers, low down on the node 1 side. It is a base (the plate against the tree, plus a shelf) that carries everything, and a cover that slides on from behind. The 12V run's plug screws onto the SP16 socket under the shelf; the pixel lead leaves through the PG7 beside it.</p>
+    <p>The tree box stands on four 10mm spacers on the back of the tree, low down on the node 1 side. An L base carries everything, including the three fittings firing down through its shelf, so nothing unplugs when the cover comes off. The cover hooks in at the top, swings in and takes one M3 screw at the bottom.</p>
     <figure>
       <div class="scroll">
-        <svg viewBox="0 0 1000 430" role="img" aria-label="Left: the tree box with the lid off. The controller board, with the ESP32, level shifter and two screw terminals, is on four standoffs. Below it are the Mini560 and two Wago connectors. The 12V run's plug screws onto an SP16 panel socket in the floor, and the pixel lead leaves through a PG7 gland. The antenna is on the outer side wall, near the top. Right: from the front, the box sits behind the tree, screwed to its back; the 12V run comes up to the socket under the box.">
-          <!-- box interior -->
-          <rect class="enclosure" x="60" y="44" width="320" height="320" rx="8"/>
-          <text class="t" x="60" y="30">TREE BOX · cover off</text>
-          <text class="s" x="380" y="30" text-anchor="end">inside 91 × 92 × 40mm</text>
-          <!-- antenna -->
-          <line x1="60" y1="70" x2="44" y2="70" stroke="var(--fg)" stroke-width="2.4"/>
-          <line x1="44" y1="70" x2="44" y2="20" stroke="var(--fg)" stroke-width="2.4"/>
-          <circle cx="44" cy="18" r="4" fill="var(--fg)"/>
-          <text class="s" x="200" y="16">RP-SMA in the side wall, dipole hinged up</text>
+        <svg viewBox="0 0 1000 480" role="img" aria-label="Left: the tree box base with the cover off, seen from behind. The controller board carries the ESP32, level shifter, standing Mini560 and two screw terminals. Two Wago connectors sit below it. Firing down through the shelf are the antenna bulkhead, the SP16 socket for the 12V run and the PG7 gland for the pixel lead. The cord runs over the top and down both sides. Middle: a side section showing the tree, spacers, back plate, cover, top hook and the bottom screw at 45 degrees. Right: the box sits behind the tree, low on one side, with the 12V run coming up to the socket underneath.">
+          <!-- base, cover off -->
+          <text class="t" x="60" y="26">BASE · cover off, from behind</text>
+          <path class="soft" d="M60 42 H340 V74 H372 V136 H340 V274 H372 V336 H340 V382 H60 V336 H28 V274 H60 V136 H28 V74 H60 Z"/>
+          <circle class="part" cx="44" cy="105" r="6"/><circle class="part" cx="356" cy="105" r="6"/>
+          <circle class="part" cx="44" cy="305" r="6"/><circle class="part" cx="356" cy="305" r="6"/>
+          <!-- hook slots and cord -->
+          <rect class="part" x="96" y="88" width="58" height="16" rx="1"/>
+          <rect class="part" x="246" y="88" width="58" height="16" rx="1"/>
+          <text class="s" x="200" y="100" text-anchor="middle">hook slots</text>
+          <path class="seal" d="M70 352 V125 Q70 112 83 112 H317 Q330 112 330 125 V352" fill="none"/>
+          <text class="s" x="200" y="60" text-anchor="middle">cord: over the top, down the sides</text>
           <!-- board -->
-          <rect class="part" x="80" y="64" width="280" height="176" rx="4"/>
-          <text class="s" x="220" y="82" text-anchor="middle">controller board 5 × 7cm, on 4 standoffs</text>
-          <rect class="soft" x="96" y="96" width="170" height="52" rx="3"/>
-          <text x="181" y="118" text-anchor="middle">ESP32</text>
-          <text class="s" x="181" y="135" text-anchor="middle">on headers, WLED</text>
-          <rect class="soft" x="280" y="96" width="64" height="52" rx="3"/>
-          <text x="312" y="118" text-anchor="middle">AHCT</text>
-          <text class="s" x="312" y="135" text-anchor="middle">125</text>
-          <rect class="soft" x="96" y="186" width="70" height="34" rx="3"/>
-          <text x="131" y="207" text-anchor="middle">JP 12V</text>
-          <rect class="soft" x="270" y="186" width="74" height="34" rx="3"/>
-          <text x="307" y="207" text-anchor="middle">JD data</text>
-          <!-- below board -->
-          <rect class="part" x="80" y="262" width="88" height="44" rx="3"/>
-          <text x="124" y="288" text-anchor="middle">Mini560</text>
-          <rect class="part" x="196" y="262" width="154" height="44" rx="3"/>
-          <text x="273" y="282" text-anchor="middle">2 × Wago 221</text>
-          <text class="s" x="273" y="297" text-anchor="middle">+12V · 0V</text>
-          <text class="s" x="220" y="326" text-anchor="middle">foam-taped to the floor</text>
-          <!-- glands -->
-          <rect class="soft" x="138" y="356" width="28" height="18" rx="2"/>
-          <rect class="soft" x="292" y="356" width="28" height="18" rx="2"/>
-          <text x="152" y="394" text-anchor="middle">SP16</text>
-          <text class="s" x="152" y="410" text-anchor="middle">12V socket, plug below</text>
-          <text x="306" y="394" text-anchor="middle">PG7</text>
-          <text class="s" x="306" y="410" text-anchor="middle">pixel lead out</text>
-          <!-- short wires -->
-          <polyline class="w v12" points="148,356 148,330 210,330 210,306"/>
-          <polyline class="w v0" points="158,356 158,338 220,338 220,306"/>
-          <polyline class="w v12" points="320,306 320,330 300,330 300,356"/>
-          <polyline class="w v0" points="330,306 330,338 312,338 312,356"/>
-          <polyline class="w v12" points="205,262 205,250 140,250 140,220"/>
-          <polyline class="w v0" points="215,262 215,244 150,244 150,220"/>
-          <polyline class="w data" points="307,220 307,234 368,234 368,366 322,366"/>
+          <rect class="part" x="87" y="120" width="226" height="160" rx="3"/>
+          <rect class="soft" x="100" y="143" width="150" height="89" rx="3"/>
+          <text x="175" y="186" text-anchor="middle">ESP32</text>
+          <text class="s" x="175" y="203" text-anchor="middle">soldered in, WLED</text>
+          <rect class="soft" x="190" y="247" width="58" height="22" rx="2"/>
+          <text class="s" x="219" y="262" text-anchor="middle">AHCT125</text>
+          <rect class="part" x="264" y="166" width="18" height="60" rx="2"/>
+          <text class="s" x="290" y="178">Mini</text>
+          <text class="s" x="290" y="192">560</text>
+                    <rect class="soft" x="104" y="247" width="36" height="24" rx="2"/>
+          <text class="s" x="122" y="263" text-anchor="middle">JD</text>
+          <!-- Wagos, shelf, fittings -->
+          <rect class="part" x="182" y="294" width="59" height="56" rx="3"/>
+          <text class="s" x="211" y="319" text-anchor="middle">Wago</text>
+          <text class="s" x="211" y="334" text-anchor="middle">+12V</text>
+          <rect class="part" x="244" y="294" width="59" height="56" rx="3"/>
+          <text class="s" x="273" y="319" text-anchor="middle">Wago</text>
+          <text class="s" x="273" y="334" text-anchor="middle">0V</text>
+          <rect class="soft" x="68" y="371" width="264" height="11"/>
+          <rect class="part" x="84" y="357" width="16" height="14"/>
+          <rect class="part" x="135" y="335" width="36" height="36" rx="2"/>
+          <rect class="part" x="276" y="358" width="28" height="13"/>
+          <rect class="part" x="205" y="360" width="26" height="11"/>
+          <text class="s" x="218" y="400" text-anchor="middle">M3 boss</text>
+          <text x="92" y="400" text-anchor="middle">RP-SMA</text>
+          <text class="s" x="92" y="416" text-anchor="middle">antenna</text>
+          <text x="153" y="400" text-anchor="middle">SP16</text>
+          <text class="s" x="153" y="416" text-anchor="middle">12V in</text>
+          <text x="290" y="400" text-anchor="middle">PG7</text>
+          <text class="s" x="290" y="416" text-anchor="middle">pixel lead out</text>
+          <text class="s" x="200" y="440" text-anchor="middle">all three fire down through the shelf</text>
+          <!-- wires -->
+          <polyline class="w v12" points="171,342 182,342"/>
+          <polyline class="w v0" points="171,353 252,353 252,350"/>
+          <polyline class="w v12" points="276,364 262,364 262,357 230,357 230,350"/>
+          <polyline class="w v0" points="292,358 292,350"/>
+          <polyline class="w v12" points="205,294 205,276 268,276 268,226"/>
+          <polyline class="w v0" points="262,294 262,283 278,283 278,226"/>
+          <polyline class="w data" points="122,271 122,288 318,288 318,364 304,364"/>
+          <polyline class="w net" points="92,357 92,350 78,350 78,132 230,132 230,150"/>
+          <text class="s net-text" x="150" y="141" text-anchor="middle">U.FL pigtail</text>
+
+          <!-- side section -->
+          <text class="t" x="420" y="26">SIDE SECTION</text>
+          <rect class="soft" x="414" y="42" width="30" height="378"/>
+          <text class="s" x="429" y="438" text-anchor="middle">oak</text>
+          <rect class="part" x="444" y="99" width="34" height="30"/>
+          <rect class="part" x="444" y="317" width="34" height="30"/>
+          <text class="s" x="461" y="400" text-anchor="middle">10mm</text>
+          <text class="s" x="461" y="414" text-anchor="middle">spacer</text>
+          <line x1="424" y1="114" x2="482" y2="114" stroke="var(--fg)" stroke-width="2"/>
+          <line x1="424" y1="332" x2="482" y2="332" stroke="var(--fg)" stroke-width="2"/>
+          <!-- plate, shelf, cover -->
+          <rect class="soft" x="478" y="42" width="16" height="340"/>
+          <rect class="soft" x="494" y="371" width="96" height="11"/>
+          <polygon class="soft" points="572,371 590,371 606,355 588,339 572,355"/>
+          <polyline class="enclosure" points="494,44 638,60 638,348 596,390 494,390 494,382"/>
+          <line x1="494" y1="44" x2="494" y2="120" stroke="var(--fg)" stroke-width="2"/>
+          <text class="s" x="630" y="150" text-anchor="end">cover</text>
+          <!-- hook -->
+          <polyline class="w v0" points="500,91 468,91 468,99"/>
+          <text class="s" x="514" y="80">2 × hook</text>
+          <line x1="508" y1="76" x2="480" y2="88" stroke="var(--line)" stroke-width="1"/>
+          <!-- cord -->
+          <circle cx="490" cy="118" r="5" fill="var(--muted)"/>
+          <text class="s" x="522" y="130">cord</text>
+          <line x1="520" y1="126" x2="496" y2="119" stroke="var(--line)" stroke-width="1"/>
+          <!-- inside -->
+          <rect class="part" x="510" y="160" width="6" height="160"/>
+          <rect class="soft" x="516" y="176" width="34" height="96"/>
+          <text class="s" x="533" y="229" text-anchor="middle" transform="rotate(-90 533 225)">ESP32</text>
+          <rect class="part" x="552" y="196" width="66" height="10"/>
+          <text class="s" x="585" y="192" text-anchor="middle">Mini560</text>
+          <rect class="part" x="494" y="294" width="28" height="56"/>
+          <text class="s" x="538" y="326">Wagos</text>
+          <!-- fittings and screw -->
+          <rect class="part" x="525" y="382" width="28" height="12"/>
+          <rect class="part" x="529" y="394" width="20" height="30"/>
+          <text class="s" x="539" y="440" text-anchor="middle">SP17 plug below</text>
+          <line x1="618" y1="376" x2="590" y2="348" stroke="var(--v12)" stroke-width="3" stroke-linecap="round"/>
+          <text class="s" x="644" y="372">1 × M3</text>
+          <text class="s" x="644" y="386">at 45°</text>
+          <text class="s" x="548" y="462" text-anchor="middle">undo the M3, swing the bottom out, lift off the hooks</text>
 
           <!-- where it sits -->
-          <text class="t" x="560" y="30">WHERE IT SITS · from the front</text>
-          <polygon points="752,52 788,52 860,330 680,330" class="part"/>
-          <text class="s" x="770" y="190" text-anchor="middle">oak tree</text>
-          <text class="s" x="770" y="206" text-anchor="middle">92 pixels</text>
-          <rect class="part" x="640" y="330" width="96" height="44" rx="4"/>
-          <rect class="part" x="804" y="330" width="96" height="44" rx="4"/>
-          <text class="s" x="688" y="392" text-anchor="middle">stand</text>
-          <text class="s" x="852" y="392" text-anchor="middle">(being rethought)</text>
-          <!-- tower and box behind -->
-          <rect class="ghost" x="664" y="232" width="48" height="98"/>
-          <rect class="ghost" x="650" y="186" width="76" height="46" rx="4"/>
-          <line x1="700" y1="186" x2="700" y2="160" stroke="var(--muted)" stroke-width="2"/>
-          <circle cx="700" cy="158" r="3" fill="var(--muted)"/>
-          <text class="s" x="640" y="176" text-anchor="end">tree box</text>
-          <text class="s" x="640" y="190" text-anchor="end">behind the tree,</text>
-          <text class="s" x="640" y="204" text-anchor="end">screwed to its back</text>
-          <!-- run arriving -->
-          <polyline class="w v12" points="560,352 640,352"/>
-          <polyline class="w v0" points="560,358 640,358"/>
-          <text class="s" x="560" y="338">from the site box</text>
-          <text class="s" x="560" y="420">up to the box: the SP17 plug screws on underneath</text>
+          <text class="t" x="760" y="26">WHERE IT SITS</text>
+          <text class="s" x="760" y="44">from the front</text>
+          <polygon points="852,52 888,52 960,330 780,330" class="part"/>
+          <text class="s" x="870" y="190" text-anchor="middle">oak tree</text>
+          <text class="s" x="870" y="206" text-anchor="middle">92 pixels</text>
+          <rect class="ghost" x="800" y="240" width="62" height="72" rx="5"/>
+          <text class="s" x="760" y="250" text-anchor="end">box</text>
+          <text class="s" x="768" y="266" text-anchor="end">behind</text>
+          <polyline class="w v12" points="828,388 828,312"/>
+          <polyline class="w v0" points="836,388 836,312"/>
+          <line x1="812" y1="312" x2="812" y2="360" stroke="var(--muted)" stroke-width="2"/>
+          <text class="s" x="806" y="352" text-anchor="end">antenna</text>
+          <text class="s" x="834" y="406" text-anchor="middle">12V run from the site box</text>
+          <text class="s" x="870" y="438" text-anchor="middle">stand under the tree: being rethought</text>
         </svg>
       </div>
-      <figcaption>Two Wagos split the 12V: one side feeds the pixels directly, the other feeds the board's JP terminal, and from there the Mini560 makes 5V for the ESP32 and level shifter. Pixel current never crosses the board. Data leaves JD and goes out through the PG7 gland with the pixel power. There's no fuse in the tree box, because the run is fused at the site box.</figcaption>
+      <figcaption>Two Wagos split the 12V: one side feeds the pixels directly, the other is wired straight to the Mini560's IN end, at the top as it stands. Its OUT end plugs into the board on a 90° header and gives 5V to the ESP32 and level shifter. No 12V reaches the board. Pixel current never crosses the board. Data leaves JD and goes out through the PG7 gland with the pixel power. There's no fuse in the tree box, because the run is fused at the site box. The cord seals the top and sides; the bottom is left open on purpose, because rain doesn't fall upwards.</figcaption>
     </figure>
   </section>
 
@@ -402,17 +446,19 @@ svg .net-text { fill: var(--net); }
       <table>
         <thead><tr><th>Part</th><th>Size</th><th>Sits</th><th>Fed from</th></tr></thead>
         <tbody>
-          <tr><td>Mean Well LRS-200-12</td><td class="num">215 × 115 × 30</td><td>Site box, back left, terminals under a cover</td><td>Mains plug lead (L, N, earth)</td></tr>
+          <tr><td>S-400-12</td><td class="num">217 × 114 × 50</td><td>Site box, back left, terminals under a printed cover</td><td>Mains plug lead (L, N, earth)</td></tr>
           <tr><td>Blade fuse box, 10-way</td><td class="num">≤ 150 × 65 (to buy)</td><td>Site box, front left</td><td>PSU +12V in, 0V to its − bus</td></tr>
           <tr><td>Pi 3 + USB sound card</td><td class="num">56 × 85</td><td>Site box, back right</td><td>Mini560 5V (player fuse, 3A)</td></tr>
           <tr><td>PAM8610 amp</td><td class="num">≈ 63 × 40</td><td>Site box, front right</td><td>12V (player fuse, 3A)</td></tr>
           <tr><td>Cudy WR3000 V1 router</td><td class="num">183 × 109 × 35</td><td>Indoors at the front window, antennas upright</td><td>Its own adapter; outdoor Cat6 to the Pi</td></tr>
           <tr><td>Tree run</td><td class="num">5m, H05RR-F 2 × 0.75mm²</td><td>Ground, site box to tree</td><td>Tree fuse, 3A; SP17 plug onto the tree box's SP16 socket</td></tr>
           <tr><td>PD BGO40 speakers (pair)</td><td class="num">130 × 155 × 200</td><td>Outdoors near the trees, IP56</td><td>PAM8610, one 2-core run each (cable in the box)</td></tr>
-          <tr><td>SP16 panel socket</td><td class="num">hole 16.5, flat 15.3</td><td>Tree box floor, firing down</td><td>The run's SP17 plug</td></tr>
-          <tr><td>Controller board</td><td class="num">50 × 70</td><td>Tree box, on 4 standoffs</td><td>Wago +12V → JP</td></tr>
-          <tr><td>Mini560 (tree)</td><td class="num">≈ 22 × 18</td><td>Tree box, below the board</td><td>JP 12V</td></tr>
-          <tr><td>2 × Wago 221-413</td><td class="num">—</td><td>Tree box, below the board</td><td>The SP16 socket in the floor</td></tr>
+          <tr><td>SP16 panel socket</td><td class="num">hole 16.5, flat 15.3</td><td>Tree box shelf, firing down</td><td>The run's SP17 plug</td></tr>
+          <tr><td>PG7 gland</td><td class="num">hole 12.9</td><td>Tree box shelf, firing down</td><td>Pixel lead out</td></tr>
+          <tr><td>RP-SMA bulkhead + dipole</td><td class="num">hole 6.6</td><td>Tree box shelf, firing down</td><td>U.FL pigtail to the ESP32</td></tr>
+          <tr><td>Controller board</td><td class="num">50 × 70</td><td>Tree box, on 4 standoffs</td><td>Mini560 5V, on a 90° header</td></tr>
+          <tr><td>Mini560 (tree)</td><td class="num">≈ 30 × 18</td><td>Tree box, standing on the board on a 90° header</td><td>Wago 12V, wired to its IN end</td></tr>
+          <tr><td>2 × Wago 221-413</td><td class="num">—</td><td>Tree box, below the board</td><td>The SP16 socket in the shelf</td></tr>
         </tbody>
       </table>
     </div>

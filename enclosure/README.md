@@ -27,6 +27,10 @@ No fuse in the box: each tree's 12V is fused at the site box, where the run star
 
 **Unverified until the parts arrive:** the board's hole positions (`pb_*`: 2mm in from the corners, from a photo), the SP16 nut and thread length, the PG7 and RP-SMA sizes, the M3 insert hole (4.0mm), and the cord's squeeze along the sides. Print the coupon and the seal test first.
 
+## PSU terminal cover
+
+`psu-cover.scad`, one for Site A's S-400-12 (`psu-cover.stl`, PETG, end wall on the bed, no supports). A hood over the terminal end, held by two M4 × 6 screws in the case's threaded side holes, with a rib between the 12V and mains sides and a cable notch each. Don't use longer screws: past about 3mm they reach into the PSU. Its sizes are scaled from photos, so offer up the print before wiring.
+
 ## Site box
 
 `site-box.scad`, one per site: the show player and the 12V distribution. Wiring per site: [electronics/site-wiring.md](../electronics/site-wiring.md).

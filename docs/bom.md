@@ -53,9 +53,9 @@ Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 
 | Qty | Item | Notes | Approx. |
 |---|---|---|---|
-| 14 | 2-way 5.08mm PCB screw terminal | JP (12V in) and JD (data out), 2 per board | £3 |
+| 7 | 2-way 5.08mm PCB screw terminal | JD (data out), 1 per board; 12V no longer reaches the board | £2 |
 | 7 + 7 | 10kΩ resistor, 0.1µF capacitor | R2 data pull-down; level-shifter decoupling. Rob has the 33Ω and 100µF | £2 |
-| 1 | Mean Well LRS-200-12 (12V 17A, enclosed, fanless, 215 × 115 × 30mm) | Site A's PSU: 14.1A with the trees at WLED's 2A cap and the player (83%); the router is indoors on its own adapter. No spare for December (Rob, 26 Oct 2026); Site B's LRS-150-12 can stand in later. RS 106-5859, £30.56 ex VAT | £37 |
+| 1 | Mean Well LRS-200-12 (12V 17A, enclosed, fanless, 215 × 115 × 30mm) | **Not needed for December (30 Oct 2026):** Site A uses Rob's S-400-12 (12V 33A, 217 × 114 × 50mm, temperature-controlled fan) with `enclosure/psu-cover.scad`. Was Site A's PSU: 14.1A with the trees at WLED's 2A cap and the player (83%); the router is indoors on its own adapter. No spare for December (Rob, 26 Oct 2026); Site B's LRS-150-12 can stand in later. RS 106-5859, £30.56 ex VAT | £37 |
 | 1 | DRiBOX Large (internal 330 × 230 × 140mm at the top, narrower at the floor; IP55) | The site box (PSU, fuses, Pi, amp; the router stays indoors). Amazon (Festive Lights), £19.99 | £20 |
 | 1 | 10-way blade fuse box with a negative bus (marine type, screw or stud input) | Replaces the DIN fuse holders (Rob, 26 Oct 2026): 6 tree runs and the player + 3 spare (the router is indoors). Its negative bus is the 0V common, so the site box needs no Wagos | £8 |
 | 10 | Blade fuses: 3A (standard ATO/ATC size, to suit the box) | Every tree run and the player. Rob's 5A blades are spares only | £3 |
@@ -74,7 +74,7 @@ Still to buy for Site A: about **£90** (the 27 Oct orders covered the Wagos, fl
 | 6 | Mini560 5V buck (fixed 5V version) | 16 boards |
 | 6 | 5×7cm prototype boards | 16 boards |
 | 9 | 10kΩ, 0.1µF (each) | The rest of the 16 boards (no sockets or female headers: Rob solders the ESP32 and the 74AHCT125 in, 28 Oct 2026) |
-| 18 | 2-way 5.08mm PCB screw terminal | The rest of the 16 boards |
+| 9 | 2-way 5.08mm PCB screw terminal | The rest of the 16 boards |
 | 0 | Wago 221-413 | 13 left over from the 27 Oct CPC order cover trees 7–14 (16) less 3; buy a 10-pack if the site boxes need any |
 | 3 | Mean Well LRS-150-12 (site B) and 2 × LRS-100-12 (sites C, D) | electronics/site-wiring.md |
 | 3 | DRiBOX (Large for B; C and D may fit a Medium) + mains leads | |

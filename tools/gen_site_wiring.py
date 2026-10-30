@@ -86,7 +86,9 @@ def plan(site: dict) -> dict:
         runs.append({**t, "ip": ip(t["tree"]), "mm2": mm2, "drop": d, "v_tree": VOLTS - d})
     router_on_psu = site.get("router", "psu") != "indoors"
     amps = len(runs) * TREE_A + PLAYER_A + (ROUTER_A if router_on_psu else 0)
-    name, rating = psu_for(amps)
+    name, rating = (site["psu"]["name"], site["psu"]["rating"]) if "psu" in site else psu_for(amps)
+    if amps > 0.9 * rating:
+        raise ValueError(f"{amps:.1f}A is more than {name} should carry; split the site")
     return {"site": site, "runs": runs, "router_on_psu": router_on_psu,
             "psu": {"name": name, "rating": rating, "amps": amps}}
 
@@ -134,7 +136,7 @@ def write_md(plans: list[dict], confirmed: bool, path: Path = MD_FILE) -> None:
         s = p["site"]
         out += [f"## {s['name']} ({len(p['runs'])} trees, player {s['player']})", "",
                 f"![{s['name']} wiring]({s['id']}.svg)", "",
-                f"PSU: Mean Well {p['psu']['name']}, {p['psu']['amps']:.1f}A of {p['psu']['rating']:g}A "
+                f"PSU: {p['psu']['name']}, {p['psu']['amps']:.1f}A of {p['psu']['rating']:g}A "
                 f"({p['psu']['amps'] / p['psu']['rating']:.0%}). "
                 + (f"The router is on the PSU ({ROUTER_FUSE_A}A fuse)." if p["router_on_psu"]
                    else "The router is indoors on its own adapter, cabled to the Pi by Ethernet."), "",

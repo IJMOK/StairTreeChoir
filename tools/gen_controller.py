@@ -6,7 +6,7 @@ connects each net (a minimum spanning tree over its holes), so it can't miss a p
 
 Pin order of the ESP32 headers from Espressif's ESP32-DevKitC V4 user guide
 (J2 and J3, pin 1 at the antenna end). The header row spacing differs between
-clones: ESP_ROW_GAP is a guess until Rob measures the boards.
+clones: 10 holes matches Rob's boards (photo, 30 Oct 2026).
 """
 
 from __future__ import annotations
@@ -21,9 +21,9 @@ TABLE_FILE = ROOT / "electronics" / "connections.md"
 
 PITCH = 2.54
 COLS, ROWS = 24, 18
-ESP_ROW_GAP = 10  # holes between J2 and J3 (25.4mm); measure the real board
+ESP_ROW_GAP = 10  # holes between J2 and J3 (25.4mm)
 ESP_J2_ROW = 2
-ESP_PIN1_COL = 5  # pin 19 lands on the last column, so the USB end overhangs the edge
+ESP_PIN1_COL = 5  # pin 19 lands on the last column; the clone is 48mm long, so it stays on the board
 
 J2 = ["3V3", "EN", "VP", "VN", "IO34", "IO35", "IO32", "IO33", "IO25", "IO26",
       "IO27", "IO14", "IO12", "GND", "IO13", "D2", "D3", "CMD", "5V"]
@@ -54,18 +54,16 @@ SMALL_PARTS = {
     "R2": ("10kΩ pull-down, standing", [("1", (11, 13)), ("2", (12, 13))]),
     "C1": ("100µF 16V+ electrolytic, standing", [("+", (3, 16)), ("-", (4, 16))]),
     "C2": ("0.1µF ceramic, standing", [("GND", (13, 15)), ("5V", (13, 17))]),
-    "JP": ("12V in, 2-way 5.08mm screw terminal", [("12V", (0, 13)), ("GND", (0, 15))]),
     "JD": ("Pixel data out, 2-way 5.08mm screw terminal", [("DATA", (20, 16)), ("GND", (22, 16))]),
-    "M": ("Mini560 5V buck, off the board on short leads",
-          [("IN+", (0, 4)), ("IN-", (0, 6)), ("OUT-", (0, 8)), ("OUT+", (0, 10))]),
+    "M": ("Mini560 5V buck, standing on its OUT end on a 90 degree header; its IN end is wired straight from the Wagos",
+          [("OUT+", (2, 4)), ("OUT-", (2, 8))]),
 }
 
 # Net -> list of (part, pin). U1's spare channels have inputs and enables tied to
 # GND, so their outputs sit low; outputs 2Y/3Y/4Y and unused ESP pins stay open.
 NETS = {
-    "12V": [("JP", "12V"), ("M", "IN+")],
     "5V": [("M", "OUT+"), ("C1", "+"), ("J2", 19), ("U1", 14), ("C2", "5V")],
-    "GND": [("JP", "GND"), ("M", "IN-"), ("M", "OUT-"), ("C1", "-"), ("J3", 1),
+    "GND": [("M", "OUT-"), ("C1", "-"), ("J3", 1),
             ("U1", 1), ("U1", 4), ("U1", 5), ("U1", 7), ("U1", 9), ("U1", 10),
             ("U1", 12), ("U1", 13), ("R2", "2"), ("C2", "GND"), ("JD", "GND")],
     "DATA 3.3V": [("J3", 12), ("U1", 2), ("R2", "1")],
@@ -73,7 +71,7 @@ NETS = {
     "DATA OUT": [("R1", "2"), ("JD", "DATA")],
 }
 
-NET_COLOURS = {"12V": "#d62728", "5V": "#ff7f0e", "GND": "#333333",
+NET_COLOURS = {"5V": "#ff7f0e", "GND": "#333333",
                "DATA 3.3V": "#1f77b4", "DATA 5V": "#2ca02c", "DATA OUT": "#9467bd"}
 
 
@@ -155,10 +153,10 @@ def table() -> str:
         "",
         "| Part | What | Holes |",
         "|---|---|---|",
-        f"| J2/J3 | ESP32 dev board in two 1×19 female headers | J2 {hole_name(*esp_hole('J2', 1))}–"
+        f"| J2/J3 | ESP32 dev board, soldered in on its own pins | J2 {hole_name(*esp_hole('J2', 1))}–"
         f"{hole_name(*esp_hole('J2', 19))}, J3 {hole_name(*esp_hole('J3', 1))}–"
         f"{hole_name(*esp_hole('J3', 19))} (pin 1 at the antenna end) |",
-        f"| U1 | 74AHCT125N in a DIP-14 socket, notch to the right | pin 1 {hole_name(*u1_hole(1))}, "
+        f"| U1 | 74AHCT125N, soldered in, notch to the right | pin 1 {hole_name(*u1_hole(1))}, "
         f"pin 7 {hole_name(*u1_hole(7))}, pin 8 {hole_name(*u1_hole(8))}, pin 14 {hole_name(*u1_hole(14))} |",
     ]
     for part, (desc, pins) in SMALL_PARTS.items():
@@ -239,13 +237,13 @@ def _panel(ox: float, mirror: bool) -> list[str]:
         xs, ys = [p[0] for p in pts], [p[1] for p in pts]
         out.append(f'<rect x="{min(xs) - 1.3:.2f}" y="{min(ys) - 1.3:.2f}" width="{max(xs) - min(xs) + 2.6:.2f}" '
                    f'height="{max(ys) - min(ys) + 2.6:.2f}" rx="0.8" fill="none" stroke="#a33" stroke-width="0.3"/>')
-        tx = max(xs) + 5 if part in ("JP", "M") else (min(xs) + max(xs)) / 2
-        anchor = "start" if part in ("JP", "M") else "middle"
-        ty = (min(ys) + max(ys)) / 2 + 0.7 if part in ("JP", "M") else min(ys) - 1.8
+        tx = max(xs) + 5 if part == "M" else (min(xs) + max(xs)) / 2
+        anchor = "start" if part == "M" else "middle"
+        ty = (min(ys) + max(ys)) / 2 + 0.7 if part == "M" else min(ys) - 1.8
         out.append(f'<text x="{tx:.2f}" y="{ty:.2f}" font-size="1.8" text-anchor="{anchor}" fill="#a33">{part}</text>')
         for label, h in pins:
             hx, hy = _xy(*h, False, ox)
-            if part in ("JP", "M"):
+            if part == "M":
                 out.append(f'<text x="{hx + 1.6:.2f}" y="{hy + 0.45:.2f}" font-size="1.2" fill="#a33">{label}</text>')
             elif part in ("C1", "JD"):
                 out.append(f'<text x="{hx:.2f}" y="{hy + 2.6:.2f}" font-size="1.2" text-anchor="middle" fill="#a33">{label}</text>')

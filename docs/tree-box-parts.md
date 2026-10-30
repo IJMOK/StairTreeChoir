@@ -11,7 +11,7 @@ Status: **measured** = calipers on Rob's part; **datasheet** = maker's drawing; 
 - SP16 plug: 63mm below the floor's outer face (plug 60 + flange), plus the cable bend: keep that clear under the box.
 - Clashes (overlap over 1mm³): base / cover: 16 mm³.
 - Board stack: the ESP32's tallest part reaches y = 21.4mm; the cover's back wall is at y = 47, so 25.6mm spare.
-- Mini560 standing on the board: its top end reaches y = 44.4mm, 2.6mm short of the back wall. Clear of the ESP32 by 5.5mm (column A is at the box's high-x side).
+- Mini560 standing on the board: its top end reaches y = 44.6mm, 2.4mm short of the back wall. Clear of the ESP32 by 5.5mm (column A is at the box's high-x side).
 - ESP32 USB end reaches x = 11.8mm; the cover's inside wall is at x = 2.40.
 
 ## Sizes
@@ -22,9 +22,9 @@ Status: **measured** = calipers on Rob's part; **datasheet** = maker's drawing; 
 | ESP32's own male pin headers, soldered straight into the protoboard (no sockets, Rob 28 Oct 2026) | yes | male_base 2.5 | guess | Plastic between the protoboard and the ESP32's underside |
 | ESP32-DevKitC-32U, 38-pin (AliExpress) | yes | l 48.3, w 27.94, t 1.6, row_gap 25.4, end_pin1 1, mod_l 17.5, mod_w 16, mod_h 3.2, usb_w 9, usb_d 7.3, usb_h 3.2, usb_over 0.5, ufl_h 2.5 | datasheet, guess, photo | Photo 30 Oct 2026: USB-C clone with a CP2102, pinout matches Espressif's J2/J3, 19 pins each, rows 10 pitches apart, about 48.3 long (not the listed 54.4), so it doesn't overhang the board. Measure the length and the tallest part |
 | 74AHCT125N (DIP-14), soldered in (no socket) | yes | seat 0.5, top 5.1 | datasheet, guess | TI N package body 19.3 x 6.35, rows 7.62; up to 5.08 above the seating plane |
-| 2-way 5.08mm PCB screw terminal (JP, JD) | no | d 7.6, h 10 | guess | KF128 / KF301 type: 10.16 along the pitch; depth and height vary by make |
+| 2-way 5.08mm PCB screw terminal (JD) | no | d 7.6, h 10 | guess | KF128 / KF301 type: 10.16 along the pitch; depth and height vary by make |
 | 100uF electrolytic, standing | yes | d 6.3, h 11 | guess | 6.3 x 11 or 5 x 11 can |
-| Mini560 5V buck module (standing on its input end on the protoboard) | yes | l 31.8, w 18.27, h 5.4, lift 1 | guess, listing, measured, photo | Width 18.27 (Rob, 28 Oct 2026); length about 31.8 scaled from the photo of 30 Oct, 2 + 2 pads at each end. Stands on one end in the free strip at the board's column A-D edge, that end's pads on pins into the board (lift). Measure the length, the height to the top of the inductor, the pad pitch, and which end is IN |
+| Mini560 5V buck module (standing on its OUT end on the protoboard) | yes | l 30, w 18.27, h 5.4, lift 3 | guess, listing, measured | Width 18.27 (Rob, 28 Oct 2026); about 30 long (Rob, 30 Oct), IN at one end and OUT at the other, a pair of + pads and a pair of - pads at each end. Stands on its OUT end at the board's column A-D edge on a 90 degree header (lift = the header's plastic); its IN end is wired from the Wagos. Measure the height to the top of the inductor, the pad spacing and the header |
 | WAGO 221-413 lever connector | yes | l 18.6, w 18.7, h 8.3, lever_open 20 | guess, listing | Aggregators disagree (18.6-18.8, h 8.3-8.6); no WAGO drawing read. In hand since 30 Oct: measure |
 | SP16 2-pin panel socket (rear nut) + SP17 cable plug | no | hole 16.5, flat 15.3, thread 16, flange_d 25, flange_t 3, body 22, nut_af 20, nut_t 3, plug_l 60, plug_d 22 | datasheet, guess | Drawing (spebanmoh SP16 PDF): hole 16.5 / flat 15.3, flange 25, body 22, plug 60, cable 6-8. Due 7 Nov: measure the nut, the flange thickness and the thread length (max panel) |
 | PG7 nylon cable gland (pixel lead out) | yes | thread 12.5, thread_l 8, nut_af 15, nut_t 3, cap_af 15, out_h 14 | datasheet, guess | Multicomp PG7DG: thread 8 long, overall 22, clamps 3-6.5. Rob has 20: measure the nut and cap |
@@ -37,12 +37,12 @@ Status: **measured** = calipers on Rob's part; **datasheet** = maker's drawing; 
 - [ ] ESP32-DevKitC-32U, 38-pin (AliExpress): l, w, t, row_gap, end_pin1, mod_l, mod_w, usb_w, usb_d, usb_h, usb_over, ufl_h
 - [ ] 74AHCT125N (DIP-14), soldered in (no socket): seat
 - [ ] 100uF electrolytic, standing: d, h
-- [ ] Mini560 5V buck module (standing on its input end on the protoboard): l, h, lift
+- [ ] Mini560 5V buck module (standing on its OUT end on the protoboard): h, lift
 - [ ] WAGO 221-413 lever connector: l, w, h, lever_open
 - [ ] PG7 nylon cable gland (pixel lead out): nut_af, nut_t, cap_af, out_h
 - [ ] RP-SMA bulkhead (U.FL pigtail end) + 2.4GHz dipole: nut_t, body_in, dipole_d, dipole_l
 
 ## Measure when they arrive
 
-- [ ] 2-way 5.08mm PCB screw terminal (JP, JD): d, h
+- [ ] 2-way 5.08mm PCB screw terminal (JD): d, h
 - [ ] SP16 2-pin panel socket (rear nut) + SP17 cable plug: flange_t, nut_af, nut_t, plug_d
