@@ -18,17 +18,17 @@ AliExpress order of 18 Oct 2026 (£277.80, due 25–31 Oct), plus the ESP32 orde
 | 10 | 2×20 pin headers | Spares | Arrived 24 Oct |
 | 10 | Mini560 5V buck | One per tree controller; 6 more for 16 boards | Arrived 24 Oct |
 | 20 + 20 | PG7 and PG9 cable glands | Needed: PG7 14 = the tree boxes' pixel lead. PG9 no longer needed: the 12V run plugs into an SP16 panel socket in the tree box floor (28 Oct 2026), so the PG9s are spares. The site box is now a DRiBOX, whose lid seals clamp the cables, so it needs no glands (26 Oct 2026). Both are covered. | Arrived 24 Oct |
-| 10 | ESP32-DevKitC-32U dev board, 38-pin | 16 needed; 6 more to buy | Ordered 22 Oct (AliExpress) |
-| 10 | 2.4GHz antenna: U.FL to RP-SMA bulkhead pigtail + RP-SMA dipole | 16 needed; 6 more to buy | Ordered 22 Oct (AliExpress) |
+| 10 | ESP32-DevKitC-32U dev board, 38-pin | 16 needed; 6 more to buy | Arrived 30 Oct |
+| 10 | 2.4GHz antenna: U.FL to RP-SMA bulkhead pigtail + RP-SMA dipole | 16 needed; 6 more to buy | Arrived 30 Oct |
 
 Orders of 27 Oct 2026 (Site A wiring, speakers, router):
 
 | Qty | Item | Notes | Status |
 |---|---|---|---|
-| 1 | Cudy WR3000 V2 (AX3000) | Site A router, indoors at the front window. eBay (lekafindslimited), £29.99, order 11-15340-22895. V2: check the adapter label (12V, 1A or more) and set up OpenWrt from the V2 image | Due 29–31 Oct |
+| 1 | Cudy WR3000 V1 (AX3000; listed as V2, but the unit reports `cudy,wr3000-v1`) | Site A router, indoors at the front of the house, on OpenWrt 25.12.6. eBay (lekafindslimited), £29.99, order 11-15340-22895 | Arrived 29 Oct |
 | 1 pair | PD BGO40 outdoor speakers, black (MPN 100.044): 4" + 3/4" dome, 8Ω, 30W RMS, 89dB 1W/1m, 100Hz–20kHz, IP56, speaker cable included | Site A's stereo pair off the PAM8610. eBay listing called them "BC040" but the box says BGO40 (Rob, 28 Oct 2026); £15.88 against £51 at ElectroMarket. eBay (zahumble-0), order 09-15354-62517 | Arrived 28 Oct |
-| 25 | Wago 221-413 (3-way) | 12 for Site A's tree boxes + 13 toward trees 7–14. CPC CN20136, order 21543768 | Shipped 28 Oct (UPS 1Z63024Y6888853378; one of two shipments) |
-| 50m | Pro Power H05RR-F 2-core 0.75mm² rubber cable, black | Site A's ~35m of runs + ~15m toward the later sites. H05RR-F is lighter duty than H05RN-F but fine laid on the ground for a season. CPC CB19470 (order 21543768 also lists SU00243, 1 off) | Shipped 28 Oct (UPS, as above) |
+| 25 | Wago 221-413 (3-way) | 12 for Site A's tree boxes + 13 toward trees 7–14. CPC CN20136, order 21543768 | Arrived by 30 Oct |
+| 50m | Pro Power H05RR-F 2-core 0.75mm² rubber cable, black | Site A's ~35m of runs + ~15m toward the later sites. H05RR-F is lighter duty than H05RN-F but fine laid on the ground for a season. CPC CB19470 (order 21543768 also lists SU00243, 1 off) | Arrived by 30 Oct |
 | 15 sets | SP16/SP17 2-pin screw-terminal aviation connectors (solderless): SP16 panel socket (rear nut, M16 × 1.5, D hole 16.5mm with a flat at 15.3mm) + SP17 cable plug | Replace the PY07 Z108 bayonets: one per tree run, 14 trees + 1 spare. SP17 2-pin is rated 10A, IP68 mated, cable 6–10mm (SP16 is smaller: check the H05RR-F sheath fits the gland). The SP16 goes in the tree box floor, firing down (Rob, 28 Oct 2026); the SP17 goes on the tree end of the run. Red to +. Check which half has the pins when they arrive (due 7 Nov): the powered run should carry the shrouded contacts. AliExpress (Ti Socket Store), 10 + 5 sets, £32.06 | Shipped 28 Oct, due 7 Nov |
 
 ## Rob already has
@@ -49,7 +49,7 @@ Tree controller: DIY boards (Rob, 21 Oct 2026). See electronics/README.md.
 
 Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 
-**Already covered** (bought or in hand): ESP32 boards and antennas (10), 74AHCT125s, Mini560s (10: 6 trees + the Pi 3 + 3 spare), prototype boards (10), the PAM8610, a USB sound card, PG7 glands (20; Site A needs 6), the Pi 3 player with its microSD, the Cudy WR3000 V2, the 27 Oct orders (Wagos, 50m of flex, the aviation connectors, the BGO40 speakers), the RCD outdoor socket, a mains lead with a 13A plug, PETG, hot glue, heatshrink, lid cord, and 18mm sheet for the CNC fixture plate.
+**Already covered** (bought or in hand): ESP32 boards and antennas (10), 74AHCT125s, Mini560s (10: 6 trees + the Pi 3 + 3 spare), prototype boards (10), the PAM8610, a USB sound card, PG7 glands (20; Site A needs 6), the Pi 3 player with its microSD, the Cudy WR3000 V1, the 27 Oct orders (Wagos, 50m of flex, the aviation connectors, the BGO40 speakers), the RCD outdoor socket, a mains lead with a 13A plug, PETG, hot glue, heatshrink, lid cord, and 18mm sheet for the CNC fixture plate.
 
 | Qty | Item | Notes | Approx. |
 |---|---|---|---|
@@ -85,7 +85,7 @@ Still to buy for Site A: about **£90** (the 27 Oct orders covered the Wagos, fl
 | ~30m | 2-core 0.75mm² rubber flex | The other sites' runs, less the ~15m left from the 50m reel |
 | 2 | Raspberry Pi 3 Model A+ (or any Pi) | Players for sites C and D; Rob's Pi 3 is Site B's. The Pi Hut, about £24 |
 | 3 | High-endurance microSD | One per player |
-| 3 | Cudy WR3000 router (V2 like Site A's) | One per site; out of season they become home mesh nodes |
+| 3 | Cudy WR3000 router (check V1 or V2 on arrival: listings mix them up, and each needs its own OpenWrt image) | One per site; out of season they become home mesh nodes |
 | 3 pairs | Outdoor 8Ω speakers | One stereo pair per site |
 | 8 | Small TVS diodes (optional) | |
 | 736 + spares | Printed pixel disks (PETG) | 92 per tree × 8 (trees 7–14) |
@@ -96,8 +96,8 @@ Lids and box mounts use M3 brass heat-set inserts, not captive nuts: the screws 
 
 | December | All | Item | Where |
 |---|---|---|---|
-| 30 | 70 | M3 brass heat-set inserts, for a 4.0mm hole (CNC Kitchen / Ruthex M3 × 5.7) | Tree box: 4 per tree, in the base's plug for the cover screws (28 Oct 2026). Check the hole size against the ones Rob has (`m3_insert_d`) |
-| 30 | 70 | M3 × 10 stainless button/pan head screws | The cover's sides into the plug's inserts, 4 per tree |
+| 30 | 70 | M3 brass heat-set inserts, for a 4.0mm hole (CNC Kitchen / Ruthex M3 × 5.7) | Tree box: 1 per tree, in the shelf's block for the cover screw (30 Oct 2026). Check the hole size against the ones Rob has (`m3_insert_d`) |
+| 30 | 70 | M3 × 10 stainless button/pan head screws | The cover's bevel into the shelf's insert, 1 per tree |
 | 28 | 64 | 4 × 40 stainless pan-head wood screws + washers | Tree box to the back of the tree, through the flange slots and 10mm printed spacers, 4 per tree |
 | 30 | 70 | M2 × 6 self-tapping screws for plastic | Controller board into its standoffs, 4 per board |
 | 4 | 20 | M2.5 × 6 self-tapping screws for plastic | Pi into the site box plate's standoffs, 4 per site |

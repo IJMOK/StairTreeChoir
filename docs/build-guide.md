@@ -115,14 +115,14 @@ The peg is separate because the tree has to drop into the slot from above; do no
 
 ## 8. Tree box
 
-Base + cover; details in [enclosure/README.md](../enclosure/README.md). Print the coupon and the seal test before the first box.
+L base + clip-on cover; details in [enclosure/README.md](../enclosure/README.md). Print the coupon and the seal test before the first box.
 
-1. **Base, on the bench.** Push 4 M3 heat-set inserts into the plug's sides (two each side). Fit the SP16 panel socket (rear nut; the D flat stops it turning) and the PG7 gland in the shelf floor, both pointing down. Leave the 3mm drip hole open.
+1. **Base, on the bench.** Push the M3 heat-set insert into the block on the shelf. Fit the SP16 panel socket (rear nut; the D flat stops it turning), the PG7 gland and the RP-SMA bulkhead in the shelf, all firing down, with the dipole on the bulkhead.
 2. Screw the controller board onto the plate's four standoffs (M2 self-tapping), components facing the back. Fit the two Wago 221-413 on the plate below the board.
-3. Wire to the schematic in [electronics/README.md](../electronics/README.md): SP16 to the Wagos, Wagos to JP and the pixel lead. The pixel current (about 2.3A at full white) goes through the Wagos on 18AWG wire, never through the board. The pixel lead's data wire goes to JD DATA. There is no fuse in the box: the 3A fuse is at the site box.
-4. **Cover.** Fit the RP-SMA bulkhead in its outer side wall and the dipole outside, hinged to point up. Plug the U.FL pigtail onto the ESP32, leaving enough slack to set the cover down beside the base.
-5. **Cord seal.** Lay the 2.7mm rubber cord in the plug's groove all the way round, cut it to length and superglue the butt joint (at the back, not in the bends). Slide the cover on from behind, square, over the cord, and fit its four M3 × 10 screws.
-6. **On the tree.** Four 4 × 40 stainless pan-head wood screws with washers through the flange slots and the 10mm spacers into the back of the tree, the shelf level. Plug the run's SP17 plug onto the SP16 underneath and the pixel lead's xConnect onto its tail.
+3. Wire to the schematic in [electronics/README.md](../electronics/README.md): SP16 to the Wagos, Wagos to JP and the pixel lead. The pixel current (about 2.3A at full white) goes through the Wagos on 18AWG wire, never through the board. The pixel lead's data wire goes to JD DATA. Plug the U.FL pigtail onto the ESP32. There is no fuse in the box: the 3A fuse is at the site box.
+4. **Cord seal.** Press the 2.7mm rubber cord into the plate's groove, under every pinch point, from one end over the top to the other. It doesn't need joining.
+5. **On the tree.** Four 4 × 40 stainless pan-head wood screws with washers through the ear slots and the 10mm spacers into the back of the tree, the shelf level. Plug the run's SP17 plug onto the SP16 underneath and the pixel lead's xConnect onto its tail.
+6. **Cover.** Lift it, put the two hook tabs through the plate's slots and drop it so the teeth catch behind the plate. Swing it in and fit the one M3 × 10 screw at the lower back corner, until the rim lands on the plate.
 
 ## 9. Site box and power
 

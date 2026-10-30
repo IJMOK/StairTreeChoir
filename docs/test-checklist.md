@@ -64,12 +64,12 @@ Box: tree ____ / site ____
 
 - [ ] Heat-set inserts straight and tight; screws pull down without stripping
 - [ ] Lid cord is seated in its groove, not twisted, and its butt joint is superglued
-- [ ] Lid screws tightened evenly (6 on a tree box, 8 on a site box)
+- [ ] Lid screws tightened evenly (1 on a tree box, 8 on a site box)
 - [ ] Each gland is tight on the flex's outer sleeve (flex outer diameter under 8mm)
 - [ ] All glands point down; nothing enters on a face that takes rain
 - [ ] 3mm drip hole is open
 - [ ] RP-SMA bulkhead is tight and the antenna points up (tree box)
-- [ ] The box is screwed to the tower by four M3 screws (tree box); the tower is open underneath
+- [ ] The box is on four 10mm spacers and four 4 × 40 wood screws (tree box); both hooks caught and the cover's rim down on the plate all round
 - [ ] The heel nail in the control boot was hammered before the box went on
 
 Rain and soak test of at least one box. **TBC (Rob):** the repo does not give a duration or method. A suggestion is an hour under a hose or watering can, from above and the sides.

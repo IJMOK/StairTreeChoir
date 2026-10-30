@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import math
 import re
-from itertools import combinations
+from itertools import combinations, product
 from pathlib import Path
 
 import cadquery as cq
@@ -46,23 +46,25 @@ SCAD = [ROOT / "enclosure" / "tree-box-params.scad", ROOT / "enclosure" / "tree-
 DIMS = {
     "protoboard": dict(
         desc="5 x 7cm double-sided prototype board, 24 x 18 holes", have=True,
-        w=(70, "listing"), h=(50, "listing"), t=(1.6, "guess"),
+        w=(70, "photo"), h=(50, "photo"), t=(1.6, "guess"),
         tail=(2.5, "guess"),                # solder tails and joins below the board
-        note="bitsandparts.nl: 70 x 50, 1.0mm plated holes; thickness 1.0-1.6 by seller. "
-             "Measure the thickness and the corner hole centres (box: pb_hole_in 2.5)"),
+        note="Photo 30 Oct 2026: 24 x 18 holes confirmed, plus a row of 16 oval pads at each short edge. "
+             "Corner holes about 2mm in from both edges and about 2mm across (box: pb_hole_in 2.0). "
+             "Measure the corner hole spacing and the thickness"),
     "header": dict(
         desc="ESP32's own male pin headers, soldered straight into the protoboard (no sockets, Rob 28 Oct 2026)",
         have=True, male_base=(2.5, "guess"),
         note="Plastic between the protoboard and the ESP32's underside"),
     "esp32": dict(
         desc="ESP32-DevKitC-32U, 38-pin (AliExpress)", have=True,
-        l=(54.4, "listing"), w=(27.94, "datasheet"), t=(1.6, "guess"),
-        row_gap=(25.4, "datasheet"), end_pin1=(2.0, "guess"),
-        mod_l=(19.2, "datasheet"), mod_w=(18.0, "datasheet"), mod_h=(3.2, "datasheet"),
-        usb_w=(7.5, "guess"), usb_d=(5.6, "guess"), usb_h=(2.8, "guess"), usb_over=(1.0, "guess"),
+        l=(48.3, "photo"), w=(27.94, "photo"), t=(1.6, "guess"),
+        row_gap=(25.4, "photo"), end_pin1=(1.0, "photo"),
+        mod_l=(17.5, "photo"), mod_w=(16.0, "photo"), mod_h=(3.2, "datasheet"),
+        usb_w=(9.0, "guess"), usb_d=(7.3, "guess"), usb_h=(3.2, "guess"), usb_over=(0.5, "photo"),
         ufl_h=(2.5, "guess"),
-        note="Espressif dimensions PDF: 27.94 wide, rows 25.4 apart, 19 pins each; TME 54.4 long. "
-             "Measure the clone: length, row spacing, pin 1 to the module end, tallest part, U.FL position"),
+        note="Photo 30 Oct 2026: USB-C clone with a CP2102, pinout matches Espressif's J2/J3, 19 pins each, "
+             "rows 10 pitches apart, about 48.3 long (not the listed 54.4), so it doesn't overhang the board. "
+             "Measure the length and the tallest part"),
     "u1": dict(
         desc="74AHCT125N (DIP-14), soldered in (no socket)", have=True,
         seat=(0.5, "guess"), top=(5.1, "datasheet"),
@@ -75,14 +77,15 @@ DIMS = {
                d=(6.3, "guess"), h=(11.0, "guess"), note="6.3 x 11 or 5 x 11 can"),
     "mini560": dict(
         desc="Mini560 5V buck module (standing on its input end on the protoboard)", have=True,
-        l=(30, "listing"), w=(18.27, "measured"), h=(5.4, "listing"), lift=(1.0, "guess"),
-        note="Width 18.27 (Rob, 28 Oct 2026); listings 29-30 x 18 x 5.4. Stands on one end in the free strip "
-             "at the board's column A-D edge, that end's pads on pins into the board (lift). Measure the "
-             "length, the height to the top of the inductor, and the pad pitch"),
+        l=(31.8, "photo"), w=(18.27, "measured"), h=(5.4, "listing"), lift=(1.0, "guess"),
+        note="Width 18.27 (Rob, 28 Oct 2026); length about 31.8 scaled from the photo of 30 Oct, 2 + 2 pads at "
+             "each end. Stands on one end in the free strip at the board's column A-D edge, that end's pads on "
+             "pins into the board (lift). Measure the length, the height to the top of the inductor, the pad "
+             "pitch, and which end is IN"),
     "wago": dict(
-        desc="WAGO 221-413 lever connector", have=False,
+        desc="WAGO 221-413 lever connector", have=True,
         l=(18.6, "listing"), w=(18.7, "listing"), h=(8.3, "listing"), lever_open=(20, "guess"),
-        note="Aggregators disagree (18.6-18.8, h 8.3-8.6); no WAGO drawing read. Arriving from CPC"),
+        note="Aggregators disagree (18.6-18.8, h 8.3-8.6); no WAGO drawing read. In hand since 30 Oct: measure"),
     "sp16": dict(
         desc="SP16 2-pin panel socket (rear nut) + SP17 cable plug", have=False,
         hole=(16.5, "datasheet"), flat=(15.3, "datasheet"), thread=(16, "datasheet"),
@@ -106,7 +109,8 @@ DIMS = {
 COLOURS = {"protoboard": (0.15, 0.45, 0.2), "header": (0.1, 0.1, 0.1), "esp32": (0.1, 0.2, 0.5),
            "u1": (0.2, 0.2, 0.2), "terminal": (0.1, 0.4, 0.8), "c1": (0.2, 0.3, 0.6),
            "mini560": (0.1, 0.1, 0.3), "wago": (0.9, 0.5, 0.1), "sp16": (0.2, 0.4, 0.8),
-           "pg7": (0.15, 0.15, 0.15), "rpsma": (0.8, 0.7, 0.3)}
+           "pg7": (0.15, 0.15, 0.15), "rpsma": (0.8, 0.7, 0.3),
+           **{f"spacer{i}": (0.27, 0.51, 0.71) for i in range(1, 5)}}
 
 
 def v(part: str, key: str) -> float:
@@ -120,17 +124,10 @@ def scad_params() -> dict[str, float]:
         for m in re.finditer(r"^(\w+)\s*=\s*(-?[\d.]+)\s*;", f.read_text(encoding="utf-8"), re.M):
             p.setdefault(m[1], float(m[2]))
     # the derived sizes, as tree-box-params.scad and tree-box.scad work them out
-    p["plug_x0"] = p["cover_wall"] + p["cover_fit"]
-    p["box_w"] = p["box_in_w"] + 2 * (p["plug_t"] + p["plug_x0"])
-    p["plug_top"] = p["box_h"] - p["plug_x0"]
-    p["back_in"] = p["plate_t"] + p["box_in_d"]                 # cover's back wall, inside face
     p["floor_y"] = p["plate_t"] + 14
-    p["sp16_x"] = p["plug_x0"] + p["plug_t"] + 14
-    p["pg7_x"] = p["plug_x0"] + p["plug_t"] + p["box_in_w"] - 18
-    p["ant_y"] = p["plate_t"] + p["plug_d"] + 10
-    p["ant_z"] = p["box_h"] - 22
-    p["board_x0"] = p["plug_x0"] + p["plug_t"] + (p["box_in_w"] - p["pb_w"]) / 2
-    p["board_z0"] = p["plug_top"] - p["plug_t"] - 2 - p["pb_h"]
+    p["floor_z"] = p["lip_t"] + p["floor_t"]
+    p["back_in"] = p["plate_t"] + p["box_in_d"]                 # cover's back wall, inside face
+    p["board_x0"] = (p["box_w"] - p["pb_w"]) / 2
     return p
 
 
@@ -269,7 +266,7 @@ def placed(p: dict) -> tuple[dict[str, cq.Shape], dict[str, cq.Location], dict]:
                     p["board_z0"] + p["pb_h"] / 2)
     on_board = loc(board_rows, board_origin)
     up = ((1, 0, 0), (0, 1, 0), (0, 0, 1))
-    grip = p["cover_wall"]
+    grip = p["ant_panel"]
     shapes = {"protoboard": protoboard(), "esp32": esp32(), "u1": u1(),
               "terminal": terminals(), "c1": c1(), "mini560": mini560(), "wago": wago(),
               "sp16": sp16(ft), "pg7": pg7(ft), "rpsma": rpsma(grip)}
@@ -284,22 +281,27 @@ def placed(p: dict) -> tuple[dict[str, cq.Shape], dict[str, cq.Location], dict]:
     locs["mini560"] = on_board
     # the Wagos flat on the plate below the board, side by side, clear of the SP16 body, above the PG7 nut
     on_wall = ((1, 0, 0), (0, 0, -1), (0, 1, 0))
-    wx, wz = p["sp16_x"] + 13, ft + 7
+    wx, wz = p["sp16_x"] + 9, p["floor_z"] + 6.6
     locs["wago"] = loc(on_wall, (wx, in_wall + v("wago", "h"), wz))
     locs["wago2"] = loc(on_wall, (wx + v("wago", "l") + 1.5, in_wall + v("wago", "h"), wz))
     shapes["wago2"] = shapes["wago"]
-    locs["sp16"] = loc(up, (p["sp16_x"], p["floor_y"], 0))
-    locs["pg7"] = loc(up, (p["pg7_x"], p["floor_y"], 0))
-    locs["rpsma"] = loc(((0, 0, 1), (0, 1, 0), (-1, 0, 0)), (0, p["ant_y"], p["ant_z"]))   # axis z -> +X
+    # the printed spacers between the ears and the tree, axis along y, on the mounting slots' centres
+    spacer = cyl(0, 0, 0, p["spacer_d"], p["spacer_l"]).cut(cyl(0, 0, -1, p["mount_slot_d"], p["spacer_l"] + 2))
+    for i, (x, z) in enumerate(product((-p["ear_w"] / 2, p["box_w"] + p["ear_w"] / 2), (18, p["box_h"] - 16)), 1):
+        shapes[f"spacer{i}"] = spacer
+        locs[f"spacer{i}"] = loc(((1, 0, 0), (0, 0, 1), (0, -1, 0)), (x, -p["spacer_l"], z))
+    locs["sp16"] = loc(up, (p["sp16_x"], p["floor_y"], p["lip_t"]))
+    locs["pg7"] = loc(up, (p["pg7_x"], p["floor_y"], p["lip_t"]))
+    locs["rpsma"] = loc(up, (p["ant_x"], p["floor_y"], p["lip_t"]))     # firing down, through the shelf's recess
     return {k: s.val() for k, s in shapes.items()}, locs, {"grip": grip}
 
 
 def checks(p: dict, solids: dict, locs: dict, base: cq.Shape, cover: cq.Shape, info: dict) -> list[str]:
     out = []
     g, mx = info["grip"], v("rpsma", "max_panel")
-    out.append(f"RP-SMA bulkhead: through the cover's {g:.1f}mm outer side wall; it takes {mx:.1f}mm at most. "
+    out.append(f"RP-SMA bulkhead: through the shelf, thinned to {g:.1f}mm; it takes {mx:.1f}mm at most. "
                + ("OK." if g <= mx else "**Too thick.**"))
-    out.append(f"SP16 and PG7: the shelf floor is {p['floor_t']:.1f}mm. PG7 thread is {v('pg7', 'thread_l'):.0f}mm long "
+    out.append(f"SP16 and PG7: the shelf is {p['floor_t']:.1f}mm. PG7 thread is {v('pg7', 'thread_l'):.0f}mm long "
                f"(nut {v('pg7', 'nut_t'):.0f}mm): OK. SP16 thread length past the flange is unknown: measure it.")
     out.append(f"SP16 plug: {v('sp16', 'plug_l') + v('sp16', 'flange_t'):.0f}mm below the floor's outer face "
                f"(plug {v('sp16', 'plug_l'):.0f} + flange), plus the cable bend: keep that clear under the box.")
@@ -326,8 +328,7 @@ def checks(p: dict, solids: dict, locs: dict, base: cq.Shape, cover: cq.Shape, i
                f"of the back wall. Clear of the ESP32 by {m.xmin - placed_['esp32'].BoundingBox().xmax:.1f}mm "
                "(column A is at the box's high-x side).")
     usb = placed_["esp32"].BoundingBox().xmin
-    out.append(f"ESP32 USB end reaches x = {usb:.1f}mm; the plug's inside wall is at x = "
-               f"{p['plug_x0'] + p['plug_t']:.2f} (the plug runs {p['plug_d']:.0f}mm back from the plate).")
+    out.append(f"ESP32 USB end reaches x = {usb:.1f}mm; the cover's inside wall is at x = {p['cover_wall']:.2f}.")
     return out
 
 
@@ -337,7 +338,7 @@ def doc(results: list[str]) -> str:
              "STEP models: `cad/components/` (each part in its own frame) and `cad/tree-box-assembly.step` "
              "(base, cover and parts as fitted, in the box frame of enclosure/tree-box.scad).", "",
              "Status: **measured** = calipers on Rob's part; **datasheet** = maker's drawing; "
-             "**listing** = seller or aggregator; **guess** = typical value, measure it.", "",
+             "**photo** = scaled from Rob's photo, close but measure it; **listing** = seller or aggregator; **guess** = typical value, measure it.", "",
              "## Checks", ""] + [f"- {r}" for r in results] + ["", "## Sizes", "",
              "| Part | In hand | Size (mm) | Status | Notes |", "|---|---|---|---|---|"]
     for name, d in DIMS.items():
@@ -346,12 +347,12 @@ def doc(results: list[str]) -> str:
         lines.append(f"| {d['desc']} | {'yes' if d['have'] else 'no'} | {sizes} | {', '.join(stat)} | {d['note']} |")
     lines += ["", "## Measure now (parts in hand)", ""]
     for name, d in DIMS.items():
-        todo = [k for k, val in d.items() if isinstance(val, tuple) and val[1] in ("guess", "listing")]
+        todo = [k for k, val in d.items() if isinstance(val, tuple) and val[1] in ("guess", "listing", "photo")]
         if d["have"] and todo:
             lines.append(f"- [ ] {d['desc']}: {', '.join(todo)}")
     lines += ["", "## Measure when they arrive", ""]
     for name, d in DIMS.items():
-        todo = [k for k, val in d.items() if isinstance(val, tuple) and val[1] in ("guess", "listing")]
+        todo = [k for k, val in d.items() if isinstance(val, tuple) and val[1] in ("guess", "listing", "photo")]
         if not d["have"] and todo:
             lines.append(f"- [ ] {d['desc']}: {', '.join(todo)}")
     return "\n".join(lines) + "\n"
@@ -364,8 +365,8 @@ def main() -> None:
     solids, locs, info = placed(p)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for name, s in solids.items():
-        if name != "wago2":
-            write_step(s, OUT_DIR / f"{name}.step")
+        if name not in ("wago2", "spacer2", "spacer3", "spacer4"):
+            write_step(s, OUT_DIR / f"{'spacer' if name == 'spacer1' else name}.step")
     asm = cq.Assembly(name="tree-box-assembly")
     asm.add(base, name="tree-box-base", color=cq.Color(0.27, 0.51, 0.71))
     asm.add(cover, name="tree-box-cover", color=cq.Color(0.69, 0.77, 0.87, 0.35))
@@ -375,7 +376,7 @@ def main() -> None:
     results = checks(p, solids, locs, base, cover, info)
     DOC_FILE.write_text(doc(results), encoding="utf-8", newline="\n")
     print("\n".join(results))
-    print(f"wrote {len(solids) - 1} parts in cad/components/, {ASSEMBLY_FILE.relative_to(ROOT)}, "
+    print(f"wrote {len(solids) - 4} parts in cad/components/, {ASSEMBLY_FILE.relative_to(ROOT)}, "
           f"{DOC_FILE.relative_to(ROOT)}")
 
 

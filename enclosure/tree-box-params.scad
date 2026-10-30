@@ -1,40 +1,34 @@
 // Tree controller box: sizes shared by the box (enclosure/tree-box.scad),
 // tools/gen_components.py and the parked boot (feet/stair-tree-foot.scad). Change them here only.
 //
-// Base + cover (Rob, 28 Oct 2026): the base is an L, a plate screwed to the back of
-// the tree plus a shelf along its bottom, and carries everything (board, Mini560,
-// Wagos, the SP16 and PG7 in the shelf), so it is all built on the bench. The cover
-// (back, sides, roof) slides on from behind over the base's "plug", the 16mm-deep
-// rim round the plate and the shelf; a 2.7mm cord in a groove round the plug seals
-// against the cover's walls (radial, like an O-ring on a piston).
+// L base + clip-on cover (Rob, 30 Oct 2026): the base is an L, a back plate on spacers
+// off the tree plus a shelf along its bottom. It carries everything, including the
+// SP16, PG7 and RP-SMA firing down through the shelf, so nothing unplugs when the cover
+// comes off. The cover hooks on at the top, swings in and takes one M3 at the bottom.
+// The 2.7mm cord seals the top and sides on the plate; the bottom is left open on
+// purpose: rain doesn't fall upwards.
 //
 // Box coordinates: x across from the cover's outer left (seen from behind; the
-// antenna side, away from the tree's centre), y from the tree face (y = 0) back,
-// z up, 0 = underside of the shelf and the cover's bottom edge.
+// antenna side, away from the tree's centre), y from the plate's tree face (y = 0) back,
+// z up, 0 = underside of the cover's bottom lip.
 
-box_in_w      = 76;      // inside width between the plug's side walls: the 70mm board plus 3 each side (the ESP32's USB end overhangs it)
-box_in_d      = 44;      // inside depth, plate to the cover's back wall (the Mini560 stands 31 off the board)
-box_h         = 100;     // cover's outer height to its top edge (the roof sits above)
-plate_t       = 4;       // tree plate and its flanges
-floor_t       = 3.5;     // shelf floor under the SP16 and PG7
-plug_t        = 8;       // plug walls: carry the cord groove and the cover screws' inserts
-plug_d        = 16;      // plug depth: the plate's rim back from the plate, the shelf's rim up from the floor
+box_w         = 87;      // cover's outer width: the 74 opening plus a 6.5 rim each side
+box_h         = 102;     // cover's height at the back edge, below the roof's last 1mm
+box_in_d      = 42;      // inside depth, plate to the cover's back wall (the Mini560 stands about 33 off the board)
+plate_t       = 5;       // back plate and its ears: carries the cord groove
+floor_t       = 3.5;     // shelf
+lip_t         = 2.4;     // cover's bottom lip, under the shelf
 cover_wall    = 2.4;
 cover_back_t  = 3;
-cover_fit     = 0.25;    // cover to plug, each side; the cord takes up the gap
-corner_r      = 10;      // cover's outline radius (top edges and back corners)
+cover_fit     = 0.25;    // cover's walls to the shelf's sides, each side
+corner_r      = 12;      // cover's outline radius, top corners
 
 m3_clear      = 3.4;
 m3_insert_d   = 4.0;     // M3 heat-set insert hole (CNC Kitchen / Ruthex M3 x 5.7: hole 4.0)
 m3_insert_len = 6;
 
-box_w      = box_in_w + 2 * (plug_t + cover_fit + cover_wall);   // cover's outer width
-plug_x0    = cover_wall + cover_fit;                              // plug's outer left
-plug_w     = box_in_w + 2 * plug_t;
-plug_top   = box_h - cover_wall - cover_fit;                      // plate plug's top face
+floor_z    = lip_t + floor_t;                                     // shelf's top face
 cover_y1   = plate_t + box_in_d + cover_back_t;                   // cover's back face
-plug_back  = plate_t + box_in_d - cover_fit;                      // shelf plug's back face
-plug_r     = corner_r - cover_wall - cover_fit;                   // plug's corner radius
 
 // Old names, kept so the parked boot (feet/) still builds; it no longer carries the box.
 box_wall = cover_wall; box_front_t = plate_t; box_floor_t = floor_t;

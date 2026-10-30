@@ -1,6 +1,6 @@
 # Tree controller and site wiring (M4)
 
-One controller per tree: an ESP32 dev board running WLED, a 74AHCT125 level shifter and a Mini560 5V buck on a 5×7cm prototype board, in a printed box (`enclosure/tree-box.scad`) on the tower of the tree's left boot (`feet/`), behind the tree. The board takes 12V and gives out one 5V data line. The pixels' own 12V never runs through the board.
+One controller per tree: an ESP32 dev board running WLED, a 74AHCT125 level shifter and a Mini560 5V buck on a 5×7cm prototype board, in a printed L base + clip-on cover (`enclosure/tree-box.scad`) on spacers on the back of the tree. The board takes 12V and gives out one 5V data line. The pixels' own 12V never runs through the board.
 
 - [tree-controller-board.svg](tree-controller-board.svg): where every part goes, plus the joins on the underside (mirrored, as you see it when soldering).
 - [connections.md](connections.md): the same as a list: every part's holes, and every join with its hole names.
@@ -38,18 +38,18 @@ Why each part is there:
 
 ## Inside the box
 
-- 12V comes in through an SP16 panel socket in the box floor (rear nut, firing down into the boot tower); the run from the site box ends in the SP17 cable plug that screws onto it. Short tails go from the socket to the Wagos. It is already fused (3A) at the site box, where the run starts, so the fuse protects the flex as well as the tree. There is no fuse in the tree box.
+- 12V comes in through an SP16 panel socket in the base's shelf (rear nut, firing down); the run from the site box ends in the SP17 cable plug that screws onto it. Short tails go from the socket to the Wagos. It is already fused (3A) at the site box, where the run starts, so the fuse protects the flex as well as the tree. There is no fuse in the tree box.
 - Two Wago 221-413 lever connectors split the supply: one joins +12V to the pixel string and to JP 12V, the other joins GND the same way. The pixel current (about 2.3A at full white) stays on 18AWG wire and the Wagos, never on the prototype board.
-- The pixel lead leaves through the PG7 gland in the box floor, as a short round tail ending in an xConnect plug down in the boot tower, where the tree's own pigtail comes up from the shelf hole. Its data wire goes to JD DATA. JD GND is spare: fit the optional TVS diode across JD (DATA to GND) if you use one.
+- The pixel lead leaves through the PG7 gland in the base's shelf, as a short round tail ending in an xConnect plug, where it meets the tree's own lead. Its data wire goes to JD DATA. JD GND is spare: fit the optional TVS diode across JD (DATA to GND) if you use one.
 - The Mini560 sits off the board on short leads (double-sided foam tape to the box floor), wired to the four pads in column A.
 - The ESP32 and U1 are soldered straight in (no sockets, Rob 28 Oct 2026); a dead one means a desolder or a new board.
-- **Antenna**: the WROOM-32U has a U.FL socket on the module. Use a U.FL to RP-SMA bulkhead pigtail and a small dipole on the box's outer side wall, hinged to point up beside the tree. 30mm of wet oak between the antenna and the router costs signal, so put the box on the side of the tree that faces the router where you can.
+- **Antenna**: the WROOM-32U has a U.FL socket on the module. Use a U.FL to RP-SMA bulkhead pigtail and a small dipole on the base's shelf, firing down, hinged out clear of the box and the plug. 30mm of wet oak between the antenna and the router costs signal, so put the box on the side of the tree that faces the router where you can.
+
+**Confirmed from Rob's photo (30 Oct 2026):** the board is 24×18 holes; the ESP32 clone's pinout matches J2/J3 and its header rows are 10 holes apart (25.4mm).
 
 **Unverified until the parts arrive:**
 - xConnect wire colours (which is data). Check against the arrows on the string and with a meter before connecting anything.
-- The ESP32 board's header row spacing. The layout assumes 25.4mm (10 holes). Measure it and set `ESP_ROW_GAP` in the generator if it differs.
-- The Mini560's size and pad positions.
-- That a 5×7cm board here is 24×18 holes.
+- The Mini560's size and pad positions, and which end is IN (check before any power: 12V on OUT kills it).
 
 ## Power and USB: never both
 
