@@ -476,12 +476,12 @@
 <text x="2.00" y="50.70" font-size="1.6" text-anchor="middle">16</text>
 <text x="2.00" y="53.24" font-size="1.6" text-anchor="middle">17</text>
 <text x="2.00" y="55.78" font-size="1.6" text-anchor="middle">18</text>
-<rect x="16.43" y="15.81" width="48.26" height="2.54" fill="none" stroke="#222" stroke-width="0.3"/><text x="15.70" y="17.78" font-size="1.8" text-anchor="end">J2</text>
-<rect x="16.43" y="41.21" width="48.26" height="2.54" fill="none" stroke="#222" stroke-width="0.3"/><text x="15.70" y="43.18" font-size="1.8" text-anchor="end">J3</text>
-<rect x="16.43" y="15.81" width="48.26" height="27.94" fill="#3a6ea5" fill-opacity="0.12" stroke="#3a6ea5" stroke-width="0.3" stroke-dasharray="1 0.6"/><text x="40.56" y="29.78" font-size="2.5" text-anchor="middle" fill="#3a6ea5">ESP32 dev board (antenna end left, USB right)</text>
-<text x="45.64" y="40.68" font-size="1.4" text-anchor="middle">IO16</text>
-<text x="17.70" y="40.68" font-size="1.4" text-anchor="middle">GND</text>
-<text x="63.42" y="15.28" font-size="1.4" text-anchor="middle">5V</text>
+<rect x="16.43" y="41.21" width="48.26" height="2.54" fill="none" stroke="#222" stroke-width="0.3"/><text x="15.70" y="43.18" font-size="1.8" text-anchor="end">J2</text>
+<rect x="16.43" y="15.81" width="48.26" height="2.54" fill="none" stroke="#222" stroke-width="0.3"/><text x="15.70" y="17.78" font-size="1.8" text-anchor="end">J3</text>
+<rect x="16.43" y="41.21" width="48.26" height="-22.86" fill="#3a6ea5" fill-opacity="0.12" stroke="#3a6ea5" stroke-width="0.3" stroke-dasharray="1 0.6"/><text x="40.56" y="29.78" font-size="2.5" text-anchor="middle" fill="#3a6ea5">ESP32 dev board (antenna end left, USB right)</text>
+<text x="45.64" y="15.28" font-size="1.4" text-anchor="middle">IO16</text>
+<text x="17.70" y="15.28" font-size="1.4" text-anchor="middle">GND</text>
+<text x="63.42" y="40.68" font-size="1.4" text-anchor="middle">5V</text>
 <rect x="18.74" y="46.06" width="18.24" height="10.62" fill="#222" fill-opacity="0.15" stroke="#222" stroke-width="0.3"/><circle cx="36.98" cy="51.37" r="0.8" fill="#fff" stroke="#222" stroke-width="0.2" clip-path="inset(0 50% 0 0)"/><text x="27.86" y="52.17" font-size="2" text-anchor="middle">U1 74AHCT125</text>
 <text x="35.48" y="45.76" font-size="1.4" text-anchor="middle">1</text>
 <rect x="39.26" y="51.34" width="12.76" height="2.60" rx="0.8" fill="none" stroke="#a33" stroke-width="0.3"/>
@@ -981,9 +981,9 @@
 <line x1="138.76" y1="22.16" x2="136.22" y2="52.64" stroke="#ff7f0e" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
 <line x1="136.22" y1="52.64" x2="113.36" y2="55.18" stroke="#ff7f0e" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
 <line x1="113.36" y1="55.18" x2="110.82" y2="55.18" stroke="#ff7f0e" stroke-width="0.9" stroke-linecap="round" opacity="0.85"/>
-<line x1="110.82" y1="55.18" x2="85.42" y2="17.08" stroke="#ff7f0e" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
-<line x1="138.76" y1="32.32" x2="131.14" y2="42.48" stroke="#333333" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
-<line x1="131.14" y1="42.48" x2="128.60" y2="47.56" stroke="#333333" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
+<line x1="110.82" y1="55.18" x2="85.42" y2="42.48" stroke="#ff7f0e" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
+<line x1="138.76" y1="32.32" x2="131.14" y2="17.08" stroke="#333333" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
+<line x1="138.76" y1="32.32" x2="128.60" y2="47.56" stroke="#333333" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
 <line x1="128.60" y1="47.56" x2="123.52" y2="47.56" stroke="#333333" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
 <line x1="123.52" y1="47.56" x2="120.98" y2="47.56" stroke="#333333" stroke-width="0.9" stroke-linecap="round" opacity="0.85"/>
 <line x1="128.60" y1="47.56" x2="133.68" y2="52.64" stroke="#333333" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
@@ -995,7 +995,7 @@
 <line x1="110.82" y1="50.10" x2="113.36" y2="47.56" stroke="#333333" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
 <line x1="113.36" y1="47.56" x2="113.36" y2="45.02" stroke="#333333" stroke-width="0.9" stroke-linecap="round" opacity="0.85"/>
 <line x1="110.82" y1="50.10" x2="87.96" y2="52.64" stroke="#333333" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
-<line x1="103.20" y1="42.48" x2="115.90" y2="45.02" stroke="#1f77b4" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
+<line x1="103.20" y1="17.08" x2="115.90" y2="45.02" stroke="#1f77b4" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
 <line x1="115.90" y1="45.02" x2="115.90" y2="47.56" stroke="#1f77b4" stroke-width="0.9" stroke-linecap="round" opacity="0.85"/>
 <line x1="118.44" y1="47.56" x2="108.28" y2="52.64" stroke="#2ca02c" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>
 <line x1="98.12" y1="52.64" x2="93.04" y2="52.64" stroke="#9467bd" stroke-width="0.45" stroke-linecap="round" opacity="0.85"/>

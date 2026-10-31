@@ -45,7 +45,7 @@ Why each part is there:
 - The ESP32 and U1 are soldered straight in (no sockets, Rob 28 Oct 2026); a dead one means a desolder or a new board.
 - **Antenna**: the WROOM-32U has a U.FL socket on the module. Use a U.FL to RP-SMA bulkhead pigtail and a small dipole on the base's shelf, firing down, hinged out clear of the box and the plug. 30mm of wet oak between the antenna and the router costs signal, so put the box on the side of the tree that faces the router where you can.
 
-**Confirmed from Rob's photo (30 Oct 2026):** the board is 24×18 holes; the ESP32 clone's pinout matches J2/J3 and its header rows are 10 holes apart (25.4mm).
+**Confirmed from Rob's photos (30 and 31 Oct 2026):** the board is 24×18 holes; the ESP32 clone's pin order matches J2/J3 and its header rows are 10 holes apart (25.4mm). Seen from the component side with the antenna end left, J3 (GND, IO23 … IO16 … CLK) is the top row, row 3, and J2 (3V3 … 5V) is the bottom row, row 13. The drawing had these swapped until 31 Oct 2026, a mirror image that can't be built: on the first board that put the GND wire on 3V3 and the 5V wire on CLK. Fix a board wired to the old list before it's ever powered.
 
 **Unverified until the parts arrive:**
 - xConnect wire colours (which is data). Check against the arrows on the string and with a meter before connecting anything.

@@ -14,6 +14,13 @@ def test_holes_on_the_board_and_not_shared():
     assert not [h for h, n in Counter(holes).items() if n > 1]
 
 
+def test_esp32_is_not_mirrored():
+    # Component side, antenna end left: Espressif's J2 (antenna up, on the left) is at the bottom.
+    (c1, r2), (c19, _) = gc.esp_hole("J2", 1), gc.esp_hole("J2", 19)
+    _, r3 = gc.esp_hole("J3", 1)
+    assert c1 < c19 and r3 < r2
+
+
 def test_each_pin_in_at_most_one_net():
     pins = [m for members in gc.NETS.values() for m in members]
     assert len(pins) == len(set(pins))

@@ -22,7 +22,10 @@ TABLE_FILE = ROOT / "electronics" / "connections.md"
 PITCH = 2.54
 COLS, ROWS = 24, 18
 ESP_ROW_GAP = 10  # holes between J2 and J3 (25.4mm)
-ESP_J2_ROW = 2
+# Component side, antenna end left: J3 is the top row and J2 the bottom one. Pins go down,
+# so the other way round is a mirror image no real board can be fitted as (Rob's first
+# board, 31 Oct 2026: 3V3 and CLK landed on the GND and 5V wires).
+ESP_J3_ROW = 2
 ESP_PIN1_COL = 5  # pin 19 lands on the last column; the clone is 48mm long, so it stays on the board
 
 J2 = ["3V3", "EN", "VP", "VN", "IO34", "IO35", "IO32", "IO33", "IO25", "IO26",
@@ -44,7 +47,7 @@ def u1_hole(pin: int) -> tuple[int, int]:
 
 
 def esp_hole(header: str, pin: int) -> tuple[int, int]:
-    row = ESP_J2_ROW if header == "J2" else ESP_J2_ROW + ESP_ROW_GAP
+    row = ESP_J3_ROW if header == "J3" else ESP_J3_ROW + ESP_ROW_GAP
     return ESP_PIN1_COL + pin - 1, row
 
 
