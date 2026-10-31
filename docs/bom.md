@@ -31,11 +31,27 @@ Orders of 27 Oct 2026 (Site A wiring, speakers, router):
 | 50m | Pro Power H05RR-F 2-core 0.75mm² rubber cable, black | Site A's ~35m of runs + ~15m toward the later sites. H05RR-F is lighter duty than H05RN-F but fine laid on the ground for a season. CPC CB19470 (order 21543768 also lists SU00243, 1 off) | Arrived by 30 Oct |
 | 15 sets | SP16/SP17 2-pin screw-terminal aviation connectors (solderless): SP16 panel socket (rear nut, M16 × 1.5, D hole 16.5mm with a flat at 15.3mm) + SP17 cable plug | Replace the PY07 Z108 bayonets: one per tree run, 14 trees + 1 spare. SP17 2-pin is rated 10A, IP68 mated, cable 6–10mm (SP16 is smaller: check the H05RR-F sheath fits the gland). The SP16 goes in the tree box floor, firing down (Rob, 28 Oct 2026); the SP17 goes on the tree end of the run. Red to +. Check which half has the pins when they arrive (due 7 Nov): the powered run should carry the shrouded contacts. AliExpress (Ti Socket Store), 10 + 5 sets, £32.06 | Shipped 28 Oct, due 7 Nov |
 
+Orders of 31 Oct 2026:
+
+| Qty | Item | Notes | Status |
+|---|---|---|---|
+| 2 | DRiBOX DB-330-UK-B, black, 140 × 230 × 330mm | Site A's site box + 1 toward Site B. CPC EN82293 | Ordered 31 Oct (CPC, £75.38 ex VAT, £90.46 total) |
+| 1 | Multicomp PPFH-76ATO10 fuse box: 10 × ATO, 30A per way, 100A in, 32V DC, 6.35mm Faston outs, 10-32 stud in, LED on a blown fuse | **No negative bus listed**, so 0V joins on two Wago 221-415 instead. CPC FF02310. Measure it against the 150 × 65 space, and see how the LEDs are wired, when it arrives | Same order |
+| 20 | Littelfuse 0287003.PXCN ATO blade fuse, 3A | CPC FF02734 | Same order |
+| 100 | 100µF 10V electrolytic, 5 × 11 (MCGPR10V107M5X11) | C1. 10V rather than 16V, fine on the 5V rail. CPC CA08547 | Same order |
+| 20 | 0.1µF 100V X7R ceramic, 5.08mm (MCRR50104X7RK0100) | C2. Tight beside U1: lean it away from the chip. CPC CA05520 | Same order |
+| 100 + 100 | 10kΩ and 33Ω, 0.25W | R2 and R1. CPC RE03815, RE03786 | Same order |
+| 1 | Pro Signal Cat6 UTP flat patch lead, 10m | Pi to router. Not the outdoor UV-rated cable first listed: fine for a season, keep the plugs dry; measure the route. CPC CS38194 | Same order |
+| 100 | 0.1µF 63V electrolytic (MCMR63V104M4X7) | **Do not fit as C2**: polarised, and too slow for decoupling. Ordered by mistake. CPC CA08189 | Same order |
+| 1 + 1 | 100m 13 × 0.2mm figure-8 speaker cable, white; 2m HDMI lead | Not on the list. Speaker cable is too thin for the 12V runs. CPC CB17775, AV23428 | Same order |
+| 30m | 18AWG silicone wire, 6 colours | Tree box tails. Not for the PSU feed to the fuse box (about 14A) | AliExpress, due 5–8 Nov |
+| 120 | 24AWG tinned jumper wires, 8cm | Underside joins on the boards | AliExpress, due 5–8 Nov |
+| 800 | Twill-knurled M2 + M3 heat-set inserts | Sizes not stated: try them on the coupon (`standoff_hole` 3.2, `m3_insert_d` 4.0) | AliExpress, due 5–8 Nov |
+
 ## Rob already has
 
 - 5A blade fuses (spares only: the runs are fused 3A in a blade fuse box, 26 Oct 2026)
 - M3 heat-set inserts and stainless screws (count them against the fastener list below)
-- 33Ω resistors, 100µF capacitors
 - Lid sealing cord, RS 159-1490
 - High-endurance microSD (bought; now in the Pi 3 bench player, FPP 10.3)
 
@@ -49,20 +65,18 @@ Tree controller: DIY boards (Rob, 21 Oct 2026). See electronics/README.md.
 
 Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 
-**Already covered** (bought or in hand): ESP32 boards and antennas (10), 74AHCT125s, Mini560s (10: 6 trees + the Pi 3 + 3 spare), prototype boards (10), the PAM8610, a USB sound card, PG7 glands (20; Site A needs 6), the Pi 3 player with its microSD, the Cudy WR3000 V1, the 27 Oct orders (Wagos, 50m of flex, the aviation connectors, the BGO40 speakers), the RCD outdoor socket, a mains lead with a 13A plug, PETG, hot glue, heatshrink, lid cord, and 18mm sheet for the CNC fixture plate.
+**Already covered** (bought or in hand): ESP32 boards and antennas (10, 1 of each now on the wreath), 74AHCT125s, Mini560s (10: wreath + 6 trees + the Pi 3 + 2 spare), prototype boards (10), the PAM8610, a USB sound card, PG7 glands (20; Site A needs 6), the Pi 3 player with its microSD, the Cudy WR3000 V1, the 27 Oct orders (Wagos, 50m of flex, the aviation connectors, the BGO40 speakers), the 31 Oct orders (DRiBOX, fuse box, fuses, R1, R2, C1, C2, a Cat6 lead, heat-set inserts, wire), the RCD outdoor socket, a mains lead with a 13A plug, PETG, hot glue, heatshrink, lid cord, and 18mm sheet for the CNC fixture plate.
 
 | Qty | Item | Notes | Approx. |
 |---|---|---|---|
-| 7 | 2-way 5.08mm PCB screw terminal | JD (data out), 1 per board; 12V no longer reaches the board | £2 |
-| 7 + 7 | 10kΩ resistor, 0.1µF capacitor | R2 data pull-down; level-shifter decoupling. Rob has the 33Ω and 100µF | £2 |
+| 6 | 2-way 5.08mm PCB screw terminal | JD (data out), 1 per board. Rob found some KF2EDG-2P: count them first | £2 |
 | 1 | Mean Well LRS-200-12 (12V 17A, enclosed, fanless, 215 × 115 × 30mm) | **Not needed for December (30 Oct 2026):** Site A uses Rob's S-400-12 (12V 33A, 217 × 114 × 50mm, temperature-controlled fan) with `enclosure/psu-cover.scad`. Was Site A's PSU: 14.1A with the trees at WLED's 2A cap and the player (83%); the router is indoors on its own adapter. No spare for December (Rob, 26 Oct 2026); Site B's LRS-150-12 can stand in later. RS 106-5859, £30.56 ex VAT | £37 |
-| 1 | DRiBOX Large (internal 330 × 230 × 140mm at the top, narrower at the floor; IP55) | The site box (PSU, fuses, Pi, amp; the router stays indoors). Amazon (Festive Lights), £19.99 | £20 |
-| 1 | 10-way blade fuse box with a negative bus (marine type, screw or stud input) | Replaces the DIN fuse holders (Rob, 26 Oct 2026): 6 tree runs and the player + 3 spare (the router is indoors). Its negative bus is the 0V common, so the site box needs no Wagos | £8 |
-| 10 | Blade fuses: 3A (standard ATO/ATC size, to suit the box) | Every tree run and the player. Rob's 5A blades are spares only | £3 |
-| ~10m | Outdoor Cat6 (UV-rated), flat if it has to pass a window frame | Pi in the site box to the router indoors at the front window (Rob, 26 Oct 2026). Measure the route | £10 |
+| 2 | Wago 221-415 (5-way) | Site A's 0V join, since the fuse box has no negative bus: PSU − and a link wire + 3 returns in one, the link + 4 returns in the other | £2 |
+| 8 | 6.3mm insulated female crimps, red (0.5–1.5mm²) | The fuse box's Faston outputs | £2 |
+| 1 + ~1m | Ring terminal for the 10-32 stud (about M5) + about 2.5mm² wire | PSU +12V to the fuse box, up to about 14A | £3 |
 | 6 | Small TVS diodes (optional) | Data line protection; skip for December | – |
 
-Still to buy for Site A: about **£90** (the 27 Oct orders covered the Wagos, flex, connectors and speakers, about £77 plus CPC). The pixel disks (552 + spares) are printed from `fixtures/pixel-disk.scad`; print the bore test strip first.
+Still to buy for Site A: about **£10** plus the fasteners below, after the 31 Oct orders. The pixel disks (552 + spares) are printed from `fixtures/pixel-disk.scad`; print the bore test strip first.
 
 ### Later: sites B to D, trees 7 to 14 (or 15)
 
@@ -92,14 +106,15 @@ Still to buy for Site A: about **£90** (the 27 Oct orders covered the Wagos, fl
 
 ## Fasteners (23 Oct 2026 designs)
 
-Lids and box mounts use M3 brass heat-set inserts, not captive nuts: the screws sit 3.5mm from the box edge, where an M3 nut (6.4mm across corners) would break through the wall, and inserts take repeated lid opening better than nuts or self-tapping into PETG. Quantities include about 15% spare. "December" is Site A's 6 trees and one site box.
+Lids and box mounts use brass heat-set inserts, not captive nuts: the screws sit 3.5mm from the box edge, where an M3 nut (6.4mm across corners) would break through the wall, and inserts take repeated lid opening better than nuts or self-tapping into PETG. Quantities include about 15% spare. "December" is Site A's 6 trees and one site box.
 
 | December | All | Item | Where |
 |---|---|---|---|
-| 30 | 70 | M3 brass heat-set inserts, for a 4.0mm hole (CNC Kitchen / Ruthex M3 × 5.7) | Tree box: 1 per tree, in the shelf's block for the cover screw (30 Oct 2026). Check the hole size against the ones Rob has (`m3_insert_d`) |
-| 30 | 70 | M3 × 10 stainless button/pan head screws | The cover's bevel into the shelf's insert, 1 per tree |
+| 7 | 16 | M3 brass heat-set inserts, for a 4.0mm hole (CNC Kitchen / Ruthex M3 × 5.7) | Tree box: 1 per tree, in the shelf's block for the cover screw (30 Oct 2026). Check the hole size against the ones Rob has (`m3_insert_d`) |
+| 7 | 16 | M3 × 10 stainless button/pan head screws | The cover's bevel into the shelf's insert, 1 per tree |
 | 28 | 64 | 4 × 40 stainless pan-head wood screws + washers | Tree box to the back of the tree, through the flange slots and 10mm printed spacers, 4 per tree |
-| 30 | 70 | M2 × 6 self-tapping screws for plastic | Controller board into its standoffs, 4 per board |
+| 28 | 64 | M2 brass heat-set inserts, about 4mm long, for a 3.2mm hole | Controller board standoffs, 4 per board (Rob, 31 Oct 2026). Check the hole against the real inserts (`standoff_hole`) |
+| 28 | 64 | M2 × 6 stainless pan-head machine screws | Controller board into the standoff inserts, 4 per board |
 | 4 | 20 | M2.5 × 6 self-tapping screws for plastic | Pi into the site box plate's standoffs, 4 per site |
 | 14 | 32 | 4 × 30 stainless countersunk wood screws | Through each peg's tab and the boot shaft into the old pilot hole, 2 per tree. Pilot hole size still to measure |
 | 24 | 56 | 8mm × 200mm nails | Two per boot, two boots per tree (feet/) |

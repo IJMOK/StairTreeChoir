@@ -69,7 +69,7 @@ Box: tree ____ / site ____
 - [ ] All glands point down; nothing enters on a face that takes rain
 - [ ] 3mm drip hole is open
 - [ ] RP-SMA bulkhead is tight and the antenna points up (tree box)
-- [ ] The box is on four 10mm spacers and four 4 × 40 wood screws (tree box); both hooks caught and the cover's rim down on the plate all round
+- [ ] The box is on four 10mm spacers and four 4 × 40 wood screws (tree box); the hook caught along the plate's top edge and the cover's rim down on the plate all round
 - [ ] The heel nail in the control boot was hammered before the box went on
 
 Rain and soak test of at least one box. **TBC (Rob):** the repo does not give a duration or method. A suggestion is an hour under a hose or watering can, from above and the sides.

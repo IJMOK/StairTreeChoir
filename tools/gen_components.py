@@ -62,7 +62,7 @@ DIMS = {
         mod_l=(17.5, "photo"), mod_w=(16.0, "photo"), mod_h=(3.2, "datasheet"),
         usb_w=(9.0, "guess"), usb_d=(7.3, "guess"), usb_h=(3.2, "guess"), usb_over=(0.5, "photo"),
         ufl_h=(2.5, "guess"),
-        note="Photo 30 Oct 2026: USB-C clone with a CP2102, pinout matches Espressif's J2/J3, 19 pins each, "
+        note="Photos 30, 31 Oct 2026: USB-C clone with a CP2102, pin order matches Espressif's J2/J3, 19 pins each, "
              "rows 10 pitches apart, about 48.3 long (not the listed 54.4), so it doesn't overhang the board. "
              "Measure the length and the tallest part"),
     "u1": dict(
@@ -102,8 +102,8 @@ DIMS = {
         desc="RP-SMA bulkhead (U.FL pigtail end) + 2.4GHz dipole", have=True,
         thread=(6.35, "datasheet"), nut_af=(8, "datasheet"), nut_t=(2.5, "guess"),
         max_panel=(3.2, "datasheet"), body_in=(8, "guess"), dipole_d=(10, "guess"), dipole_l=(108, "guess"),
-        note="Wurth/Linx drawings: 1/4-36 UNS, nut 8 AF, hole 6.5, panel 2.8-3.2 max. "
-             "Measure the thread length past the flange and the dipole"),
+        note="Wurth/Linx drawings: 1/4-36 UNS, nut 8 AF, hole 6.5, panel 2.8-3.2 max. Rob's real nut hit the old "
+             "cover's inside ramp (31 Oct 2026). Measure the nut, the thread length past the flange and the dipole"),
 }
 
 COLOURS = {"protoboard": (0.15, 0.45, 0.2), "header": (0.1, 0.1, 0.1), "esp32": (0.1, 0.2, 0.5),
@@ -287,7 +287,7 @@ def placed(p: dict) -> tuple[dict[str, cq.Shape], dict[str, cq.Location], dict]:
     shapes["wago2"] = shapes["wago"]
     # the printed spacers between the ears and the tree, axis along y, on the mounting slots' centres
     spacer = cyl(0, 0, 0, p["spacer_d"], p["spacer_l"]).cut(cyl(0, 0, -1, p["mount_slot_d"], p["spacer_l"] + 2))
-    for i, (x, z) in enumerate(product((-p["ear_w"] / 2, p["box_w"] + p["ear_w"] / 2), (18, p["box_h"] - 16)), 1):
+    for i, (x, z) in enumerate(product((-p["ear_w"] / 2, p["box_w"] + p["ear_w"] / 2), (18, 80)), 1):
         shapes[f"spacer{i}"] = spacer
         locs[f"spacer{i}"] = loc(((1, 0, 0), (0, 0, 1), (0, -1, 0)), (x, -p["spacer_l"], z))
     locs["sp16"] = loc(up, (p["sp16_x"], p["floor_y"], p["lip_t"]))
@@ -328,7 +328,7 @@ def checks(p: dict, solids: dict, locs: dict, base: cq.Shape, cover: cq.Shape, i
                f"of the back wall. Clear of the ESP32 by {m.xmin - placed_['esp32'].BoundingBox().xmax:.1f}mm "
                "(column A is at the box's high-x side).")
     usb = placed_["esp32"].BoundingBox().xmin
-    out.append(f"ESP32 USB end reaches x = {usb:.1f}mm; the cover's inside wall is at x = {p['cover_wall']:.2f}.")
+    out.append(f"ESP32 USB end reaches x = {usb:.1f}mm; the cover's inside wall is at x = {-p['cover_fit']:.2f}.")
     return out
 
 

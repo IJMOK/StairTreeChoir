@@ -1,4 +1,4 @@
-// Tree controller box (M3), L base + clip-on cover (Rob, 30 Oct 2026). PETG.
+// Tree controller box (M3), L base + wrap-round cover (Rob, 31 Oct 2026). PETG.
 //
 // Base: an L. A back plate on 10mm spacers off the tree, with a blended ear at each
 // corner (a slot each), and a shelf along its bottom. It carries everything, so it is
@@ -7,13 +7,16 @@
 // through the shelf the SP16 panel socket (12V run), the PG7 gland (pixel lead) and the
 // RP-SMA bulkhead (antenna). Nothing unplugs when the cover comes off.
 //
-// Cover: back, sides, a roof sloping 8 degrees away from the tree, and a lip under the
-// shelf with open U cutouts round the three fittings. Two tabs at the top go through
-// slots in the plate and hook behind it; the cover swings in on them and one M3 goes in
-// at the bottom. That screw is at 45 degrees, through the bevel on the cover's lower back
-// corner into an insert in a boss on the shelf: it has to pull the cover in against the
-// cord as well as up onto the shelf, and a straight-up screw wouldn't. The hook teeth
-// are sloped the same way, so the same pull seats the top.
+// Cover: back, sides and a roof sloping 8 degrees away from the tree, wrapping round the
+// plate's top and side edges, notched round the ears. A hook under the roof catches the
+// plate's top edge from behind: hold the cover tilted with its bottom out, lift it over
+// the edge, drop it and swing it in, then one M3 goes in at the bottom. The hook is at
+// the very top so that everything lies below the pivot and swings clear of the plate.
+// Nothing of the cover goes under the shelf: a swing about the top lifts anything under
+// there into it. The side skirts only guide and shed rain; 5mm is too short to flex as a
+// snap. The screw is at 45 degrees, through the bevel on the cover's lower back corner
+// into an insert in a boss on the shelf: it pulls the cover in against the cord and up
+// until the roof meets the plate's top edge, and a straight-up screw wouldn't.
 //
 // Seal: the 2.7mm cord lies in a groove in the plate's back face, over the top and down
 // both sides, held by pinch points, and the cover's rim lands on it. The cover swings
@@ -29,7 +32,7 @@
 //   which keeps the walls even.
 // - The rim ramps out of the walls at 45 degrees instead of bridging.
 // - Holes along z in the shelf are teardrops (or D-shaped) pointing up the print.
-// - The hooks pull across the layers: that is why they are 3mm thick with a filleted root.
+// - The hook pulls across the layers: that is why it is one long block, not two tabs.
 //
 // UNVERIFIED until measured: board hole positions (pb_*), the SP16 nut and thread
 // length, the gland and bulkhead sizes; the squeeze along the sides from one screw and
@@ -42,7 +45,7 @@ include <seal.scad>
 part = "assembly";       // "base", "cover", "coupon", "seal-test", "spacer", "assembly";
                          // "base-fitted", "cover-fitted": as fitted (STEP export)
 
-// Board: 5x7cm prototype board on the plate, M2 screws into the standoffs
+// Board: 5x7cm prototype board on the plate, M2 screws into heat-set inserts in the standoffs
 pb_w          = 70;
 pb_h          = 50;
 pb_hole_in    = 2.0;     // hole centres from the board edges: from Rob's photo (30 Oct 2026), measure it
@@ -50,7 +53,7 @@ board_z0      = 34.5;    // above the Wagos
 standoff_h    = 5;       // room for the underside joins
 standoff_d    = 6;
 standoff_foot = 0.8;      // cone at the root, standing off the plate
-standoff_hole = 1.8;     // M2 self-tapping
+standoff_hole = 3.2;     // M2 heat-set insert (Rob, 31 Oct 2026): check against the real insert on the coupon
 
 // Shelf entries, firing down
 sp16_d        = 16.7;    // SP16 panel socket, M16x1.5: drawing hole 16.5 ...
@@ -63,14 +66,10 @@ floor_y       = plate_t + 14;      // their centres: nuts (up to ~25 across corn
 ant_x         = 10;      // outer side, away from the tree's centre
 sp16_x        = 29;
 pg7_x         = 72;
-cut_sp16      = 27;      // U cutouts in the lip, round the SP16 flange ...
-cut_pg7       = 19;      // ... the gland's cap ...
-cut_ant       = 12;      // ... and the bulkhead
-cut_r         = 1.5;     // blend where the cutouts meet each other and the lip's edge
 
-// Cover's rim: lands on the plate. 6.5 wide at the sides, deeper at the top for the hooks
+// Cover's rim: lands on the plate
 rim_w         = 6.5;
-rim_top       = 15;      // below box_h
+rim_top       = 10;      // below box_h
 rim_d         = 3;       // rim depth, before it ramps back to the walls
 rim_z0        = floor_z + 0.3;     // the rim stops above the shelf
 open_r        = 5;
@@ -83,18 +82,19 @@ pinch_gap     = 2.4;     // pinch points narrow the 3.8 groove to this, to hold 
 pinch_l       = 1.6;
 pinch_every   = 22;
 
-// Top hooks: tabs off the rim, through slots in the plate above the cord. Lift the
-// cover to pass the teeth, drop it to engage. The teeth's 45 degree faces bear on the slot's
-// bottom edge at the tree face, so the bottom screw seats them
-hook_x        = [box_w / 2 - 22, box_w / 2 + 22];
-hook_w        = 18;
-hook_t        = 3;
-hook_tooth    = 1.5;     // down behind the plate
-hook_tip      = 3.2;     // tab past the plate's tree face
-hook_root     = 1;       // fillet at the root, on the top side
-slot_z        = box_h - 8.6;
-slot_h        = hook_t + hook_tooth + hook_root + 0.4;
-slot_w        = hook_w + 1;
+// Top hook: a block under the roof, behind the plate. Its 45 degree face hangs on a
+// chamfer along the plate's top edge at the tree face, so the cover's own weight seats it
+hook_x0       = 18;
+hook_w        = box_w - 2 * hook_x0;
+hook_c        = 2;       // the chamfer: the lift needed to get over the edge
+hook_back     = 2.8;     // block thickness behind the chamfer
+hook_fit      = 0.2;     // hook face to the chamfer, along y
+top_gap       = 0.2;     // plate's top edge to the roof's underside: the screw closes it
+
+// Skirts: round the plate's edges, stopping short of the ears. The top of each notch
+// leaves room for the lift over the hook
+skirt_end     = 1.5;     // skirt to the ears' fillets, below the notch
+skirt_lift    = 2.5;     // ... and above it
 
 // Bottom screw: M3 x 10 at 45 degrees through the cover's bevel into the shelf's boss
 bevel         = 13;      // cut off the cover's lower back corner
@@ -102,7 +102,7 @@ bevel_t       = 3.6;     // wall there, square to the bevel: the screw head sits
 head_cb_d     = 7;       // the head's counterbore
 head_cb_h     = 1.4;
 boss_x        = 50;      // between the SP16 and the PG7
-boss_d        = 12;
+boss_d        = 11;
 boss_l        = 9;       // into the shelf, square to the bevel
 boss_along    = 8;       // the screw's centre along the bevel from the shelf's underside
 rib_t         = 4;       // from the boss to the plate, under the Wagos
@@ -110,12 +110,13 @@ rib_h         = 6.5;
 shelf_fillet  = 2;       // shelf to plate
 
 // Mounting on the back of the tree
-ear_w         = 13;      // beyond each side of the cover
+ear_w         = 15;      // beyond each side of the plate: the head and washer clear the cover's wall
 ear_h         = 26;
-ear_r         = 6;       // corners, and the fillets where they leave the plate
+ear_r         = 6;       // corners
+ear_fillet    = 3;       // where they leave the plate
 mount_slot_d  = 4.6;     // 4mm stainless wood screws (4 x 40 pan head + washer)
 mount_slot_l  = 6;       // slot travel, up and down
-mount_z       = [18, box_h - 16];
+mount_z       = [18, 80];
 spacer_d      = 10;
 spacer_l      = 10;      // rain gap between the oak and the box
 
@@ -132,6 +133,12 @@ board_x0 = (box_w - pb_w) / 2;
 shelf_x0 = cover_wall + cover_fit;
 shelf_w  = box_w - 2 * shelf_x0;
 in_back  = plate_t + box_in_d;                // cover's back wall, inside face
+wrap     = cover_wall + cover_fit;            // the cover past the plate's edges
+cx0      = -wrap;                             // cover's outside ...
+cx1      = box_w + wrap;
+ix0      = -cover_fit;                        // ... and inside faces
+ix1      = box_w + cover_fit;
+plate_top = roof_z(plate_t) - cover_wall - top_gap;
 s2       = sqrt(0.5);
 // The bevel: outside face z = y - bevel_o, inside face z = y + bevel_c
 bevel_o  = cover_y1 - bevel;
@@ -152,7 +159,7 @@ function blend(t, r) = let (ts = r * (1 - s2))
 assert(floor_y + 12.7 <= shelf_y(lip_t), "floor nuts reach the bevel: move floor_y or deepen the box");
 assert(board_z0 + pb_h + 2 <= box_h - rim_top, "board too high for the cover's opening");
 assert(board_z0 > floor_z + 20, "board too low: the SP16 body stands ~19mm off the shelf");
-assert(slot_z > cord_top + groove_w / 2 + 0.5, "hook slot reaches the cord groove");
+assert(plate_top - hook_c > cord_top + groove_w / 2 + 1, "hook chamfer reaches the cord groove");
 assert(floor_z + rib_h < floor_z + 7, "rib reaches the Wagos");
 
 // ---- shapes ------------------------------------------------------------------------
@@ -204,9 +211,9 @@ module at_screw() {
 
 module plate_2d() {
     offset(r = ear_r) offset(delta = -ear_r)              // the ears' corners
-    offset(r = -ear_r) offset(delta = ear_r)              // the fillets where they leave the plate
+    offset(r = -ear_fillet) offset(delta = ear_fillet)    // the fillets where they leave the plate
     union() {
-        prof(0, lip_t, box_w, roof_z(plate_t), corner_r, 0.4);
+        prof(0, lip_t, box_w, plate_top, corner_r, 0.4);
         for (x = [-ear_w, box_w], z = mount_z)
             translate([x - 1 * (x > 0 ? 1 : 0), z - ear_h / 2]) square([ear_w + 1, ear_h]);
     }
@@ -232,7 +239,7 @@ module mount_slots() {
 module shelf() {
     yz_prism(shelf_x0, shelf_w, [[plate_t - 0.01, lip_t], [shelf_y(lip_t), lip_t], [shelf_y(floor_z), floor_z],
                                  [plate_t - 0.01, floor_z]]);
-    yz_prism(rim_w + 0.5, box_w - 2 * rim_w - 1,              // the fillet, inside the cover's rim
+    yz_prism(rim_w + open_r + 0.5, box_w - 2 * (rim_w + open_r + 0.5),    // the fillet, clear of the rim's corners
              [[plate_t - 0.01, floor_z - 0.01], [plate_t + shelf_fillet, floor_z - 0.01], [plate_t - 0.01, floor_z + shelf_fillet]]);
     hull() {
         at_screw() translate([0, 0, 0.3]) cylinder(d = boss_d, h = boss_l);
@@ -294,7 +301,7 @@ module base() {
         translate([pg7_x, floor_y, lip_t - 1]) teardrop(pg7_d, floor_t + 2);
         translate([ant_x, floor_y, lip_t - 1]) teardrop(ant_d, floor_t + 2);
         translate([ant_x, floor_y, lip_t + ant_panel]) teardrop(ant_recess_d, floor_t);
-        for (x = hook_x) translate([x - slot_w / 2, -1, slot_z]) cube([slot_w, plate_t + 2, slot_h]);
+        yz_prism(hook_x0 - 1, hook_w + 2, [[-1, plate_top - hook_c - 1], [hook_c + 1, plate_top + 1], [-1, plate_top + 1]]);
         at_screw() cylinder(d = m3_insert_d, h = m3_insert_len + 0.5);
     }
 }
@@ -303,67 +310,67 @@ module base() {
 
 // The outside: one form with the roof, the bevel, the corners and the back edge in it
 module cover_outer() {
-    module s(y, i = 0) { slice(y, 0, bevel_z(y), box_w, roof_z(y), corner_r, foot_r, i); }
+    module s(y, i = 0) { slice(y, cx0, bevel_z(y), cx1, roof_z(y), corner_r + wrap, foot_r, i); }
     hull() {
-        s(plate_t, edge_ch);
-        s(plate_t + edge_ch);
+        s(0, edge_ch);
+        s(edge_ch);
         s(bevel_o);
         for (t = [0 : 0.4 : blend_r]) s(cover_y1 - t, blend(t, blend_r));
     }
 }
 
-// The inside: the same form a wall thick, then the rim's opening, ramped so it prints
+// The inside: the same form a wall thick, then the rim's opening, ramped so it prints.
+// The sides ramp out straight behind the rim, which leaves the fittings the room
 module cover_inner() {
     ri = blend_r - cover_wall;
     open_top = box_h - rim_top;
-    y_ramp = plate_t + rim_d + (roof_z(plate_t) - cover_wall - open_top);
+    y_rim = plate_t + rim_d;
+    y_side = y_rim + rim_w + cover_fit;
+    y_ramp = y_rim + (roof_z(plate_t) - cover_wall - open_top);
+    ro = corner_r + wrap - cover_wall;
     module s(y, i = 0) {
-        slice(y, cover_wall, max(lip_t, y + bevel_c), box_w - cover_wall, roof_z(y) - cover_wall,
-              corner_r - cover_wall, 0.4, i);
+        slice(y, ix0, max(lip_t, y + bevel_c), ix1, roof_z(y) - cover_wall, ro, 0.4, i);
     }
+    module opening(y) { slice(y, rim_w, rim_z0, box_w - rim_w, open_top, open_r, open_r); }
+    module sides() { slice(y_side, ix0, lip_t, ix1, open_top + y_side - y_rim, ro, 0.4); }
     hull() {
         s(y_ramp);
         s(lip_t - bevel_c);                       // where the bevel starts
         for (t = [0 : 0.4 : ri]) s(in_back - t, blend(t, ri));
-        slice(plate_t + rim_d, rim_w, rim_z0, box_w - rim_w, open_top, open_r, open_r);
     }
-    hull() {                                      // through the rim
-        slice(plate_t - 1, rim_w, rim_z0, box_w - rim_w, open_top, open_r, open_r);
-        slice(plate_t + rim_d, rim_w, rim_z0, box_w - rim_w, open_top, open_r, open_r);
-    }
-    yz_prism(cover_wall, box_w - 2 * cover_wall,  // round the shelf, below the rim
-             [[plate_t - 1, lip_t], [lip_t - bevel_c, lip_t], [rim_z0 - bevel_c, rim_z0], [plate_t - 1, rim_z0]]);
+    hull() { sides(); s(y_ramp); }
+    hull() { opening(y_rim); sides(); }
+    hull() { opening(plate_t - 1); opening(y_rim); }   // through the rim
+    yz_prism(ix0, ix1 - ix0,                      // round the shelf, below the rim, and down the bevel
+             [[plate_t - 1, -1], [-1 - bevel_c, -1], [rim_z0 - bevel_c, rim_z0], [plate_t - 1, rim_z0]]);
 }
 
-// A tab through the plate's slot: filleted root, 45 degree tooth, chamfered tip
-module hook(x) {
-    z = slot_z + 0.1;
-    t = z + hook_t;
-    yz_prism(x - hook_w / 2, hook_w, [
-        [plate_t + 0.5, z], [-0.1, z], [-0.1 - hook_tooth, z - hook_tooth], [-hook_tip, z - hook_tooth],
-        [-hook_tip, t - 1], [-hook_tip + 1, t], [plate_t - hook_root, t], [plate_t, t + hook_root], [plate_t + 0.5, t + hook_root]]);
+// Behind the rim, all that is left is the skirt round the plate, notched for the ears
+module skirt_cut() {
+    z0 = mount_z[0] + ear_h / 2 + ear_fillet + skirt_end;           // below this there is none
+    n0 = mount_z[1] - ear_h / 2 - ear_fillet - skirt_lift;
+    n1 = mount_z[1] + ear_h / 2 + ear_fillet + skirt_end;
+    translate([0, plate_t, 0]) rotate([90, 0, 0]) linear_extrude(plate_t + 5)
+        offset(r = -1.5) offset(delta = 1.5) union() {              // the skirts' tips rounded
+            prof(ix0, -5, ix1, plate_top + top_gap, corner_r + cover_fit, 0.4);
+            translate([-30, -5]) square([box_w + 60, z0 + 5]);
+            for (x = [-30, box_w]) translate([x, n0]) square([30, n1 - n0]);
+        }
 }
 
-// The lip's plan: the U cutouts opening towards the tree, blended where they meet
-module lip_2d() {
-    module u(x, d) { hull() { translate([x, floor_y]) circle(d = d); translate([x, -30]) circle(d = d); } }
-    offset(r = cut_r) offset(delta = -2 * cut_r) offset(r = cut_r) difference() {
-        translate([-20, plate_t]) square([box_w + 40, cover_y1 + 20 - plate_t]);
-        u(sp16_x, cut_sp16);
-        u(pg7_x, cut_pg7);
-        u(ant_x, cut_ant);
-    }
+// The hook: hangs on the plate's chamfer, blended into the roof
+module hook() {
+    y1 = -hook_fit - hook_back;
+    yz_prism(hook_x0, hook_w, [
+        [hook_c - hook_fit + top_gap, plate_top + top_gap], [-hook_fit, plate_top - hook_c], [y1, plate_top - hook_c],
+        [y1, roof_z(y1) - 1], [y1 + 1, roof_z(y1 + 1)], [edge_ch, roof_z(edge_ch)], [hook_c + 1, roof_z(hook_c + 1) - 1]]);
 }
 
 module cover() {
     difference() {
         union() {
-            difference() { cover_outer(); cover_inner(); }
-            for (x = hook_x) hook(x);
-        }
-        translate([0, 0, -1]) linear_extrude(lip_t + 1.01) difference() {
-            translate([-30, -30]) square([box_w + 60, cover_y1 + 60]);
-            lip_2d();
+            difference() { cover_outer(); cover_inner(); skirt_cut(); }
+            hook();
         }
         at_screw() translate([0, 0, -bevel_t - 1]) cylinder(d = m3_clear, h = bevel_t + 2);
         at_screw() translate([0, 0, -bevel_t - 1]) cylinder(d = head_cb_d, h = head_cb_h + 1);
@@ -404,11 +411,11 @@ module coupon() {
     }
 }
 
-// Seal test: a strip of plate with the groove, its pinch points and a hook slot, and a
-// bar of cover rim with its hook. Hook it on, swing it in and pull the far end down with
-// one M3 into an insert, 90mm from the hook like the real cover. Slide paper into the
-// joint along the bar: it should drag all the way. If the middle gaps, the cover's rim
-// needs stiffening before printing a whole one.
+// Seal test: a strip of plate with the groove, its pinch points and the hook's chamfer,
+// and a bar of cover rim with its wall and hook. Hook it on, swing it in and pull the far
+// end down with one M3 into an insert, 90mm from the hook like the real cover. Slide
+// paper into the joint along the bar: it should drag all the way. If the middle gaps, the
+// cover's rim needs stiffening before printing a whole one.
 st_l = 100; st_w = 24; st_bar = cover_wall + 6;
 module seal_test() {
     c = pinch_gap / 2;
@@ -421,18 +428,18 @@ module seal_test() {
                 translate([x - pinch_l, st_w / 2 - c]) square([2 * pinch_l, 2 * c]);
             }
         }
-        translate([5, 1, -1]) cube([slot_h, st_w - 2, plate_t + 2]);
+        translate([0, st_w + 1, 0]) rotate([90, 0, 0]) linear_extrude(st_w + 2)
+            polygon([[-1, -1], [hook_c + 1, -1], [-1, hook_c + 1]]);
         translate([st_l - 6, st_w / 2, plate_t + 0.01 - m3_insert_len]) cylinder(d = m3_insert_d, h = m3_insert_len);
     }
     translate([0, st_w + 10, 0]) difference() {
         union() {
-            cube([st_l, st_w, st_bar]);                            // as stiff as the cover's wall and rim
-            xe = 5 + slot_h - 0.1;                                 // tab against the slot's far edge
-            top = st_bar + plate_t;
-            translate([0, st_w - 2, 0]) rotate([90, 0, 0]) linear_extrude(st_w - 4)
-                polygon([[xe - hook_t, st_bar - 0.01], [xe, st_bar - 0.01], [xe, top + 0.1],
-                         [xe + hook_tooth, top + 0.1 + hook_tooth], [xe + hook_tooth, top + hook_tip],
-                         [xe - hook_t, top + hook_tip]]);
+            translate([-top_gap, 0, 0]) cube([st_l + top_gap, st_w, st_bar]);      // as stiff as the cover's wall and rim
+            top = st_bar + plate_t;                                // the strip's tree face, once hooked on
+            translate([0, st_w, 0]) rotate([90, 0, 0]) linear_extrude(st_w)
+                polygon([[-top_gap - cover_wall, 0], [-top_gap, 0], [-top_gap, top - hook_c + hook_fit - top_gap],
+                         [hook_c, top + hook_fit], [hook_c, top + hook_fit + hook_back],
+                         [-top_gap - cover_wall, top + hook_fit + hook_back]]);
         }
         translate([st_l - 6, st_w / 2, -1]) cylinder(d = m3_clear, h = st_bar + 2);
     }
