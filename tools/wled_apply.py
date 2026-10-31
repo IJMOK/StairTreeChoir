@@ -16,8 +16,22 @@ import json
 import os
 import sys
 import urllib.request
+from pathlib import Path
 
 from tools.gen_site_config import WLED_DIR
+
+
+def credentials() -> tuple[str, str]:
+    """Wi-Fi name and password: the environment, else ~/.stairtree_wifi.json, never git."""
+    ssid, psk = os.environ.get("STAIRTREE_WIFI_SSID", ""), os.environ.get("STAIRTREE_WIFI_PSK", "")
+    if not ssid or not psk:
+        path = Path.home() / ".stairtree_wifi.json"
+        if path.exists():
+            saved = json.loads(path.read_text(encoding="utf-8"))
+            ssid, psk = saved.get("ssid", ""), saved.get("psk", "")
+    if not ssid or not psk:
+        sys.exit("no Wi-Fi details: fill in ~/.stairtree_wifi.json, or set STAIRTREE_WIFI_SSID and STAIRTREE_WIFI_PSK")
+    return ssid, psk
 
 
 def build(tree: int, ssid: str, psk: str) -> dict:
@@ -34,9 +48,7 @@ def main() -> None:
     ap.add_argument("device", help="the device's current IP address")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
-    ssid, psk = os.environ.get("STAIRTREE_WIFI_SSID", ""), os.environ.get("STAIRTREE_WIFI_PSK", "")
-    if not ssid or not psk:
-        sys.exit("set STAIRTREE_WIFI_SSID and STAIRTREE_WIFI_PSK in the environment first")
+    ssid, psk = credentials()
     cfg = build(args.tree, ssid, psk)
     if args.dry_run:
         shown = json.loads(json.dumps(cfg))

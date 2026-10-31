@@ -57,6 +57,17 @@ Not set, so left at the device's value: the brightness limiter (`hw.led.maxpwr`;
 
 **There is no Wi-Fi password in git.** `nw.ins[0].psk` is simply absent. WLED reads it from that key when it is present (`cfg.cpp`: "password is not normally present but if it is, use it") and never writes it back. `tools/wled_apply.py` adds the real Wi-Fi name and password from environment variables, in memory only, and sends the result.
 
+## Provisioning a tree controller over USB (Rob, 31 Oct 2026)
+
+`tools/wled_flash.py` does the whole of steps 1 to 3 below for one board on USB, and the `wled-flasher` Claude agent (`~/.claude/agents/wled-flasher.md`) drives it. USB only, never with 12V on the board.
+
+    .venv/Scripts/python -m tools.wled_flash --identify      # changes nothing
+    .venv/Scripts/python -m tools.wled_flash 3 --port COM7   # erases the board
+
+It erases, flashes WLED 16.0.1 with the layout install.wled.me uses, joins Wi-Fi over Improv serial, POSTs the tree's config and reads it back. The default is bench mode: the board stays on DHCP on the Wi-Fi it joined. `--site` also sets the fixed 192.168.8.x address, after which only the site network can reach it, so that result isn't read back. Each pass is added to `wled/provisioned.csv`, which maps trees to MACs. It refuses the wreath, the old wreath ESP8266, WLED_Star and WLED-SoundReactive.
+
+Wi-Fi details come from `STAIRTREE_WIFI_SSID` and `STAIRTREE_WIFI_PSK`, else `~/.stairtree_wifi.json` (`{"ssid": "...", "psk": "..."}`), which is outside every repo. Needs `pip install -r requirements-flash.txt`.
+
 ## Provisioning a tree controller
 
 1. **Flash WLED 16.0.1** (plain ESP32 build) as in "Flash and configure WLED" above. You can stop after the flash and the Wi-Fi join: the config below replaces steps 3 to 5. A device that has no working Wi-Fi opens its own network `WLED-AP` (password `wled1234`, `DEFAULT_AP_PASS` in `wled00/const.h`) with its page at http://4.3.2.1; if you gave it Wi-Fi in the installer, use the IP your router handed out.
