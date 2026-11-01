@@ -1,3 +1,5 @@
+// FROZEN 1 Nov 2026: see tree-box.scad. The live sizes are the spreadsheet in enclosure/tree-box.FCStd.
+//
 // Tree controller box: sizes shared by the box (enclosure/tree-box.scad),
 // tools/gen_components.py and the parked boot (feet/stair-tree-foot.scad). Change them here only.
 //

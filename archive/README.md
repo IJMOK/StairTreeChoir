@@ -2,6 +2,10 @@
 
 Superseded work, kept for reference (tidy of 1 Nov 2026). Nothing in the build, tests or docs depends on anything here, and `tools/make_public.py` leaves the folder out of the public copy. To bring something back, `git mv` it.
 
+## `tree-box-build.py`
+
+The script that first built `enclosure/tree-box.FCStd` from the OpenSCAD design, 1 Nov 2026. The FreeCAD file is the master now, so this is only a record of how it was made: rerunning it overwrites any edits.
+
 ## `nx-tree-box/`: old NX imports of the tree box
 
 Three imports of `cad/tree-box-assembly.step`, each kept together so its assembly links still resolve. NX added the number to a part's name when that name was already taken; it is the part's entity id in the STEP file, which is how each set was matched to a commit.
@@ -26,7 +30,7 @@ NX import and export logs. Not in git.
 
 ## `printed-site-box/`
 
-The printed site box of 23 Oct 2026 and its STL and STEP exports, replaced by the bought DRiBOX on 26 Oct. `sealed-box.scad` is its shell, also mentioned as an optional webcam box in `docs/webcam.md`. It uses `enclosure/seal.scad`. To export one:
+The printed site box of 23 Oct 2026 and its STL and STEP exports, replaced by the bought DRiBOX on 26 Oct. `sealed-box.scad` is its shell, also mentioned as an optional webcam box in `docs/webcam.md`. It uses `feet/old-tree-box/seal.scad`. To export one:
 
 ```
 openscad -o site-box-6-trees.stl -D 'part="box"' -D 'trees=6' site-box.scad   # also 4 and 2

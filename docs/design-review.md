@@ -4,6 +4,8 @@ A review of the tree design from the source, the data and the WLED and FPP code.
 
 Scope is December 2026: 6 trees at Site A.
 
+The tree box moved to FreeCAD after this was written (`enclosure/tree-box.FCStd`, same geometry), so every item below still stands unless it is marked fixed. `tree-box.scad` line numbers refer to the frozen copy in `feet/old-tree-box/`.
+
 ## Fix before the first show
 
 ### Nothing to stand the trees on
@@ -41,7 +43,7 @@ The 0.3W (25mA) per pixel figure has no source in the repo, and the limiter, fus
 | Item | Evidence | Fix |
 |---|---|---|
 | Mounting slots run the wrong way | `tree-box.scad:233` slots are vertical, along the grain, which barely moves. Oak moves across the grain, about 1–3mm over the 102mm screw span (estimate), against ±0.3 of play | Horizontal slots on one column |
-| M3 × 10 bottoms out | The tip reaches 7.8mm and the hole ends at 6.5mm. The cover stops about 0.9mm short, so the lower seal gets no squeeze | M3 × 8 (`bom.md:114`) |
+| ~~M3 × 10 bottoms out~~ | Fixed 1 Nov 2026: the insert's hole now goes through the boss, so the M3 × 10 stays | Done |
 | Ears barely clear washers | `ear_w` predates the wrap: a Ø9 washer clears the cover by 0.35mm | Widen the ears 3mm |
 | Coupon doesn't match the base | The coupon prints the holes vertical, the base prints them horizontal | Print the coupon on edge |
 | No home for the Wagos | No retention feature. The modelled ports sit 1mm from the SP16 and 1.5mm from each other | Stack or turn them, with 20mm of wire room |

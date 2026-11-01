@@ -1,6 +1,6 @@
 # Tree controller and site wiring (M4)
 
-One controller per tree: an ESP32 dev board running WLED, a 74AHCT125 level shifter and a Mini560 5V buck on a 5×7cm prototype board, in a printed L base + wrap-round cover (`enclosure/tree-box.scad`) on spacers on the back of the tree. The board takes 12V and gives out one 5V data line. The pixels' own 12V never runs through the board.
+One controller per tree: an ESP32 dev board running WLED, a 74AHCT125 level shifter and a Mini560 5V buck on a 5×7cm prototype board, in a printed L base + wrap-round cover (`enclosure/tree-box.FCStd`) on spacers on the back of the tree. The board takes 12V and gives out one 5V data line. The pixels' own 12V never runs through the board.
 
 - [tree-controller-board.svg](tree-controller-board.svg): where every part goes, plus the joins on the underside (mirrored, as you see it when soldering).
 - [connections.md](connections.md): the same as a list: every part's holes, and every join with its hole names.

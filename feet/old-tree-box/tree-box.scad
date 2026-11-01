@@ -1,3 +1,6 @@
+// FROZEN 1 Nov 2026: the tree box moved to FreeCAD (enclosure/tree-box.FCStd). This is here only so
+// the parked boot still builds. Don't change the box here.
+//
 // Tree controller box (M3), L base + wrap-round cover (Rob, 31 Oct 2026). PETG.
 //
 // Base: an L. A back plate on 10mm spacers off the tree, with a blended ear at each

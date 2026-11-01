@@ -16,7 +16,7 @@
 // fixed spigot would stop the tree dropping in.
 //
 // Control boot (left): node 1 (data in) is at the base-left, so this boot carries
-// the tree controller box (enclosure/tree-box.scad) on a hollow tower behind the
+// the tree controller box (old-tree-box/, frozen) on a hollow tower behind the
 // tree. The pixel lead leaves the tree through the exit slot in its bottom edge,
 // drops through a hole in the shelf into the toe hollow, and runs back through an
 // arch in the shaft into the tower, where it meets the box's PG7 tail. The 12V flex
@@ -38,8 +38,8 @@
 // fixing hole depth/diameter, pilot offset and pilot diameter (screw size), and
 // tread thickness, on a real tread before printing 28.
 
-include <../enclosure/tree-box-params.scad>
-use <../enclosure/tree-box.scad>
+include <old-tree-box/tree-box-params.scad>
+use <old-tree-box/tree-box.scad>
 
 hand = "right";          // "right" (plain) or "left" (control boot)
 part = "boot";           // "boot", "peg", or "preview" (boot + peg + box, not for printing)
