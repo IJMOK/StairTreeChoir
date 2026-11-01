@@ -8,7 +8,7 @@ Checks before committing, and refuses on a hard failure:
 - no image with GPS data in its EXIF (hard)
 - Rob's email address nowhere in the files (hard)
 - no lyrics, .lrc or audio files (hard; lyrics live in the xLights show folder)
-- the tread measuring photos (photos/*.jpg) are left out
+- the tread measuring photos (photos/*.jpg) and archive/ are left out
 - personal references (family, friends, home) are listed for review, not changed
 
 Never pushes. Publishing is a separate, deliberate step: create the public GitHub
@@ -35,8 +35,9 @@ FORBIDDEN = re.compile(r"(\.lrc|\.lyrics\.txt|\.mp3|\.wav|\.m4a)$", re.I)
 # Words in prose, not code (".parents[1]", "parents=True").
 PERSONAL = re.compile(r"(?<![.\w])(parents|friends?|front lawn|my house|home address)\b(?![\[(])(?!\s*=)", re.I)
 # Left out of the public copy: the tread measuring photos are of Rob's garage, only
-# used to measure the blank (data/blank.json holds the result).
-EXCLUDE = re.compile(r"^photos/.+\.(jpe?g|png|heic)$", re.I)
+# used to measure the blank (data/blank.json holds the result). archive/ is superseded
+# work and session notes.
+EXCLUDE = re.compile(r"^(photos/.+\.(jpe?g|png|heic)$|archive/)", re.I)
 IMAGE = re.compile(r"\.(jpe?g|png|heic|tiff?)$", re.I)
 
 

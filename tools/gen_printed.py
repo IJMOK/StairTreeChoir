@@ -13,8 +13,7 @@ Frames (mm, Z up unless said):
                        fixing hole's axis at the tree's front face, ground z = 0, toe at
                        -y, +x towards the tree centre (mirrored on the right boot)
   tree-box-base/-cover box coordinates (enclosure/tree-box.scad), as fitted
-  site-box-*           box coordinates (enclosure/site-box.scad), lid on the front
-  step-clamp           the right way up, heel on the bed at z = 0
+  step-clamp          the right way up, heel on the bed at z = 0
   pixel-disk           front face (under the pixel flange) at z = 0, back at +z
   stair-tree-kit       the frame of cad/stair-tree.step: X right as seen from the front,
                        Y up from the tree's bottom edge, the front face at Z = 0
@@ -56,7 +55,7 @@ class Part:
     defines: dict = field(default_factory=dict)
 
 
-FOOT, TREE_BOX, SITE_BOX = "feet/stair-tree-foot.scad", "enclosure/tree-box.scad", "enclosure/site-box.scad"
+FOOT, TREE_BOX = "feet/stair-tree-foot.scad", "enclosure/tree-box.scad"
 CLAMP, DISK = "fixtures/step-clamp.scad", "fixtures/pixel-disk.scad"
 
 STLS = [
@@ -68,8 +67,6 @@ STLS = [
     Part("enclosure/tree-box-coupon.stl", TREE_BOX, {"part": "coupon"}),
     Part("enclosure/tree-box-seal-test.stl", TREE_BOX, {"part": "seal-test"}),
     Part("enclosure/tree-box-spacer.stl", TREE_BOX, {"part": "spacer"}),
-    *[Part(f"enclosure/site-box-{n}-trees.stl", SITE_BOX, {"part": "box", "trees": n}) for n in (6, 4, 2)],
-    Part("enclosure/site-box-lid.stl", SITE_BOX, {"part": "lid"}),
     Part("enclosure/psu-cover.stl", "enclosure/psu-cover.scad"),
     Part("fixtures/step-clamp.stl", CLAMP),
     Part("fixtures/step-clamp-washer.stl", CLAMP, {"part": "washer"}),
@@ -84,15 +81,13 @@ STEPS = [
     Part("peg-right", FOOT, {"hand": "right", "part": "peg-fitted"}),
     Part("tree-box-base", TREE_BOX, {"part": "base-fitted"}),
     Part("tree-box-cover", TREE_BOX, {"part": "cover-fitted"}),
-    *[Part(f"site-box-{n}-trees", SITE_BOX, {"part": "box-fitted", "trees": n}) for n in (6, 4, 2)],
-    Part("site-box-lid", SITE_BOX, {"part": "lid-fitted"}),
     Part("psu-cover", "enclosure/psu-cover.scad", {"part": "fitted"}),
     Part("step-clamp", CLAMP, {"part": "clamp-fitted"}),
     Part("step-clamp-washer", CLAMP, {"part": "washer"}),
     Part("pixel-disk", DISK),
 ]
 
-# The kit leaves out the site box and the CNC fixtures.
+# The kit leaves out the CNC fixtures.
 KIT_COLOURS = {"boot": cq.Color(0.80, 0.52, 0.25), "peg": cq.Color(1.0, 0.55, 0.0),
                "tree-box-base": cq.Color(0.27, 0.51, 0.71), "tree-box-cover": cq.Color(0.69, 0.77, 0.87),
                "tree": cq.Color(0.72, 0.53, 0.30), "pixel-disk": cq.Color(0.15, 0.15, 0.15)}

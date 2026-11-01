@@ -92,7 +92,7 @@ UK prices are rough; check them when ordering.
 | 1 | 14.6V LiFePO4 charger | Mains, used at home | 20 |
 | 1 | Logic-level MOSFET module (e.g. IRLZ44N/AO3400 board), divider resistors (e.g. 100k/22k), small toggle switch | ESP32 DevKitC-32U and Mini560 from the tree spares | 5 |
 | 1 | Inline fuse holder | 3A blade fuse from stock | 3 |
-| 1 | Box for the battery and electronics: an ammo box, or printed from `enclosure/sealed-box.scad` | Spare PG7 gland for the camera lead | 0–10 |
+| 1 | Box for the battery and electronics: an ammo box, or printed from `archive/printed-site-box/sealed-box.scad` | Spare PG7 gland for the camera lead | 0–10 |
 | 1 | Stake or post, or a clamp on an existing hedge stake, plus band clamps | Camera at about 2 m | 10–15 |
 | 1 | Cable lock + camo tape | | 10 |
 | 1 | USB stick, 64 GB+ | Show recordings on the Pi | 8 |

@@ -48,7 +48,9 @@ Verified 21 Oct 2026: `getControllers` reports Slot1–6 at 1/277/553/829/1105/1
 
 ## Sequencing a song (first done 21 Oct 2026: Rockin' Around the Christmas Tree)
 
-The file names in this section are as first done; since 24 Oct 2026 song files live in `Audio\Songs\` named after the sequence (see the per-song checklist below, [docs/folders.md](../docs/folders.md) and [docs/show-folder-moves.md](../docs/show-folder-moves.md)).
+The file names in this section are as first done; since 24 Oct 2026 song files live in `Audio\Songs\` named after the sequence (see the per-song checklist below, [docs/folders.md](../docs/folders.md) and [archive/docs/show-folder-moves.md](../archive/docs/show-folder-moves.md)).
+
+**Hand-fixed timing:** re-running `lyric_timing` overwrites these timing JSONs in the show folder, so redo the fix afterwards (details in [archive/docs/morning-notes.md](../archive/docs/morning-notes.md)): The Virgin Mary Had a Baby Boy lines 24 and 36, Twelve Days of Christmas line 1, Frosty the Snowman line 18.
 
 1. Put the MP3 in `Documents\xLights\Audio\`.
 2. Lyric timing on the PC (no paid service): `.venv/Scripts/python -m tools.lyric_timing "<mp3>" --artist "..." --title "..." --model small.en`. It downloads the lyrics from LRCLIB into `<mp3>.lyrics.txt` (fix and rerun if needed), aligns every word with Whisper (about 1 min for a 2-minute song on the CPU), writes `Audio\Choir.json`, and lists words missing from xLights' dictionaries. Add those to `Documents\xLights\user_dictionary` (CMU phonemes; xLights reads the show folder's copy first).

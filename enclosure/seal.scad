@@ -1,6 +1,5 @@
-// Lid seal shared by the tree box and the site box: Rob's 2.7mm rubber cord
-// (23 Oct 2026) in a groove in the lid's inner face, pressed onto the flat rim
-// of the box. Face-seal proportions: depth ~75% of the cord (about 25% squeeze),
+// The tree box's seal: Rob's 2.7mm rubber cord (23 Oct 2026) in a groove in the
+// plate's back face, pressed onto the cover's flat rim. Face-seal proportions: depth ~75% of the cord (about 25% squeeze),
 // width ~1.4x the cord, corners radius >= 3x the cord so it doesn't kink.
 // Cut the cord to length and butt-join it with a drop of superglue.
 

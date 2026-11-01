@@ -8,7 +8,7 @@
 // Printed on the mounting face, open side up: every face is vertical or leans in,
 // so no supports. The roof wedge is hollow (closed void) and its ends close in a V.
 
-include <seal.scad>
+include <../../enclosure/seal.scad>
 
 sb_bed_ch    = 0.6;     // chamfer on the bed edges (elephant's foot)
 sb_edge_ch   = 0.8;     // chamfer on the rim and lid edges

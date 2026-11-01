@@ -10,11 +10,11 @@ Rob does the CAM in Siemens NX from the STEP files made by `tools/gen_step.py` (
 | `cad/fixture-plate.step` | MDF plate (18mm default), blank bounding box + 50mm all round, with a 4mm pocket the shape of the blank |
 | `cad/stair-tree-assembly.step` | the two together, tree sitting in the pocket |
 
-For assembling the rest in NX, `tools/gen_printed.py` (OpenSCAD + CadQuery) makes every printed part a STEP solid in `cad/printed/` (boots, pegs, tree box, site boxes, step clamp and washer, pixel disk), each as fitted, and `cad/stair-tree-kit.step`: the tree with both boots, pegs, the tree box and 92 pixel disks in place, in the same axes as `cad/stair-tree.step`. They are made from the OpenSCAD meshes, so flat faces are planes and curved ones are faceted. The frames are listed at the top of the tool.
+For assembling the rest in NX, `tools/gen_printed.py` (OpenSCAD + CadQuery) makes every printed part a STEP solid in `cad/printed/` (boots, pegs, tree box, PSU cover, step clamp and washer, pixel disk), each as fitted, and `cad/stair-tree-kit.step`: the tree with both boots, pegs and 92 pixel disks in place (the tree box isn't placed yet), in the same axes as `cad/stair-tree.step`. They are made from the OpenSCAD meshes, so flat faces are planes and curved ones are faceted. The frames are listed at the top of the tool.
 
 Axes: mm, Z up, the tree's front face at Z = 0 (the part runs from Z = −30 to 0), X right, Y up (the tree's top is +Y), origin at the bottom-left of the blank's bounding box. The plate shares the origin, so its top is at Z = −26. The pocket is drawn at **zero clearance**: set the offset in CAM.
 
-The 2D files stay as reference: `cad/stair-tree-cnc-layout.dxf` (or `.svg`), mm, front view. Layers:
+The 2D file stays as reference: `cad/stair-tree-cnc-layout.svg` (`python -m tools.gen_cnc` also writes a `.dxf`, not committed), mm, front view. Layers:
 
 | Layer | Op | What |
 |---|---|---|
