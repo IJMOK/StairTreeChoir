@@ -62,6 +62,9 @@ SMALL_PARTS = {
           [("OUT+", (2, 4)), ("OUT-", (2, 8))]),
 }
 
+# Printed after the part's name on the board drawing.
+PART_VALUES = {"R1": "33Ω", "R2": "10kΩ", "C1": "100µF 16V", "C2": "0.1µF", "M": "Mini560 5V"}
+
 # Net -> list of (part, pin). U1's spare channels have inputs and enables tied to
 # GND, so their outputs sit low; outputs 2Y/3Y/4Y and unused ESP pins stay open.
 NETS = {
@@ -240,10 +243,15 @@ def _panel(ox: float, mirror: bool) -> list[str]:
         xs, ys = [p[0] for p in pts], [p[1] for p in pts]
         out.append(f'<rect x="{min(xs) - 1.3:.2f}" y="{min(ys) - 1.3:.2f}" width="{max(xs) - min(xs) + 2.6:.2f}" '
                    f'height="{max(ys) - min(ys) + 2.6:.2f}" rx="0.8" fill="none" stroke="#a33" stroke-width="0.3"/>')
-        tx = max(xs) + 5 if part == "M" else (min(xs) + max(xs)) / 2
-        anchor = "start" if part == "M" else "middle"
-        ty = (min(ys) + max(ys)) / 2 + 0.7 if part == "M" else min(ys) - 1.8
-        out.append(f'<text x="{tx:.2f}" y="{ty:.2f}" font-size="1.8" text-anchor="{anchor}" fill="#a33">{part}</text>')
+        tx, ty, anchor = (min(xs) + max(xs)) / 2, min(ys) - 1.8, "middle"
+        if part == "C1":  # right-aligned to the part, so it stays clear of U1
+            tx, anchor = max(xs) + 1.3, "end"
+        elif part == "R2":  # J2 is directly above, so it goes to the right
+            tx, ty, anchor = max(xs) + 1.8, min(ys) + 0.65, "start"
+        elif part == "C2":  # starts past U1's corner, in line with R2's
+            tx, anchor = min(xs) - 0.8, "start"
+        name = f"{part} {PART_VALUES[part]}" if part in PART_VALUES else part
+        out.append(f'<text x="{tx:.2f}" y="{ty:.2f}" font-size="1.8" text-anchor="{anchor}" fill="#a33">{name}</text>')
         for label, h in pins:
             hx, hy = _xy(*h, False, ox)
             if part == "M":

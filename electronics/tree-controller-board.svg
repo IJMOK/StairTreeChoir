@@ -485,21 +485,21 @@
 <rect x="18.74" y="46.06" width="18.24" height="10.62" fill="#222" fill-opacity="0.15" stroke="#222" stroke-width="0.3"/><circle cx="36.98" cy="51.37" r="0.8" fill="#fff" stroke="#222" stroke-width="0.2" clip-path="inset(0 50% 0 0)"/><text x="27.86" y="52.17" font-size="2" text-anchor="middle">U1 74AHCT125</text>
 <text x="35.48" y="45.76" font-size="1.4" text-anchor="middle">1</text>
 <rect x="39.26" y="51.34" width="12.76" height="2.60" rx="0.8" fill="none" stroke="#a33" stroke-width="0.3"/>
-<text x="45.64" y="50.84" font-size="1.8" text-anchor="middle" fill="#a33">R1</text>
+<text x="45.64" y="50.84" font-size="1.8" text-anchor="middle" fill="#a33">R1 33Ω</text>
 <rect x="31.64" y="43.72" width="5.14" height="2.60" rx="0.8" fill="none" stroke="#a33" stroke-width="0.3"/>
-<text x="34.21" y="43.22" font-size="1.8" text-anchor="middle" fill="#a33">R2</text>
+<text x="37.28" y="45.67" font-size="1.8" text-anchor="start" fill="#a33">R2 10kΩ</text>
 <rect x="11.32" y="51.34" width="5.14" height="2.60" rx="0.8" fill="none" stroke="#a33" stroke-width="0.3"/>
-<text x="13.89" y="50.84" font-size="1.8" text-anchor="middle" fill="#a33">C1</text>
+<text x="16.46" y="50.84" font-size="1.8" text-anchor="end" fill="#a33">C1 100µF 16V</text>
 <text x="12.62" y="55.24" font-size="1.2" text-anchor="middle" fill="#a33">+</text>
 <text x="15.16" y="55.24" font-size="1.2" text-anchor="middle" fill="#a33">-</text>
 <rect x="36.72" y="48.80" width="2.60" height="7.68" rx="0.8" fill="none" stroke="#a33" stroke-width="0.3"/>
-<text x="38.02" y="48.30" font-size="1.8" text-anchor="middle" fill="#a33">C2</text>
+<text x="37.22" y="48.30" font-size="1.8" text-anchor="start" fill="#a33">C2 0.1µF</text>
 <rect x="54.50" y="51.34" width="7.68" height="2.60" rx="0.8" fill="none" stroke="#a33" stroke-width="0.3"/>
 <text x="58.34" y="50.84" font-size="1.8" text-anchor="middle" fill="#a33">JD</text>
 <text x="55.80" y="55.24" font-size="1.2" text-anchor="middle" fill="#a33">DATA</text>
 <text x="60.88" y="55.24" font-size="1.2" text-anchor="middle" fill="#a33">GND</text>
 <rect x="8.78" y="20.86" width="2.60" height="12.76" rx="0.8" fill="none" stroke="#a33" stroke-width="0.3"/>
-<text x="15.08" y="27.94" font-size="1.8" text-anchor="start" fill="#a33">M</text>
+<text x="10.08" y="20.36" font-size="1.8" text-anchor="middle" fill="#a33">M Mini560 5V</text>
 <text x="11.68" y="22.61" font-size="1.2" fill="#a33">OUT+</text>
 <text x="11.68" y="32.77" font-size="1.2" fill="#a33">OUT-</text>
 <rect x="80.42" y="7" width="68.42" height="53.18" rx="1" fill="#e9d8a6" stroke="#8a7a50" stroke-width="0.3"/>

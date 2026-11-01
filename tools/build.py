@@ -1,6 +1,6 @@
 """Regenerate every generated file: python -m tools.build"""
 
-from tools import gen_cnc, gen_controller, gen_site_config, gen_site_wiring, gen_xmodel, tree_layout
+from tools import gen_cnc, gen_controller, gen_docs_site, gen_site_config, gen_site_wiring, gen_xmodel, tree_layout
 
 
 def main() -> None:
@@ -16,6 +16,7 @@ def main() -> None:
     gen_controller.main()
     gen_site_wiring.main()
     gen_site_config.main()
+    gen_docs_site.main()
 
 
 if __name__ == "__main__":

@@ -34,7 +34,7 @@ import urllib.request
 from pathlib import Path
 
 from tools import gen_site_config as cfg
-from tools import whats_on
+from tools import gen_docs_site, whats_on
 from tools.arrange_song import SHOW_FOLDER
 from tools.gen_site_wiring import load_sites
 from tools.tree_layout import ROOT
@@ -274,6 +274,7 @@ def main(argv: list[str] | None = None) -> None:
         out = bundle(site)
         if args.deploy:
             deploy(out, args.deploy, site)
+    gen_docs_site.main()
 
 
 if __name__ == "__main__":

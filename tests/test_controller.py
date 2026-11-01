@@ -56,6 +56,12 @@ def test_circuit():
     assert "12V" not in gc.NETS and "JP" not in gc.SMALL_PARTS
 
 
+def test_drawing_values_match_the_parts_list():
+    for part, value in gc.PART_VALUES.items():
+        assert value in gc.SMALL_PARTS[part][0]
+        assert f">{part} {value}</text>" in gc.svg()
+
+
 def test_bridges_never_skip_a_pad():
     used = set(gc.all_holes())
     for net in gc.NETS:
