@@ -26,7 +26,7 @@ Status: **measured** = calipers on Rob's part; **datasheet** = maker's drawing; 
 | 100uF electrolytic, standing | yes | d 6.3, h 11 | guess | 6.3 x 11 or 5 x 11 can |
 | Mini560 5V buck module (standing on its OUT end on the protoboard) | yes | l 30, w 18.27, h 5.4, lift 3 | guess, listing, measured | Width 18.27 (Rob, 28 Oct 2026); about 30 long (Rob, 30 Oct), IN at one end and OUT at the other, a pair of + pads and a pair of - pads at each end. Stands on its OUT end at the board's column A-D edge on a 90 degree header (lift = the header's plastic); its IN end is wired from the Wagos. Measure the height to the top of the inductor, the pad spacing and the header |
 | WAGO 221-413 lever connector | yes | l 18.6, w 18.7, h 8.3, lever_open 20 | guess, listing | Aggregators disagree (18.6-18.8, h 8.3-8.6); no WAGO drawing read. In hand since 30 Oct: measure |
-| SP16 2-pin panel socket (rear nut) + SP17 cable plug | no | hole 16.5, flat 15.3, thread 16, flange_d 25, flange_t 3, body 22, nut_af 20, nut_t 3, plug_l 60, plug_d 22 | datasheet, guess | Drawing (spebanmoh SP16 PDF): hole 16.5 / flat 15.3, flange 25, body 22, plug 60, cable 6-8. Due 7 Nov: measure the nut, the flange thickness and the thread length (max panel) |
+| SP16 2-pin panel socket (rear nut) + SP17 cable plug | yes | hole 17, flat 15.5, thread 16, flange_d 25, flange_t 3, body 22, nut_af 20, nut_t 3, plug_l 60, plug_d 22 | datasheet, guess, measured | Arrived 4 Nov: needs a 17 hole, two flats 15.5 across (the drawing said 16.5 with one flat at 15.3). Drawing (spebanmoh SP16 PDF): flange 25, body 22, plug 60, cable 6-8. Still to measure the nut, the flange thickness and the thread length (max panel) |
 | PG7 nylon cable gland (pixel lead out) | yes | thread 12.5, thread_l 8, nut_af 15, nut_t 3, cap_af 15, out_h 14 | datasheet, guess | Multicomp PG7DG: thread 8 long, overall 22, clamps 3-6.5. Rob has 20: measure the nut and cap |
 | RP-SMA bulkhead (U.FL pigtail end) + 2.4GHz dipole | yes | thread 6.35, nut_af 8, nut_t 2.5, max_panel 3.2, body_in 8, dipole_d 10, dipole_l 108 | datasheet, guess | Wurth/Linx drawings: 1/4-36 UNS, nut 8 AF, hole 6.5, panel 2.8-3.2 max. Rob's real nut hit the old cover's inside ramp (31 Oct 2026). Measure the nut, the thread length past the flange and the dipole |
 
@@ -39,10 +39,10 @@ Status: **measured** = calipers on Rob's part; **datasheet** = maker's drawing; 
 - [ ] 100uF electrolytic, standing: d, h
 - [ ] Mini560 5V buck module (standing on its OUT end on the protoboard): h, lift
 - [ ] WAGO 221-413 lever connector: l, w, h, lever_open
+- [ ] SP16 2-pin panel socket (rear nut) + SP17 cable plug: flange_t, nut_af, nut_t, plug_d
 - [ ] PG7 nylon cable gland (pixel lead out): nut_af, nut_t, cap_af, out_h
 - [ ] RP-SMA bulkhead (U.FL pigtail end) + 2.4GHz dipole: nut_t, body_in, dipole_d, dipole_l
 
 ## Measure when they arrive
 
 - [ ] 2-way 5.08mm PCB screw terminal (JD): d, h
-- [ ] SP16 2-pin panel socket (rear nut) + SP17 cable plug: flange_t, nut_af, nut_t, plug_d

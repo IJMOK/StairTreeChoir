@@ -88,12 +88,12 @@ DIMS = {
         l=(18.6, "listing"), w=(18.7, "listing"), h=(8.3, "listing"), lever_open=(20, "guess"),
         note="Aggregators disagree (18.6-18.8, h 8.3-8.6); no WAGO drawing read. In hand since 30 Oct: measure"),
     "sp16": dict(
-        desc="SP16 2-pin panel socket (rear nut) + SP17 cable plug", have=False,
-        hole=(16.5, "datasheet"), flat=(15.3, "datasheet"), thread=(16, "datasheet"),
+        desc="SP16 2-pin panel socket (rear nut) + SP17 cable plug", have=True,
+        hole=(17, "measured"), flat=(15.5, "measured"), thread=(16, "datasheet"),
         flange_d=(25, "datasheet"), flange_t=(3, "guess"), body=(22, "datasheet"),
         nut_af=(20, "guess"), nut_t=(3, "guess"), plug_l=(60, "datasheet"), plug_d=(22, "guess"),
-        note="Drawing (spebanmoh SP16 PDF): hole 16.5 / flat 15.3, flange 25, body 22, plug 60, cable 6-8. "
-             "Due 7 Nov: measure the nut, the flange thickness and the thread length (max panel)"),
+        note="Arrived 4 Nov: needs a 17 hole, two flats 15.5 across (the drawing said 16.5 with one flat at 15.3). "
+             "Drawing (spebanmoh SP16 PDF): flange 25, body 22, plug 60, cable 6-8. Still to measure the nut, the flange thickness and the thread length (max panel)"),
     "pg7": dict(
         desc="PG7 nylon cable gland (pixel lead out)", have=True,
         thread=(12.5, "datasheet"), thread_l=(8, "datasheet"), nut_af=(15, "guess"), nut_t=(3, "guess"),
@@ -208,16 +208,16 @@ def wago() -> cq.Workplane:
     return box(v("wago", "l") / 2, v("wago", "w") / 2, 0, v("wago", "l"), v("wago", "w"), v("wago", "h"))
 
 
-def d_profile(d: float, flat: float, h: float, z0: float) -> cq.Workplane:
+def dd_profile(d: float, flats: float, h: float, z0: float) -> cq.Workplane:
     return (cq.Workplane().circle(d / 2).extrude(h)
-            .intersect(box(0, -(d - flat) / 2, 0, d, flat, h)).translate((0, 0, z0)))   # flat to +y (the lid)
+            .intersect(box(0, 0, 0, d, flats, h)).translate((0, 0, z0)))   # double D, flats on ±y
 
 
 def sp16(floor_t: float) -> cq.Workplane:
     """Axis z, 0 = the floor's outer face, +z into the box; plug mated below."""
     ft = v("sp16", "flange_t")
     flange = cyl(0, 0, -ft, v("sp16", "flange_d"), ft)
-    body = d_profile(v("sp16", "thread"), v("sp16", "flat") - 0.4, v("sp16", "body") - ft, 0)   # flat 6.9 off the axis, the hole's 7.05
+    body = dd_profile(v("sp16", "thread"), v("sp16", "flat"), v("sp16", "body") - ft, 0)   # flats 7.75 off the axis, the hole's 7.85
     nut = hexnut(0, 0, floor_t, v("sp16", "nut_af"), v("sp16", "nut_t"), v("sp16", "thread"))
     plug = cyl(0, 0, -ft - v("sp16", "plug_l"), v("sp16", "plug_d"), v("sp16", "plug_l"))
     return flange.union(body).union(nut).union(plug)
