@@ -352,7 +352,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <p>For each ESP32, follow &quot;Setting up a tree controller by hand&quot; in <a href="../wled/README.md" target="_blank" rel="noopener">wled/README.md</a>:</p>
 <ol>
 <li>Flash the plain ESP32 build of WLED (16.0.1 was tested) from install.wled.me.</li>
-<li>LED preferences: length 92, data GPIO 16, WS281x, colour order GRB (<strong>TBC at first light</strong>), brightness limiter on. The limiter assumes 5V pixels, so recheck it for the 12V strings.</li>
+<li>LED preferences: length 92, data GPIO 16, WS281x, colour order RGB (confirmed at first light on tree 1), brightness limiter on. The limiter assumes 5V pixels, so recheck it for the 12V strings.</li>
 <li>Sync interfaces: tick Receive UDP realtime (DDP).</li>
 <li>Set the hostname <code>stairtree-NN</code>, the static IP 192.168.8.(100+NN) and the site Wi-Fi.</li>
 <li>Label the ESP32 and its box with the tree number.</li>
@@ -388,7 +388,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <h2 id="build-guide/12-first-light-and-testing">12. First light and testing</h2>
 <p>Run <a href="#test-checklist">test-checklist.md</a> in order; its sections match the stages above. Write the readings in the blanks and keep the sheets. At first light settle:</p>
 <ul>
-<li>Colour order (solid red, green, blue); update WLED if it is not GRB.</li>
+<li>Colour order (solid red, green, blue); WLED is set to RGB (order 1); change it if a tree differs.</li>
 <li>That node 1 and the wiring order match the xLights model (a test chase).</li>
 <li>Whether DDP over Wi-Fi is smooth enough for lip-sync with all of a site's trees streaming. If it jitters, the fallback is ESPixelStick in FPP Remote mode, which needs SD-equipped ESP32s, so decide before building all 14 boards.</li>
 </ul>
@@ -537,9 +537,9 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 </tr>
 <tr>
 <td>15 sets</td>
-<td>SP16/SP17 2-pin screw-terminal aviation connectors (solderless): SP16 panel socket (rear nut, M16 × 1.5, D hole 16.5mm with a flat at 15.3mm) + SP17 cable plug</td>
+<td>SP16/SP17 2-pin screw-terminal aviation connectors (solderless): SP16 panel socket (rear nut, M16 × 1.5, 17mm hole with two flats 15.5mm across, measured 4 Nov 2026) + SP17 cable plug</td>
 <td>Replace the PY07 Z108 bayonets: one per tree run, 14 trees + 1 spare. SP17 2-pin is rated 10A, IP68 mated, cable 6–10mm (SP16 is smaller: check the H05RR-F sheath fits the gland). The SP16 goes in the tree box floor, firing down (Rob, 28 Oct 2026); the SP17 goes on the tree end of the run. Red to +. Check which half has the pins when they arrive (due 7 Nov): the powered run should carry the shrouded contacts. AliExpress (Ti Socket Store), 10 + 5 sets, £32.06</td>
-<td>Shipped 28 Oct, due 7 Nov</td>
+<td>Arrived 4 Nov</td>
 </tr>
 </tbody>
 </table>
@@ -981,10 +981,10 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 </tr>
 <tr>
 <td>SP16 2-pin panel socket (rear nut) + SP17 cable plug</td>
-<td>no</td>
-<td>hole 16.5, flat 15.3, thread 16, flange_d 25, flange_t 3, body 22, nut_af 20, nut_t 3, plug_l 60, plug_d 22</td>
-<td>datasheet, guess</td>
-<td>Drawing (spebanmoh SP16 PDF): hole 16.5 / flat 15.3, flange 25, body 22, plug 60, cable 6-8. Due 7 Nov: measure the nut, the flange thickness and the thread length (max panel)</td>
+<td>yes</td>
+<td>hole 17, flat 15.5, thread 16, flange_d 25, flange_t 3, body 22, nut_af 20, nut_t 3, plug_l 60, plug_d 22</td>
+<td>datasheet, guess, measured</td>
+<td>Arrived 4 Nov: needs a 17 hole, two flats 15.5 across (the drawing said 16.5 with one flat at 15.3). Drawing (spebanmoh SP16 PDF): flange 25, body 22, plug 60, cable 6-8. Still to measure the nut, the flange thickness and the thread length (max panel)</td>
 </tr>
 <tr>
 <td>PG7 nylon cable gland (pixel lead out)</td>
@@ -1011,13 +1011,13 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <li class="tick"><input type="checkbox" disabled> 100uF electrolytic, standing: d, h</li>
 <li class="tick"><input type="checkbox" disabled> Mini560 5V buck module (standing on its OUT end on the protoboard): h, lift</li>
 <li class="tick"><input type="checkbox" disabled> WAGO 221-413 lever connector: l, w, h, lever_open</li>
+<li class="tick"><input type="checkbox" disabled> SP16 2-pin panel socket (rear nut) + SP17 cable plug: flange_t, nut_af, nut_t, plug_d</li>
 <li class="tick"><input type="checkbox" disabled> PG7 nylon cable gland (pixel lead out): nut_af, nut_t, cap_af, out_h</li>
 <li class="tick"><input type="checkbox" disabled> RP-SMA bulkhead (U.FL pigtail end) + 2.4GHz dipole: nut_t, body_in, dipole_d, dipole_l</li>
 </ul>
 <h2 id="tree-box-parts/measure-when-they-arrive">Measure when they arrive</h2>
 <ul>
 <li class="tick"><input type="checkbox" disabled> 2-way 5.08mm PCB screw terminal (JD): d, h</li>
-<li class="tick"><input type="checkbox" disabled> SP16 2-pin panel socket (rear nut) + SP17 cable plug: flange_t, nut_af, nut_t, plug_d</li>
 </ul>
 <footer class="pager"><a href="#bom">← Bill of materials</a><a class="next" href="#cnc-cutting">Cutting a tree on the CNC →</a></footer>
 </article>
@@ -1188,7 +1188,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <p>First light (WLED solid colours):</p>
 <ul>
 <li class="tick"><input type="checkbox" disabled> Solid red shows red, solid green shows green, solid blue shows blue</li>
-<li class="tick"><input type="checkbox" disabled> Colour order that works: ____ (WLED is set to GRB, order 0, until first light says otherwise)</li>
+<li class="tick"><input type="checkbox" disabled> Colour order that works: ____ (tree 1 is RGB, order 1; generator default is RGB)</li>
 <li class="tick"><input type="checkbox" disabled> All 92 pixels light; none dark or flickering</li>
 <li class="tick"><input type="checkbox" disabled> WLED brightness limiter rechecked for 12V pixels: setting ____</li>
 </ul>

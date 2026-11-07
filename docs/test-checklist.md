@@ -42,7 +42,7 @@ String and wiring:
 
 First light (WLED solid colours):
 - [ ] Solid red shows red, solid green shows green, solid blue shows blue
-- [ ] Colour order that works: ____ (WLED is set to GRB, order 0, until first light says otherwise)
+- [ ] Colour order that works: ____ (tree 1 is RGB, order 1; generator default is RGB)
 - [ ] All 92 pixels light; none dark or flickering
 - [ ] WLED brightness limiter rechecked for 12V pixels: setting ____
 

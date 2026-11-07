@@ -8,7 +8,7 @@ Tested on Rob's spare ESP32-WROOM-32 "mini" board with WLED 16.0.1 (plain ESP32 
 
 1. USB data cable to the PC. Open https://install.wled.me in Chrome or Edge, pick the latest stable plain ESP32 build (not Audioreactive, not S3/C3), Install, pick the COM port. No COM port means a missing USB driver (CH9102/CH340: WCH; CP210x: Silicon Labs). Stuck on "Connecting…": hold BOOT.
 2. Join Wi-Fi from the installer, then open the device's IP.
-3. Config → LED Preferences: length 92, data GPIO 16, WS281x, colour order GRB (TBC at first light), brightness limiter left on. GPIO16 rather than the default GPIO2, which is a boot strapping pin and drives the onboard LED.
+3. Config → LED Preferences: length 92, data GPIO 16, WS281x, colour order RGB (confirmed at first light on tree 1, 7 Nov 2026), brightness limiter left on. GPIO16 rather than the default GPIO2, which is a boot strapping pin and drives the onboard LED.
 4. Config → Sync Interfaces: Receive UDP realtime ticked (DDP arrives through it).
 5. Reserve the IP in the router.
 
@@ -49,7 +49,7 @@ The controller entry xLights saved (`Documents\xLights\xlights_networks.xml`), k
 | LED count | `hw.led.total`, `hw.led.ins[0].len` | 92 |
 | Data pin | `hw.led.ins[0].pin` | `[16]` |
 | LED type | `hw.led.ins[0].type` | 22 (WS281x) |
-| Colour order | `hw.led.ins[0].order` | 0 = GRB, **TBC at first light** (`COLOR_ORDER` in the generator) |
+| Colour order | `hw.led.ins[0].order` | 1 = RGB, confirmed at first light on tree 1 (7 Nov 2026) (`COLOR_ORDER` in the generator) |
 | Receive UDP realtime (DDP) | `if.live.en` | true |
 | Reboot after applying | `rb` | true (the new IP needs it) |
 
@@ -91,3 +91,7 @@ Wi-Fi details come from `STAIRTREE_WIFI_SSID` and `STAIRTREE_WIFI_PSK`, else `~/
 - `id.name` and `id.mdns` are both set to `stairtree-NN`; WLED's `getWLEDhostname()` prefers `id.mdns` for the DHCP hostname.
 - The `WLED-AP` address and password are the WLED defaults in the 16.0.1 source; a device set up before may differ.
 - Colour order and the brightness limiter, as above.
+
+## Re-apply needed on trees programmed before 7 Nov 2026
+
+Trees already programmed (see `provisioned.csv`) were applied with colour order GRB. The correct order is RGB (confirmed on tree 1, 7 Nov 2026) and the generator now writes it. Re-apply `stairtree-NN.json` to each tree when it is next seen, then check solid red, green and blue and that `hw.led.maxpwr` and `hw.led.ins[0].maxpwr` read 2120. Trees 1, 2, 4, 5, 6, 7, 8 and 9 were fixed on 7 Nov 2026 and checked by eye (colours, chase from node 1, groups). Tree 3 was set to RGB but has a fault being looked at (stuck white, rebooting). Still to do: none beyond tree 3 (fault) and trees 10 to 14 (not yet provisioned; the generator writes RGB).

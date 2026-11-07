@@ -161,7 +161,7 @@ Do this on the bench, before anything goes outside.
 For each ESP32, follow "Setting up a tree controller by hand" in [wled/README.md](../wled/README.md):
 
 1. Flash the plain ESP32 build of WLED (16.0.1 was tested) from install.wled.me.
-2. LED preferences: length 92, data GPIO 16, WS281x, colour order GRB (**TBC at first light**), brightness limiter on. The limiter assumes 5V pixels, so recheck it for the 12V strings.
+2. LED preferences: length 92, data GPIO 16, WS281x, colour order RGB (confirmed at first light on tree 1), brightness limiter on. The limiter assumes 5V pixels, so recheck it for the 12V strings.
 3. Sync interfaces: tick Receive UDP realtime (DDP).
 4. Set the hostname `stairtree-NN`, the static IP 192.168.8.(100+NN) and the site Wi-Fi.
 5. Label the ESP32 and its box with the tree number.
@@ -181,7 +181,7 @@ A 2-tree site uses slots 1 and 2, a 4-tree site slots 1 to 4. The slot-to-tree m
 ## 12. First light and testing
 
 Run [test-checklist.md](test-checklist.md) in order; its sections match the stages above. Write the readings in the blanks and keep the sheets. At first light settle:
-- Colour order (solid red, green, blue); update WLED if it is not GRB.
+- Colour order (solid red, green, blue); WLED is set to RGB (order 1); change it if a tree differs.
 - That node 1 and the wiring order match the xLights model (a test chase).
 - Whether DDP over Wi-Fi is smooth enough for lip-sync with all of a site's trees streaming. If it jitters, the fallback is ESPixelStick in FPP Remote mode, which needs SD-equipped ESP32s, so decide before building all 14 boards.
 
