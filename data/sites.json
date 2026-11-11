@@ -1,5 +1,5 @@
 {
-  "_comment": "Hand-edited INPUT: the sites, which physical tree (1-14) stands in which sequence slot (1-6), and each tree's 12V run from the site box in metres. \"router\": \"indoors\" means the site router is on its own adapter (not the site PSU); default is on the site PSU. \"psu\" names a PSU already in hand; otherwise the smallest LRS that carries the site is chosen. DEFAULTS until Rob confirms (23 Oct 2026): 6/4/2/2 trees, every run 5m. Slots must start at 1 and run without gaps; tree IDs are used once across all sites.",
+  "_comment": "Hand-edited INPUT: the sites, which physical tree (1-14) stands in which sequence slot (1-6), and each tree's 12V run from the site box in metres. \"router\": \"indoors\" means the site router is on its own adapter (not the site PSU); default is on the site PSU. \"psu\" names a PSU already in hand; otherwise the smallest LRS that carries the site is chosen. DEFAULTS until Rob confirms (23 Oct 2026): 6/4/2/2 trees, every run 5m. Slots must start at 1 and run without gaps; tree IDs are used once across all sites. \"network\" overrides the default (192.168.8.x, tree NN at .100+NN, router .1, player .20, static IP set in WLED): prefix, tree_base, gateway, player, static (false = trees stay on DHCP and the router reserves their addresses).",
   "confirmed": false,
   "sites": [
     {
@@ -8,6 +8,8 @@
       "player": "Pi 3",
       "router": "indoors",
       "psu": {"name": "S-400-12", "rating": 33},
+      "network": {"_note": "Rob's home network, extended by the Cudy (Rob, 11 Nov 2026); DHCP reservations on the Zyxel OpenWrt at 192.168.0.3",
+                  "prefix": "192.168.0", "tree_base": 220, "gateway": "192.168.0.1", "player": "192.168.0.220", "static": false},
       "trees": [
         {"slot": 1, "tree": 1, "run_m": 5},
         {"slot": 2, "tree": 2, "run_m": 5},

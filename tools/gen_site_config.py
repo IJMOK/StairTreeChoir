@@ -83,7 +83,7 @@ import json
 from pathlib import Path
 
 from tools import loops
-from tools.gen_site_wiring import PIXEL_W, TREE_LIMIT_A, ip, load_sites
+from tools.gen_site_wiring import PIXEL_W, TREE_LIMIT_A, ip, load_sites, network, site_of
 from tools.tree_layout import ROOT
 
 # Brightness limiter (Rob, 26 Oct 2026: one LRS PSU per site, sized for this cap; gen_site_wiring.py).
@@ -98,7 +98,6 @@ PIXELS = 92
 DATA_PIN = 16
 LED_TYPE_WS281X = 22             # const.h TYPE_WS2812_RGB
 COLOR_ORDER = 1                  # const.h COL_ORDER_RGB; confirmed at first light on tree 1 (Rob, 7 Nov 2026)
-GATEWAY = (192, 168, 8, 1)
 NETMASK = (255, 255, 255, 0)
 SSID_PLACEHOLDER = "CHANGE-ME-SSID"   # tools/wled_apply.py swaps in the real one at provisioning
 
@@ -262,14 +261,18 @@ def known_sequences() -> set[str]:
 def wled_config(tree: int, ssid: str = SSID_PLACEHOLDER) -> dict:
     """The fragment POSTed to http://<device>/json/cfg. No Wi-Fi password: wled_apply adds it."""
     name = f"stairtree-{tree:02d}"
+    net = network(site_of(tree))
+    if net["static"]:
+        addr = {"ip": list(map(int, ip(tree).split("."))), "gw": list(map(int, net["gateway"].split("."))),
+                "sn": list(NETMASK)}
+    else:                         # DHCP (WLED treats 0.0.0.0 as "no static IP"); the router reserves ip(tree)
+        addr = {"ip": [0, 0, 0, 0], "gw": [0, 0, 0, 0], "sn": list(NETMASK)}
     return {
         "rb": True,
         "id": {"mdns": name, "name": name},
         "nw": {"ins": [{
             "ssid": ssid,
-            "ip": list(map(int, ip(tree).split("."))),
-            "gw": list(GATEWAY),
-            "sn": list(NETMASK),
+            **addr,
         }]},
         "hw": {"led": {
             "total": PIXELS,
@@ -299,7 +302,7 @@ def fpp_outputs(site: dict) -> dict:
             "channelCount": CHANNELS_PER_TREE,
             "type": DDP_ONE_BASED,
             "universeCount": 1,
-            "address": ip(t["tree"]),
+            "address": ip(t["tree"], {"sites": [site]}),
             "priority": 0,
             "syncUniverse": 0,
             "monitor": 1,

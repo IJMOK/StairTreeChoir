@@ -16,12 +16,12 @@ PSU: S-400-12, 14.1A of 33A (43%). The router is indoors on its own adapter, cab
 
 | Slot | Tree | IP | Fuse | Run | Flex | Drop | At the tree |
 |---|---|---|---|---|---|---|---|
-| 1 | 1 (stairtree-01) | 192.168.8.101 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
-| 2 | 2 (stairtree-02) | 192.168.8.102 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
-| 3 | 3 (stairtree-03) | 192.168.8.103 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
-| 4 | 4 (stairtree-04) | 192.168.8.104 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
-| 5 | 5 (stairtree-05) | 192.168.8.105 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
-| 6 | 6 (stairtree-06) | 192.168.8.106 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
+| 1 | 1 (stairtree-01) | 192.168.0.221 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
+| 2 | 2 (stairtree-02) | 192.168.0.222 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
+| 3 | 3 (stairtree-03) | 192.168.0.223 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
+| 4 | 4 (stairtree-04) | 192.168.0.224 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
+| 5 | 5 (stairtree-05) | 192.168.0.225 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
+| 6 | 6 (stairtree-06) | 192.168.0.226 | 3A | 5m | 0.75mm² | 0.49V | 11.5V |
 
 ## Site B (4 trees, player Pi 5)
 

@@ -6,7 +6,7 @@ import pytest
 from tools import gen_site_config as sc
 from tools import loops
 from tools import wled_apply
-from tools.gen_site_wiring import load_sites
+from tools.gen_site_wiring import ip, load_sites, network
 
 
 def sites():
@@ -22,7 +22,8 @@ def test_every_site_outputs_cover_its_trees_in_slot_order():
         outs = sc.fpp_outputs(site)["channelOutputs"][0]["universes"]
         assert len(outs) == len(site["trees"])
         for out, t in zip(outs, site["trees"]):
-            assert out["address"] == f"192.168.8.{100 + t['tree']}"
+            net = network(site)
+            assert out["address"] == f"{net['prefix']}.{net['tree_base'] + t['tree']}"
             assert out["startChannel"] == (t["slot"] - 1) * 276 + 1
             assert out["channelCount"] == 276
             assert out["type"] == 5            # DDP - One Based: WLED wants DDP offset 0
@@ -37,15 +38,17 @@ def test_every_site_outputs_cover_its_trees_in_slot_order():
 def test_ips_and_hostnames_unique_across_all_sites():
     ips = [u["address"] for s in sites() for u in sc.fpp_outputs(s)["channelOutputs"][0]["universes"]]
     assert len(ips) == 14 == len(set(ips))
+    static = [t["tree"] for s in sites() if network(s)["static"] for t in s["trees"]]
+    cfgs = [sc.wled_config(t) for t in static]
+    assert len({tuple(c["nw"]["ins"][0]["ip"]) for c in cfgs}) == len(static)
     cfgs = [sc.wled_config(t["tree"]) for s in sites() for t in s["trees"]]
-    assert len({tuple(c["nw"]["ins"][0]["ip"]) for c in cfgs}) == 14
     assert len({c["id"]["mdns"] for c in cfgs}) == 14
 
 
 def test_wled_config_content():
     c = sc.wled_config(7)
     assert c["id"]["mdns"] == "stairtree-07"
-    w = c["nw"]["ins"][0]
+    w = c["nw"]["ins"][0]       # tree 7 is at a default-network site: fixed IP set in WLED
     assert w["ip"] == [192, 168, 8, 107] and w["gw"] == [192, 168, 8, 1] and w["sn"] == [255, 255, 255, 0]
     led = c["hw"]["led"]["ins"][0]
     assert (led["start"], led["len"], led["pin"], led["type"]) == (0, 92, [16], 22)
@@ -342,3 +345,15 @@ def test_morning_ends_by_itself_after_about_three_hours():
     seconds = len(names) * loops.MORNING_S
     assert loops.MORNING_HOURS * 3600 <= seconds < loops.MORNING_HOURS * 3600 + len(one) * loops.MORNING_S
     assert sc.sequences_used(pl)[-1] == loops.MORNING_OFF
+
+
+def test_site_a_is_on_home_network_with_reservations():
+    site = next(s for s in sites() if s["id"] == "site-a")
+    assert not network(site)["static"]
+    assert ip(1) == "192.168.0.221" and ip(4) == "192.168.0.224"
+    w = sc.wled_config(1)["nw"]["ins"][0]
+    assert w["ip"] == [0, 0, 0, 0] and w["gw"] == [0, 0, 0, 0]   # DHCP, as WLED reports it
+
+
+def test_unassigned_tree_takes_default_network():
+    assert ip(15) == "192.168.8.115"

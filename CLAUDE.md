@@ -34,7 +34,8 @@ Fallback if Wi-Fi streaming jitters in testing: ESPixelStick firmware in FPP Rem
 Audio: USB sound card → PAM8610 amp → speaker, at the player.
 
 Addressing
-Tree IDs 1–14 are physical: hostname stairtree-NN, fixed IP 192.168.8.(100+NN) (set as the site router's LAN, with the router at 192.168.8.1). Same on every site router.
+Tree IDs 1–14 are physical: hostname stairtree-NN, fixed IP 192.168.8.(100+NN) (set as the site router's LAN, with the router at 192.168.8.1). Same on every site router, by default.
+Site A exception (Rob, 11 Nov 2026): the Cudy extends Rob's home network and the player plugs into it, so Site A runs on 192.168.0.x: tree NN at 192.168.0.(220+NN), FPP at .220, gateway the Huawei B818 at .1. The trees stay on DHCP and get those addresses from reservations on the Zyxel OpenWrt (192.168.0.3), which hands out the home network's addresses (pool .6–.200). A site's addressing lives in data/sites.json ("network"); tools/gen_site_wiring.ip() is the one place it's computed.
 Sequence slots 1–6 are the 6 trees in the xLights sequence. Each site's config maps slots to tree IDs (data/sites.json, M5); a 2-tree site uses slots 1–2, a 4-tree site slots 1–4.
 
 Channel map (6-tree sequence)

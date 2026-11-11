@@ -2,7 +2,8 @@
 
 Erases the ESP32, flashes WLED 16.0.1, joins it to Wi-Fi over Improv serial, POSTs the tree's
 config, then reads it back. Bench mode (the default) leaves the board on DHCP on the Wi-Fi it
-joined; --site also sets the tree's fixed 192.168.8.x address, after which the PC can only reach
+joined; --site also sets the tree's site network from data/sites.json (a fixed 192.168.8.x address
+unless the site uses DHCP reservations), after which the PC may only reach
 it through the site router.
 
     python -m tools.wled_flash --identify           # read-only: port, MAC, flash size, what's on it
@@ -33,6 +34,7 @@ import urllib.request
 from pathlib import Path
 
 from tools.gen_site_config import WLED_DIR
+from tools.gen_site_wiring import ip
 from tools.tree_layout import ROOT
 from tools.wled_apply import credentials
 
@@ -286,7 +288,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("tree", type=int, nargs="?")
     ap.add_argument("--port")
-    ap.add_argument("--site", action="store_true", help="also set the fixed 192.168.8.x address and site Wi-Fi")
+    ap.add_argument("--site", action="store_true", help="also set the site Wi-Fi and the site's addressing (data/sites.json)")
     ap.add_argument("--identify", action="store_true", help="report what's on the port, change nothing")
     args = ap.parse_args()
     port = pick_port(args.port)
@@ -325,7 +327,7 @@ def main() -> None:
     apply_config(base, cfg)
     if args.site:
         log(args.tree, mac, "site", f"stairtree-{args.tree:02d}")
-        print(f"PASS flashed; site config sent. Not read back: it reboots onto 192.168.8.{100 + args.tree}")
+        print(f"PASS flashed; site config sent. Not read back: it reboots onto {ip(args.tree)}")
         return
     wrong = check(args.tree, cfg, base, mac)
     if wrong:

@@ -44,7 +44,7 @@ The controller entry xLights saved (`Documents\xLights\xlights_networks.xml`), k
 | Setting | Key | Value |
 |---|---|---|
 | Hostname / mDNS name | `id.mdns` (and `id.name`) | `stairtree-NN` |
-| Static IP, gateway, mask | `nw.ins[0].ip / gw / sn` | `192.168.8.(100+NN)`, `192.168.8.1`, `255.255.255.0` |
+| Static IP, gateway, mask | `nw.ins[0].ip / gw / sn` | `192.168.8.(100+NN)`, `192.168.8.1`, `255.255.255.0` by default; `0.0.0.0` (DHCP) at a site whose `network.static` is false in data/sites.json (Site A: the home router reserves 192.168.0.(220+NN)) |
 | Wi-Fi name | `nw.ins[0].ssid` | placeholder `CHANGE-ME-SSID`, replaced at provisioning |
 | LED count | `hw.led.total`, `hw.led.ins[0].len` | 92 |
 | Data pin | `hw.led.ins[0].pin` | `[16]` |
@@ -64,7 +64,7 @@ Not set, so left at the device's value: the brightness limiter (`hw.led.maxpwr`;
     .venv/Scripts/python -m tools.wled_flash --identify      # changes nothing
     .venv/Scripts/python -m tools.wled_flash 3 --port COM7   # erases the board
 
-It erases, flashes WLED 16.0.1 with the layout install.wled.me uses, joins Wi-Fi over Improv serial, POSTs the tree's config and reads it back. The default is bench mode: the board stays on DHCP on the Wi-Fi it joined. `--site` also sets the fixed 192.168.8.x address, after which only the site network can reach it, so that result isn't read back. Each pass is added to `wled/provisioned.csv`, which maps trees to MACs. It refuses the wreath, the old wreath ESP8266, WLED_Star and WLED-SoundReactive.
+It erases, flashes WLED 16.0.1 with the layout install.wled.me uses, joins Wi-Fi over Improv serial, POSTs the tree's config and reads it back. The default is bench mode: the board stays on DHCP on the Wi-Fi it joined. `--site` also sets the site's addressing from data/sites.json (a fixed 192.168.8.x address by default; DHCP at Site A), after which only the site network may reach it, so that result isn't read back. Each pass is added to `wled/provisioned.csv`, which maps trees to MACs. It refuses the wreath, the old wreath ESP8266, WLED_Star and WLED-SoundReactive.
 
 Wi-Fi details come from `STAIRTREE_WIFI_SSID` and `STAIRTREE_WIFI_PSK`, else `~/.stairtree_wifi.json` (`{"ssid": "...", "psk": "..."}`), which is outside every repo. Needs `pip install -r requirements-flash.txt`.
 
@@ -94,4 +94,4 @@ Wi-Fi details come from `STAIRTREE_WIFI_SSID` and `STAIRTREE_WIFI_PSK`, else `~/
 
 ## Re-apply needed on trees programmed before 7 Nov 2026
 
-Trees already programmed (see `provisioned.csv`) were applied with colour order GRB. The correct order is RGB (confirmed on tree 1, 7 Nov 2026) and the generator now writes it. Re-apply `stairtree-NN.json` to each tree when it is next seen, then check solid red, green and blue and that `hw.led.maxpwr` and `hw.led.ins[0].maxpwr` read 2120. Trees 1, 2, 4, 5, 6, 7, 8 and 9 were fixed on 7 Nov 2026 and checked by eye (colours, chase from node 1, groups). Tree 3 was set to RGB but has a fault being looked at (stuck white, rebooting). Still to do: none beyond tree 3 (fault) and trees 10 to 14 (not yet provisioned; the generator writes RGB).
+Trees already programmed (see `provisioned.csv`) were applied with colour order GRB. The correct order is RGB (confirmed on tree 1, 7 Nov 2026) and the generator now writes it. Re-apply `stairtree-NN.json` to each tree when it is next seen, then check solid red, green and blue and that `hw.led.maxpwr` and `hw.led.ins[0].maxpwr` read 2120. Trees 1, 2, 4, 5, 6, 7, 8 and 9 were fixed on 7 Nov 2026 and checked by eye (colours, chase from node 1, groups). The board first programmed as tree 3 (MAC d48c49f0e52c) was set to RGB but has a fault (stuck white, rebooting). On 11 Nov 2026 Rob swapped numbers: that board is now tree 8, to be fixed after the season, and the old tree-8 board (9454c5dc7f9c) is stairtree-03 for good (provisioned.csv and the router reservations follow). Still to do: none beyond tree 8 (fault) and trees 10 to 14 (not yet provisioned; the generator writes RGB).

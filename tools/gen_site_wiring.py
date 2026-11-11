@@ -41,8 +41,28 @@ MAX_DROP = 0.8                      # volts lost on a run (out and back) before 
 SPARE = 1.1                         # buy 10% more flex than the runs add up to
 
 
-def ip(tree: int) -> str:
-    return f"192.168.8.{100 + tree}"
+# A site's network (data/sites.json "network", merged over this). The plan (CLAUDE.md §2) is a
+# dedicated router per site on 192.168.8.x with each tree's fixed IP set in WLED ("static").
+# Site A instead runs on Rob's home network (the Cudy extends it; Rob, 11 Nov 2026): the trees
+# stay on DHCP and get fixed addresses from reservations on the home router.
+DEFAULT_NETWORK = {"prefix": "192.168.8", "tree_base": 100, "gateway": "192.168.8.1",
+                   "player": "192.168.8.20", "static": True}
+
+
+def network(site: dict) -> dict:
+    return {**DEFAULT_NETWORK, **{k: v for k, v in site.get("network", {}).items() if not k.startswith("_")}}
+
+
+def site_of(tree: int, data: dict | None = None) -> dict:
+    for site in (data or load_sites())["sites"]:
+        if any(t["tree"] == tree for t in site["trees"]):
+            return site
+    return {}                     # a tree not yet at a site (e.g. a 15th) takes the default network
+
+
+def ip(tree: int, data: dict | None = None) -> str:
+    net = network(site_of(tree, data))
+    return f"{net['prefix']}.{net['tree_base'] + tree}"
 
 
 def drop(run_m: float, mm2: float, amps: float = TREE_A) -> float:
@@ -83,7 +103,7 @@ def plan(site: dict) -> dict:
     for t in site["trees"]:
         mm2 = flex_for(t["run_m"])
         d = drop(t["run_m"], mm2)
-        runs.append({**t, "ip": ip(t["tree"]), "mm2": mm2, "drop": d, "v_tree": VOLTS - d})
+        runs.append({**t, "ip": ip(t["tree"], {"sites": [site]}), "mm2": mm2, "drop": d, "v_tree": VOLTS - d})
     router_on_psu = site.get("router", "psu") != "indoors"
     amps = len(runs) * TREE_A + PLAYER_A + (ROUTER_A if router_on_psu else 0)
     name, rating = (site["psu"]["name"], site["psu"]["rating"]) if "psu" in site else psu_for(amps)

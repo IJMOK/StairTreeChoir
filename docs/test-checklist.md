@@ -116,7 +116,7 @@ Voltage at the far tree (all trees white):
 
 Network:
 - [ ] Router has the same SSID, password and subnet as the other sites; subnet ____ (expected 192.168.8.x)
-- [ ] Every tree answers at 192.168.8.(100+NN) and keeps it after a power cycle
+- [ ] Every tree answers at its address from data/sites.json (192.168.8.(100+NN); Site A 192.168.0.(220+NN)) and keeps it after a power cycle
 - [ ] Pi is on the router by Ethernet
 - [ ] **Frame timing:** every tree of the site streaming a fast mouth sequence, each at its real distance from the router, for ____ minutes. Dropped or late frames seen: ____. **TBC (Rob):** how to measure it. The M0 plan is to watch for them, and WLED's Info page shows realtime mode and the sender's IP.
 - [ ] Mouths stay in step with the audio

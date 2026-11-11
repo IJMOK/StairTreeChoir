@@ -37,7 +37,7 @@ How FPP resolves this (read from `src/Scheduler.cpp`): an entry's priority is it
 
 ## Provisioning a site player
 
-1. **Flash** the SD card with FPP 10.x (the 64-bit Raspberry Pi image from https://github.com/FalconChristmas/fpp/releases; the generator was checked against 10.3). Boot the Pi on the site router (Ethernet or the site Wi-Fi). Give it a fixed IP outside the trees' range (trees are 192.168.8.101 to .114; for example .20) and a hostname such as `stairtree-fpp-site-a` under Settings > Network. FPP mode stays Player.
+1. **Flash** the SD card with FPP 10.x (the 64-bit Raspberry Pi image from https://github.com/FalconChristmas/fpp/releases; the generator was checked against 10.3). Boot the Pi on the site router (Ethernet or the site Wi-Fi). Give it a fixed IP outside the trees' range (trees are 192.168.8.101 to .114; for example .20; Site A is on the home network instead: FPP is reserved at 192.168.0.220 and the trees at .221 up, on the Zyxel OpenWrt, see data/sites.json) and a hostname such as `stairtree-fpp-site-a` under Settings > Network. FPP mode stays Player.
 2. **Check the clock and timezone** (Settings > Time): the schedule is local time. A Pi has no real-time clock, so it needs internet or an NTP server on the router once per boot. Look at the time on the Status page before trusting the schedule.
 3. **Audio**: plug in the USB sound card, then Settings > Av > Audio Output Device and pick it (API: `PUT /api/settings/AudioOutput` with a card name from `GET /api/settings/AudioOutput/options`; it needs a reboot). Keep the Pi volume moderate and set the real level on the amp.
 4. **Upload the generated files** from the repo root (`<pi>` is the Pi's address, `<site>` e.g. `site-a`). FPP's API wants `Content-Type: application/json`:
@@ -56,7 +56,7 @@ How FPP resolves this (read from `src/Scheduler.cpp`): an entry's priority is it
    - `Waiting` (no audio) and `Goodnight` (audio `goodnight.wav`, the goodnight skit's)
 6. **Validate**: `GET /api/playlists/validate` (or the warnings on the Playlists page) must list no problems, which means every sequence and media file exists.
 7. **Test, in this order**:
-   1. Trees powered and on the site router: each tree's WLED page (http://192.168.8.1NN) loads.
+   1. Trees powered and on the site router: each tree's WLED page (http://192.168.8.1NN; Site A http://192.168.0.(220+NN)) loads.
    2. Status page: the channel output rows show no warnings. Content Setup > Test Mode (all channels, RGB chase) lights every tree in slot order.
    3. Start `Show A` by hand from the Playlists page: audio from the speaker, mouths in step with the voices on all the site's trees. A tree that stays dark: check its IP, and that its WLED Info shows realtime.
    4. Start `Announce 17`, then `Goodnight`: after Goodnight the lights go out and stay out.

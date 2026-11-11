@@ -54,8 +54,8 @@ def test_bench_config_keeps_wifi_off_the_wire():
 
 
 def test_site_config_carries_fixed_ip_and_wifi():
-    wifi = wf.tree_config(3, True, "SiteNet", "s3cret")["nw"]["ins"][0]
-    assert wifi["ssid"] == "SiteNet" and wifi["psk"] == "s3cret" and wifi["ip"] == [192, 168, 8, 103]
+    wifi = wf.tree_config(7, True, "SiteNet", "s3cret")["nw"]["ins"][0]
+    assert wifi["ssid"] == "SiteNet" and wifi["psk"] == "s3cret" and wifi["ip"] == [192, 168, 8, 107]
 
 
 def test_log_keeps_one_row_per_tree_and_board(tmp_path):
