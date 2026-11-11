@@ -42,6 +42,30 @@ No fuse in the box: each tree's 12V is fused at the site box, where the run star
 
 `psu-cover.scad`, one for Site A's S-400-12 (`psu-cover.stl`, PETG, end wall on the bed, no supports). A hood over the terminal end, held by two M4 × 6 screws in the case's threaded side holes, with a rib between the 12V and mains sides and a cable notch each. Don't use longer screws: past about 3mm they reach into the PSU. Its sizes are scaled from photos, so offer up the print before wiring.
 
+## Player pods (site box)
+
+`player-pods.FCStd` (FreeCAD 1.1, Rob, 10 Nov 2026): two small trays with lids that keep the site box's loose boards tidy, stuck to the DRiBOX floor on pads.
+
+- **Buck pod**: the 12V-to-USB buck that powers the Pi. The USB socket ends flush with the outside of one end wall; the 12V pair comes in through a slot at the other end, to the screw terminal.
+- **Audio pod**: the PAM8610 (30 × 25mm, solder pads) and the bare USB sound card side by side, joined by three short wires from the headphone jack's pins to L_IN, GND and R_IN. Slots for the sound card's USB lead at one end, and the 12V pair and the speaker cables at the other.
+
+Each board sits on a foam pad (`pad_t`, 2mm) in a pocket with 0.4mm clearance, and the lid holds it down. **The lids clip on** (Rob, 10 Nov 2026, replacing two M3 screws): four 1.8mm PETG tabs hang 9mm below each lid, each with a ramped hook that reaches 0.8mm into a window in the tray wall and catches under the window's top edge (0.1mm clearance, so the lid doesn't rattle). Press the lid straight down until all four click. To open it, push each hook in through its window with a small screwdriver and lift. If the clips are too stiff or too loose, change `clip_t` or `hook_d`. Each end flange has a pair of slots for a cable tie (up to 4.8mm wide), with a channel underneath so the tie passes under while the pod is stuck down. The lids have vent slots.
+
+**To change it:** edit the `params` spreadsheet and recompute (Part primitives bound to the spreadsheet; no sketches), save, then:
+
+```
+freecadcmd -c "import sys; sys.path.insert(0, 'tools'); import player_pods_export; player_pods_export.main()"
+```
+
+| Part | Print file | Size | Print it |
+|---|---|---|---|
+| Buck base | `pod-buck-base.stl` | 101 × 24 × 24 | PETG, floor on the bed, no supports |
+| Buck lid | `pod-buck-lid.stl` | 77 × 24 × 11 | plate on the bed, clips up |
+| Audio base | `pod-audio-base.stl` | 119 × 37 × 15 | floor on the bed |
+| Audio lid | `pod-audio-lid.stl` | 95 × 37 × 11 | plate on the bed, clips up |
+
+**Unverified: every board size is read off photos against a rule** (±1mm). Caliper these before printing and put them in the spreadsheet: `bk_pcb_l`, `bk_pcb_w`, `bk_usb_over` (how far the USB socket sticks out past the board), `bk_usb_w`, `bk_usb_h`, `bk_comp_h` (tallest part), `am_l`, `am_w`, `sc_l` (with the jacks), `sc_w`, `au_comp_h`. The sound card's underside blob needs the pad at least 2.5mm thick, or pads only at its ends.
+
 ## Site box
 
 A bought DRiBOX Large (Rob, 26 Oct 2026) with the site's PSU inside on a printed plate, still to design: CLAUDE.md M3. Wiring per site: [electronics/site-wiring.md](../electronics/site-wiring.md). The earlier printed box is in [archive/printed-site-box/](../archive/printed-site-box/).
