@@ -268,7 +268,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 </table>
 </li>
 <li>
-<p><strong>Glue in the disks</strong> first: one printed PETG disk (Ø18.5 × 6mm) in each front counterbore, flush with the face, with hot glue (or CA or epoxy). Keep glue out of the bore.</p>
+<p><strong>Press in the disks</strong> first: one printed PETG disk in each front counterbore, ribbed edge first (front face out), pushed in flush with the face. It's a friction fit on crush ribs (no glue): print the rib test strip (<code>part=&quot;test&quot;</code>) and the bore test strip (<code>part=&quot;bore-test&quot;</code>) first and set <code>rib_od</code> and <code>bore</code>.</p>
 </li>
 <li>
 <p>Push each pixel in from the front, through the disk, until its clips snap behind it. The flange rests on the disk, about 1mm proud. The 30mm body ends level with the back face, so the leads come straight out of the back.</p>
@@ -689,7 +689,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 </tr>
 </tbody>
 </table>
-<p>Still to buy for Site A: about <strong>£10</strong> plus the fasteners below, after the 31 Oct orders. The pixel disks (552 + spares) are printed from <code>fixtures/pixel-disk.scad</code>; print the bore test strip first.</p>
+<p>Still to buy for Site A: about <strong>£10</strong> plus the fasteners below, after the 31 Oct orders. The pixel disks (552 + spares) are printed from <code>fixtures/pixel-disk.scad</code>; print the rib and bore test strips first.</p>
 <h3 id="bom/later-sites-b-to-d-trees-7-to-14-or-15">Later: sites B to D, trees 7 to 14 (or 15)</h3>
 <table>
 <thead>
@@ -1081,7 +1081,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 </tr>
 </tbody>
 </table>
-<p>How the pixel sits: a printed PETG disk (<code>fixtures/pixel-disk.scad</code>, Ø18.5 × 6mm, a 2mm front lip with bore <code>hole_dia</code>) is glued into the counterbore; the bullet pushes in from the front, its Ø13.6 flange resting on the disk and its clips snapping behind the lip. The fit is set by the printed bore, not the oak.</p>
+<p>How the pixel sits: a printed PETG disk (<code>fixtures/pixel-disk.scad</code>, a 2mm front lip with bore <code>hole_dia</code>) is pressed into the counterbore on crush ribs (after varnish the counterbores measured 18.3–18.6 × 4.9, so the disk is 4.8 thick); the bullet pushes in from the front, its Ø13.6 flange resting on the disk and its clips snapping behind the lip. The fit is set by the printed bore, not the oak.</p>
 <h2 id="cnc-cutting/before-the-first-tree">Before the first tree</h2>
 <ol>
 <li><strong>Offcut test</strong> (pixels needed): print the disk test strip (bores 11.8 to 12.2), and cut one Ø19 × 6 counterbore and Ø15 clearance hole in an oak offcut. Glue a disk in, and check a pixel snaps in and its clips clear the hole. Set <code>hole_dia</code> (disk bore) and <code>clearance_dia</code> in <code>tools/tree_layout.py</code>, then <code>make all</code>. <strong>TBC (Rob):</strong> the clip barb flare, which sets <code>clearance_dia</code>.</li>
@@ -1099,7 +1099,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <li>Drop the tread into the pocket, front face up, narrow end towards +Y. Hold it down with workshop clamps (or the printed step clamps, <code>fixtures/</code>, with <code>spoil_t</code> set to the plate less the pocket: 14mm for 18mm MDF). The pocket locates it; the clamps only stop it lifting.</li>
 <li><strong>Clamp clearance:</strong> the counterbore edge is ~12.5mm in from the blank edge, so grip no more than 10mm of the edge, between pixels where you can. Check every clamp against the toolpath before starting.</li>
 <li>Z zero on the tread's front face; touch off each tree, as the thickness varies.</li>
-<li>Counterbores: Ø19 × 6mm (Rob, after the first-off run, 26 Oct 2026), to the finished size (the disk is Ø18.5).</li>
+<li>Counterbores: Ø19 × 6mm (Rob, after the first-off run, 26 Oct 2026), to the finished size (the disk's crush ribs take up what varnish leaves, 18.3–18.6 measured).</li>
 <li>Clearance holes: helical bore Ø15 through, to 0.5mm into the MDF. Holes through the pocket floor are fine; each tree reuses the same spots.</li>
 <li>Peck/clear: lift out of the hole every 6–8mm of depth and blow the chips out. Deep oak holes pack with chips, and packed chips are what snap a 4mm bit.</li>
 </ul>
