@@ -25,7 +25,7 @@ class Params:
     # Pixel mount, all cut from the front in one op (Rob, 25 Oct 2026): a printed disk
     # (fixtures/pixel-disk.scad) sits flush in a front counterbore and the bullet's clips
     # snap behind its 2mm front lip, so the 30mm body ends level with the back face.
-    hole_dia: float = 12.0          # bullet bore in the printed disk; pick it from the disk test strip
+    hole_dia: float = 12.0          # bullet bore in the printed disk: good fit on the first print (Rob, 13 Nov 2026)
     front_counterbore_dia: float = 19.0   # disk OD 18.5 + 0.5
     front_counterbore_depth: float = 6.0  # = disk thickness (Rob, first-off run 26 Oct 2026; was 2)
     # TODO(Rob): must clear the clip barbs once they spring out; measure a real pixel.

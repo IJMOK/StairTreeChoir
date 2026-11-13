@@ -23,7 +23,7 @@ The 2D file stays as reference: `cad/stair-tree-cnc-layout.svg` (`python -m tool
 | `EXISTING` | — | reference only: the old fixing holes in the back (not mirrored). Don't cut. |
 | `BLANK` | — | the tread outline, for positioning only |
 
-How the pixel sits: a printed PETG disk (`fixtures/pixel-disk.scad`, Ø18.5 × 6mm, a 2mm front lip with bore `hole_dia`) is glued into the counterbore; the bullet pushes in from the front, its Ø13.6 flange resting on the disk and its clips snapping behind the lip. The fit is set by the printed bore, not the oak.
+How the pixel sits: a printed PETG disk (`fixtures/pixel-disk.scad`, a 2mm front lip with bore `hole_dia`) is pressed into the counterbore on crush ribs (after varnish the counterbores measured 18.3–18.6 × 4.9, so the disk is 4.8 thick); the bullet pushes in from the front, its Ø13.6 flange resting on the disk and its clips snapping behind the lip. The fit is set by the printed bore, not the oak.
 
 ## Before the first tree
 
@@ -42,7 +42,7 @@ How the pixel sits: a printed PETG disk (`fixtures/pixel-disk.scad`, Ø18.5 × 6
 - Drop the tread into the pocket, front face up, narrow end towards +Y. Hold it down with workshop clamps (or the printed step clamps, `fixtures/`, with `spoil_t` set to the plate less the pocket: 14mm for 18mm MDF). The pocket locates it; the clamps only stop it lifting.
 - **Clamp clearance:** the counterbore edge is ~12.5mm in from the blank edge, so grip no more than 10mm of the edge, between pixels where you can. Check every clamp against the toolpath before starting.
 - Z zero on the tread's front face; touch off each tree, as the thickness varies.
-- Counterbores: Ø19 × 6mm (Rob, after the first-off run, 26 Oct 2026), to the finished size (the disk is Ø18.5).
+- Counterbores: Ø19 × 6mm (Rob, after the first-off run, 26 Oct 2026), to the finished size (the disk's crush ribs take up what varnish leaves, 18.3–18.6 measured).
 - Clearance holes: helical bore Ø15 through, to 0.5mm into the MDF. Holes through the pocket floor are fine; each tree reuses the same spots.
 - Peck/clear: lift out of the hole every 6–8mm of depth and blow the chips out. Deep oak holes pack with chips, and packed chips are what snap a 4mm bit.
 

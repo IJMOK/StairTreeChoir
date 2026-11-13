@@ -79,7 +79,7 @@ Each tree takes one string of 92 pixels. The strings have 100: cut off the surpl
    | eye_right | 81 to 86, viewer's right, top node first, clockwise |
    | eye_left | 87 to 92, viewer's left, top node first, clockwise |
 
-3. **Glue in the disks** first: one printed PETG disk (Ø18.5 × 6mm) in each front counterbore, flush with the face, with hot glue (or CA or epoxy). Keep glue out of the bore.
+3. **Press in the disks** first: one printed PETG disk in each front counterbore, ribbed edge first (front face out), pushed in flush with the face. It's a friction fit on crush ribs (no glue): print the rib test strip (`part="test"`) and the bore test strip (`part="bore-test"`) first and set `rib_od` and `bore`.
 4. Push each pixel in from the front, through the disk, until its clips snap behind it. The flange rests on the disk, about 1mm proud. The 30mm body ends level with the back face, so the leads come straight out of the back.
 5. Loop each lead across the back face to the next pixel in the same order.
 6. Node 1 is at the base-left. The string's input lead runs down the back face into the control boot's shelf hole, with its xConnect plug at the end and a loop of slack.

@@ -76,7 +76,7 @@ Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 | 1 + ~1m | Ring terminal for the 10-32 stud (about M5) + about 2.5mm² wire | PSU +12V to the fuse box, up to about 14A | £3 |
 | 6 | Small TVS diodes (optional) | Data line protection; skip for December | – |
 
-Still to buy for Site A: about **£10** plus the fasteners below, after the 31 Oct orders. The pixel disks (552 + spares) are printed from `fixtures/pixel-disk.scad`; print the bore test strip first.
+Still to buy for Site A: about **£10** plus the fasteners below, after the 31 Oct orders. The pixel disks (552 + spares) are printed from `fixtures/pixel-disk.scad`; print the rib and bore test strips first.
 
 ### Later: sites B to D, trees 7 to 14 (or 15)
 

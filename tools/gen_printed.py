@@ -19,7 +19,7 @@ Frames (mm, Z up unless said):
   stair-tree-kit       the frame of cad/stair-tree.step: X right as seen from the front,
                        Y up from the tree's bottom edge, the front face at Z = 0
 
-Needs OpenSCAD and CadQuery (requirements-cad.txt).
+Needs OpenSCAD (the nightly, for speed) and CadQuery (requirements-cad.txt).
 """
 
 from __future__ import annotations
@@ -68,6 +68,7 @@ STLS = [
     Part("fixtures/step-clamp-washer.stl", CLAMP, {"part": "washer"}),
     Part("fixtures/pixel-disk.stl", DISK),
     Part("fixtures/pixel-disk-test.stl", DISK, {"part": "test"}),
+    Part("fixtures/pixel-disk-bore-test.stl", DISK, {"part": "bore-test"}),
 ]
 
 STEPS = [
@@ -86,15 +87,22 @@ KIT_COLOURS = {"boot": cq.Color(0.80, 0.52, 0.25), "peg": cq.Color(1.0, 0.55, 0.
                "tree": cq.Color(0.72, 0.53, 0.30), "pixel-disk": cq.Color(0.15, 0.15, 0.15)}
 
 
-def openscad() -> str:
+# A 2025+ snapshot has the Manifold backend (seconds, not minutes, on the test strips' text);
+# 2021.01 doesn't. The nightly is the portable zip in %LOCALAPPDATA%\Programs (13 Nov 2026).
+NIGHTLY = Path.home() / "AppData/Local/Programs/OpenSCAD-Nightly/openscad.com"
+
+
+def openscad() -> list[str]:
+    if NIGHTLY.exists():
+        return [str(NIGHTLY), "--backend=manifold"]
     exe = shutil.which("openscad") or r"C:\Program Files\OpenSCAD\openscad.com"
     if not Path(exe).exists() and not shutil.which(exe):
         raise SystemExit("OpenSCAD not found: install it or put openscad on the PATH")
-    return exe
+    return [exe]
 
 
 def render(part: Part, stl: Path) -> None:
-    args = [openscad(), "-o", str(stl)]
+    args = [*openscad(), "-o", str(stl)]
     for k, v in part.defines.items():
         args += ["-D", f'{k}="{v}"' if isinstance(v, str) else f"{k}={v}"]
     args.append(str(ROOT / part.scad))
