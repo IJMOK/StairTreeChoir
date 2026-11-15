@@ -197,7 +197,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <li>The outer diameter of the outdoor flex (6–10mm for the SP17's gland).</li>
 </ul>
 </li>
-<li>Print the first-offs before the rest, from <a href="#print">print/</a> (sizes, counts and settings in its table): one <strong>tree box</strong> with its coupon and seal test, one <strong>socket</strong> and one <strong>ski</strong>, and two <strong>towers</strong>. PETG.</li>
+<li>Print the first-offs before the rest, from <a href="#print">print/</a> (sizes, counts and settings in its table): one <strong>tree box</strong> with its coupon and seal test, one <strong>socket</strong> and the <strong>latch coupon</strong>, then one <strong>ski</strong> and two <strong>towers</strong>. PETG.</li>
 <li>Print 4 step clamps and 4 washers for the CNC bed: PETG, 4 walls, 40% infill.</li>
 <li>The full print run, once the test fits pass (stage 7): 14 tree boxes, 42 sockets, 28 skis, 42 towers (for storage, before the season ends), 92 pixel disks per tree, Site A's PSU hood and buck pod.</li>
 </ol>
@@ -304,10 +304,10 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <h2 id="build-guide/7-mounts-sockets-and-skis">7. Mounts: sockets and skis</h2>
 <p>Three sockets per tree, screwed to the back face at the edge: two on the bottom edge, one on the top. In the show a ski plugs into each bottom socket; in storage a tower plugs into all three. Details and positions: <a href="#cad/tree-mounts-socket-ski-tower-rob-15-nov-2026">cad/README.md</a>; clearances: <a href="#cad-checks">cad-checks.md</a>.</p>
 <ol>
-<li><strong>Test-fit one socket and one ski on a real tread</strong> before printing 42. The socket should slide over the edge with a little slack (0.8mm across), the socket's tenon should go into the ski's pocket by hand and the M5 bolt through both. <strong>TBC (Rob):</strong> the fit, and the screw positions against your tree.</li>
+<li><strong>Test-fit one socket and the latch coupon on a real tread</strong> before printing 42. The socket should slide over the edge with a little slack (0.8mm across); the coupon should click onto the tenon with a firm push and come off with a firm pull. Too stiff or too loose: change <code>arm_t</code> or <code>hook_d</code> in cad/parts/tree-mounts.FCStd. <strong>TBC (Rob):</strong> the fit, and the screw positions against your tree.</li>
 <li>Mark the sockets: bottom ones centred 55.9mm in from each side of the bottom edge (midway between base-row pixels), the top one centred on the top edge. Each sits hard against the edge with its legs over both faces.</li>
 <li>Pilot and drive two 4 × 16 countersunk stainless wood screws through each back leg into the back face (2.5mm pilot). They go 12mm into the oak and leave 18mm in front; nothing goes into the end grain of the edge.</li>
-<li>Push each ski onto a bottom socket's tenon and fit an M5 × 50 bolt through the ski and the tenon, nyloc in the ski's trap.</li>
+<li>Push each ski onto a bottom socket's tenon until both latches click. For the raised height, click a tower onto the socket first (lying front to back) and the ski onto the tower's outer tenon.</li>
 <li>Stand the tree where it lives and drive an 8mm peg stake through each end of each ski.</li>
 </ol>
 <h2 id="build-guide/8-tree-box">8. Tree box</h2>
@@ -397,7 +397,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <p>Setting up:</p>
 <ol>
 <li>Put the site box in place.</li>
-<li>Fit a ski onto each tree's bottom tenons (M5 bolt), stand the tree and stake each ski with two 8mm pegs.</li>
+<li>Click a ski onto each tree's bottom tenons (or a tower and then a ski, for the raised height), stand the tree and stake each ski with two 8mm pegs.</li>
 <li>Run each 12V flex to its tree and screw its SP17 plug onto the box's SP16.</li>
 <li>Mains last: plug the C13 lead into the inlet and the plug into the RCD socket, test the RCD, then switch on at the inlet. Then power the router, the player and the trees.</li>
 <li>Run checklist sections D and E.</li>
@@ -405,7 +405,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <p>Taking down:</p>
 <ol>
 <li>Switch off at the mains and unplug before touching any 12V connection.</li>
-<li>Unscrew the SP17 plugs. Pull the stakes, unbolt the skis.</li>
+<li>Unscrew the SP17 plugs. Pull the stakes, pull the skis off.</li>
 <li>Dry everything before packing it.</li>
 </ol>
 <p>Storage: dry, the trees face up in one stack on their towers (a tower on every socket's tenon; each drops into the one below, 115mm pitch, about 1.63m for 14). Boxes stay on the trees, the cord left in its groove; label each tree's flex with its number.</p>
@@ -927,12 +927,6 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <td>Sockets to the back face, 2 per socket, 3 sockets per tree (15 Nov 2026). Not longer: 16 leaves 18mm of oak in front</td>
 </tr>
 <tr>
-<td>14</td>
-<td>32</td>
-<td>M5 × 50 stainless hex bolts + M5 nylocs</td>
-<td>Skis onto the bottom sockets' tenons, 2 per tree (towers use them too, in storage)</td>
-</tr>
-<tr>
 <td>24</td>
 <td>56</td>
 <td>8mm peg stakes, about 200mm</td>
@@ -1028,24 +1022,32 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <td><code>tree-mounts.FCStd</code> Socket</td>
 <td>3 per tree</td>
 <td>46 × 37.8 × 34</td>
-<td>18 cm³</td>
+<td>17.5 cm³</td>
 <td>PETG, leg tips on the bed, tenon up (the base bridges the 31mm channel), no supports, 4 walls, 40% infill</td>
 </tr>
 <tr>
 <td><a href="../print/tree-ski.stl" target="_blank" rel="noopener">tree-ski.stl</a></td>
 <td><code>tree-mounts.FCStd</code> Ski</td>
 <td>2 per tree (show)</td>
-<td>44 × 250.4 × 46</td>
-<td>262.4 cm³</td>
-<td>PETG, sole on the bed, no supports, 3 walls, 15% infill</td>
+<td>44 × 249.4 × 46</td>
+<td>277.1 cm³</td>
+<td>PETG, sole on the bed, no supports, 3 walls, 15% infill; clips onto a socket or a tower</td>
 </tr>
 <tr>
 <td><a href="../print/tree-tower.stl" target="_blank" rel="noopener">tree-tower.stl</a></td>
 <td><code>tree-mounts.FCStd</code> Tower</td>
 <td>3 per tree (storage)</td>
-<td>46 × 64 × 135</td>
-<td>225.3 cm³</td>
-<td>PETG, upright (spigot up), no supports (the pocket roof bridges 29mm), 3 walls, 15% infill</td>
+<td>46 × 84 × 135</td>
+<td>234.2 cm³</td>
+<td>PETG, upright (spigot up), no supports, 3 walls, 15% infill; also the show riser</td>
+</tr>
+<tr>
+<td><a href="../print/tree-latch-coupon.stl" target="_blank" rel="noopener">tree-latch-coupon.stl</a></td>
+<td><code>tree-mounts.FCStd</code> LatchCoupon</td>
+<td>1, first</td>
+<td>44 × 56 × 29</td>
+<td>47.9 cm³</td>
+<td>a slice of ski round its pocket: print with one socket and try the click and the pull-off</td>
 </tr>
 <tr>
 <td><a href="../print/psu-hood.stl" target="_blank" rel="noopener">psu-hood.stl</a></td>
@@ -1186,8 +1188,8 @@ Previews of every part: <a href="../cad/previews" target="_blank" rel="noopener"
 </tr>
 <tr>
 <td><a href="../cad/parts/tree-mounts.FCStd" target="_blank" rel="noopener">tree-mounts.FCStd</a></td>
-<td>Socket (3 per tree: a slim clip and tenon on the tree), Ski (show feet, 2 per tree), Tower (storage, 3 per tree)</td>
-<td><code>tree-socket.stl</code>, <code>tree-ski.stl</code>, <code>tree-tower.stl</code></td>
+<td>Socket (3 per tree: a slim clip and tenon on the tree), Ski (show feet, 2 per tree), Tower (storage and show riser, 3 per tree), LatchCoupon</td>
+<td><code>tree-socket.stl</code>, <code>tree-ski.stl</code>, <code>tree-tower.stl</code>, <code>tree-latch-coupon.stl</code></td>
 </tr>
 <tr>
 <td><a href="../cad/parts/psu-cover.FCStd" target="_blank" rel="noopener">psu-cover.FCStd</a></td>
@@ -1229,13 +1231,15 @@ Previews of every part: <a href="../cad/previews" target="_blank" rel="noopener"
 </ul>
 <h2 id="cad/part-notes">Part notes</h2>
 <h3 id="cad/tree-mounts-socket-ski-tower-rob-15-nov-2026">Tree mounts: socket, ski, tower (Rob, 15 Nov 2026)</h3>
-<p>Replaces the boots. <strong>The part on the tree is kept minimal; the riders carry the bulk</strong> (Rob, 15 Nov 2026), and every edge you handle is rounded or chamfered.</p>
+<p>Replaces the boots. The part on the tree is kept minimal and the riders carry the bulk; nothing is bolted; every edge you handle is rounded or chamfered. <strong>One rule: sockets and towers carry tenons, skis and towers carry pockets, and anything with a pocket clips onto anything with a tenon.</strong></p>
 <ul>
-<li><strong>Socket</strong> (3 per tree, about 18cm³): a slim U-clip over the edge (legs 10mm up each face, 3.5mm thick; the outline pixels' counterbores start 12.5mm in) with a short rounded tenon (28 × 16, 20 long) standing out of the edge. Two on the bottom edge, midway between base-row pixels (centres 55.9mm in from each side, 270mm apart), one centred on the top edge. Two 4 × 16 countersunk stainless screws through the <strong>back</strong> leg into the back face, 5mm in from the edge: 12.5mm into the oak, 17.5mm left in front, the nearest pixel hole 22.7mm away and the leads 22mm in, so they can't reach the wiring (checked on the model: <a href="#cad-checks">docs/cad-checks.md</a>). Nothing goes into the end grain.</li>
-<li><strong>Show:</strong> a <strong>ski</strong> (2 per tree) slides onto each bottom tenon: the pocket with a lead-in, an M5 × 50 cross bolt and its nut trap are all in the ski. It's 260mm front to back, 44 wide, rounded all over, with an 8.8mm hole near each end for the 8mm peg stakes, and hollow: two cavities open to the sole, either side of the pocket, with 45° roofs so it still prints with no supports (about 262cm³ solid, from 426). The tree's bottom edge stands 50mm off the grass. The top socket's tenon is free (a topper could go on it).</li>
-<li><strong>Storage:</strong> the trees lie face up. A <strong>tower</strong> (3 per tree) goes on every tenon, with the same pocket and bolt as the ski; its tapered spigot drops 20mm into the hollow bottom of the tower above, so the stack locks together. Pitch 115mm: the tree box hanging under each tree clears the pixels of the tree below by 16mm, and the towers, not the boxes, carry the stack. 14 trees stand about 1.63m. Rounded vertical edges, chamfered ends.</li>
-<li>Printing (all PETG, no supports): sockets on their leg tips, tenon up (the base bridges the channel); skis sole down; towers upright (the pocket's roof bridges 29mm). 42 sockets, 28 skis and 42 towers in all; <a href="#print">print/README.md</a> has the volumes.</li>
-<li><strong>Test first:</strong> print one socket and one ski, check the slack across the channel on a real tread (<code>fit</code>, 0.8 total) and the tenon in the pocket (<code>clr</code>, 0.3 a side), then the screw positions against your tree.</li>
+<li><strong>Socket</strong> (3 per tree, about 18cm³): a slim U-clip over the edge (legs 10mm up each face, 3.5mm thick; the outline pixels' counterbores start 12.5mm in) with a tenon (24 wide, 22 deep, 20 long) standing out of it. Two on the bottom edge, midway between base-row pixels (centres 55.9mm in from each side, 270mm apart), one centred on the top edge. Two 4 × 16 countersunk stainless screws through the <strong>back</strong> leg into the back face, 5mm in from the edge: 12.5mm into the oak, 17.5mm left in front, clear of the pixel holes and the leads (checked on the model: <a href="#cad-checks">docs/cad-checks.md</a>). Nothing goes into the end grain.</li>
+<li><strong>The joint:</strong> every tenon has flat sides on top and a 45° keel underneath (towards the tree's back), so it prints without supports whichever way it lies and only goes in one way round. Each pocket has a springy <strong>latch arm</strong> in both side walls; its hook (1mm, a 45° lead-in and a 60° back face) clicks into a notch across the tenon's side. Push to click on, pull firmly to take off. Tune the feel with <code>arm_t</code> (stiffness) and <code>hook_d</code> (grip) in the sheet.</li>
+<li><strong>Show, low:</strong> a <strong>ski</strong> (2 per tree) clips onto each bottom tenon. About 249mm front to back (fits a P2S bed), 44 wide, rounded all over, hollow (two cavities open to the sole with 45° roofs), with an 8.8mm hole near each end for the 8mm peg stakes. The tree's bottom edge stands 50mm off the grass.</li>
+<li><strong>Show, raised:</strong> a <strong>tower</strong> lies front to back between each bottom socket and its ski: it clips onto the socket by its pocket, and the ski clips onto the second tenon on the tower's outer face. The bottom edge stands 114mm off the grass. The towers sit mostly behind the tree. Stake the skis well: the tree's weight is higher and gusts have more leverage.</li>
+<li><strong>Storage:</strong> the trees lie face up with a tower clipped onto every tenon (3 per tree); each tower's tapered spigot drops 20mm into the hollow bottom of the tower above, so the stack locks together. Pitch 115mm: the tree box under each tree clears the pixels of the tree below by 16mm, and the towers, not the boxes, carry the stack. 14 trees stand about 1.63m.</li>
+<li>Printing (all PETG, no supports): sockets on their leg tips, tenon up; skis sole down; towers upright, spigot up. 42 sockets, 28 skis and 42 towers in all; volumes in <a href="#print">print/README.md</a>.</li>
+<li><strong>Test first:</strong> print one socket and the <strong>latch coupon</strong> (<code>tree-latch-coupon.stl</code>, a slice of ski round its pocket). Check the slack across the channel on a real tread (<code>fit</code>, 0.8 total), the click and the pull-off, then the screw positions against your tree.</li>
 <li>The fillet and chamfer sizes are set in <a href="../tools/cad_parts.py" target="_blank" rel="noopener">tools/cad_parts.py</a> when the part is built, not in the sheet; the sizes they round follow the sheet.</li>
 </ul>
 <h3 id="cad/psu-hood-with-iec-inlet-rob-15-nov-2026">PSU hood with IEC inlet (Rob, 15 Nov 2026)</h3>
@@ -1276,7 +1280,8 @@ Previews of every part: <a href="../cad/previews" target="_blank" rel="noopener"
 <li>Storage stack of 14: 1630mm tall to the top spigot; each tower drops 20mm into the one above. The bottom towers stand on the floor.</li>
 <li>Towers against the tree and its box: 0.0 mm³; against the tree above: 0.0 mm³. OK.</li>
 <li>Tower bottoms are 70mm below the back face; the box reaches 60mm: the towers carry the stack, not the boxes.</li>
-<li>Show: the tree's bottom edge stands 50mm above the ground on two skis 270mm apart, 260mm long front to back.</li>
+<li>Show: the tree's bottom edge stands 50mm above the ground on two skis 270mm apart, 249mm long front to back (a P2S bed is 256). They clip onto the sockets' tenons: no bolts.</li>
+<li>Show, raised: a tower lying between each bottom socket and its ski lifts the bottom edge to 114mm. Risers against the tree, its box and the skis: 0.0 mm³. OK.</li>
 </ul>
 <footer class="pager"><a href="#cad">← CAD</a><a class="next" href="#tree-box-parts">Tree box parts: sizes, sources and checks →</a></footer>
 </article>

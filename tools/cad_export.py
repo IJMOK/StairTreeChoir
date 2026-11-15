@@ -75,9 +75,11 @@ OUTS = [
     Out("tree-mounts", ["Socket"], "tree-socket", "tree-socket", (RX, 90), "#3b7dd8", "3 per tree",
         "PETG, leg tips on the bed, tenon up (the base bridges the 31mm channel), no supports, 4 walls, 40% infill"),
     Out("tree-mounts", ["Ski"], "tree-ski", "tree-ski", (RX, -90), "#d88a3b", "2 per tree (show)",
-        "PETG, sole on the bed, no supports, 3 walls, 15% infill"),
+        "PETG, sole on the bed, no supports, 3 walls, 15% infill; clips onto a socket or a tower"),
     Out("tree-mounts", ["Tower"], "tree-tower", "tree-tower", (), "#5aa05a", "3 per tree (storage)",
-        "PETG, upright (spigot up), no supports (the pocket roof bridges 29mm), 3 walls, 15% infill"),
+        "PETG, upright (spigot up), no supports, 3 walls, 15% infill; also the show riser"),
+    Out("tree-mounts", ["LatchCoupon"], "tree-latch-coupon", None, (RX, -90), "#d88a3b", "1, first",
+        "a slice of ski round its pocket: print with one socket and try the click and the pull-off"),
     # site box
     Out("psu-cover", ["Hood"], "psu-hood", "psu-hood", (RY, -90), "#d9d9d9", "1 for Site A",
         "PETG, end wall on the bed, no supports, 4 walls, 40% infill: it carries mains"),

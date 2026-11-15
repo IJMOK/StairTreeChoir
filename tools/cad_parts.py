@@ -36,16 +36,24 @@ PARTS_DIR = ROOT / "cad" / "parts"
 # --------------------------------------------------------------------------- tree mounts
 
 def tree_mounts():
-    """Socket, ski foot and storage tower (Rob, 15 Nov 2026; v2 the same day: the part on the
-    tree kept minimal, the riders carrying the bulk, every handled edge rounded).
+    """Socket, ski foot and storage tower (Rob, 15 Nov 2026; v3 the same day).
 
-    Three sockets per tree, screwed to its back face at the edge: two on the bottom edge,
-    one on the top. Each is a slim U-clip over the edge with a short tenon standing out of
-    it. In the show a ski foot slides onto each bottom tenon (the pocket and the M5 cross
-    bolt are in the ski) and is staked down with two 8mm pegs. In storage the trees lie face
-    up in a stack with a tower on every tenon; each tower's spigot drops into the one above.
-    Fillets and chamfers are fixed at build time (Part::Fillet/Chamfer on the primitives);
-    the sizes follow the sheet.
+    One rule: sockets and towers carry tenons, skis and towers carry pockets, and anything
+    with a pocket clips onto anything with a tenon. No bolts: a springy latch arm in each
+    side wall of every pocket clicks its hook into a notch in the tenon (a firm pull takes
+    it off again: the hook's back face is 60 deg). Every tenon has a 45 deg keel underneath
+    (the tree's back side), so it prints without supports in any direction and the parts
+    only go together one way.
+
+      socket   on the tree (3 per tree): a slim U-clip over the edge and a tenon. Minimal.
+      ski      show feet (2 per tree): a pocket, 250mm long to fit a P2S bed, hollow.
+      tower    storage (3 per tree): pocket on the tree side, spigot and recess to stack,
+               and a second tenon on its outer face, so in the show it can go between
+               socket and ski as a riser, lifting the tree by col_d.
+
+    Fillets and chamfers are fixed at build time; the sizes follow the sheet. The latch
+    arms run along the print's Z in each part (the ski prints sole down, the tower upright),
+    so neither needs supports.
     """
     doc = F.new_doc("tree_mounts")
     F.sheet(doc, [
@@ -61,29 +69,35 @@ def tree_mounts():
         ("screw_y", -5, "screw centre, mm in from the edge (negative = on the tree)"),
         ("screw_d", 4.5, "4 x 16 countersunk stainless wood screw: 12.5mm into the oak, 17.5mm left in front"),
         ("csk_d", 9.0, "countersink, 90 deg"),
-        ("ten_w", 28, "tenon along the edge"),
-        ("ten_t", 16, "tenon through the tree's thickness, centred on it"),
-        ("ten_l", 20, "tenon length beyond the base"),
-        ("pin_d", 5.3, "M5 cross bolt through the rider and the tenon"),
-        ("", None, "Riders (ski and tower): the pocket, the bolt and the bulk"),
+        ("", None, "Tenon (socket, and the tower's outer face) and the pockets that take it"),
+        ("ten_w", 24, "along the edge"),
+        ("ten_t", 22, "through the tree's thickness, centred on it: flat sides on top, a 45 deg keel below"),
+        ("ten_l", 20, "length beyond the face it stands on"),
         ("clr", 0.3, "pocket clearance a side round the tenon"),
         ("mouth_ch", 1.5, "lead-in chamfer at the pocket mouth"),
-        ("nut_af", 8.0, "M5 nut across flats (trap on the rider's +x side)"),
-        ("nut_t", 4.5, "nut trap depth"),
+        ("", None, "Latch: an arm in each side wall of a pocket, its hook in a notch across the tenon's side"),
+        ("notch_y", 3, "notch starts this far along the tenon from its root"),
+        ("notch_w", 2.6, "notch width along the tenon"),
+        ("notch_d", 0.9, "notch depth into the tenon"),
+        ("hook_d", 1.0, "hook stands this far out of the pocket wall (0.7 into the notch)"),
+        ("arm_t", 2.5, "arm thickness: the flex"),
+        ("arm_w", 8, "arm width"),
+        ("arm_l", 24, "arm length, root to free end"),
+        ("arm_gap", 1.2, "slot round the arm: more than hook_d, so it can spring clear"),
         ("", None, "Ski foot (2 per tree, show)"),
-        ("ski_w", 44, "across: M5 x 50 cross bolt"),
+        ("ski_w", 44, "across"),
         ("ski_h", 46, "height: the tree's bottom edge sits base_t + ski_h = 50mm off the ground"),
-        ("ski_l", 260, "front to back"),
+        ("ski_l", 259, "sole front to back before the ends are rounded: finished about 250, for a P2S bed (256)"),
         ("ski_taper", 40, "top shorter than the sole by this at each end"),
         ("stake_d", 8.8, "for 8mm peg stakes"),
-        ("stake_off", 105, "stake holes at +-this from the tree's centre plane"),
+        ("stake_off", 98, "stake holes at +-this from the tree's centre plane"),
         ("hol_wall", 4, "hollow ski: side walls"),
         ("hol_h", 24, "hollow ski: straight-sided part of each cavity, up from the sole"),
-        ("hol_gap", 15, "cavities start this far either side of the centre: solid round the pocket and bolt"),
-        ("hol_end", 84, "and stop this far out: solid round the stake holes and under the sloped ends"),
-        ("", None, "Storage tower (3 per tree)"),
-        ("col_w", 46, "along the edge: M5 x 50 cross bolt"),
-        ("col_d", 64, "away from the tree: the tenon pocket, then the hollow bore beside it"),
+        ("hol_gap", 16, "cavities start this far either side of the centre: solid round the pocket and latches"),
+        ("hol_end", 78, "and stop this far out: solid round the stake holes and under the sloped ends"),
+        ("", None, "Storage tower (3 per tree); also the show riser"),
+        ("col_w", 46, "along the edge"),
+        ("col_d", 64, "away from the tree: the pocket, then the hollow bore. Also how much a riser lifts the tree"),
         ("below", 70, "column bottom below the tree's back face: the tree box stands 60 off it"),
         ("pitch", 115, "stack pitch: tree to tree. Pixels (~9 proud) clear the box above by ~16"),
         ("spig_h", 20, "spigot height: how far each tower drops into the one above"),
@@ -98,9 +112,73 @@ def tree_mounts():
     P = "params."
     zc = f"-{P}tree_t / 2"
     ch_lo = f"-({P}tree_t + {P}fit / 2)"
-    along = lambda v: abs(v.x) > 0.99    # noqa: E731  edge directions, for picking fillet edges
+    keel = f"({P}ten_w / 2)"                                  # 45 deg: as deep as half the width
+    z_keel = f"{zc} - {P}ten_t / 2 + {keel}"                  # where the flat sides end and the keel starts
+    along = lambda v: abs(v.x) > 0.99    # noqa: E731
     upward = lambda v: abs(v.y) > 0.99   # noqa: E731
     through = lambda v: abs(v.z) > 0.99  # noqa: E731
+
+    # --- a tenon standing on the face y = y0, with a notch across each side
+    def tenon(prefix, y0):
+        top = F.box(doc, f"{prefix}TenonTop", f"{P}ten_w", f"{P}ten_l + 0.01", f"{P}ten_t / 2 - ({z_keel} - {zc})",
+                    f"-{P}ten_w / 2", f"{y0} - 0.01", z_keel)
+        doc.recompute()
+        top_r = F.fillet(doc, f"{prefix}TenonTopR", top, 2.0,
+                         lambda e, s: upward(F.direction(e)) and F.mid(e).z > s.BoundBox.ZMax - 0.01)
+        kl = F.wedge(doc, f"{prefix}TenonKeel", f"-{P}ten_w / 2", f"{P}ten_w / 2", 0, keel,
+                     f"{y0} - 0.01", f"{y0} + {P}ten_l", -0.5, 0.5, f"{y0} - 0.01", f"{y0} + {P}ten_l",
+                     0, 0, z_keel, F.X, -90)
+        notches = [F.box(doc, f"{prefix}Notch{i}", f"{P}notch_d + 1", f"{P}notch_w", f"{P}ten_t + 2",
+                         x, f"{y0} + {P}notch_y", f"{zc} - {P}ten_t / 2 - 1")
+                   for i, x in enumerate((f"-{P}ten_w / 2 - 1", f"{P}ten_w / 2 - {P}notch_d"))]
+        return F.fuse(doc, f"{prefix}TenonSolid", [top_r, kl]), notches
+
+    # --- the pocket that takes a tenon standing on y0, cut into a rider; the latch arms are
+    # added back after the cut. `arm_axis` is "y" (the arm runs along the tenon: the ski) or
+    # "z" (the arm runs through the tree's thickness: the tower).
+    def pocket(prefix, y0, arm_axis):
+        pw = f"({P}ten_w + 2 * {P}clr)"
+        g = f"{P}clr"
+        top = F.box(doc, f"{prefix}PocketTop", pw, f"{P}ten_l + 0.5 + 1", f"{P}ten_t / 2 - ({z_keel} - {zc}) + {g}",
+                    f"-{pw} / 2", f"{y0} - 1", z_keel)
+        kl = F.wedge(doc, f"{prefix}PocketKeel", f"-{pw} / 2", f"{pw} / 2", 0, f"{keel} + {g}",
+                     f"{y0} - 1", f"{y0} + {P}ten_l + 0.5", f"-0.5 - {g}", f"0.5 + {g}",
+                     f"{y0} - 1", f"{y0} + {P}ten_l + 0.5", 0, 0, f"{z_keel} + 0.01", F.X, -90)
+        mouth = F.wedge(doc, f"{prefix}Mouth", f"-{pw} / 2 - {P}mouth_ch", f"{pw} / 2 + {P}mouth_ch",
+                        f"{y0} - 0.01", f"{y0} + {P}mouth_ch", f"{z_keel} - {zc} - {P}mouth_ch",
+                        f"{P}ten_t / 2 + {g} + {P}mouth_ch", f"-{pw} / 2", f"{pw} / 2",
+                        f"{z_keel} - {zc}", f"{P}ten_t / 2 + {g}", 0, 0, zc)
+        cuts, arms = [top, kl, mouth], []
+        hy = f"({y0} + {P}notch_y + 0.2 + {P}hook_d)"              # hook peak, along the tenon
+        zmid = f"({z_keel} + {zc} + {P}ten_t / 2) / 2"             # middle of the tenon's flat sides
+        for i, sgn in enumerate((1, -1)):
+            xw = f"{sgn} * {pw} / 2"                               # the pocket wall
+            x_lo = f"{pw} / 2" if sgn > 0 else f"-{pw} / 2 - {P}arm_t - {P}arm_gap"
+            ax_lo = f"{pw} / 2" if sgn > 0 else f"-{pw} / 2 - {P}arm_t"
+            if arm_axis == "y":   # ski: root deep in the wall, free end just under the ski's top
+                slot = F.box(doc, f"{prefix}Slot{i}", f"{P}arm_t + {P}arm_gap", f"{P}arm_l + 1",
+                             f"{P}arm_w + 2 * {P}arm_gap", x_lo, f"{y0} - 1", f"{zmid} - {P}arm_w / 2 - {P}arm_gap")
+                arm = F.box(doc, f"{prefix}Arm{i}", f"{P}arm_t", f"{P}arm_l - 0.5 + 0.01", f"{P}arm_w",
+                            ax_lo, f"{y0} + 0.5", f"{zmid} - {P}arm_w / 2")
+                hz0, hz1 = f"{zmid} - {P}arm_w / 2", f"{zmid} + {P}arm_w / 2"
+            else:                 # tower: root below the pocket, free end up by the tenon's top
+                z_top = f"{zc} + {P}ten_t / 2 - 1"
+                slot = F.box(doc, f"{prefix}Slot{i}", f"{P}arm_t + {P}arm_gap", f"{P}arm_w + {P}arm_gap + 1",
+                             f"{P}arm_l + {P}arm_gap", x_lo, f"{y0} - 1", f"{z_top} - {P}arm_l")
+                arm = F.box(doc, f"{prefix}Arm{i}", f"{P}arm_t", f"{P}arm_w", f"{P}arm_l + 0.01",
+                            ax_lo, f"{y0} + 0.5", f"{z_top} - {P}arm_l - 0.01")
+                hz0, hz1 = f"{z_keel} + 0.5", z_top
+            # the hook: a triangular ridge, 45 deg lead-in towards the mouth, 60 deg back face
+            hook = F.wedge(doc, f"{prefix}Hook{i}", f"{hy} - {P}hook_d", f"{hy} + {P}hook_d * 0.58", 0, f"{P}hook_d",
+                           hz0, hz1, hy, hy, hz0, hz1,
+                           xw, 0, 0, F.Z, 90 if sgn > 0 else -90)
+            if sgn < 0:   # mirrored: the rotation flips the wedge's X, so flip its ranges back
+                for prop, val in (("Xmin", f"-({hy} + {P}hook_d * 0.58)"), ("Xmax", f"-({hy} - {P}hook_d)"),
+                                  ("X2min", f"-{hy}"), ("X2max", f"-{hy}")):
+                    hook.setExpression(prop, val)
+            cuts.append(slot)
+            arms += [arm, hook]
+        return cuts, arms
 
     # --- socket: base under the edge, two legs, the tenon
     base = F.box(doc, "SockBase", f"{P}sock_w", f"{P}base_t", f"{P}tree_t + {P}fit + 2 * {P}wall",
@@ -115,37 +193,14 @@ def tree_mounts():
                        lambda e, s: along(F.direction(e)) and F.mid(e).y < -1 and F.mid(e).z > s.BoundBox.Center.z)
     back_r = F.fillet(doc, "SockBackLegR", back_leg, 1.5,
                       lambda e, s: along(F.direction(e)) and F.mid(e).y < -1 and F.mid(e).z < s.BoundBox.Center.z)
-    tenon = F.box(doc, "SockTenon", f"{P}ten_w", f"{P}ten_l + 0.01", f"{P}ten_t",
-                  f"-{P}ten_w / 2", f"{P}base_t - 0.01", f"{zc} - {P}ten_t / 2")
-    doc.recompute()
-    tenon_r = F.fillet(doc, "SockTenonR", tenon, 2.0, lambda e, s: upward(F.direction(e)))
-    doc.recompute()
-    tenon_c = F.chamfer(doc, "SockTenonC", tenon_r, 1.2, lambda e, s: F.mid(e).y > s.BoundBox.YMax - 0.01)
-    pin = F.cyl(doc, "SockPin", f"{P}pin_d / 2", f"{P}ten_w + 2",
-                f"-{P}ten_w / 2 - 1", f"{P}base_t + {P}ten_l / 2", zc, F.Y, 90)
+    ten, notches = tenon("Sock", f"{P}base_t")
     screws = []
     for i, sx in enumerate((f"-{P}screw_x", f"{P}screw_x")):
         screws.append(F.cyl(doc, f"SockScrew{i}", f"{P}screw_d / 2", f"{P}wall + 2",
                             sx, f"{P}screw_y", f"{ch_lo} - {P}wall - 1"))
         screws.append(F.cone(doc, f"SockCsk{i}", f"{P}csk_d / 2 + 0.01", f"{P}screw_d / 2",
                              f"({P}csk_d - {P}screw_d) / 2 + 0.01", sx, f"{P}screw_y", f"{ch_lo} - {P}wall - 0.01"))
-    sock_solid = F.fuse(doc, "SocketSolid", [base_r, front_r, back_r, tenon_c])
-    F.cut(doc, "Socket", sock_solid, [pin, *screws])
-
-    # --- the pocket every rider has: tenon + clearance, a lead-in, the cross bolt and its nut
-    def pocket(prefix, half_w):
-        pw, pt = f"({P}ten_w + 2 * {P}clr)", f"({P}ten_t + 2 * {P}clr)"
-        pk = F.box(doc, f"{prefix}Pocket", pw, f"{P}ten_l + 0.5 + 1", pt,
-                   f"-{pw} / 2", f"{P}base_t - 1", f"{zc} - {pt} / 2")
-        mouth = F.wedge(doc, f"{prefix}Mouth", f"-{pw} / 2 - {P}mouth_ch", f"{pw} / 2 + {P}mouth_ch",
-                        f"{P}base_t - 0.01", f"{P}base_t + {P}mouth_ch",
-                        f"-{pt} / 2 - {P}mouth_ch", f"{pt} / 2 + {P}mouth_ch",
-                        f"-{pw} / 2", f"{pw} / 2", f"-{pt} / 2", f"{pt} / 2", 0, 0, zc)
-        bolt = F.cyl(doc, f"{prefix}Bolt", f"{P}pin_d / 2", f"2 * {half_w} + 2",
-                     f"-{half_w} - 1", f"{P}base_t + {P}ten_l / 2", zc, F.Y, 90)
-        nut = F.hexprism(doc, f"{prefix}Nut", f"{P}nut_af / sqrt(3) + 0.15", f"{P}nut_t + 1",
-                         f"{half_w} - {P}nut_t", f"{P}base_t + {P}ten_l / 2", zc, F.Y, 90)
-        return [pk, mouth, bolt, nut]
+    F.cut(doc, "Socket", F.fuse(doc, "SocketSolid", [base_r, front_r, back_r, ten]), [*notches, *screws])
 
     # --- ski foot
     bar = F.wedge(doc, "SkiBar",
@@ -155,23 +210,26 @@ def tree_mounts():
                   0, 0, zc)
     doc.recompute()
     bar_r = F.fillet(doc, "SkiBarR", bar, 4.0, lambda e, s: True)
-    stakes = []
-    for i, sgn in enumerate("-+"):
-        z = f"{zc} {sgn} {P}stake_off"
-        stakes.append(F.cyl(doc, f"SkiStake{i}", f"{P}stake_d / 2", f"{P}ski_h + 2", 0, f"{P}base_t - 1", z, F.X, -90))
-    # Two cavities, open to the sole, either side of the pocket: straight sides, then a 45 deg
-    # roof, so the ski prints sole down with nothing to bridge.
+    stakes = [F.cyl(doc, f"SkiStake{i}", f"{P}stake_d / 2", f"{P}ski_h + 2", 0, f"{P}base_t - 1",
+                    f"{zc} {sgn} {P}stake_off", F.X, -90) for i, sgn in enumerate("-+")]
     sole = f"{P}base_t + {P}ski_h"
     hw = f"({P}ski_w / 2 - {P}hol_wall)"
     hollows = []
     for i, (lo, hi) in enumerate(((f"{P}hol_gap", f"{P}hol_end"), (f"-{P}hol_end", f"-{P}hol_gap"))):
         hollows.append(F.box(doc, f"SkiHollow{i}", f"2 * {hw}", f"{P}hol_h + 1", f"{hi} - ({lo})",
                              f"-{hw}", f"{sole} - {P}hol_h", f"{zc} + {lo}"))
-        hollows.append(F.wedge(doc, f"SkiHollowRoof{i}", -1, 1, f"{sole} - {P}hol_h - ({hw} - 1)", f"{sole} - {P}hol_h + 0.01",
-                               lo, hi, f"-{hw}", hw, lo, hi, 0, 0, zc))
-    F.cut(doc, "Ski", bar_r, [*pocket("Ski", f"{P}ski_w / 2"), *stakes, *hollows])
+        hollows.append(F.wedge(doc, f"SkiHollowRoof{i}", -1, 1, f"{sole} - {P}hol_h - ({hw} - 1)",
+                               f"{sole} - {P}hol_h + 0.01", lo, hi, f"-{hw}", hw, lo, hi, 0, 0, zc))
+    cuts, arms = pocket("Ski", f"{P}base_t", "y")
+    ski_cut = F.cut(doc, "SkiCut", bar_r, [*cuts, *stakes, *hollows])
+    ski = F.fuse(doc, "Ski", [ski_cut, *arms])
+    # Latch coupon: a short slice of the ski round its pocket, to try the click and the
+    # pull-off on a printed socket before printing 28 skis (change arm_t / hook_d to tune).
+    slab = F.box(doc, "CouponBox", f"{P}ski_w + 2", f"{P}ten_l + 10", 56,
+                 f"-{P}ski_w / 2 - 1", f"{P}base_t - 1", f"{zc} - 28")
+    F.common(doc, "LatchCoupon", ski, slab)
 
-    # --- storage tower
+    # --- storage tower / show riser
     z0 = f"-({P}tree_t + {P}below)"
     col = F.box(doc, "TowerColumn", f"{P}col_w", f"{P}col_d", f"{P}pitch",
                 f"-{P}col_w / 2", f"{P}base_t", z0)
@@ -206,10 +264,13 @@ def tree_mounts():
                    0, yc, f"{z0} + {P}pitch - {step}", F.X, 90)
     hole = F.box(doc, "TowerSpigotBore", iw, idp, f"{P}spig_h + 2",
                  f"-{iw} / 2", f"{yc} - {idp} / 2", f"{z0} + {P}pitch - 1")
-    F.cut(doc, "Tower", F.fuse(doc, "TowerSolid", [col_c, spigot]),
-          [*pocket("Tower", f"{P}col_w / 2"), recess, bore, roof, hole])
+    out_ten, out_notches = tenon("TowerOut", f"{P}base_t + {P}col_d")
+    cuts, arms = pocket("Tower", f"{P}base_t", "z")
+    tower_cut = F.cut(doc, "TowerCut", F.fuse(doc, "TowerSolid", [col_c, spigot, out_ten]),
+                      [*cuts, recess, bore, roof, hole, *out_notches])
+    F.fuse(doc, "Tower", [tower_cut, *arms])
 
-    F.check(doc, ["Socket", "Ski", "Tower"])
+    F.check(doc, ["Socket", "Ski", "Tower", "LatchCoupon"])
     return doc
 
 

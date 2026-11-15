@@ -267,6 +267,17 @@ def main():
     for i, (label, (shape, colour, alpha)) in enumerate(standins.items()):
         feature(doc, f"SiteItem{i}", shape, sb, label)
 
+    # ---- the show, raised: a tower lying between each bottom socket and its ski
+    riser = pl(0, mp["col_d"], 0)
+    lift_hi = lift + mp["col_d"]
+    raised = doc.addObject("App::Part", "ShowRaised")
+    raised.Label = "Show, raised: towers as risers between socket and ski"
+    raised.Placement = pl(0, 1500, lift_hi, stand)
+    link(doc, "RaisedUnit", unit, pl(), raised, "tree unit")
+    for j, s in enumerate(sockets[:2]):
+        link(doc, f"RaisedTower{j}", mounts.getObject("Tower"), s, raised, "tower (riser)")
+        link(doc, f"RaisedSki{j}", mounts.getObject("Ski"), s.multiply(riser), raised, "ski")
+
     # ---- storage: trees face up, stacked on their towers
     store = doc.addObject("App::Part", "Storage")
     store.Label = f"Storage: {STORE_TREES} trees stacked on towers"
@@ -318,7 +329,14 @@ def main():
     shown = [(moved(s, App.Placement(V(0, 0, lift), stand)), c, *a) for s, c, *a in
              unit_items + [(Part.makeCompound([moved(ski, s) for s in sockets[:2]]), "#d88a3b")]]
     cad_preview.render(shown, str(PREVIEW_DIR / "assembly-show-tree.png"), elev=12, azim=-70,
-                       title="in the show: on two skis", size=(6, 7), deflection=2.0)
+                       title=f"in the show: on two skis ({lift:.0f}mm up)", size=(6, 7), deflection=2.0)
+    riser = pl(0, mp["col_d"], 0)
+    hi = App.Placement(V(0, 0, lift + mp["col_d"]), stand)
+    shown_hi = [(moved(s, hi), c, *a) for s, c, *a in
+                unit_items + [(Part.makeCompound([moved(tower, s) for s in sockets[:2]]), "#5aa05a"),
+                              (Part.makeCompound([moved(ski, s.multiply(riser)) for s in sockets[:2]]), "#d88a3b")]]
+    cad_preview.render(shown_hi, str(PREVIEW_DIR / "assembly-show-raised.png"), elev=12, azim=-70,
+                       title=f"raised: towers as risers ({lift + mp['col_d']:.0f}mm up)", size=(6, 7), deflection=2.0)
     stack = []
     for k in range(3):
         place = pl(0, 0, z_bottom + k * mp["pitch"])
@@ -415,7 +433,16 @@ def checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, ski, bx,
                + ("the towers carry the stack, not the boxes." if ok_bottom else "**the box hits the floor first.**"))
     # show
     out.append(f"Show: the tree's bottom edge stands {mp['base_t'] + mp['ski_h']:.0f}mm above the ground on two skis "
-               f"{SOCKET_BOTTOM_X[1] - SOCKET_BOTTOM_X[0]:.0f}mm apart, {mp['ski_l']:.0f}mm long front to back.")
+               f"{SOCKET_BOTTOM_X[1] - SOCKET_BOTTOM_X[0]:.0f}mm apart, {ski.BoundBox.ZLength:.0f}mm long front to back "
+               "(a P2S bed is 256). They clip onto the sockets' tenons: no bolts.")
+    riser = pl(0, mp["col_d"], 0)
+    skis_hi = [moved(ski, s.multiply(riser)) for s in sockets[:2]]
+    risers = [moved(tower, s) for s in sockets[:2]]
+    hit = sum(r.common(tree).Volume + r.common(Part.makeCompound(box_parts)).Volume + r.common(sk).Volume
+              for r, sk in zip(risers, skis_hi)) + sum(sk.common(tree).Volume for sk in skis_hi)
+    out.append(f"Show, raised: a tower lying between each bottom socket and its ski lifts the bottom edge to "
+               f"{mp['base_t'] + mp['ski_h'] + mp['col_d']:.0f}mm. Risers against the tree, its box and the skis: "
+               f"{hit:.1f} mm³. " + ("OK." if hit < 1 else "**Clash.**"))
     return out
 
 

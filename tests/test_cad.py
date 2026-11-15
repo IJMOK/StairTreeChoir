@@ -58,6 +58,8 @@ def test_mount_sizes_hang_together():
     assert mp["sock_w"] <= 56                                # fits the flat at the tree's top
     assert mp["spig_w"] + 2 * mp["spig_clr"] < mp["col_w"]   # the recess has walls
     assert 16 - mp["wall"] < mp["tree_t"] - 15               # the screws stop well short of the front
+    assert mp["clr"] < mp["hook_d"] < mp["arm_gap"]          # the hook reaches the notch and the arm can spring clear
+    assert mp["hook_d"] - mp["clr"] < mp["notch_d"]          # and the hook doesn't bottom in the notch
 
 
 @pytest.fixture(scope="module")
@@ -78,7 +80,8 @@ EXPECTED = [
     "tree box base: one solid with real surfaces", "tree box cover: one solid with real surfaces",
     "tree box sizes follow the spreadsheet", "tree box base and cover don't clash",
     "cover screw clears the cover wall and the boss bore", "shelf reaches the cover's side walls",
-    "ski and tower take the socket's tenon", "towers stack without clashing", "tower bore runs right through",
+    "ski and tower take the socket's tenon", "ski clips onto the tower's outer tenon (show riser)",
+    "latch hooks sit in the socket's notches", "towers stack without clashing", "tower bore runs right through",
     "spigot sits in the recess above", "ski is hollow either side, solid at the pocket", "socket is one valid solid", "ski is one valid solid", "tower is one valid solid",
     "socket channel takes the tread", "hood is one valid solid", "hood clears the PSU",
     "hood M4 screws reach 5mm max into the case", "hood has a closed floor under the chamber",

@@ -69,6 +69,15 @@ check("shelf reaches the cover's side walls",
 mp = json.loads((ROOT / "cad" / "parts" / "tree-mounts-params.json").read_text(encoding="utf-8"))
 sock, ski, tower = (solid(f"cad/printed/tree-{n}.step") for n in ("socket", "ski", "tower"))
 check("ski and tower take the socket's tenon", sock.common(ski).Volume < 1e-3 and sock.common(tower).Volume < 1e-3)
+ski_hi = ski.copy()
+ski_hi.translate(V(0, mp["col_d"], 0))
+check("ski clips onto the tower's outer tenon (show riser)", tower.common(ski_hi).Volume < 1e-3)
+pw = mp["ten_w"] / 2 + mp["clr"]
+hy = mp["base_t"] + mp["notch_y"] + 0.2 + mp["hook_d"]
+zt = -mp["tree_t"] / 2 + 6
+check("latch hooks sit in the socket's notches",
+      all(part.isInside(V(sg * (pw - 0.5), hy, zt), 1e-6, True) for part in (ski, tower) for sg in (-1, 1))
+      and all(not sock.isInside(V(sg * (mp["ten_w"] / 2 - 0.4), hy, zt), 1e-6, True) for sg in (-1, 1)))
 up = tower.copy()
 up.translate(V(0, 0, mp["pitch"]))
 check("towers stack without clashing", tower.common(up).Volume < 1e-3)
