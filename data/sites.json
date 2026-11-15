@@ -7,7 +7,7 @@
       "name": "Site A",
       "player": "Pi 3",
       "router": "indoors",
-      "psu": {"name": "S-400-12", "rating": 33},
+      "psu": {"name": "LRS-350-12", "rating": 29},
       "network": {"_note": "Rob's home network, extended by the Cudy (Rob, 11 Nov 2026); DHCP reservations on the Zyxel OpenWrt at 192.168.0.3",
                   "prefix": "192.168.0", "tree_base": 220, "gateway": "192.168.0.1", "player": "192.168.0.220", "static": false},
       "trees": [

@@ -1,21 +1,24 @@
-"""Regenerate every generated file: python -m tools.build"""
+"""Regenerate the generated files: python -m tools.build (make all). The printed parts and the
+assembly come from the FreeCAD masters: python -m tools.cad (make cad), a few minutes."""
 
-from tools import gen_cnc, gen_controller, gen_docs_site, gen_site_config, gen_site_wiring, gen_xmodel, tree_layout
+from tools import (cad, gen_cnc, gen_controller, gen_docs_site, gen_site_config, gen_site_wiring, gen_tree_wiring,
+                   gen_xmodel, tree_layout)
 
 
 def main() -> None:
     tree_layout.main()
     gen_cnc.main()
-    try:
-        from tools import gen_step
-    except ImportError:
-        print("skipped cad/*.step: CadQuery not installed (pip install -r requirements-cad.txt)")
+    # The tread's CAM files (FreeCAD, ~30s). The rest of the CAD is `make cad` (python -m tools.cad).
+    if cad.freecadcmd():
+        if cad.run(("tree",)):
+            raise SystemExit("the FreeCAD tree export failed")
     else:
-        gen_step.main()
+        print("skipped cad/stair-tree.*: freecadcmd not found (FreeCAD 1.1)")
     gen_xmodel.main()
     gen_controller.main()
     gen_site_wiring.main()
     gen_site_config.main()
+    gen_tree_wiring.main()
     gen_docs_site.main()
 
 

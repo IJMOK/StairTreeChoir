@@ -1,6 +1,6 @@
 # Tree controller and site wiring (M4)
 
-One controller per tree: an ESP32 dev board running WLED, a 74AHCT125 level shifter and a Mini560 5V buck on a 5×7cm prototype board, in a printed L base + wrap-round cover (`enclosure/tree-box.FCStd`) on spacers on the back of the tree. The board takes 12V and gives out one 5V data line. The pixels' own 12V never runs through the board.
+One controller per tree: an ESP32 dev board running WLED, a 74AHCT125 level shifter and a Mini560 5V buck on a 5×7cm prototype board, in a printed L base + wrap-round cover (`cad/parts/tree-box.FCStd`) on spacers on the back of the tree. The board takes 12V and gives out one 5V data line. The pixels' own 12V never runs through the board.
 
 - [tree-controller-board.svg](tree-controller-board.svg): where every part goes, plus the joins on the underside (mirrored, as you see it when soldering).
 - [connections.md](connections.md): the same as a list: every part's holes, and every join with its hole names.
@@ -70,21 +70,21 @@ Full-white current per tree and the soak test belong in docs/test-checklist.md (
 
 ## Site wiring
 
-Decided 26 Oct 2026 (Rob): one enclosed Mean Well LRS PSU per site (Site A uses Rob's S-400-12 instead, 30 Oct 2026), inside the site box (a DRiBOX Large), star-wired from it; no outdoor PSUs. **Per-site tables and diagrams: [site-wiring.md](site-wiring.md)** (generated from data/sites.json). Drawings of how it all connects and where each part sits in the site box and tree box: [docs/wiring.html](../docs/wiring.html) (open it in a browser).
+Decided 26 Oct 2026 (Rob): one enclosed Mean Well LRS PSU per site (Site A: an LRS-350-12 under a printed hood with an IEC inlet, 15 Nov 2026), inside the site box (a DRiBOX Large), star-wired from it; no outdoor PSUs. **Per-site tables and diagrams: [site-wiring.md](site-wiring.md)** (generated from data/sites.json). Drawings of how it all connects and where each part sits in the site box and tree box: [docs/wiring.html](../docs/wiring.html) (open it in a browser).
 
 ```
-Mains (RCD socket) ── plug lead (3A fuse) ──┐
+Mains (RCD socket) ── C13 lead (5A plug fuse) ── IEC inlet (T4A, switch) on the PSU hood ──┐
                     Site box (DRiBOX Large) │
-                      PSU (A: S-400-12)            ── 12V ─┬─ 3A fuse ── 2-core flex ──◄► Tree box ── pixels   (one run per tree)
+                      PSU (A: LRS-350-12)          ── 12V ─┬─ 3A fuse ── 2-core flex ──◄► Tree box ── pixels   (one run per tree)
                                                             ├─ 3A fuse ── 2-core flex ──◄► Tree box ── pixels
                                                             ├─ 2A fuse ── site router
-                                                            └─ 3A fuse ── 12V→5V buck ── Pi (FPP) ── USB sound card ── PAM8610 ══ speaker pair (L, R)
+                                                            └─ 3A fuse ── 12V→5V buck ── Pi (FPP) ── USB sound card ── XH-M541 ══ speaker pair (L, R)
                                                                                           │ Ethernet
                                                                                      Site router ·····Wi-Fi·····► every tree's ESP32 (DDP)
                                                                          ◄► = SP16/SP17 2-pin screw-terminal aviation connector
 ```
 
-- One LRS per site, the smallest that carries it at no more than 90% with every tree at its cap, plus the player (1.5A) and the router (1A): Site A LRS-200-12 (17A) at 15.1A, B LRS-150-12 at 10.9A, C and D LRS-100-12 at 6.7A. One spare LRS-200-12 covers any site. Enclosed and fanless; it sits at the top of the plate with air round it, and its mains terminals are under a printed cover.
+- One LRS per site, the smallest that carries it at no more than 90% with every tree at its cap, plus the player (1.5A) and the router (1A): Site A is the exception: an LRS-350-12 (29A) at 14.1A, router indoors. B LRS-150-12 at 10.9A, C and D LRS-100-12 at 6.7A. One spare LRS-200-12 covers any site. Each PSU's terminals are under a printed hood carrying a fused, switched IEC inlet (Site A's: cad/parts/psu-cover.FCStd; the others are still to draw). Site A's full box wiring: [docs/site-box-wiring.html](../docs/site-box-wiring.html).
 - Each tree's WLED brightness limiter (`ledma` 25, `maxpwr` 2120 incl. WLED's 120mA ESP allowance; tools/gen_site_config.py) holds its pixels to 2A, so a tree draws 2.1A whatever a sequence does (2.3A would be full white). Check it with a meter at the M0 bench test.
 - Voltage drop: 2.1A over 5m of 0.75mm² flex (10m of conductor, ~0.23Ω) is about 0.5V, so a tree sees ~11.5V; fine for 12V pixels. The generator moves a run to 1.5mm² past about 7m.
 - The fuse (a blade fuse in the site box's fuse box) sits where each run starts, so it protects the flex (a fuse at the tree end would not). 0.75mm² flex is good for ~6A. 3A fuses (Rob, 26 Oct 2026): a tree can't draw more than 2.3A even with no limiter, and the SP17 connectors are 10A.

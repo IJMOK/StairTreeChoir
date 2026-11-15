@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Site A wiring diagrams (26 Oct 2026; parts from the 27 Oct orders added 28 Oct; tree box updated 30 Oct). Published copy: https://claude.ai/artifact/D7S2aqDR7d8ZSA9qU48DHn. Hand-made, not generated: update it when the design changes. -->
+<!-- Site A wiring diagrams (26 Oct 2026; parts from the 27 Oct orders added 28 Oct; tree box updated 30 Oct). Published copy: https://claude.ai/artifact/D7S2aqDR7d8ZSA9qU48DHn. Hand-made, not generated: update it when the design changes. Updated 15 Nov 2026: LRS-350-12 with an IEC hood, XH-M541, tree mounts. -->
 <title>Stair Tree Choir Wiring</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,7 +96,7 @@ svg .net-text { fill: var(--net); }
 <body>
 <main>
   <header>
-    <div class="status">Stair Tree Choir · Site A, December 2026 · plan as of 30 Oct (tree box: L base + clip-on cover)</div>
+    <div class="status">Stair Tree Choir · Site A, December 2026 · plan as of 15 Nov (LRS-350-12 with IEC hood · XH-M541 · tree box: L base + wrap-round cover · sockets and skis)</div>
     <h1>How the power, sound and data go together</h1>
     <p class="sub">One mains plug feeds one power supply in the site box. Every tree gets its own fused 12V run and a plug-in connector. The trees get their show over Wi-Fi, so the only cable to a tree is power.</p>
   </header>
@@ -118,15 +118,15 @@ svg .net-text { fill: var(--net); }
     <h2>1 · What connects to what</h2>
     <figure>
       <div class="scroll">
-        <svg viewBox="0 0 1000 590" role="img" aria-label="Mains plug into the site box power supply, then a blade fuse box with six 3A tree runs and a 3A player feed. Each tree run leaves the box on 2-core flex, through an SP17 aviation connector, to its tree box. The player feed powers a Mini560 for the Pi 3 and the PAM8610 amp, which drives a pair of BGO40 speakers. The router stands indoors at the window; it connects to the Pi by Ethernet and to the trees by Wi-Fi.">
+        <svg viewBox="0 0 1000 590" role="img" aria-label="A C13 lead into the IEC inlet on the power supply's printed hood, then a blade fuse box with six 3A tree runs and a 3A player feed. Each tree run leaves the box on 2-core flex, through an SP17 aviation connector, to its tree box. The player feed powers a Mini560 for the Pi 3 and the XH-M541 amp, which drives a pair of BGO40 speakers. The router stands indoors at the window; it connects to the Pi by Ethernet and to the trees by Wi-Fi.">
           <!-- socket -->
           <rect class="part" x="20" y="52" width="122" height="54" rx="4"/>
           <text x="81" y="75" text-anchor="middle">RCD outdoor</text>
           <text x="81" y="92" text-anchor="middle">socket</text>
-          <text class="s" x="81" y="126" text-anchor="middle">13A plug, 3A fuse</text>
+          <text class="s" x="81" y="126" text-anchor="middle">13A plug, 5A fuse</text>
           <polyline class="w mains" points="142,79 230,79"/>
           <rect class="soft" x="182" y="70" width="14" height="18"/>
-          <text class="s" x="189" y="146" text-anchor="middle">cord grip</text>
+          <text class="s" x="189" y="146" text-anchor="middle">IEC inlet</text>
           <line x1="189" y1="90" x2="189" y2="134" stroke="var(--line)" stroke-width="1"/>
 
           <!-- site box -->
@@ -135,8 +135,8 @@ svg .net-text { fill: var(--net); }
 
           <rect class="part" x="230" y="58" width="150" height="66" rx="4"/>
           <text x="305" y="84" text-anchor="middle">Power supply</text>
-          <text x="305" y="100" text-anchor="middle">S-400-12</text>
-          <text class="s" x="305" y="116" text-anchor="middle">230V → 12V 33A</text>
+          <text x="305" y="100" text-anchor="middle">LRS-350-12</text>
+          <text class="s" x="305" y="116" text-anchor="middle">230V → 12V 29A</text>
 
           <polyline class="w v12" points="280,124 280,170"/>
           <polyline class="w v0" points="330,124 330,170"/>
@@ -220,7 +220,7 @@ svg .net-text { fill: var(--net); }
           <text x="552" y="485" text-anchor="middle">sound card</text>
           <polyline class="w v12" points="390,430 390,512 410,512"/>
           <rect class="part" x="410" y="499" width="90" height="26" rx="3"/>
-          <text x="455" y="516" text-anchor="middle">PAM8610</text>
+          <text x="455" y="516" text-anchor="middle">XH-M541</text>
           <polyline class="w aud" points="515,481 505,481 505,506 500,506"/>
           <!-- speakers -->
           <polyline class="w aud" points="440,525 440,550 680,550"/>
@@ -230,17 +230,17 @@ svg .net-text { fill: var(--net); }
           <text class="s" x="640" y="536" text-anchor="middle">2 runs</text>
         </svg>
       </div>
-      <figcaption>Everything at Site A runs from one S-400-12. The blade fuse box gives each tree its own 3A fuse, plus 3A for the player (Pi and amp). Every run leaves on 2-core 0.75mm² rubber flex (H05RR-F) and ends in an SP17 aviation plug with screw terminals, so there's nothing to solder. It screws onto the SP16 socket under the tree box's shelf. Full load is 14.1A of 33A. The router stands indoors at the front window, about 5ft from the trees, on its own adapter, with Ethernet out to the Pi.</figcaption>
+      <figcaption>Everything at Site A runs from one LRS-350-12 (Rob, 15 Nov 2026), its mains arriving on a C13 lead into a fused, switched IEC inlet on its printed hood. The blade fuse box gives each tree its own 3A fuse, plus 3A each for the Pi's buck and the amp (every wire: <a href="site-box-wiring.html">site-box-wiring.html</a>). Every run leaves on 2-core 0.75mm² rubber flex (H05RR-F) and ends in an SP17 aviation plug with screw terminals, so there's nothing to solder. It screws onto the SP16 socket under the tree box's shelf. Full load is 14.1A of 29A. The router stands indoors at the front window, about 5ft from the trees, on its own adapter, with Ethernet out to the Pi.</figcaption>
     </figure>
   </section>
 
   <!-- 2. Site box plan -->
   <section>
     <h2>2 · Inside the site box</h2>
-    <p>Seen from above with the lid open, to scale (1 square = 10mm). The DRiBOX narrows towards the floor and has ribs, so plan on about 290 × 190mm of flat floor. The parts sit on one printed plate. <strong>The plate isn't designed yet.</strong></p>
+    <p>Seen from above with the lid open, to scale (1 square = 10mm). The DRiBOX narrows towards the floor and has ribs, so plan on about 290 × 190mm of flat floor. <strong>Superseded:</strong> there's no plate; the parts are stuck down on pads (10 Nov 2026), and the PSU is now the LRS-350-12 under its hood. The current layout, indicative, is in the assembly (<code>cad/stair-tree-choir.FCStd</code>, picture <code>cad/previews/assembly-site-box.png</code>). This plan is kept for the 30 Oct thinking.</p>
     <figure>
       <div class="scroll">
-        <svg viewBox="0 0 740 560" role="img" aria-label="Plan of the site box floor, 330 by 230mm. The PSU fills the back left, with a hatched cover over its mains terminals on the left end. The Pi 3 and its USB sound card sit at the back right. Along the front are the mains cord grip, the blade fuse box, the Mini560 and the PAM8610 amp. Every cable leaves through the lid seals along the front edge. An Ethernet cable runs from the Pi out through the seals to the router indoors.">
+        <svg viewBox="0 0 740 560" role="img" aria-label="Plan of the site box floor, 330 by 230mm. The PSU fills the back left, with a hatched cover over its mains terminals on the left end. The Pi 3 and its USB sound card sit at the back right. Along the front are the mains cord grip, the blade fuse box, the Mini560 and the amp. Every cable leaves through the lid seals along the front edge. An Ethernet cable runs from the Pi out through the seals to the router indoors.">
           <defs>
             <pattern id="grid10" width="20" height="20" patternUnits="userSpaceOnUse">
               <path d="M20 0H0V20" fill="none" stroke="var(--line)" stroke-width="0.6" opacity="0.6"/>
@@ -260,8 +260,8 @@ svg .net-text { fill: var(--net); }
           <!-- PSU -->
           <rect class="part" x="90" y="74" width="434" height="228" rx="4"/>
           <rect class="cover" x="70" y="68" width="96" height="240" rx="3"/>
-          <text x="330" y="196" text-anchor="middle">S-400-12</text>
-          <text class="s" x="330" y="214" text-anchor="middle">217 × 114 × 50mm · keep air round it</text>
+          <text x="330" y="196" text-anchor="middle">PSU</text>
+          <text class="s" x="330" y="214" text-anchor="middle">(was the S-400-12; now an LRS-350-12, 215 × 115 × 30)</text>
           <text class="s" x="118" y="320" text-anchor="middle">terminal cover</text>
 
           <!-- Pi and sound card -->
@@ -281,7 +281,7 @@ svg .net-text { fill: var(--net); }
           <rect class="part" x="420" y="334" width="44" height="36" rx="3"/>
           <text class="s" x="442" y="389" text-anchor="middle">Mini560</text>
           <rect class="part" x="486" y="330" width="126" height="80" rx="3"/>
-          <text x="549" y="374" text-anchor="middle">PAM8610</text>
+          <text x="549" y="374" text-anchor="middle">amp</text>
 
           <!-- wires -->
           <polyline class="w mains" points="88,490 88,420"/>
@@ -311,7 +311,7 @@ svg .net-text { fill: var(--net); }
           <text class="s" x="360" y="540" text-anchor="middle">front edge: every cable passes through the lid seals here; stand this edge down</text>
         </svg>
       </div>
-      <figcaption>Mains goes only from the cord grip to the PSU's terminals, under a printed cover (hatched), so it takes a tool to reach them. The S-400-12's terminals, facing them, left to right: ADJ, +V × 3, −V × 3, earth, N, L. Its input switch is set to 230V and its fan is temperature-controlled, so keep air above it. The cover is held by two M4 screws in the case's side holes. Everything else is 12V or lower. The PSU's +12V and 0V go to the fuse box: +12V to its input, 0V to its negative bus. The player fuse feeds the Mini560 (5V for the Pi) and the amp. Sizes for the fuse box and amp are typical, not measured.</figcaption>
+      <figcaption>Mains goes only from the IEC inlet into the PSU's terminals, all inside the printed hood (hatched), so it takes a tool to reach them. The LRS-350-12's terminals: 1 AC/L, 2 AC/N, 3 FG, 4–6 −V, 7–9 +V. Its input switch is set to 230V and its fan is temperature-controlled, so keep air above it. The hood is held by two M4 × 6 screws in the case's side holes. Everything else is 12V or lower. The PSU's +12V and 0V go to the fuse box: +12V to its input, 0V to its negative bus. The player fuse feeds the Mini560 (5V for the Pi) and the amp. Sizes for the fuse box and amp are typical, not measured.</figcaption>
     </figure>
   </section>
 
@@ -430,7 +430,7 @@ svg .net-text { fill: var(--net); }
           <line x1="812" y1="312" x2="812" y2="360" stroke="var(--muted)" stroke-width="2"/>
           <text class="s" x="806" y="352" text-anchor="end">antenna</text>
           <text class="s" x="834" y="406" text-anchor="middle">12V run from the site box</text>
-          <text class="s" x="870" y="438" text-anchor="middle">stand under the tree: being rethought</text>
+          <text class="s" x="870" y="438" text-anchor="middle">stands on two skis in printed sockets</text>
         </svg>
       </div>
       <figcaption>Two Wagos split the 12V: one side feeds the pixels directly, the other is wired straight to the Mini560's IN end, at the top as it stands. Its OUT end plugs into the board on a 90° header and gives 5V to the ESP32 and level shifter. No 12V reaches the board. Pixel current never crosses the board. Data leaves JD and goes out through the PG7 gland with the pixel power. There's no fuse in the tree box, because the run is fused at the site box. The cord seals the top and sides; the bottom is left open on purpose, because rain doesn't fall upwards.</figcaption>
@@ -444,13 +444,13 @@ svg .net-text { fill: var(--net); }
       <table>
         <thead><tr><th>Part</th><th>Size</th><th>Sits</th><th>Fed from</th></tr></thead>
         <tbody>
-          <tr><td>S-400-12</td><td class="num">217 × 114 × 50</td><td>Site box, back left, terminals under a printed cover</td><td>Mains plug lead (L, N, earth)</td></tr>
+          <tr><td>LRS-350-12</td><td class="num">215 × 115 × 30</td><td>Site box, along the back, terminals under the printed hood</td><td>C13 lead into the hood's IEC inlet (L, N, earth)</td></tr>
           <tr><td>Blade fuse box, 10-way</td><td class="num">≤ 150 × 65 (ordered, measure it)</td><td>Site box, front left</td><td>PSU +12V in; 0V on 2 × Wago 221-415</td></tr>
           <tr><td>Pi 3 + USB sound card</td><td class="num">56 × 85</td><td>Site box, back right</td><td>Mini560 5V (player fuse, 3A)</td></tr>
-          <tr><td>PAM8610 amp</td><td class="num">≈ 63 × 40</td><td>Site box, front right</td><td>12V (player fuse, 3A)</td></tr>
+          <tr><td>XH-M541 amp</td><td class="num">to measure</td><td>Site box, on the front wall</td><td>12V (its own 3A fuse); 3.5mm lead from the sound card</td></tr>
           <tr><td>Cudy WR3000 V1 router</td><td class="num">183 × 109 × 35</td><td>Indoors at the front window, antennas upright</td><td>Its own adapter; outdoor Cat6 to the Pi</td></tr>
           <tr><td>Tree run</td><td class="num">5m, H05RR-F 2 × 0.75mm²</td><td>Ground, site box to tree</td><td>Tree fuse, 3A; SP17 plug onto the tree box's SP16 socket</td></tr>
-          <tr><td>PD BGO40 speakers (pair)</td><td class="num">130 × 155 × 200</td><td>Outdoors near the trees, IP56</td><td>PAM8610, one 2-core run each (cable in the box)</td></tr>
+          <tr><td>PD BGO40 speakers (pair)</td><td class="num">130 × 155 × 200</td><td>Outdoors near the trees, IP56</td><td>XH-M541, one 2-core run each (cable in the box)</td></tr>
           <tr><td>SP16 panel socket</td><td class="num">hole 16.5, flat 15.3</td><td>Tree box shelf, firing down</td><td>The run's SP17 plug</td></tr>
           <tr><td>PG7 gland</td><td class="num">hole 12.9</td><td>Tree box shelf, firing down</td><td>Pixel lead out</td></tr>
           <tr><td>RP-SMA bulkhead + dipole</td><td class="num">hole 6.6</td><td>Tree box shelf, firing down</td><td>U.FL pigtail to the ESP32</td></tr>

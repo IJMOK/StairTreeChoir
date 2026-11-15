@@ -1,3 +1,0 @@
-# Optional: tools/gen_step.py and tools/gen_printed.py (STEP solids for NX). Installs on Python 3.14 (CadQuery 2.8).
-#   .venv/Scripts/python -m pip install -r requirements-cad.txt
-cadquery>=2.4

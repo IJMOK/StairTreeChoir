@@ -1,6 +1,6 @@
 """2D CNC reference from data/tree-layout.json: cad/stair-tree-cnc-layout.svg and .dxf.
 
-The CAM is done in NX from the STEP solids (tools/gen_step.py); these are the
+The CAM is done in NX from the STEP solids (tools/cad_tree.py); these are the
 same features flat, for checking and for anyone without NX. Everything is cut
 from the front in one op (Rob, 25 Oct 2026): no flip, nothing mirrored.
 

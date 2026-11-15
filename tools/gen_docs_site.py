@@ -1,4 +1,5 @@
-"""docs/index.html: every docs/*.md in one page with a sidebar: python -m tools.gen_docs_site
+"""docs/index.html: every docs/*.md, plus the CAD and print READMEs, in one page with a sidebar:
+python -m tools.gen_docs_site
 
 A browser won't let a page opened by double-click read the .md files beside it, so they're
 rendered here and embedded, and the page needs no server, no network and no copy of a
@@ -10,6 +11,7 @@ A new docs/*.md appears by itself, under "Other" until it's added to GROUPS.
 from __future__ import annotations
 
 import html
+import os
 import re
 from pathlib import Path
 
@@ -21,14 +23,18 @@ DOCS = ROOT / "docs"
 OUT_FILE = DOCS / "index.html"
 SITE_TITLE = "Stair Tree Choir"
 GROUPS = {
-    "Build": ["build-guide", "bom", "tree-box-parts", "cnc-cutting", "test-checklist"],
+    "Build": ["build-guide", "bom", "print", "cad", "cad-checks", "tree-box-parts", "cnc-cutting", "test-checklist"],
     "Show": ["show-night", "show-plan", "whats-on", "specials", "backstory", "webcam"],
     "Reference": ["design-review", "research", "folders"],
 }
 # The sidebar uses the title up to any colon; these need something better.
-NAV_TITLES = {"backstory": "Who they are"}
+NAV_TITLES = {"backstory": "Who they are", "cad": "CAD", "print": "Print files"}
+# Markdown outside docs/ that belongs on the page: doc name -> file. Their links are rewritten
+# relative to docs/.
+EXTRA_DOCS = {"cad": ROOT / "cad" / "README.md", "print": ROOT / "print" / "README.md"}
 # Hand-made pages in docs/ that open on their own: group -> (file, sidebar title).
-PAGES = {"Build": [("wiring.html", "Site A wiring diagrams")]}
+PAGES = {"Build": [("tree-wiring.html", "Tree wiring: pixels and box"), ("wiring.html", "How it all connects"),
+                   ("site-box-wiring.html", "Site A box: every wire")]}
 
 TICK_BOX = re.compile(r"<li>(\s*(?:<p>)?)\[( |x|X)\] ")
 SLUG_DROP = re.compile(r"[^\w\s-]")
@@ -39,20 +45,31 @@ def slug(text: str) -> str:
     return re.sub(r"\s", "-", SLUG_DROP.sub("", text.lower()).strip())
 
 
-def local_href(href: str, doc: str) -> str | None:
+def local_href(href: str, doc: str, base: Path = DOCS) -> str | None:
     """A link's address inside the page, or None if it leaves the page."""
     if "://" in href or href.startswith("mailto:"):
         return None
     path, _, fragment = href.partition("#")
     if not path:
         return f"#{doc}/{fragment}"
-    target = (DOCS / path).resolve()
+    target = (base / path).resolve()
+    extra = {f.resolve(): name for name, f in EXTRA_DOCS.items()}
+    if target in extra:
+        return f"#{extra[target]}/{fragment}" if fragment else f"#{extra[target]}"
     if target.suffix == ".md" and target.parent == DOCS.resolve():
         return f"#{target.stem}/{fragment}" if fragment else f"#{target.stem}"
     return None
 
 
-def render_doc(text: str, doc: str) -> tuple[str, str, list[tuple[str, str]]]:
+def outside_href(href: str, base: Path) -> str:
+    """A relative link written from another folder, rewritten from docs/."""
+    if "://" in href or href.startswith(("mailto:", "#")) or base == DOCS:
+        return href
+    path, sep, fragment = href.partition("#")
+    return os.path.relpath(base / path, DOCS).replace(os.sep, "/") + sep + fragment
+
+
+def render_doc(text: str, doc: str, folder: Path = DOCS) -> tuple[str, str, list[tuple[str, str]]]:
     """One Markdown file -> (title, body HTML, [(section anchor, section title)])."""
     # breaks: the skit scripts are one speaker per line. No doc wraps its paragraphs by hand.
     md = MarkdownIt("commonmark", {"breaks": True, "html": False}).enable(["table", "strikethrough"])
@@ -71,10 +88,11 @@ def render_doc(text: str, doc: str) -> tuple[str, str, list[tuple[str, str]]]:
                 sections.append((anchor, name))
         for child in token.children or []:
             if child.type == "link_open":
-                href = local_href(str(child.attrGet("href")), doc)
+                href = local_href(str(child.attrGet("href")), doc, folder)
                 if href:
                     child.attrSet("href", href)
                 else:
+                    child.attrSet("href", outside_href(str(child.attrGet("href")), folder))
                     child.attrSet("target", "_blank")
                     child.attrSet("rel", "noopener")
     body = md.renderer.render(tokens, md.options, {})
@@ -93,6 +111,9 @@ def doc_order(names: list[str]) -> dict[str, list[str]]:
 
 def render() -> str:
     rendered = {p.stem: render_doc(p.read_text(encoding="utf-8"), p.stem) for p in sorted(DOCS.glob("*.md"))}
+    for name, path in EXTRA_DOCS.items():
+        if path.exists():
+            rendered[name] = render_doc(path.read_text(encoding="utf-8"), name, path.parent)
     groups = doc_order(list(rendered))
     order = [n for docs in groups.values() for n in docs]
 

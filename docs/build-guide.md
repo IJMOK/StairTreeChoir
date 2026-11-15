@@ -3,21 +3,21 @@
 How to build the Stair Tree Choir, in order: 14 trees, 4 sites. It is written from the other documents in this repo, which stay the source of truth for dimensions and decisions ([CLAUDE.md](../CLAUDE.md)). Where something is not decided or not yet measured, it says **TBC (Rob)**. The tick-box tests are in [test-checklist.md](test-checklist.md); each stage below says which section to run.
 
 Two safety rules cover the whole project:
-- Mains voltage never goes inside a printed box. The Mean Well PSUs stand outside, beside the site box, each on its own mains lead to an RCD-protected outdoor socket.
+- Mains stays inside the PSU and its printed terminal hood, which is closed all round and carries a fused, switched IEC inlet (Rob, 15 Nov 2026). Mains comes from an RCD-protected outdoor socket on a C13 lead. No other printed part carries mains.
 - Never join the +12V of two PSUs.
 
 ## 0. Overview
 
 | Stage | What | Details |
 |---|---|---|
-| 1 | Buy and print | [bom.md](bom.md), [feet/](../feet/README.md), [enclosure/](../enclosure/README.md) |
+| 1 | Buy and print | [bom.md](bom.md), [print/](../print/README.md), [cad/](../cad/README.md) |
 | 2 | Prepare and check the treads | `data/blank.json` |
 | 3 | CNC | [cnc-cutting.md](cnc-cutting.md) |
 | 4 | Finish the wood | exterior oil |
 | 5 | Glue the disks, fit the pixels | `data/tree-layout.json` |
 | 6 | Build the controller board | [electronics/README.md](../electronics/README.md) |
-| 7 | Boots and pegs | [feet/README.md](../feet/README.md) |
-| 8 | Tree box | [enclosure/README.md](../enclosure/README.md) |
+| 7 | Mounts: sockets and skis | [cad/README.md](../cad/README.md#tree-mounts-socket-ski-tower-rob-15-nov-2026) |
+| 8 | Tree box | [cad/README.md](../cad/README.md#tree-controller-box) |
 | 9 | Site box and power | [electronics/site-wiring.md](../electronics/site-wiring.md) |
 | 10 | Network | router, fixed IPs |
 | 11 | Provisioning | [wled/README.md](../wled/README.md), [fpp/README.md](../fpp/README.md) |
@@ -29,18 +29,19 @@ Two safety rules cover the whole project:
 1. Order from [bom.md](bom.md). The AliExpress order (18 Oct 2026) is due 25 to 31 Oct 2026. The "Still to buy" list has the rest: the Mean Well PSU (one LRS per site), the ESP32-DevKitC-32U boards with antennas, the Pis for two sites, the routers, flex and fasteners. The BOM says to buy 15 or more extra PG9 glands, since the 20 bought are not enough.
 2. Measure the parts the design only assumes. The READMEs list these as unverified, and they may change files before you print or cut 14 of anything:
    - ESP32 board header row spacing (assumed 25.4mm), Mini560 size and pad positions, and that the 5×7cm board is 24×18 holes ([electronics/README.md](../electronics/README.md)).
-   - Board hole positions and ESP32 height in the box, the SP16 socket's hole and nut clearance, the PG7 thread size, RP-SMA bulkhead thread, and the M3 insert hole size (4.0mm) ([enclosure/README.md](../enclosure/README.md)).
-   - The outer diameter of the outdoor flex (under 8mm for the glands).
-3. Print **one control boot, one plain boot, two pegs, one tree box and lid** before printing the rest. PETG, 3 walls, 15% infill. Boots stand upright on the sole with no supports; pegs print head down. The export commands are in [feet/README.md](../feet/README.md) and [enclosure/README.md](../enclosure/README.md), and the STLs are committed.
-4. Print 4 step clamps and 4 washers for the CNC bed, and the pixel disk test strip ([fixtures/README.md](../fixtures/README.md)): PETG, 4 walls, 40% infill for the clamps.
-5. The full print run, once the test fit passes (stage 7): 14 plain boots, 14 control boots, 28 pegs, 14 tree boxes with lids, 92 pixel disks per tree (bore from the test strip, stage 3), and the site boxes (the 6, 4 and 2-tree versions) with lids.
+   - Board hole positions and ESP32 height in the box, the SP16 socket's nut and thread, the PG7 and RP-SMA sizes, and the insert holes ([docs/tree-box-parts.md](tree-box-parts.md)).
+   - Site A's LRS-350-12, the IEC inlet and the XH-M541 against the hood and the site box ([cad/README.md](../cad/README.md)).
+   - The outer diameter of the outdoor flex (6–10mm for the SP17's gland).
+3. Print the first-offs before the rest, from [print/](../print/README.md) (sizes, counts and settings in its table): one **tree box** with its coupon and seal test, one **socket** and one **ski**, and two **towers**. PETG.
+4. Print 4 step clamps and 4 washers for the CNC bed: PETG, 4 walls, 40% infill.
+5. The full print run, once the test fits pass (stage 7): 14 tree boxes, 42 sockets, 28 skis, 42 towers (for storage, before the season ends), 92 pixel disks per tree, Site A's PSU hood and buck pod.
 
 ## 2. Tread preparation
 
 You need 14 treads. Each is a tapered oak board with four old 17mm fixing holes in its back face.
 
 1. **Tape-check** each tread against `data/blank.json`: length about 894mm, wide end about 382mm, narrow end about 92mm, thickness 30mm. These came from photos and are good to about 2 to 3mm. If one is out by more than about 3mm, fix the JSON and run `python -m tools.build` before cutting. **TBC (Rob):** the tape check has not been done.
-2. Note each tread's thickness. The boot slot is 30mm plus 1.5mm.
+2. Note each tread's thickness. The sockets' channel is 30mm plus 0.8mm (`fit`); a thicker tread needs it changed.
 3. Mark the front and back faces. Find the old holes in the back: two about 33mm from the narrow end and two about 44mm from the wide end, 17mm across and 23mm deep. Check them against the `EXISTING` layer of the CNC file.
 4. The treads may not be identical, so measure each one rather than trusting the first.
 
@@ -48,12 +49,12 @@ You need 14 treads. Each is a tapered oak board with four old 17mm fixing holes 
 
 The procedure, layers and feeds are in [cnc-cutting.md](cnc-cutting.md). In outline:
 
-Each tree is cut in one op, front face up, with no flip and nothing cut from the back (Rob, 25 Oct 2026). Rob does the CAM in NX from the STEP files in `cad/` (`tools/gen_step.py`).
+Each tree is cut in one op, front face up, with no flip and nothing cut from the back (Rob, 25 Oct 2026). Rob does the CAM in NX from the STEP files in `cad/` (`tools/cad_tree.py`, run by `make all`).
 
-1. **Offcut test first.** Print the disk test strip (`fixtures/pixel-disk.scad`, bores 11.8 to 12.2mm). Cut one Ø19 × 6mm counterbore and a Ø15 clearance hole in an oak offcut and glue a disk in. Check a pixel snaps in and its clips clear the hole. Set `hole_dia` (the disk bore) and `clearance_dia` in `tools/tree_layout.py` and run `make all`. **TBC (Rob):** the disk bore and the clip barb flare. These wait on the pixels arriving.
+1. **Offcut test first.** Print a few pixel disks (`print/pixel-disk.stl`). Cut one Ø19 × 6mm counterbore and a Ø15 clearance hole in an oak offcut and press a disk in. Check a pixel snaps in and its clips clear the hole. Set `hole_dia` (the disk bore) and `clearance_dia` in `tools/tree_layout.py` and run `make all`. **TBC (Rob):** the disk bore and the clip barb flare. These wait on the pixels arriving.
 2. **Op 0, once:** screw an MDF sheet to the bed and pocket it 4mm deep to the blank's shape. Don't move it again.
 3. Cut a **pilot tree first**. Op 1: drop the tread into the pocket, face up, and clamp it with the clamps clear of the counterbores. Cut the 92 counterbores, then the clearance holes through into the MDF (helical bore, clear the chips every 6 to 8mm). Watch the first tree all the way through.
-4. Fit a pixel string and a boot to the pilot tree before cutting the other 13.
+4. Fit a pixel string, the sockets and the skis to the pilot tree before cutting the other 13.
 
 Safety: eye and ear protection, dust extraction for oak dust, hands clear of the bit. Packed chips are what snap a 4mm bit.
 
@@ -79,12 +80,12 @@ Each tree takes one string of 92 pixels. The strings have 100: cut off the surpl
    | eye_right | 81 to 86, viewer's right, top node first, clockwise |
    | eye_left | 87 to 92, viewer's left, top node first, clockwise |
 
-3. **Press in the disks** first: one printed PETG disk in each front counterbore, ribbed edge first (front face out), pushed in flush with the face. It's a friction fit on crush ribs (no glue): print the rib test strip (`part="test"`) and the bore test strip (`part="bore-test"`) first and set `rib_od` and `bore`.
+3. **Press in the disks** first: one printed PETG disk in each front counterbore, ribbed edge first (front face out), pushed in flush with the face. It's a friction fit on crush ribs (no glue): `rib_od` 19.3 and `bore` 12.0 fitted on 13 Nov 2026 (cad/parts/pixel-disk.FCStd).
 4. Push each pixel in from the front, through the disk, until its clips snap behind it. The flange rests on the disk, about 1mm proud. The 30mm body ends level with the back face, so the leads come straight out of the back.
 5. Loop each lead across the back face to the next pixel in the same order.
-6. Node 1 is at the base-left. The string's input lead runs down the back face into the control boot's shelf hole, with its xConnect plug at the end and a loop of slack.
+6. Node 1 is at the base-left. The string's input lead runs across the back face to the tree box's PG7 gland, with its xConnect plug at the end and a loop of slack.
 7. Cut the string after node 92 and seal the cut end.
-8. Test the string (checklist section B) before the tree goes into its boots.
+8. Test the string (checklist section B) before the mounts and the box go on.
 9. **TBC (Rob):** how the leads are held on the back face, and that the flange doesn't crack the disk when a pixel is pushed in. Use something rated for outdoor use for the leads.
 
 ## 6. Controller board (14, plus 2 spare)
@@ -100,41 +101,40 @@ Follow "Building and testing one board" in [electronics/README.md](../electronic
 
 Run checklist section A for each board.
 
-## 7. Boots and pegs
+## 7. Mounts: sockets and skis
 
-Two boots per tree: a plain boot on the right and the **control boot** on the left (a tower for the box, behind node 1). Details are in [feet/README.md](../feet/README.md).
+Three sockets per tree, screwed to the back face at the edge: two on the bottom edge, one on the top. In the show a ski plugs into each bottom socket; in storage a tower plugs into all three. Details and positions: [cad/README.md](../cad/README.md#tree-mounts-socket-ski-tower-rob-15-nov-2026); clearances: [cad-checks.md](cad-checks.md).
 
-1. **Test-fit the first pair and two pegs on a real tread** before printing 28. Check the tread thickness in the slot, the old hole's diameter and depth (peg 16.6mm, 20mm deep), the hole height above the bottom edge (44mm from the photo), the pilot offset (26.5mm), the pilot hole diameter (the design assumes a 4 × 30 countersunk screw), and that the xConnect plug passes the 16mm shelf hole. **TBC (Rob):** all of these, and whether 50mm clearance off the ground is enough.
-2. Push the M3 heat-set inserts into the tops of the control boot's four tower posts.
-3. Stand both boots on blocks, so the pixel lead can hang down through the control boot. Lower the tree into them from above, feeding the pixel lead and its plug down through the shelf hole.
-4. From behind, push a peg through each boot's shaft into the old fixing hole. Drive a 4mm wood screw through the peg's tab into the old pilot hole.
-5. Stand the tree where it lives. Nail the toes and heels (8mm × 200mm nails). In the control boot the heel nail is inside the tower, so hammer it before the box goes on.
-6. Thread the pixel lead through the arch into the tower. Bring the 12V flex in through the arch at the bottom of the tower's back wall.
-
-The peg is separate because the tree has to drop into the slot from above; do not glue or screw a peg in before the tree is in.
+1. **Test-fit one socket and one ski on a real tread** before printing 42. The socket should slide over the edge with a little slack (0.8mm across), the socket's tenon should go into the ski's pocket by hand and the M5 bolt through both. **TBC (Rob):** the fit, and the screw positions against your tree.
+2. Mark the sockets: bottom ones centred 55.9mm in from each side of the bottom edge (midway between base-row pixels), the top one centred on the top edge. Each sits hard against the edge with its legs over both faces.
+3. Pilot and drive two 4 × 16 countersunk stainless wood screws through each back leg into the back face (2.5mm pilot). They go 12mm into the oak and leave 18mm in front; nothing goes into the end grain of the edge.
+4. Push each ski onto a bottom socket's tenon and fit an M5 × 50 bolt through the ski and the tenon, nyloc in the ski's trap.
+5. Stand the tree where it lives and drive an 8mm peg stake through each end of each ski.
 
 ## 8. Tree box
 
-L base + wrap-round cover; details in [enclosure/README.md](../enclosure/README.md). Print the coupon and the seal test before the first box.
+## 8. Tree box
+
+L base + wrap-round cover; details in [cad/README.md](../cad/README.md#tree-controller-box). Print the coupon and the seal test before the first box.
 
 1. **Base, on the bench.** Push the M3 heat-set insert into the block on the shelf and an M2 insert into each of the four standoffs. Fit the SP16 panel socket (rear nut; the D flat stops it turning), the PG7 gland and the RP-SMA bulkhead in the shelf, all firing down, with the dipole on the bulkhead.
 2. Screw the controller board onto the plate's four standoffs with four M2 × 6 screws, components facing the back. Fit the two Wago 221-413 on the plate below the board.
 3. Wire to the schematic in [electronics/README.md](../electronics/README.md): SP16 to the Wagos, Wagos to the Mini560's IN pads and the pixel lead. The pixel current (about 2.3A at full white) goes through the Wagos on 18AWG wire, never through the board. The pixel lead's data wire goes to JD DATA. Plug the U.FL pigtail onto the ESP32. There is no fuse in the box: the 3A fuse is at the site box.
 4. **Cord seal.** Press the 2.7mm rubber cord into the plate's groove, under every pinch point, from one end over the top to the other. It doesn't need joining.
-5. **On the tree.** Four 4 × 40 stainless pan-head wood screws with washers through the ear slots and the 10mm spacers into the back of the tree, the shelf level. Plug the run's SP17 plug onto the SP16 underneath and the pixel lead's xConnect onto its tail.
+5. **On the tree.** Low on the node-1 side, high enough that the SP17 plug under the shelf ends at least 20mm above the tree's bottom edge (the assembly puts the plate's left edge 83mm in from the tree's left and the cover's bottom 126mm up: [cad-checks.md](cad-checks.md); check the ear screws miss the pixel leads on your tree). Four 4 × 40 stainless pan-head wood screws with washers through the ear slots and the 10mm spacers into the back of the tree, the shelf level. Plug the run's SP17 plug onto the SP16 underneath and the pixel lead's xConnect onto its tail.
 6. **Cover.** Hold it with the bottom a few degrees out, lift it over the plate's top edge and drop it so the hook catches behind the plate. Swing the bottom in and fit the one M3 × 10 screw at the lower back corner, until the rim lands on the plate.
 
 ## 9. Site box and power
 
 Each site's PSUs, fuses and runs are in [electronics/site-wiring.md](../electronics/site-wiring.md), generated from `data/sites.json`. **TBC (Rob):** the tree counts per site and every run length are defaults, not confirmed. Edit `data/sites.json` and run `make all` when they are. Current defaults: Site A 6 trees (Pi 5), Site B 4 trees (Pi 3), Sites C and D 2 trees each (Pi still to buy).
 
-**Mains.** One plug lead (3-core 1.0mm² H05RN-F, 13A plug with a 3A fuse) per site, from an RCD-protected outdoor socket into the site box, clamped to the plate and wired to the PSU's input terminals under their printed cover. Mains goes nowhere else in the box. The repo does not specify the socket or who inspects the mains side. **TBC (Rob):** have the mains side checked by a competent electrician.
+**Mains** (Site A, Rob, 15 Nov 2026). A C13 lead (13A plug, 5A fuse) from an RCD-protected outdoor socket, through a lid seal, into the IEC inlet on the PSU's printed hood. Inside the hood: the inlet's L (through its fuse and switch) and N to the LRS-350-12's AC/L and AC/N, its earth to FG, all on fully insulated crimps. Mains goes nowhere else in the box. Wiring and tests: [site-box-wiring.html](site-box-wiring.html). **TBC (Rob):** have the mains side checked by a competent electrician.
 
-The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals in its lid, so it needs no glands. Its inside tapers towards the floor, with ribs: measure it before printing the plate. **The plate is still to design** (CLAUDE.md §5); the steps below are the plan.
+The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals in its lid, so it needs no glands. Its inside tapers towards the floor, with ribs: measure it. Parts are stuck down on pads, no plate (Rob, 10 Nov 2026); the assembly ([cad/stair-tree-choir.FCStd](../cad/stair-tree-choir.FCStd)) shows an indicative layout.
 
-1. Fit the PSU (Site A: S-400-12, input switch on 230V, with `enclosure/psu-cover.stl` held by two M4 × 6 screws) at the top of the plate with air round it, then the terminal cover over its mains side.
-2. Fit the 10-way blade fuse box below it: the PSU's +12V to its input stud; the PSU's 0V to two linked Wago 221-415 beside it. One way per tree run (3A), one for the player (3A), one for the router (2A); every negative to the Wagos.
-3. Fit the Pi and its Mini560 5V buck (Site A: the Pi 3, which needs 2.5A; keep the 5V leads short. A Pi 5 would need 5A, and `PSU_MAX_CURRENT=5000` set with `rpi-eeprom-config --edit` because a plain buck can't do its USB-PD handshake), the PAM8610 (straight off 12V after the player fuse) and the USB sound card. Each speaker gets its own 2-core run from the amp.
+1. Set the LRS-350-12's input switch to **230V**. Wire the mains side, fit the hood (two M4 × 6 into the case's side holes, no longer) and stand the PSU along the back of the floor, fan side up and clear.
+2. Fit the 10-way blade fuse box: the PSU's +12V to its input stud; the PSU's 0V to two linked Wago 221-415 beside it. One way per tree run (3A), one for the Pi's buck (3A), one for the amp (3A), one for the router where it's on the PSU (2A); every negative to the Wagos.
+3. Fit the Pi with its 12V-to-USB buck in the printed buck pod, and the XH-M541 amp (12V off its own fuse; the USB sound card plugs into the Pi and a short 3.5mm lead goes to the amp's input). Each speaker gets its own 2-core run from the amp.
 4. Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the SP17 cable plug of an SP16/SP17 2-pin aviation connector on the tree end (screw terminals, no solder; tighten its gland nut on the sheath). Red to +, the same pin every time. Label both ends with the tree number.
 5. Wire each tree box's SP16 socket to its two Wagos with short 0.75mm² tails, red to +, the same pin as the plugs.
 6. Wire each run to its fuse at the site box, lay the cables through the DRiBOX lid seals with the cable guides, and clamp the lid.
@@ -190,15 +190,15 @@ Run [test-checklist.md](test-checklist.md) in order; its sections match the stag
 **TBC (Rob):** the repo has nothing on this yet, so this is a proposed order, to revise after the first real set-up.
 
 Setting up:
-1. Fix the site box to its post and stand the PSUs beside it.
-2. Stand each tree and nail its boots, with the control boot on the left.
-3. Run each 12V flex to its tree and connect the box.
-4. Mains last: plug the PSUs into the RCD socket and test the RCD. Then power the router, the player, and the trees.
+1. Put the site box in place.
+2. Fit a ski onto each tree's bottom tenons (M5 bolt), stand the tree and stake each ski with two 8mm pegs.
+3. Run each 12V flex to its tree and screw its SP17 plug onto the box's SP16.
+4. Mains last: plug the C13 lead into the inlet and the plug into the RCD socket, test the RCD, then switch on at the inlet. Then power the router, the player and the trees.
 5. Run checklist sections D and E.
 
 Taking down:
 1. Switch off at the mains and unplug before touching any 12V connection.
-2. Take the boxes off the towers. Pull the nails to free the boots.
+2. Unscrew the SP17 plugs. Pull the stakes, unbolt the skis.
 3. Dry everything before packing it.
 
-Storage: dry, trees flat with the pixel leads supported, lids off the boxes with the cord left in its groove, and each tree's flex and box labelled with its number.
+Storage: dry, the trees face up in one stack on their towers (a tower on every socket's tenon; each drops into the one below, 115mm pitch, about 1.63m for 14). Boxes stay on the trees, the cord left in its groove; label each tree's flex with its number.

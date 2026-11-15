@@ -28,7 +28,7 @@ VOLTS = 12.0
 TREE_FULL_A = PIXELS * PIXEL_W / VOLTS   # 2.3A, every pixel full white
 TREE_LIMIT_A = 2.0                  # WLED brightness limiter, per tree (pixels only)
 TREE_A = TREE_LIMIT_A + 0.1         # + the ESP32 and its buck
-PLAYER_A = 1.5                      # Pi + USB sound card + PAM8610 at show volume, at 12V
+PLAYER_A = 1.5                      # Pi + USB sound card + XH-M541 (TPA3116D2) at show volume, at 12V
 ROUTER_A = 1.0                      # Cudy WR3000 (12V 1A adapter), on the site PSU unless the site's "router" is "indoors"
 PSUS = [("LRS-100-12", 8.5), ("LRS-150-12", 12.5), ("LRS-200-12", 17.0)]   # Mean Well, enclosed, fanless
 PSU_MAX_LOAD = 0.9                  # the smallest PSU that carries the site at no more than 90% (all white)
@@ -143,13 +143,14 @@ def write_md(plans: list[dict], confirmed: bool, path: Path = MD_FILE) -> None:
     out += [
         "Each site: one enclosed Mean Well LRS PSU inside the site box (a DRiBOX Large), sized to the site; "
         f"each tree on its own run from the site box, fused {FUSE_A}A in a blade fuse box with a negative bus. "
-        f"The show player (Pi, sound card, PAM8610) has its own {PLAYER_FUSE_A}A fuse and the router its own {ROUTER_FUSE_A}A. "
+        f"The show player (Pi, sound card, XH-M541 amp) has its own {PLAYER_FUSE_A}A fuse and the router its own {ROUTER_FUSE_A}A. "
         f"Loads: {TREE_A:.1f}A per tree (WLED's brightness limiter holds the pixels to {TREE_LIMIT_A:g}A; "
         f"full white unlimited would be {TREE_FULL_A:.1f}A), {PLAYER_A}A for the player, {ROUTER_A}A for the router. "
         f"The PSU is the smallest that carries the site at no more than {PSU_MAX_LOAD:.0%}.",
         "",
-        "The PSU's mains terminals sit under a printed cover; its mains lead comes in through a cord grip "
-        "and plugs into an RCD-protected outdoor socket (or a weatherproof socket box on one).",
+        "The PSU's mains terminals sit under a printed hood carrying a fused, switched IEC C14 inlet "
+        "(Site A's LRS-350-12: cad/parts/psu-cover.FCStd), so mains arrives on a C13 lead from an RCD-protected "
+        "outdoor socket and nothing is wired to a loose cable. Other sites' hoods are still to draw for their PSUs.",
         "",
     ]
     for p in plans:
