@@ -6,7 +6,7 @@ __pycache__/
 xlights/**/*.xbkp
 xlights/Backup/
 xlights/**/*.fseq
-previews/
+/previews/
 # CAD program side files
 cad/*.log
 *.FCBak
@@ -14,3 +14,4 @@ cad/*.log
 archive/nx-logs/
 # gen_cnc also writes a .dxf; only the .svg is kept
 cad/*.dxf
+cad/previews/*.tmp.png

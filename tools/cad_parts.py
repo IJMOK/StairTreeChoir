@@ -342,7 +342,16 @@ def psu_cover():
     ties = [F.box(doc, f"Tie{i}", 2.5, f"{P}tie_w", f"{P}wall + 2", f"{dcx} + {k}",
                   f"{P}dc_y {s} ({P}dc_w / 2 + 4) - {P}tie_w / 2", f"{zin} - 1")
             for i, (s, k) in enumerate((("-", 4), ("-", "params.dc_l - 6.5"), ("+", 4), ("+", "params.dc_l - 6.5")))]
-    shell = F.cut(doc, "HoodShell", outer, [over_in, cham_in])
+    # Nice to handle (Rob, 15 Nov 2026): 5mm rounds on every outside edge but the floor's,
+    # a 0.8mm chamfer round the floor, and a lead-in where it slides over the PSU.
+    doc.recompute()
+    outer_r = F.fillet(doc, "OuterR", outer, 5.0, lambda e, s: F.mid(e).z > 0.5)
+    doc.recompute()
+    outer_c = F.chamfer(doc, "OuterC", outer_r, 0.8, lambda e, s: F.mid(e).z < 0.01)
+    lead = F.wedge(doc, "LeadIn", f"-({P}psu_w + {P}fit)", f"{P}fit", f"{P}over_l - 1.5", f"{P}over_l + 0.01",
+                   -1, f"{zin}", f"-({P}psu_w + {P}fit) - 1.5", f"{P}fit + 1.5", -1, f"{zin} + 1.5",
+                   0, 0, 0, F.Z, -90)
+    shell = F.cut(doc, "HoodShell", outer_c, [over_in, cham_in, lead])
     ribbed = F.fuse(doc, "HoodRibbed", [shell, rib])
     F.cut(doc, "Hood", ribbed, [*m4, *vents, adj, iec, *iec_holes, dc, *ties])
 

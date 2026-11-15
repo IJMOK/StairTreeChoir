@@ -9,6 +9,9 @@ not a rendering.
 
 from __future__ import annotations
 
+import os
+import time
+
 import matplotlib
 
 matplotlib.use("Agg")
@@ -65,5 +68,16 @@ def render(items, path, elev=22, azim=-62, title=None, size=(8, 6), deflection=N
     if title:
         ax.set_title(title, fontsize=11)
     fig.subplots_adjust(0, 0, 1, 0.95 if title else 1)
-    fig.savefig(path, facecolor="white")
+    # Write beside it and swap in: a picture open in a viewer (Windows locks it) gets a few
+    # retries rather than failing the whole export.
+    tmp = f"{path}.tmp.png"
+    fig.savefig(tmp, facecolor="white")
     plt.close(fig)
+    for attempt in range(10):
+        try:
+            os.replace(tmp, path)
+            return
+        except OSError:
+            time.sleep(0.5)
+    os.remove(tmp)
+    print(f"could not replace {path} (open in another program?): left as it was")

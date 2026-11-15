@@ -176,7 +176,13 @@ def mid(edge):
 
 def _edges(base, pick):
     s = base.Shape
-    out = [i + 1 for i, e in enumerate(s.Edges) if e.Curve.TypeId == "Part::GeomLine" and pick(e, s)]
+    def straight(e):
+        try:
+            return e.Curve.TypeId == "Part::GeomLine"
+        except TypeError:          # blend curves left by an earlier fillet
+            return False
+
+    out = [i + 1 for i, e in enumerate(s.Edges) if straight(e) and pick(e, s)]
     if not out:
         raise RuntimeError(f"{base.Name}: no edges picked")
     return out
