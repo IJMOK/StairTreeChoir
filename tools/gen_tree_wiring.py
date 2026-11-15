@@ -49,7 +49,7 @@ def tree_svg(layout: dict, place: dict | None) -> str:
             out.append(f'<circle cx="{f(X(sx))}" cy="{f(Yt(sy))}" r="3" class="screw"/>')
         for s in place["sockets"]:
             sw, leg = s["width"], s["leg_h"]
-            body = 24
+            body = s.get("depth", 12)
             if s["points"] == "down":
                 y_top, y_bot = Yt(leg), Yt(-body)
             else:

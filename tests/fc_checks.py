@@ -65,38 +65,44 @@ check("shelf reaches the cover's side walls",
       base.isInside(V(0.1, 20, z), 1e-6, True) and base.isInside(V(bp["box_w"] - 0.1, 20, z), 1e-6, True)
       and cover.isInside(V(bp["ix0"] - 1, 20, z), 1e-6, True))
 
-# --- tree mounts: the socket takes the tongue, the stack interlocks, the tower is hollow
+# --- tree mounts: dovetail rails and slots, the stack interlocks, the tower is hollow
 mp = json.loads((ROOT / "cad" / "parts" / "tree-mounts-params.json").read_text(encoding="utf-8"))
-sock, ski, tower = (solid(f"cad/printed/tree-{n}.step") for n in ("socket", "ski", "tower"))
-check("ski and tower take the socket's tenon", sock.common(ski).Volume < 1e-3 and sock.common(tower).Volume < 1e-3)
-ski_hi = ski.copy()
-ski_hi.translate(V(0, mp["col_d"], 0))
-check("ski clips onto the tower's outer tenon (show riser)", tower.common(ski_hi).Volume < 1e-3)
-pw = mp["ten_w"] / 2 + mp["clr"]
-hy = mp["base_t"] + mp["notch_y"] + 0.2 + mp["hook_d"]
-zt = -mp["tree_t"] / 2 + 6
-check("latch hooks sit in the socket's notches",
-      all(part.isInside(V(sg * (pw - 0.5), hy, zt), 1e-6, True) for part in (ski, tower) for sg in (-1, 1))
-      and all(not sock.isInside(V(sg * (mp["ten_w"] / 2 - 0.4), hy, zt), 1e-6, True) for sg in (-1, 1)))
+sock, half, tower = (solid(f"cad/printed/tree-{n}.step") for n in ("socket", "ski-half", "tower"))
+zc = -mp["tree_t"] / 2
+back = half.copy()
+back.rotate(V(0, 0, zc), V(0, 1, 0), 180)
+check("ski halves and tower slide on the socket's rail",
+      sock.common(half).Volume < 1e-3 and sock.common(back).Volume < 1e-3 and sock.common(tower).Volume < 1e-3
+      and half.common(back).Volume < 1e-3)
+hi_f, hi_b = half.copy(), back.copy()
+hi_f.translate(V(0, mp["y_out"], 0))
+hi_b.translate(V(0, mp["y_out"], 0))
+check("ski halves slide onto the tower's outer rail (show riser)",
+      tower.common(hi_f).Volume < 1e-3 and tower.common(hi_b).Volume < 1e-3)
+lip = mp["dt_root"] / 2 + mp["clr"] + 0.4          # just outside the rail's root, inside the slot's lip
+check("dovetail captures the rail (the slot's lip overhangs the rail's flare)",
+      half.isInside(V(lip, 0.5, zc + 10), 1e-6, True) and tower.isInside(V(lip, 0.8, zc + 10), 1e-6, True)
+      and sock.isInside(V(lip, mp["dt_h"] - 2, zc + 10), 1e-6, True))
 up = tower.copy()
 up.translate(V(0, 0, mp["pitch"]))
-check("towers stack without clashing", tower.common(up).Volume < 1e-3)
+check("towers stack without clashing", tower.common(up).Volume < 1e-3 and sock.common(up).Volume < 1e-3)
 yc = mp["bore_yc"]
 z0 = -(mp["tree_t"] + mp["below"])
 check("tower bore runs right through", all(not tower.isInside(V(0, yc, z), 1e-6, True)
                                            for z in (z0 + 1, z0 + mp["pitch"] / 2, z0 + mp["pitch"] + mp["spig_h"] - 1)))
-spig_in_recess = up.common(tower).Volume
-check("spigot sits in the recess above", spig_in_recess < 1e-3 and up.BoundBox.ZMin < tower.BoundBox.ZMax)
-sole = mp["base_t"] + mp["ski_h"]
-mid_cav = (mp["hol_gap"] + mp["hol_end"]) / 2
-check("ski is hollow either side, solid at the pocket",
-      all(not ski.isInside(V(0, sole - 5, -mp["tree_t"] / 2 + sg * mid_cav), 1e-6, True) for sg in (-1, 1))
-      and ski.isInside(V(0, sole - 5, -mp["tree_t"] / 2), 1e-6, True))
-for n, s in (("socket", sock), ("ski", ski), ("tower", tower)):
+check("spigot sits in the recess above", up.common(tower).Volume < 1e-3 and up.BoundBox.ZMin < tower.BoundBox.ZMax)
+check("tower slot is stopped at the bottom, open at the top",
+      tower.isInside(V(0, 6, zc - mp["rail_half"] - 2), 1e-6, True) and not tower.isInside(V(0, 6, z0 + mp["pitch"] - 1), 1e-6, True))
+dz = (mp["inner_l"] + 6 + mp["half_l"] - 12) / 2            # middle of the cavities, from the centre plane
+w = mp["ski_w"] + (mp["ski_w_end"] - mp["ski_w"]) * (dz - mp["inner_l"]) / (mp["half_l"] - mp["inner_l"])
+xcav = (mp["hol_wall"] / 2 + w / 2 - mp["hol_wall"]) / 2
+check("ski half is hollow, solid round its slot",
+      all(not half.isInside(V(sg * xcav, mp["ski_h"] - 2, zc + dz), 1e-6, True) for sg in (-1, 1))
+      and half.isInside(V(0, mp["dt_h"] + 3, zc + 10), 1e-6, True))
+for n, s in (("socket", sock), ("ski half", half), ("tower", tower)):
     check(f"{n} is one valid solid", s.isValid() and len(s.Solids) == 1)
-ch = mp["tree_t"] + mp["fit"]
-check("socket channel takes the tread", not sock.isInside(V(0, -mp["leg_h"] / 2, -mp["tree_t"] / 2), 1e-6, True)
-      and sock.isInside(V(0, -mp["leg_h"] / 2, mp["fit"] / 2 + mp["wall"] / 2), 1e-6, True), ch)
+check("socket channel takes the tread", not sock.isInside(V(0, -mp["leg_h"] / 2, zc), 1e-6, True)
+      and sock.isInside(V(0, -mp["leg_h"] / 2, mp["fit"] / 2 + mp["wall"] / 2), 1e-6, True))
 
 # --- PSU hood
 hp = json.loads((ROOT / "cad" / "parts" / "psu-cover-params.json").read_text(encoding="utf-8"))

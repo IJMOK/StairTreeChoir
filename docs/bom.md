@@ -117,7 +117,7 @@ Still to buy for Site A: about **£27** plus the fasteners below (and the inlet,
 | 3 | XH-M541 amps (or similar, 12V) | One per site |
 | 8 | Small TVS diodes (optional) | |
 | 736 + spares | Printed pixel disks (PETG) | 92 per tree × 8 (trees 7–14) |
-| 24 + 16 + 24 | Printed sockets, skis, towers (PETG) | Trees 7–14 |
+| 24 + 32 + 24 | Printed sockets, ski halves, towers (PETG) | Trees 7–14 |
 
 ## Fasteners
 
@@ -130,8 +130,8 @@ Lids and box mounts use brass heat-set inserts, not captive nuts: the screws sit
 | 28 | 64 | 4 × 40 stainless pan-head wood screws + washers | Tree box to the back of the tree, through the flange slots and 10mm printed spacers, 4 per tree |
 | 28 | 64 | M2 brass heat-set inserts, about 4mm long, for a 3.2mm hole | Controller board standoffs, 4 per board (Rob, 31 Oct 2026). Check the hole against the real inserts (`standoff_hole`) |
 | 28 | 64 | M2 × 6 stainless pan-head machine screws | Controller board into the standoff inserts, 4 per board |
-| 42 | 96 | 4 × 16 stainless countersunk wood screws | Sockets to the back face, 2 per socket, 3 sockets per tree (15 Nov 2026). Not longer: 16 leaves 18mm of oak in front |
-| 24 | 56 | 8mm peg stakes, about 200mm | Two per ski, two skis per tree |
+| 84 | 192 | 4 × 16 stainless countersunk wood screws | Sockets, 4 each (2 through the back leg, 2 through the front), 3 sockets per tree (15 Nov 2026). Not longer: two from opposite faces must not meet in 30mm of oak |
+| 56 | 128 | 8mm peg stakes, about 200mm | Two per ski half, four halves per tree (they also lock the halves on the rail) |
 | 2 | 10 | 5 × 40 stainless exterior screws + washers | The DRiBOX to a post or fence, if it isn't left standing |
 | 4 + 4 | 4 + 4 | M6 × 70 bolts and M6 spring channel nuts (short spring, 41×21 strut) | CNC clamps (cad/parts/step-clamp.FCStd); the washers are printed. On the 18mm fixture plate (`spoil_t` 14) the echo gives 77mm: use M6 × 80 |
 | 1 pack | 1 pack | Cable ties, up to 4.8mm wide | Buck pod and PSU hood tie slots |

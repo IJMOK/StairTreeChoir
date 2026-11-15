@@ -42,7 +42,7 @@ Clearances measured on the models (screws against pixel holes, the storage stack
 | Master | Parts (bodies) | Print files |
 |---|---|---|
 | [tree-box.FCStd](parts/tree-box.FCStd) | Tree controller box: Base, Cover, Spacer; Coupon and SealStrip/SealBar test prints | `tree-box-*.stl` |
-| [tree-mounts.FCStd](parts/tree-mounts.FCStd) | Socket (3 per tree: a slim clip and tenon on the tree), Ski (show feet, 2 per tree), Tower (storage and show riser, 3 per tree), LatchCoupon | `tree-socket.stl`, `tree-ski.stl`, `tree-tower.stl`, `tree-latch-coupon.stl` |
+| [tree-mounts.FCStd](parts/tree-mounts.FCStd) | Socket (3 per tree: screwed both sides, a dovetail rail), SkiHalf (show feet, 4 per tree), Tower (storage and show riser, 3 per tree), DovetailCoupon | `tree-socket.stl`, `tree-ski-half.stl`, `tree-tower.stl`, `tree-dovetail-coupon.stl` |
 | [psu-cover.FCStd](parts/psu-cover.FCStd) | Hood over Site A's LRS-350-12 terminals, with the IEC inlet; RefPsu and the inlet as reference solids | `psu-hood.stl` |
 | [player-pods.FCStd](parts/player-pods.FCStd) | Buck pod (base, lid) for the Pi's 12V-to-USB buck. The audio pod in it was for the PAM8610 and isn't exported (below) | `pod-buck-*.stl` |
 | [pixel-disk.FCStd](parts/pixel-disk.FCStd) | The crush-rib disk that holds each bullet pixel | `pixel-disk.stl` |
@@ -60,24 +60,23 @@ The four masters made on 15 Nov 2026 (tree mounts, PSU hood, pixel disk, step cl
 ### Frames (mm)
 
 - **Tree** (stair-tree.FCStd, and the TreeUnit in the assembly): Z up out of the front face (front at Z = 0, back at −30), X right seen from the front, Y up the tree, origin at the bottom-left of the blank's bounding box.
-- **Socket frame** (tree-mounts): x along the tree's edge (0 at the socket's centre), y out of the edge (0 at the edge), z = the tree's Z. Skis and towers are drawn in it as fitted on the tenon.
+- **Socket frame** (tree-mounts): x along the tree's edge (0 at the socket's centre), y out of the edge (0 at the edge), z = the tree's Z. The front ski half and the tower are drawn in it as fitted; the back half is the front one turned round a vertical through the tree's centre plane.
 - **Tree box** (tree-box): x across the plate, y back from the plate's tree face, z up from the cover's bottom edge.
 - **PSU** (psu-cover): x along the case from its terminal end, y across from the pin 1 side, z up from its base.
 - **Assembly world**: Z up with the ground at 0; the show faces −Y (FreeCAD's front view).
 
 ## Part notes
 
-### Tree mounts: socket, ski, tower (Rob, 15 Nov 2026)
+### Tree mounts: socket, ski halves, tower (Rob, 15 Nov 2026)
 
-Replaces the boots. The part on the tree is kept minimal and the riders carry the bulk; nothing is bolted; every edge you handle is rounded or chamfered. **One rule: sockets and towers carry tenons, skis and towers carry pockets, and anything with a pocket clips onto anything with a tenon.**
+Replaces the boots. **One joint everywhere: a dovetail rail running front to back.** Sockets and towers carry rails; ski halves and towers carry slots. Nothing is bolted or clipped; every edge you handle is rounded or chamfered.
 
-- **Socket** (3 per tree, about 18cm³): a slim U-clip over the edge (legs 10mm up each face, 3.5mm thick; the outline pixels' counterbores start 12.5mm in) with a tenon (24 wide, 22 deep, 20 long) standing out of it. Two on the bottom edge, midway between base-row pixels (centres 55.9mm in from each side, 270mm apart), one centred on the top edge. Two 4 × 16 countersunk stainless screws through the **back** leg into the back face, 5mm in from the edge: 12.5mm into the oak, 17.5mm left in front, clear of the pixel holes and the leads (checked on the model: [docs/cad-checks.md](../docs/cad-checks.md)). Nothing goes into the end grain.
-- **The joint:** every tenon has flat sides on top and a 45° keel underneath (towards the tree's back), so it prints without supports whichever way it lies and only goes in one way round. Each pocket has a springy **latch arm** in both side walls; its hook (1mm, a 45° lead-in and a 60° back face) clicks into a notch across the tenon's side. Push to click on, pull firmly to take off. Tune the feel with `arm_t` (stiffness) and `hook_d` (grip) in the sheet.
-- **Show, low:** a **ski** (2 per tree) clips onto each bottom tenon. About 249mm front to back (fits a P2S bed), 44 wide, rounded all over, hollow (two cavities open to the sole with 45° roofs), with an 8.8mm hole near each end for the 8mm peg stakes. The tree's bottom edge stands 50mm off the grass.
-- **Show, raised:** a **tower** lies front to back between each bottom socket and its ski: it clips onto the socket by its pocket, and the ski clips onto the second tenon on the tower's outer face. The bottom edge stands 114mm off the grass. The towers sit mostly behind the tree. Stake the skis well: the tree's weight is higher and gusts have more leverage.
-- **Storage:** the trees lie face up with a tower clipped onto every tenon (3 per tree); each tower's tapered spigot drops 20mm into the hollow bottom of the tower above, so the stack locks together. Pitch 115mm: the tree box under each tree clears the pixels of the tree below by 16mm, and the towers, not the boxes, carry the stack. 14 trees stand about 1.63m.
-- Printing (all PETG, no supports): sockets on their leg tips, tenon up; skis sole down; towers upright, spigot up. 42 sockets, 28 skis and 42 towers in all; volumes in [print/README.md](../print/README.md).
-- **Test first:** print one socket and the **latch coupon** (`tree-latch-coupon.stl`, a slice of ski round its pocket). Check the slack across the channel on a real tread (`fit`, 0.8 total), the click and the pull-off, then the screw positions against your tree.
+- **Socket** (3 per tree, about 47cm³): a U over the edge, **screwed through both legs**: two 4 × 16 countersunk stainless screws in the back leg and two in the front leg, the front pair offset 8mm along the edge from the back pair. Each goes 12.5mm into the 30mm oak, so they can't meet; all 5mm in from the edge, clear of the pixel holes and the leads ([docs/cad-checks.md](../docs/cad-checks.md)). Under the edge, a **dovetail rail** 16mm tall, 52mm wide at its tip with a 15° undercut, running 58mm front to back (14mm past each face). It can't pull off downwards or sideways, only slide along. Two on the bottom edge (centres 55.9mm in from each side, 270mm apart), one on the top edge.
+- **Show:** each bottom socket takes **two ski halves** (4 per tree), one slid on from the front and one from the back until they butt under the tree; stake each half (two 8mm pegs each) and they can't slide apart, which locks the joint. A foot covers about 500mm front to back. Each half is 252mm (fits a P2S bed): full size (64 × 50) for the 40mm round its slot, then slimmer and lower towards the outer end (36 wide, 24 tall), sole flat, with two cavities open to the sole and solid bosses round the stake holes. The tree's bottom edge stands 50mm off the grass.
+- **Show, raised:** a **tower** slides onto each bottom rail lying front to back, and the ski halves slide onto the rail on the tower's outer face. The bottom edge stands 106mm off the grass.
+- **Storage:** the trees lie face up; each tower's slot is open at the top and stopped at the bottom, so a tree drops onto its three towers and rests on the stops; each tower's tapered spigot drops 20mm into the tower above. Pitch 115mm: the tree box under each tree clears the pixels below by 16mm. 14 trees stand about 1.63m.
+- Printing (all PETG, no supports): sockets rail down, legs up; ski halves sole down (the cavities' flat roofs bridge under 25mm); towers upright, spigot up (the outer rail's bottom end is cut back at 45°). 42 sockets, 56 ski halves, 42 towers.
+- **Test first:** print one socket and the **dovetail coupon** (`tree-dovetail-coupon.stl`, the inner 40mm of a ski half). It should slide on by hand with no rock; tune `clr` (0.3 a side) in the sheet. Check the channel on a real tread (`fit`, 0.8 total) and the screw positions against your tree.
 - The fillet and chamfer sizes are set in [tools/cad_parts.py](../tools/cad_parts.py) when the part is built, not in the sheet; the sizes they round follow the sheet.
 
 ### PSU hood with IEC inlet (Rob, 15 Nov 2026)

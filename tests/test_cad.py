@@ -16,7 +16,7 @@ PRINT = sorted((ROOT / "print").glob("*.stl"))
 
 def test_print_files_exist():
     names = {p.stem for p in PRINT}
-    for n in ("tree-box-base", "tree-box-cover", "tree-socket", "tree-ski", "tree-tower", "psu-hood",
+    for n in ("tree-box-base", "tree-box-cover", "tree-socket", "tree-ski-half", "tree-tower", "psu-hood",
               "pixel-disk", "step-clamp", "pod-buck-base", "pod-buck-lid"):
         assert n in names
 
@@ -67,13 +67,15 @@ def test_cad_checks_all_pass():
 
 def test_mount_sizes_hang_together():
     mp = json.loads((ROOT / "cad" / "parts" / "tree-mounts-params.json").read_text(encoding="utf-8"))
-    assert mp["ten_l"] + 0.5 < mp["ski_h"]                    # the ski's pocket has a floor
-    assert mp["base_t"] + mp["ten_l"] + 0.5 < mp["bore_yc"] - (mp["spig_d"] / 2 + mp["spig_clr"])  # pocket and bore don't meet
-    assert mp["sock_w"] <= 56                                # fits the flat at the tree's top
-    assert mp["spig_w"] + 2 * mp["spig_clr"] < mp["col_w"]   # the recess has walls
-    assert 16 - mp["wall"] < mp["tree_t"] - 15               # the screws stop well short of the front
-    assert mp["clr"] < mp["hook_d"] < mp["arm_gap"]          # the hook reaches the notch and the arm can spring clear
-    assert mp["hook_d"] - mp["clr"] < mp["notch_d"]          # and the hook doesn't bottom in the notch
+    assert 0 < mp["dt_root"] < mp["dt_tip"]                   # a dovetail: wider at the tip
+    assert mp["dt_tip"] <= 56                                 # fits the flat at the tree's top
+    assert mp["dt_tip"] + 2 * mp["clr"] + 8 <= mp["ski_w"]    # the ski's slot has walls
+    assert mp["dt_tip"] + 2 * mp["clr"] + 8 <= mp["col_w"]    # and the tower's
+    assert mp["dt_h"] + mp["clr"] + 4 <= mp["bore_yc"] - (mp["spig_d"] / 2 + mp["spig_clr"])  # 4mm wall: slot to bore
+    assert mp["spig_w"] + 2 * mp["spig_clr"] < mp["col_w"]    # the recess has walls
+    assert 2 * (16 - mp["wall"]) < mp["tree_t"]               # front and back screws can't meet
+    assert mp["front_x"] != mp["screw_x"]                     # and they're offset anyway
+    assert -mp["tree_t"] / 2 + mp["rail_half"] < -(mp["tree_t"] + mp["below"]) + mp["pitch"]  # rail clears the tower above
 
 
 @pytest.fixture(scope="module")
@@ -94,9 +96,9 @@ EXPECTED = [
     "tree box base: one solid with real surfaces", "tree box cover: one solid with real surfaces",
     "tree box sizes follow the spreadsheet", "tree box base and cover don't clash",
     "cover screw clears the cover wall and the boss bore", "shelf reaches the cover's side walls",
-    "ski and tower take the socket's tenon", "ski clips onto the tower's outer tenon (show riser)",
-    "latch hooks sit in the socket's notches", "towers stack without clashing", "tower bore runs right through",
-    "spigot sits in the recess above", "ski is hollow either side, solid at the pocket", "socket is one valid solid", "ski is one valid solid", "tower is one valid solid",
+    "ski halves and tower slide on the socket's rail", "ski halves slide onto the tower's outer rail (show riser)",
+    "dovetail captures the rail (the slot's lip overhangs the rail's flare)", "tower slot is stopped at the bottom, open at the top", "towers stack without clashing", "tower bore runs right through",
+    "spigot sits in the recess above", "ski half is hollow, solid round its slot", "socket is one valid solid", "ski half is one valid solid", "tower is one valid solid",
     "socket channel takes the tread", "hood is one valid solid", "hood clears the PSU",
     "hood M4 screws reach 5mm max into the case", "hood has a closed floor under the chamber",
     "hood partition between mains and 12V",
