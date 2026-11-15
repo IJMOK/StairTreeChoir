@@ -37,6 +37,7 @@ def render(items, path, elev=22, azim=-62, title=None, size=(8, 6), deflection=N
     fig = plt.figure(figsize=size, dpi=110)
     ax = fig.add_subplot(projection="3d")
     lo, hi = np.full(3, np.inf), np.full(3, -np.inf)
+    all_t, all_fc = [], []
     view = np.array([np.cos(np.radians(elev)) * np.cos(np.radians(azim)),
                      np.cos(np.radians(elev)) * np.sin(np.radians(azim)), np.sin(np.radians(elev))])
     for item in items:
@@ -54,10 +55,16 @@ def render(items, path, elev=22, azim=-62, title=None, size=(8, 6), deflection=N
         rgb = np.array(to_rgb(colour))
         fc = np.clip(shade[:, None] * rgb[None, :], 0, 1)
         fc = np.hstack([fc, np.full((len(fc), 1), alpha)])
-        coll = Poly3DCollection(t, facecolors=fc, edgecolors=(0, 0, 0, 0.15) if edge else fc, linewidths=0.1)
-        ax.add_collection3d(coll)
+        all_t.append(t)
+        all_fc.append(fc)
         lo = np.minimum(lo, t.reshape(-1, 3).min(0))
         hi = np.maximum(hi, t.reshape(-1, 3).max(0))
+    # One collection for everything, so matplotlib sorts face by face; one per part sorted
+    # whole parts, and a big panel could be drawn over a small part in front of it.
+    if all_t:
+        t, fc = np.concatenate(all_t), np.concatenate(all_fc)
+        coll = Poly3DCollection(t, facecolors=fc, edgecolors=(0, 0, 0, 0.15) if edge else fc, linewidths=0.1)
+        ax.add_collection3d(coll)
     c, r = (lo + hi) / 2, (hi - lo).max() / 2
     ax.set_xlim(c[0] - r, c[0] + r)
     ax.set_ylim(c[1] - r, c[1] + r)

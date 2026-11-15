@@ -46,6 +46,20 @@ def test_no_openscad_or_cadquery_left():
         assert "import cadquery" not in py.read_text(encoding="utf-8"), py
 
 
+def test_all_live_cad_is_freecad():
+    """Only FreeCAD masters and files exported from them outside archive/ (Rob, 15 Nov 2026)."""
+    foreign = {".prt", ".scad", ".f3d", ".sldprt", ".gcode", ".nc", ".3mf", ".dwg"}
+    for path in ROOT.rglob("*"):
+        if {"archive", ".venv", ".git"} & set(path.parts) or not path.is_file():
+            continue
+        assert path.suffix.lower() not in foreign, path
+
+
+def test_complete_tree_file_exists():
+    assert (ROOT / "cad" / "stair-tree-complete.FCStd").stat().st_size > 1000
+    assert (ROOT / "cad" / "components" / "bought-parts.FCStd").exists()
+
+
 def test_cad_checks_all_pass():
     text = (ROOT / "docs" / "cad-checks.md").read_text(encoding="utf-8")
     assert "**" not in text, "a check in docs/cad-checks.md failed"
@@ -86,6 +100,7 @@ EXPECTED = [
     "socket channel takes the tread", "hood is one valid solid", "hood clears the PSU",
     "hood M4 screws reach 5mm max into the case", "hood has a closed floor under the chamber",
     "hood partition between mains and 12V",
+    "complete tree assembly opens with every link resolved",
     *[f"master {n} recomputes" for n in ("tree-box", "player-pods", "psu-cover", "tree-mounts", "pixel-disk", "step-clamp")],
 ]
 

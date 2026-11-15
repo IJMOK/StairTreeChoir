@@ -8,18 +8,32 @@ make cad            # = python -m tools.cad   (a few minutes; needs FreeCAD 1.1)
 
 ## What's where
 
+```
+cad/
+  stair-tree-complete.FCStd   one complete tree, as it stands in the show      (generated)
+  stair-tree-choir.FCStd      the whole setup: Site A's 6 trees and site box,
+                              the raised option, the 14-tree storage stack    (generated)
+  stair-tree-choir.step       one tree as it stands, plus the PSU and hood    (generated)
+  parts/                      THE MASTERS: one FreeCAD file per part family   (hand, in FreeCAD)
+  tree/                       the tread and the CNC fixture plate, built from data/tree-layout.json
+  components/                 the tree box's bought parts, in FreeCAD and STEP (generated)
+  printed/                    every printed part as a STEP solid, as fitted    (generated)
+  previews/                   a picture of every part and assembly             (generated)
+  placements.json             where the box and sockets sit on the tree        (generated)
+```
+
 | Path | What | Edited by |
 |---|---|---|
-| [stair-tree-choir.FCStd](stair-tree-choir.FCStd) | **The whole setup**: one tree with its box, mounts and 92 disks; Site A's 6 trees on skis and the site box; the 14-tree storage stack. Every part is a link to its master, so open this to look round, and it always shows the masters as saved | generated (`tools/cad_assembly.py`) |
-| `parts/*.FCStd` | **The masters**, one per printed part family (table below). Sizes in each file's `params` spreadsheet | **hand, in FreeCAD** |
-| `parts/*-params.json` | Each master's spreadsheet, for the Python tools and tests | generated |
-| `stair-tree.FCStd`, `stair-tree.step`, `fixture-plate.step`, `stair-tree-assembly.step` | The tread and the MDF fixture plate, for CAM in NX | generated (`tools/cad_tree.py`, also run by `make all`) |
-| `stair-tree-cnc-layout.svg`, `.dxf` | 2D reference of one tree's holes | generated (`tools/gen_cnc.py`) |
-| `printed/*.step` | Every printed part as a STEP solid, as fitted (not laid out for printing) | generated |
-| `components/*.step`, `tree-box-assembly.step` | The tree box's bought parts (stand-ins at their real envelopes) and the box with them fitted; sizes and fit checks in [docs/tree-box-parts.md](../docs/tree-box-parts.md) | generated (`tools/cad_components.py`) |
-| `stair-tree-choir.step` | One tree as it stands in the show, plus the PSU and hood, for NX or any viewer | generated |
-| `previews/*.png` | A picture of every printed part and of the assembly | generated |
-| `tree.prt`, `fixture-plate.prt`, `Clamp.prt`, `Clamp.stp`, `stair-tree-assembly_step.prt`, `stair-tree.gcode` | Rob's CAM set in Siemens NX | Rob, in NX |
+| [stair-tree-complete.FCStd](stair-tree-complete.FCStd) | **One complete tree**, standing on its skis: the tree, its 92 disks and pixels, the tree box with every bought part, the three sockets and two skis. Every part is an App::Link to its master, so it always shows the masters as saved | generated (`tools/cad_assembly.py`) |
+| [stair-tree-choir.FCStd](stair-tree-choir.FCStd) | **The whole setup**: Site A's 6 trees on skis and the site box, a raised tree on towers, and the 14-tree storage stack, all linking the complete tree above | generated |
+| `parts/*.FCStd` | **The masters**, one per part family (table below). Sizes in each file's `params` spreadsheet. `*-params.json` beside them are copies of the sheets for the tools and tests | **hand, in FreeCAD** |
+| `tree/stair-tree.FCStd`, `stair-tree.step`, `fixture-plate.step`, `stair-tree-assembly.step` | The tread and the MDF fixture plate: the STEPs are for CAM | generated (`tools/cad_tree.py`, also run by `make all`) |
+| `tree/stair-tree-cnc-layout.svg` | 2D reference of one tree's holes | generated (`tools/gen_cnc.py`) |
+| `components/bought-parts.FCStd`, `components/*.step`, `components/tree-box-assembly.step` | The tree box's bought parts (stand-ins at their real envelopes, each in its own frame) and the box with them fitted; sizes, sources and fit checks in [docs/tree-box-parts.md](../docs/tree-box-parts.md) | generated (`tools/cad_components.py`) |
+| `printed/*.step` | Every printed part as a STEP solid, as fitted (not laid out for printing: that's [print/](../print/README.md)) | generated |
+| `previews/*.png` | Pictures of every printed part (as printed) and of the assemblies | generated |
+
+Nothing in `cad/` is in another CAD program's format any more (15 Nov 2026). Rob's NX CAM set for the first-off tree (`tree.prt`, `fixture-plate.prt`, `Clamp.prt`, the assembly and `stair-tree.gcode`) is in [archive/nx-cam/](../archive/nx-cam/); do the CAM again from `tree/*.step` (in NX, or FreeCAD's CAM workbench).
 
 Clearances measured on the models (screws against pixel holes, the storage stack, clashes) are in [docs/cad-checks.md](../docs/cad-checks.md), rewritten by every `make cad`.
 

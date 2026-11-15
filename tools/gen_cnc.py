@@ -1,4 +1,4 @@
-"""2D CNC reference from data/tree-layout.json: cad/stair-tree-cnc-layout.svg and .dxf.
+"""2D CNC reference from data/tree-layout.json: cad/tree/stair-tree-cnc-layout.svg and .dxf.
 
 The CAM is done in NX from the STEP solids (tools/cad_tree.py); these are the
 same features flat, for checking and for anyone without NX. Everything is cut
@@ -20,7 +20,7 @@ import ezdxf
 
 from tools.tree_layout import LAYOUT_FILE, ROOT
 
-CAD_DIR = ROOT / "cad"
+CAD_DIR = ROOT / "cad" / "tree"
 SVG_FILE = CAD_DIR / "stair-tree-cnc-layout.svg"
 DXF_FILE = CAD_DIR / "stair-tree-cnc-layout.dxf"
 
@@ -98,7 +98,7 @@ def write_dxf(g: dict, path: Path = DXF_FILE) -> None:
 
 def main() -> None:
     g = geometry(json.loads(LAYOUT_FILE.read_text(encoding="utf-8")))
-    CAD_DIR.mkdir(exist_ok=True)
+    CAD_DIR.mkdir(parents=True, exist_ok=True)
     write_svg(g)
     write_dxf(g)
     print(f"wrote {SVG_FILE.relative_to(ROOT)}, {DXF_FILE.relative_to(ROOT)}")

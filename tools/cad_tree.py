@@ -3,14 +3,14 @@ tools/gen_step.py, 15 Nov 2026). Run with FreeCAD's Python from the repo root:
 
   freecadcmd -c "import sys; sys.path.insert(0, 'tools'); import cad_tree; cad_tree.main()"
 
-  cad/stair-tree.FCStd          the tree and the fixture plate (generated: don't edit it,
+  cad/tree/stair-tree.FCStd          the tree and the fixture plate (generated: don't edit it,
                                 change data/blank.json or tools/tree_layout.py and rerun)
-  cad/stair-tree.step           the finished tread for CAM in NX: rounded outline, a disk
+  cad/tree/stair-tree.step           the finished tread for CAM in NX: rounded outline, a disk
                                 counterbore and a clearance hole per pixel, the old stair
                                 fixing holes in the back
-  cad/fixture-plate.step        MDF plate with a pocket the shape of the blank, zero
+  cad/tree/fixture-plate.step        MDF plate with a pocket the shape of the blank, zero
                                 clearance (set the offset in CAM)
-  cad/stair-tree-assembly.step  the two together
+  cad/tree/stair-tree-assembly.step  the two together
 
 Tree axes: mm, Z up, front face at Z = 0 (the part runs down to -thickness), X right,
 Y up (the top of the tree is +Y), origin at the bottom-left of the blank's bounding box.
@@ -28,7 +28,7 @@ import Part
 
 ROOT = Path(__file__).resolve().parent.parent
 LAYOUT_FILE = ROOT / "data" / "tree-layout.json"
-CAD_DIR = ROOT / "cad"
+CAD_DIR = ROOT / "cad" / "tree"
 FCSTD = CAD_DIR / "stair-tree.FCStd"
 TREE_FILE = CAD_DIR / "stair-tree.step"
 PLATE_FILE = CAD_DIR / "fixture-plate.step"
@@ -103,6 +103,7 @@ def write_step(objs, path: Path) -> None:
 
 
 def main() -> None:
+    CAD_DIR.mkdir(parents=True, exist_ok=True)
     layout = load_layout()
     tree, plate = tree_solid(layout), plate_solid(layout)
     for name, s in (("tree", tree), ("plate", plate)):

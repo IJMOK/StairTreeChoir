@@ -13,7 +13,7 @@ def main() -> None:
         if cad.run(("tree",)):
             raise SystemExit("the FreeCAD tree export failed")
     else:
-        print("skipped cad/stair-tree.*: freecadcmd not found (FreeCAD 1.1)")
+        print("skipped cad/tree/stair-tree.*: freecadcmd not found (FreeCAD 1.1)")
     gen_xmodel.main()
     gen_controller.main()
     gen_site_wiring.main()

@@ -28,7 +28,7 @@ def solid(path):
 # --- the tread (cad_tree.py): one solid, the right volume, a counterbore floor per pixel
 layout = json.loads((ROOT / "data" / "tree-layout.json").read_text(encoding="utf-8"))
 b, p = layout["blank"], layout["params"]
-tree = solid("cad/stair-tree.step")
+tree = solid("cad/tree/stair-tree.step")
 check("tree is one valid solid", tree.isValid() and len(tree.Solids) == 1)
 bb = tree.BoundBox
 check("tree spans the thickness", abs(bb.ZMin + b["thickness"]) < 0.01 and abs(bb.ZMax) < 0.01, bb)
@@ -41,7 +41,7 @@ old = sum(math.pi * (h["dia"] / 2) ** 2 * h["depth"] for h in b["existing_holes"
 check("tree volume = slab - pixel holes - old holes", abs(tree.Volume / (slab - pixels - old) - 1) < 1e-3, tree.Volume)
 floors = [f for f in tree.Faces if f.Surface.TypeId == "Part::GeomPlane" and abs(f.CenterOfMass.z + d_cb) < 1e-6]
 check("one counterbore floor per pixel", len(floors) == len(layout["nodes"]), len(floors))
-plate = solid("cad/fixture-plate.step")
+plate = solid("cad/tree/fixture-plate.step")
 check("tree sits in the plate pocket", tree.common(plate).Volume < 1e-3)
 
 # --- the tree box (as exported from cad/parts/tree-box.FCStd)
@@ -115,5 +115,18 @@ for name in ("tree-box", "player-pods", "psu-cover", "tree-mounts", "pixel-disk"
     bad = [o.Name for o in doc.Objects if not o.isValid()]
     check(f"master {name} recomputes", not bad, bad)
     App.closeDocument(doc.Name)
+
+# --- the complete tree: every link resolves and it holds the whole tree
+doc = App.openDocument(str(ROOT / "cad" / "stair-tree-complete.FCStd"))
+doc.recompute()
+links = [o for o in doc.Objects if o.TypeId == "App::Link"]
+broken = [o.Name for o in links if o.getLinkedObject() is None or o.getLinkedObject() == o]
+names = {o.Name for o in doc.Objects}
+needed = {"StairTree", "TreeUnit", "Tree", "TreeBox", "BoxBase", "BoxCover", "Socket0", "Socket1", "Socket2", "Ski0", "Ski1",
+          "Box_esp32", "Box_sp16", "Disk01", "Disk92", "Pixels"}
+check("complete tree assembly opens with every link resolved", not broken and needed <= names and len(links) > 100,
+      f"broken {broken}, missing {needed - names}, {len(links)} links")
+for d in list(App.listDocuments().values()):
+    App.closeDocument(d.Name)
 
 print("RESULT:" + json.dumps(R))

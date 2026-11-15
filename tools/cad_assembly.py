@@ -1,6 +1,9 @@
 """The whole setup as one FreeCAD assembly, linked to the masters (15 Nov 2026). Run by
 tools/cad_export.py (python -m tools.cad), after the parts are exported.
 
+  cad/stair-tree-complete.FCStd  one complete tree as it stands in the show: the tree, its 92
+                               disks, pixels, tree box with every bought part, sockets and skis,
+                               each an App::Link to its master (generated: don't edit it)
   cad/stair-tree-choir.FCStd   generated: don't edit it. Open it in FreeCAD to look round
                                the setup; every part is an App::Link to its master in
                                cad/parts/ (or to the generated tree), so it always shows the
@@ -40,6 +43,7 @@ import cad_tree  # noqa: E402
 
 PARTS_DIR = ROOT / "cad" / "parts"
 OUT = ROOT / "cad" / "stair-tree-choir.FCStd"
+COMPLETE = ROOT / "cad" / "stair-tree-complete.FCStd"
 STEP = ROOT / "cad" / "stair-tree-choir.step"
 PREVIEW_DIR = ROOT / "cad" / "previews"
 CHECKS = ROOT / "docs" / "cad-checks.md"
@@ -207,40 +211,62 @@ def main():
     mp = json.loads((PARTS_DIR / "tree-mounts-params.json").read_text(encoding="utf-8"))
     bp = json.loads((PARTS_DIR / "tree-box-params.json").read_text(encoding="utf-8"))
 
-    if "stair_tree_choir" in App.listDocuments():
-        App.closeDocument("stair_tree_choir")
-    doc = App.newDocument("stair_tree_choir")
-    doc.saveAs(str(OUT))                  # links to other files need the owner saved first
+    bought = App.openDocument(str(cad_components.BOUGHT_FCSTD))
+    for name in ("stair_tree_complete", "stair_tree_choir"):
+        if name in App.listDocuments():
+            App.closeDocument(name)
 
-    # ---- one tree, in its own frame
-    unit = doc.addObject("App::Part", "TreeUnit")
+    # ---- one complete tree, in its own file: everything on it linked to its master
+    cdoc = App.newDocument("stair_tree_complete")
+    cdoc.saveAs(str(COMPLETE))            # links to other files need the owner saved first
+    unit = cdoc.addObject("App::Part", "TreeUnit")
     unit.Label = "Tree unit (tree frame)"
-    link(doc, "Tree", tree_doc.getObject("Tree"), pl(), unit, "Tree (generated)")
-    disks = doc.addObject("App::Part", "PixelDisks")
+    link(cdoc, "Tree", tree_doc.getObject("Tree"), pl(), unit, "Tree (generated from the layout)")
+    disks = cdoc.addObject("App::Part", "PixelDisks")
+    disks.Label = "92 pixel disks"
     unit.addObject(disks)
     flip = App.Rotation(V(1, 0, 0), 180)
     for i, (x, y) in enumerate(nodes_xy(layout), 1):
-        link(doc, f"Disk{i:02d}", disk.getObject("Disk"), pl(x, y, 0, flip), disks, f"pixel disk {i}")
-    feature(doc, "Pixels", pixel_standins(layout), unit, "Pixels (stand-ins: flange and dome)")
+        link(cdoc, f"Disk{i:02d}", disk.getObject("Disk"), pl(x, y, 0, flip), disks, f"pixel disk {i}")
+    feature(cdoc, "Pixels", pixel_standins(layout), unit, "92 pixels (stand-ins: flange and dome)")
     sockets = socket_placements(layout)
     for i, s in enumerate(sockets):
-        link(doc, f"Socket{i}", mounts.getObject("Socket"), s, unit, ["socket, bottom left", "socket, bottom right", "socket, top"][i])
+        link(cdoc, f"Socket{i}", mounts.getObject("Socket"), s, unit, ["socket, bottom left", "socket, bottom right", "socket, top"][i])
     solids, locs, _ = cad_components.placed(bp)
     drop = -min(cad_components.moved(solids[n], l).BoundBox.ZMin for n, l in locs.items())
     bx, by, box_clear = place_tree_box(layout, bp, drop)
     bplace = box_to_tree(bp, bx, by)
-    tb = doc.addObject("App::Part", "TreeBox")
+    tb = cdoc.addObject("App::Part", "TreeBox")
     tb.Label = "Tree box"
     tb.Placement = bplace
     unit.addObject(tb)
-    link(doc, "BoxBase", box.getObject("Base"), pl(), tb, "base")
-    link(doc, "BoxCover", box.getObject("Cover"), pl(), tb, "cover")
+    link(cdoc, "BoxBase", box.getObject("Base"), pl(), tb, "base")
+    link(cdoc, "BoxCover", box.getObject("Cover"), pl(), tb, "cover")
     for name, l in locs.items():
-        feature(doc, f"Box_{name}", cad_components.moved(solids[name], l), tb, f"{name} (bought part, stand-in)")
-
-    # ---- the show: tree frame -> world (tree Y up, front facing -Y), ground at z = 0
+        src = bought.getObject(cad_components.DUPLICATES.get(name, name))
+        link(cdoc, f"Box_{name}", src, l, tb, f"{name} (bought part, stand-in)")
     lift = mp["base_t"] + mp["ski_h"]
     stand = App.Rotation(V(1, 0, 0), 90)
+    standing = cdoc.addObject("App::Part", "StairTree")
+    standing.Label = f"Stair tree, standing on two skis ({lift:.0f}mm off the ground)"
+    standing.Placement = pl(0, 0, lift, stand)
+    link(cdoc, "Unit", unit, pl(), standing, "tree unit")
+    unit.Visibility = False
+    for j, s in enumerate(sockets[:2]):
+        link(cdoc, f"Ski{j}", mounts.getObject("Ski"), s, standing, "ski")
+    cdoc.recompute()
+    cdoc.save()
+
+    # ---- the whole setup links that tree unit
+    doc = App.newDocument("stair_tree_choir")
+    doc.saveAs(str(OUT))
+    unit_c = unit
+    unit = doc.addObject("App::Link", "TreeUnit")
+    unit.setLink(unit_c)
+    unit.Label = "Tree unit (from stair-tree-complete.FCStd)"
+    unit.Visibility = False
+
+    # ---- the show: tree frame -> world (tree Y up, front facing -Y), ground at z = 0
     show = doc.addObject("App::Part", "Show")
     show.Label = f"Show: Site A, {SHOW_TREES} trees on skis, and the site box"
     for k in range(SHOW_TREES):
@@ -324,12 +350,12 @@ def main():
     wood = "#c8a26b"
     unit_items = [(tree, wood), (Part.makeCompound(socks), "#3b7dd8"), (pix, "#f5f5f5"),
                   (Part.makeCompound(box_parts[:1] + box_parts[2:]), "#4682b4"), (box_parts[1], "#b0c4de", 0.5)]
-    cad_preview.render(unit_items, str(PREVIEW_DIR / "assembly-tree-back.png"), elev=15, azim=110,
-                       title="one tree from behind: box, sockets", size=(6, 7), deflection=2.0)
     shown = [(moved(s, App.Placement(V(0, 0, lift), stand)), c, *a) for s, c, *a in
              unit_items + [(Part.makeCompound([moved(ski, s) for s in sockets[:2]]), "#d88a3b")]]
     cad_preview.render(shown, str(PREVIEW_DIR / "assembly-show-tree.png"), elev=12, azim=-70,
                        title=f"in the show: on two skis ({lift:.0f}mm up)", size=(6, 7), deflection=2.0)
+    cad_preview.render(shown, str(PREVIEW_DIR / "assembly-complete-back.png"), elev=15, azim=110,
+                       title="the complete tree from behind: box, sockets, skis", size=(6, 7), deflection=2.0)
     riser = pl(0, mp["col_d"], 0)
     hi = App.Placement(V(0, 0, lift + mp["col_d"]), stand)
     shown_hi = [(moved(s, hi), c, *a) for s, c, *a in
@@ -370,7 +396,8 @@ def main():
     scrub(STEP)
     App.closeDocument(step_doc.Name)
     App.closeDocument(doc.Name)
-    print(f"wrote {OUT.relative_to(ROOT)}, {STEP.relative_to(ROOT)}, {CHECKS.relative_to(ROOT)}, cad/previews/assembly-*.png")
+    App.closeDocument(cdoc.Name)
+    print(f"wrote {COMPLETE.relative_to(ROOT)}, {OUT.relative_to(ROOT)}, {STEP.relative_to(ROOT)}, {CHECKS.relative_to(ROOT)}, cad/previews/assembly-*.png")
 
 
 def checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, ski, bx, by, box_clear):

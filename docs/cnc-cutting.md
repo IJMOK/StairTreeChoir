@@ -6,15 +6,15 @@ Rob does the CAM in Siemens NX from the STEP files that `tools/cad_tree.py` buil
 
 | File | What |
 |---|---|
-| `cad/stair-tree.step` | the finished tread: rounded 18mm corners, 92 counterbores and clearance holes, the old fixing holes in the back |
-| `cad/fixture-plate.step` | MDF plate (18mm default), blank bounding box + 50mm all round, with a 4mm pocket the shape of the blank |
-| `cad/stair-tree-assembly.step` | the two together, tree sitting in the pocket |
+| `cad/tree/stair-tree.step` | the finished tread: rounded 18mm corners, 92 counterbores and clearance holes, the old fixing holes in the back |
+| `cad/tree/fixture-plate.step` | MDF plate (18mm default), blank bounding box + 50mm all round, with a 4mm pocket the shape of the blank |
+| `cad/tree/stair-tree-assembly.step` | the two together, tree sitting in the pocket |
 
-For assembling the rest in NX, `make cad` exports every printed part as a STEP solid in `cad/printed/` (as fitted, real surfaces) and `cad/stair-tree-choir.step`: one tree as it stands, with its box, sockets, skis and 92 disks, in the same axes as `cad/stair-tree.step` turned upright. The frames are in [cad/README.md](../cad/README.md).
+For assembling the rest in NX, `make cad` exports every printed part as a STEP solid in `cad/printed/` (as fitted, real surfaces) and `cad/stair-tree-choir.step`: one tree as it stands, with its box, sockets, skis and 92 disks, in the same axes as `cad/tree/stair-tree.step` turned upright. The first-off tree's NX CAM set (and its G-code) is in `archive/nx-cam/`. The frames are in [cad/README.md](../cad/README.md).
 
 Axes: mm, Z up, the tree's front face at Z = 0 (the part runs from Z = −30 to 0), X right, Y up (the tree's top is +Y), origin at the bottom-left of the blank's bounding box. The plate shares the origin, so its top is at Z = −26. The pocket is drawn at **zero clearance**: set the offset in CAM.
 
-The 2D file stays as reference: `cad/stair-tree-cnc-layout.svg` (`python -m tools.gen_cnc` also writes a `.dxf`, not committed), mm, front view. Layers:
+The 2D file stays as reference: `cad/tree/stair-tree-cnc-layout.svg` (`python -m tools.gen_cnc` also writes a `.dxf`, not committed), mm, front view. Layers:
 
 | Layer | Op | What |
 |---|---|---|

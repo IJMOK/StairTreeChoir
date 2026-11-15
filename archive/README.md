@@ -2,6 +2,10 @@
 
 Superseded work, kept for reference (tidies of 1 Nov and 15 Nov 2026). Nothing in the build, tests or docs depends on anything here, and `tools/make_public.py` leaves the folder out of the public copy. To bring something back, `git mv` it.
 
+## `nx-cam/` (15 Nov 2026)
+
+Rob's Siemens NX CAM set for the first-off tree (25-26 Oct): `tree.prt`, `fixture-plate.prt`, `Clamp.prt` and `Clamp.stp`, `stair-tree-assembly_step.prt` and the `stair-tree.gcode` it posted. Moved out of `cad/` when all the CAD went to FreeCAD. The tread hasn't changed shape since, so the G-code still matches `cad/tree/stair-tree.step`; check that before reusing it, or redo the CAM from the STEPs. Open the assembly with NX's load option set to "From Folder".
+
 ## `boots/` (15 Nov 2026)
 
 The cartoon boots and pegs (OpenSCAD, parked since 28 Oct 2026), their STLs and previews, and `old-tree-box/`, the frozen OpenSCAD tree box they included. Replaced by the sockets, skis and storage towers in `cad/parts/tree-mounts.FCStd`. Its README is the boots' design notes.
@@ -34,7 +38,7 @@ To open an old assembly, set the NX load option to "From Folder". "As Saved" loo
 
 ## `nx-imports/`
 
-`stair-tree_step.prt`, `fixture-plate_step.prt` and `stair-tree-cnc-layout_dxf.prt`: raw STEP and DXF imports from 25-26 Oct. No other part links to them. The CAM set is still in `cad/`: `tree.prt`, `fixture-plate.prt`, `Clamp.prt`, `stair-tree-assembly_step.prt`.
+`stair-tree_step.prt`, `fixture-plate_step.prt` and `stair-tree-cnc-layout_dxf.prt`: raw STEP and DXF imports from 25-26 Oct. No other part links to them. The CAM set is in `nx-cam/` below.
 
 ## `nx-logs/`
 

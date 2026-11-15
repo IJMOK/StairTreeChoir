@@ -7,8 +7,7 @@
 | Folder | What's in it | Edited by |
 |---|---|---|
 | `CLAUDE.md`, `README.md` | Project brief and decisions; quick start | hand |
-| `cad/` | **All the CAD** ([cad/README.md](../cad/README.md) is the index). `parts/` the FreeCAD masters; `stair-tree-choir.FCStd` the whole setup, linked to them; the tread and fixture plate for CAM; `printed/` and `components/` STEPs; `previews/` pictures | masters in `parts/` by hand in FreeCAD; the rest generated (`python -m tools.cad`, `make all` for the tread) |
-| | The CAM set: `tree.prt`, `fixture-plate.prt`, `Clamp.prt`, `stair-tree-assembly_step.prt`, `stair-tree.gcode` | Rob, in NX |
+| `cad/` | **All the CAD, all FreeCAD** ([cad/README.md](../cad/README.md) is the index). `parts/` the masters; `stair-tree-complete.FCStd` one complete tree and `stair-tree-choir.FCStd` the whole setup, both linked to the masters; `tree/` the tread and fixture plate for CAM; `components/` the bought parts; `printed/` STEPs; `previews/` pictures | masters in `parts/` by hand in FreeCAD; the rest generated (`python -m tools.cad`, `make all` for the tread) |
 | `print/` | Every STL to print, laid out for the bed, and a table of counts and settings | generated (`python -m tools.cad`) |
 | `data/` | `blank.json` (tread outline), `sites.json`, `voices.json` | hand |
 | | `tree-layout.json` | generated (`tools/tree_layout.py`) |

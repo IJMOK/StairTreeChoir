@@ -4,7 +4,7 @@
   freecadcmd -c "import sys; sys.path[:0] = ['.', 'tools']; import cad_export; cad_export.main()"
 
 In order:
-  1. the tread from data/tree-layout.json        tools/cad_tree.py   -> cad/stair-tree.FCStd, CAM STEPs
+  1. the tread from data/tree-layout.json        tools/cad_tree.py   -> cad/tree/ (stair-tree.FCStd, CAM STEPs)
   2. every printed part from its master           cad/parts/*.FCStd   -> print/*.stl (laid out for the bed),
                                                                          cad/printed/*.step (as fitted),
                                                                          cad/previews/*.png
@@ -200,3 +200,6 @@ def main(parts: bool = True, tree: bool = True, components: bool = True, assembl
     if assembly:
         import cad_assembly
         cad_assembly.main()
+    # FreeCAD keeps a .FCBak beside a file it saves over: these are all regenerated, so drop them.
+    for bak in (ROOT / "cad").rglob("*.FCBak"):
+        bak.unlink()
