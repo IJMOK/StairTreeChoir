@@ -4,7 +4,7 @@ Fourteen lip-syncing pixel Christmas trees, cut from the oak treads of a removed
 
 This file is the project brief for Claude Code. It records what has been decided, what has been bought, and what still needs building. Before changing a decision, raise it with Rob. Everything marked unverified has to be checked against a primary source (FPP, WLED or xLights source code, a datasheet, or Rob measuring the real part) before you rely on it.
 
-Original build pack (claude.ai artifact): https://claude.ai/artifact/X9tCyDmTd4q82MWGGNtpmc. It describes the earlier "pair kit" design (a Pi in every box driving two trees from GPIO); that was replaced on 20 Oct 2026 (§2).
+Original build pack (claude.ai artifact): https://claude.ai/artifact/X9tCyDmTd4q82MWGGNtpmc, copied into archive/docs/build-pack-2026-10-17.html. The wiring pages on claude.ai are published from docs/ (tree-wiring.html → MSrFAPvADXk8sjWY8vGcvA, site-box-wiring.html → B8oeTvXTP7NtsEbwvLjcDn, wiring.html → D7S2aqDR7d8ZSA9qU48DHn): the repo copies are the masters; republish after changing them. It describes the earlier "pair kit" design (a Pi in every box driving two trees from GPIO); that was replaced on 20 Oct 2026 (§2).
 
 1. Goals
 14 trees, all identical, each with an outline, two eyes and a multi-shape mouth that lip-syncs to music. A 15th tread turned up in the loft (Rob, 24 Oct 2026), so there may be 15 (stairtree-15, 192.168.8.115 fits the scheme; measure the tread first).

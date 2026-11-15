@@ -1,0 +1,263 @@
+<!-- The original build pack, as published at https://claude.ai/artifact/X9tCyDmTd4q82MWGGNtpmc (17 Oct 2026). The "pair kit" design it describes (a Pi in every box driving two trees) was replaced on 20 Oct 2026 by an ESP32 per tree (CLAUDE.md §2). Kept for reference; pulled into the repo 15 Nov 2026. -->
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Stair Tree Choir</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single workshop column; drawings sit side by side on wide screens, stacked on phones */
+:root{
+  --bg:#F3F5F1; --surface:#FFFFFF; --ink:#16211B; --muted:#5A695F; --line:#D5DCD5;
+  --accent:#B3262F; --pine:#1E6A44;
+  --oak:#C99D66; --oak-2:#B3854E; --hole:#3B2D20; --grain:rgba(90,60,30,.18);
+  --pix-g:#25C964; --pix-w:#FFF8E6; --pix-r:#FF4848;
+  --v12:#C9302C; --v5:#C77D0A; --data:#2A6FD6; --audio:#7D4BC8;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1512; --surface:#18211C; --ink:#E3EAE5; --muted:#94A49A; --line:#2B3731;
+  --accent:#E5575F; --pine:#5CC28B; --oak:#B88B57; --oak-2:#9C7243; --hole:#1E160E; --grain:rgba(40,25,10,.3);
+  --v12:#F06A64; --v5:#F0A63A; --data:#6CA2F5; --audio:#B08BEB; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1512; --surface:#18211C; --ink:#E3EAE5; --muted:#94A49A; --line:#2B3731;
+  --accent:#E5575F; --pine:#5CC28B; --oak:#B88B57; --oak-2:#9C7243; --hole:#1E160E; --grain:rgba(40,25,10,.3);
+  --v12:#F06A64; --v5:#F0A63A; --data:#6CA2F5; --audio:#B08BEB; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--body)}
+.wrap{max-width:980px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:44px}
+h1,h2{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(2.1rem,6vw,3.3rem);font-weight:800;letter-spacing:-.01em}
+h2{font-size:1.55rem;font-weight:600}
+h3{font:600 1rem/1.3 var(--body);margin:0}
+p{margin:0;max-width:66ch}
+.eyebrow{font:500 .75rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--pine)}
+.muted{color:var(--muted)}
+header{display:flex;flex-direction:column;gap:14px}
+.specs{display:flex;flex-wrap:wrap;gap:8px 22px;font:500 .9rem var(--mono);font-variant-numeric:tabular-nums}
+.specs b{font-weight:500;color:var(--accent)}
+section{display:flex;flex-direction:column;gap:16px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel svg{width:100%;height:auto;display:block}
+.tree svg{max-width:300px;margin:0 auto}
+.cap{font:.8rem/1.45 var(--mono);color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button{font:500 .85rem var(--body);color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.sing{border-color:var(--accent);color:var(--accent)}
+button.sing[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font:.8rem var(--mono);color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+.scroll{overflow-x:auto}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font:500 .72rem var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+tr.grp th{font:600 .8rem var(--body);color:var(--pine);background:var(--bg);padding-top:14px}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.item{font-weight:500}
+.note{color:var(--muted);font-size:.82rem;margin-top:2px}
+tfoot td{font-weight:600;border-bottom:none;padding-top:14px}
+a{color:var(--data)}
+.sites{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:640px){.sites{grid-template-columns:1fr}}
+.site .row{display:flex;gap:8px;flex-wrap:wrap}
+.kit{border:1px dashed var(--line);border-radius:8px;padding:6px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;font:.72rem var(--mono);color:var(--muted)}
+.kit.m{border-color:var(--accent);color:var(--accent)}
+.kit .t{display:flex;gap:4px}
+.kit .t span{width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:24px solid var(--pine)}
+ul.steps{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:8px;max-width:70ch}
+.ph{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.88rem}
+.ph b{font:500 .82rem var(--mono)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">Build pack · Christmas 2026</span>
+  <h1>Stair Tree Choir</h1>
+  <p>Fourteen spiral-stair treads turned into lip-syncing pixel trees. Every tree is identical, every pair kit is identical, and any site can run one, two or three kits.</p>
+  <div class="specs"><span><b>14</b> trees</span><span><b>7</b> pair kits</span><span><b>92</b> pixels per tree</span><span><b>£894</b> estimated total</span></div>
+</header>
+
+<section id="tree">
+  <div><span class="eyebrow">01 · The tree</span><h2>Front and back of one tread</h2></div>
+  <div class="two">
+    <div class="panel tree">
+      <h3>Front, as seen from the lawn</h3>
+      <svg id="front" viewBox="-30 -20 470 950" role="img" aria-label="Tree front with pixel positions"></svg>
+      <div class="btns" role="group" aria-label="Mouth shape">
+        <button data-m="rest" aria-pressed="true">Closed</button>
+        <button data-m="small" aria-pressed="false">Small</button>
+        <button data-m="wide" aria-pressed="false">Wide</button>
+        <button data-m="o" aria-pressed="false">Round O</button>
+        <button class="sing" id="sing" aria-pressed="false">Sing</button>
+      </div>
+      <div class="legend"><span><i style="background:var(--pix-g)"></i>Outline 59</span><span><i style="background:var(--pix-w);border:1px solid var(--line)"></i>Eyes 12</span><span><i style="background:var(--pix-r)"></i>Mouth 21</span></div>
+    </div>
+    <div class="panel tree">
+      <h3>Back, wiring channel in data order</h3>
+      <svg id="back" viewBox="-30 -20 470 950" role="img" aria-label="Tree back with routed wiring channel"></svg>
+      <p class="cap">Mirrored, as you'd machine it from the back. Lead enters at the bottom corner, runs the outline, then the mouth (wide, small, lip) and both eyes. Rout the channel about 15mm wide and 12mm deep so the spare lead between close pixels can coil in it.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>How the mouth shapes map to xLights phonemes</h3>
+    <div class="ph">
+      <b>Closed</b><span>rest, MBP · lip line only</span>
+      <b>Small</b><span>etc, FV, L, E · lip + small arc</span>
+      <b>Wide</b><span>AI · lip + wide arc</span>
+      <b>Round O</b><span>O, U, WQ · small + wide arcs, no lip</span>
+    </div>
+    <p class="cap">12mm through-holes at 24mm minimum centres, outline inset 22mm from the edge. Test a hole on an offcut before cutting all fourteen.</p>
+  </div>
+</section>
+
+<section id="kit">
+  <div><span class="eyebrow">02 · Pair kit</span><h2>One box drives two trees</h2></div>
+  <div class="panel">
+    <svg id="kitsvg" viewBox="0 0 360 430" role="img" aria-label="Pair kit wiring diagram" style="max-width:520px;margin:0 auto">
+      <defs><style>
+        .bx{fill:var(--surface);stroke:var(--ink);stroke-width:1.2}
+        .tx{fill:var(--ink);font:600 11px var(--body)}
+        .sx{fill:var(--muted);font:9.5px var(--mono)}
+        .w{fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      </style></defs>
+      <rect x="18" y="78" width="324" height="262" rx="10" fill="none" stroke="var(--muted)" stroke-dasharray="5 4"/>
+      <text x="26" y="94" class="sx">IP65 box</text>
+      <rect class="bx" x="105" y="10" width="150" height="44" rx="6"/><text x="180" y="29" text-anchor="middle" class="tx">12V 100W IP67 PSU</text><text x="180" y="44" text-anchor="middle" class="sx">mains via RCD socket</text>
+      <path class="w" stroke="var(--v12)" d="M180 54V100"/>
+      <rect class="bx" x="120" y="100" width="120" height="36" rx="6"/><text x="180" y="116" text-anchor="middle" class="tx">12V bus</text><text x="180" y="129" text-anchor="middle" class="sx">2 × 5A fuses</text>
+      <path class="w" stroke="var(--v12)" d="M140 136V148H80V160M220 136V148H280V160M185 136V352H60V362M185 352H140V362"/>
+      <rect class="bx" x="30" y="160" width="100" height="40" rx="6"/><text x="80" y="178" text-anchor="middle" class="tx">Buck 12→5V</text><text x="80" y="191" text-anchor="middle" class="sx">3A, micro-USB</text>
+      <rect class="bx" x="230" y="160" width="100" height="40" rx="6"/><text x="280" y="178" text-anchor="middle" class="tx">Amp</text><text x="280" y="191" text-anchor="middle" class="sx">PAM8610 2×15W</text>
+      <path class="w" stroke="var(--v5)" d="M80 200V225"/>
+      <rect class="bx" x="30" y="225" width="140" height="40" rx="6"/><text x="100" y="243" text-anchor="middle" class="tx">Pi Zero 2 W</text><text x="100" y="256" text-anchor="middle" class="sx">FPP · DPI Pixels</text>
+      <rect class="bx" x="200" y="225" width="130" height="40" rx="6"/><text x="265" y="243" text-anchor="middle" class="tx">USB audio</text><text x="265" y="256" text-anchor="middle" class="sx">via OTG adapter</text>
+      <path class="w" stroke="var(--audio)" d="M170 245H200M265 225V200M330 180H336V378H320"/>
+      <path class="w" stroke="var(--data)" d="M100 265V290M60 326V362M140 326V362"/>
+      <rect class="bx" x="30" y="290" width="140" height="36" rx="6"/><text x="100" y="306" text-anchor="middle" class="tx">Level shifter</text><text x="100" y="319" text-anchor="middle" class="sx">74AHCT125, 3.3→5V</text>
+      <circle cx="60" cy="370" r="8" fill="var(--surface)" stroke="var(--ink)"/><circle cx="140" cy="370" r="8" fill="var(--surface)" stroke="var(--ink)"/>
+      <text x="60" y="396" text-anchor="middle" class="tx">Tree A</text><text x="140" y="396" text-anchor="middle" class="tx">Tree B</text>
+      <text x="100" y="412" text-anchor="middle" class="sx">xConnect, 3m lead</text>
+      <rect class="bx" x="250" y="362" width="70" height="32" rx="6"/><text x="285" y="382" text-anchor="middle" class="tx">Speaker</text><text x="285" y="410" text-anchor="middle" class="sx">master kit only</text>
+      <text x="300" y="60" text-anchor="middle" class="sx">Wi-Fi: MultiSync</text><path d="M286 70q14-10 28 0M291 75q9-6 18 0" fill="none" stroke="var(--muted)" stroke-width="1.5"/>
+    </svg>
+    <div class="legend"><span><i style="background:var(--v12)"></i>12V</span><span><i style="background:var(--v5)"></i>5V</span><span><i style="background:var(--data)"></i>Pixel data</span><span><i style="background:var(--audio)"></i>Audio</span></div>
+    <p class="cap">Mains stays outside the box: the sealed supply plugs into an outdoor RCD socket and only 12V enters through a gland. Pixel power runs 12V straight to each tree output through its own 5A fuse. Every kit has an amp fitted so any of them can be the master.</p>
+  </div>
+</section>
+
+<section id="sites">
+  <div><span class="eyebrow">03 · Sites</span><h2>Mix and match kits</h2></div>
+  <div class="sites">
+    <div class="panel site"><h3>Friend, 2 trees</h3><div class="row"><div class="kit m"><div class="t"><span></span><span></span></div>master</div></div><p class="cap">One kit, plays its own audio.</p></div>
+    <div class="panel site"><h3>Lawn, 4 trees</h3><div class="row"><div class="kit m"><div class="t"><span></span><span></span></div>master · pair 1</div><div class="kit"><div class="t"><span></span><span></span></div>remote · pair 2</div></div><p class="cap">Remote follows the master over Wi-Fi.</p></div>
+    <div class="panel site"><h3>Lawn, 6 trees</h3><div class="row"><div class="kit m"><div class="t"><span></span><span></span></div>pair 1</div><div class="kit"><div class="t"><span></span><span></span></div>pair 2</div><div class="kit"><div class="t"><span></span><span></span></div>pair 3</div></div><p class="cap">Sequence once for 6 trees. Smaller sites show pairs 1 and 2.</p></div>
+  </div>
+</section>
+
+<section id="bom">
+  <div><span class="eyebrow">04 · Bill of materials</span><h2>Everything for 14 trees and 7 kits</h2></div>
+  <p class="muted">Prices are estimates in pounds, including spares. AliExpress links open a search, so pick a listing with plenty of orders and recent reviews. Ray Wu's store is a long-standing pixel seller if you'd rather buy all the pixel parts from one place.</p>
+  <div class="panel scroll">
+    <table>
+      <thead><tr><th scope="col">Item</th><th scope="col" class="num">Qty</th><th scope="col" class="num">Each</th><th scope="col" class="num">Total</th><th scope="col">Buy</th></tr></thead>
+      <tbody>
+<tr class="grp"><th colspan="5" scope="colgroup">Pixels & cabling</th></tr>
+<tr><td><div class="item">12V WS2811 12mm bullet pixels, string of 50</div><div class="note">Order with xConnect ends and 10cm (or shortest offered) lead spacing. 2 strings per tree, 8 pixels left over each.</div></td><td class="num">30</td><td class="num">£9.00</td><td class="num">£270.00</td><td><a href="https://www.aliexpress.com/w/wholesale-12v-ws2811-12mm-bullet-pixel-string-xconnect.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">xConnect 3-pin pigtail pairs, 18AWG, 30cm</div><div class="note">Female end on the box, male end on the tree.</div></td><td class="num">20</td><td class="num">£0.80</td><td class="num">£16.00</td><td><a href="https://www.aliexpress.com/w/wholesale-xconnect-pigtail-3-pin-18awg.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">xConnect 3-pin extension lead, 3m</div><div class="note">Box to tree. Keep runs under 5m.</div></td><td class="num">14</td><td class="num">£3.50</td><td class="num">£49.00</td><td><a href="https://www.aliexpress.com/w/wholesale-xconnect-extension-cable-3-pin-3m.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr class="grp"><th colspan="5" scope="colgroup">Pair kit (×7)</th></tr>
+<tr><td><div class="item">Raspberry Pi Zero 2 W</div><div class="note">About £14 from approved UK resellers (The Pi Hut, Pimoroni). AliExpress listings are usually dearer.</div></td><td class="num">7</td><td class="num">£14.24</td><td class="num">£99.68</td><td><a href="https://pricespy.co.uk/product.php?p=5913747" target="_blank" rel="noopener">UK reseller</a></td></tr>
+<tr><td><div class="item">microSD card, 32GB high endurance</div><div class="note">Buy from a UK retailer. Fake cards are common on AliExpress.</div></td><td class="num">7</td><td class="num">£7.00</td><td class="num">£49.00</td><td><span class="muted">UK retailer</span></td></tr>
+<tr><td><div class="item">2×20 pin header</div><div class="note">The Zero 2 W comes without one.</div></td><td class="num">10</td><td class="num">£0.30</td><td class="num">£3.00</td><td><a href="https://www.aliexpress.com/w/wholesale-2x20-pin-header-2.54.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">USB audio dongle</div><div class="note">3.5mm out to the amp.</div></td><td class="num">7</td><td class="num">£2.00</td><td class="num">£14.00</td><td><a href="https://www.aliexpress.com/w/wholesale-usb-sound-card-3.5mm.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">Micro-USB OTG adapter</div><div class="note">Lets the dongle plug into the Zero.</div></td><td class="num">7</td><td class="num">£1.00</td><td class="num">£7.00</td><td><a href="https://www.aliexpress.com/w/wholesale-micro-usb-otg-adapter.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">74AHCT125 level shifter, DIP-14</div><div class="note">3.3V Pi data up to 5V for the pixels. Two of four channels used.</div></td><td class="num">10</td><td class="num">£0.40</td><td class="num">£4.00</td><td><a href="https://www.aliexpress.com/w/wholesale-74ahct125-dip14.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">Stripboard 5×7cm + 14-pin DIP socket</div><div class="note">Carrier for the level shifter.</div></td><td class="num">7</td><td class="num">£1.00</td><td class="num">£7.00</td><td><a href="https://www.aliexpress.com/w/wholesale-stripboard-5x7-dip-socket.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">Resistor and capacitor kit</div><div class="note">33Ω series resistor per data line, 100µF across 5V.</div></td><td class="num">1</td><td class="num">£4.00</td><td class="num">£4.00</td><td><a href="https://www.aliexpress.com/w/wholesale-resistor-capacitor-kit.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">12V to 5V 3A buck, micro-USB output</div><div class="note">Powers the Pi from the pixel supply.</div></td><td class="num">7</td><td class="num">£2.50</td><td class="num">£17.50</td><td><a href="https://www.aliexpress.com/w/wholesale-12v-to-5v-3a-buck-micro-usb.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">12V 100W IP67 power supply</div><div class="note">Sits outside the box so mains never enters it. Plug into an RCD-protected outdoor socket. A genuine Mean Well from a UK distributor is the safe choice.</div></td><td class="num">7</td><td class="num">£16.00</td><td class="num">£112.00</td><td><a href="https://www.aliexpress.com/w/wholesale-12v-100w-ip67-waterproof-power-supply.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">IP65 ABS enclosure, about 200×120×75mm</div></td><td class="num">7</td><td class="num">£6.00</td><td class="num">£42.00</td><td><a href="https://www.aliexpress.com/w/wholesale-ip65-abs-enclosure-200x120x75.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">Cable gland pack, PG7/PG9</div><div class="note">Four glands per box.</div></td><td class="num">2</td><td class="num">£4.00</td><td class="num">£8.00</td><td><a href="https://www.aliexpress.com/w/wholesale-cable-gland-pg7-pg9-assorted.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">Inline blade fuse holder + 5A fuse</div><div class="note">One per tree output.</div></td><td class="num">14</td><td class="num">£0.60</td><td class="num">£8.40</td><td><a href="https://www.aliexpress.com/w/wholesale-inline-blade-fuse-holder-18awg.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr><td><div class="item">PAM8610 12V stereo amp board, 2×15W</div><div class="note">Fitted to every kit so any kit can be master.</div></td><td class="num">7</td><td class="num">£3.00</td><td class="num">£21.00</td><td><a href="https://www.aliexpress.com/w/wholesale-pam8610-amplifier-board.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+<tr class="grp"><th colspan="5" scope="colgroup">Per site</th></tr>
+<tr><td><div class="item">Outdoor speaker pair</div><div class="note">Only the master kit at each site needs one.</div></td><td class="num">3</td><td class="num">£30.00</td><td class="num">£90.00</td><td><span class="muted">Local / Amazon</span></td></tr>
+<tr class="grp"><th colspan="5" scope="colgroup">Trees</th></tr>
+<tr><td><div class="item">Exterior oil, 0.75L (e.g. Osmo UV-Protection)</div><div class="note">Two to three coats, end grain included.</div></td><td class="num">1</td><td class="num">£30.00</td><td class="num">£30.00</td><td><span class="muted">Local</span></td></tr>
+<tr><td><div class="item">Steel ground stakes</div><div class="note">Two per tree, bolted to the back.</div></td><td class="num">28</td><td class="num">£1.50</td><td class="num">£42.00</td><td><a href="https://www.aliexpress.com/w/wholesale-steel-ground-stake-30cm.html" target="_blank" rel="noopener">AliExpress</a></td></tr>
+      </tbody>
+      <tfoot><tr><td>Estimated total</td><td></td><td></td><td class="num">£894</td><td class="muted" style="font-weight:400">about £128 per pair</td></tr></tfoot>
+    </table>
+  </div>
+  <p class="cap">Ray Wu's pixel store: <a href="https://www.aliexpress.com/store/701799" target="_blank" rel="noopener">aliexpress.com/store/701799</a></p>
+</section>
+
+<section id="next">
+  <div><span class="eyebrow">05 · Order of work</span><h2>Getting to December</h2></div>
+  <ul class="steps">
+    <li>Order pixels and pigtails this weekend. AliExpress usually takes two to three weeks.</li>
+    <li>Cut one prototype tree from the layout file and test-fit a pixel.</li>
+    <li>Build one pair kit and flash FPP onto the Zero. Check both outputs light a full tree.</li>
+    <li>Build the face model once in xLights, copy it six times, and sequence the first song.</li>
+    <li>Cut, oil and wire the remaining thirteen trees, then build the other six kits.</li>
+  </ul>
+</section>
+</div>
+
+<script>
+const D={"order": [["outline", [27.4, 878.0]], ["outline", [58.8, 878.0]], ["outline", [90.2, 878.0]], ["outline", [121.6, 878.0]], ["outline", [152.9, 878.0]], ["outline", [184.3, 878.0]], ["outline", [215.7, 878.0]], ["outline", [247.1, 878.0]], ["outline", [278.4, 878.0]], ["outline", [309.8, 878.0]], ["outline", [341.2, 878.0]], ["outline", [372.6, 878.0]], ["outline", [365.7, 847.0]], ["outline", [358.8, 815.9]], ["outline", [351.9, 784.9]], ["outline", [345.0, 753.8]], ["outline", [338.1, 722.8]], ["outline", [331.2, 691.7]], ["outline", [324.3, 660.7]], ["outline", [317.4, 629.6]], ["outline", [310.5, 598.6]], ["outline", [303.6, 567.5]], ["outline", [296.7, 536.5]], ["outline", [289.8, 505.4]], ["outline", [282.9, 474.4]], ["outline", [276.0, 443.3]], ["outline", [269.1, 412.3]], ["outline", [262.2, 381.2]], ["outline", [255.3, 350.2]], ["outline", [248.4, 319.1]], ["outline", [241.5, 288.1]], ["outline", [234.6, 257.0]], ["outline", [227.7, 226.0]], ["outline", [220.8, 194.9]], ["outline", [213.9, 163.9]], ["outline", [200.0, 101.4]], ["outline", [186.1, 163.9]], ["outline", [179.2, 194.9]], ["outline", [172.3, 226.0]], ["outline", [165.4, 257.0]], ["outline", [158.5, 288.1]], ["outline", [151.6, 319.1]], ["outline", [144.7, 350.2]], ["outline", [137.8, 381.2]], ["outline", [130.9, 412.3]], ["outline", [124.0, 443.3]], ["outline", [117.1, 474.4]], ["outline", [110.2, 505.4]], ["outline", [103.3, 536.5]], ["outline", [96.4, 567.5]], ["outline", [89.5, 598.6]], ["outline", [82.6, 629.6]], ["outline", [75.7, 660.7]], ["outline", [68.8, 691.7]], ["outline", [61.9, 722.8]], ["outline", [55.0, 753.8]], ["outline", [48.1, 784.9]], ["outline", [41.2, 815.9]], ["outline", [34.3, 847.0]], ["mouthWide", [96.0, 690.0]], ["mouthWide", [122.0, 730.2]], ["mouthWide", [148.0, 759.0]], ["mouthWide", [174.0, 776.2]], ["mouthWide", [200.0, 782.0]], ["mouthWide", [226.0, 776.2]], ["mouthWide", [252.0, 759.0]], ["mouthWide", [278.0, 730.2]], ["mouthWide", [304.0, 690.0]], ["mouthSmall", [252.0, 714.4]], ["mouthSmall", [226.0, 729.1]], ["mouthSmall", [200.0, 734.0]], ["mouthSmall", [174.0, 729.1]], ["mouthSmall", [148.0, 714.4]], ["lip", [122, 690]], ["lip", [148, 690]], ["lip", [174, 690]], ["lip", [200, 690]], ["lip", [226, 690]], ["lip", [252, 690]], ["lip", [278, 690]], ["eyeR", [242.0, 529.0]], ["eyeR", [264.5, 542.0]], ["eyeR", [264.5, 568.0]], ["eyeR", [242.0, 581.0]], ["eyeR", [219.5, 568.0]], ["eyeR", [219.5, 542.0]], ["eyeL", [158.0, 529.0]], ["eyeL", [180.5, 542.0]], ["eyeL", [180.5, 568.0]], ["eyeL", [158.0, 581.0]], ["eyeL", [135.5, 568.0]], ["eyeL", [135.5, 542.0]]], "tri": [[200.0, 101.4], [27.4, 878.0], [372.6, 878.0]]};
+const NS="http://www.w3.org/2000/svg";
+const groupOf={outline:"g",eyeL:"w",eyeR:"w",lip:"lip",mouthSmall:"small",mouthWide:"wide"};
+const shapes={rest:["lip"],small:["lip","small"],wide:["lip","wide"],o:["small","wide"]};
+function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e}
+function board(svg,mirror){
+  const g=el("g",mirror?{transform:"translate(400 0) scale(-1 1)"}:{},svg);
+  el("polygon",{points:"200,0 0,900 400,900",fill:"var(--oak)",stroke:"var(--oak-2)","stroke-width":3},g);
+  for(let i=0;i<9;i++){const y=90+i*90;el("path",{d:`M${200-y*0.2222+8} ${y} q${y*0.22} ${i%2?10:-8} ${y*0.444-16} 0`,fill:"none",stroke:"var(--grain)","stroke-width":2},g)}
+  return g;
+}
+function dims(svg){
+  const s={stroke:"var(--muted)","stroke-width":1.5,fill:"none"};
+  el("path",{d:"M0 915H400M0 909v12M400 909v12",...s},svg);
+  const t=el("text",{x:200,y:940,"text-anchor":"middle",fill:"var(--muted)","font-size":22,"font-family":"IBM Plex Mono, monospace"},svg);t.textContent="400";
+  el("path",{d:"M420 0V900M414 0h12M414 900h12",...s},svg);
+  const t2=el("text",{x:432,y:450,fill:"var(--muted)","font-size":22,"font-family":"IBM Plex Mono, monospace",transform:"rotate(90 432 450)","text-anchor":"middle"},svg);t2.textContent="900 mm";
+}
+const front=document.getElementById("front"),back=document.getElementById("back");
+const fg=board(front,false);dims(front);
+const px=[];
+D.order.forEach(([k,p])=>{
+  el("circle",{cx:p[0],cy:p[1],r:9,fill:"var(--hole)"},fg);
+  px.push({grp:groupOf[k],c:el("circle",{cx:p[0],cy:p[1],r:7,fill:"var(--hole)"},fg)});
+});
+const bg=board(back,true);dims(back);
+el("path",{d:"M"+D.order.map(o=>o[1].join(" ")).join("L"),fill:"none",stroke:"var(--oak-2)","stroke-width":15,"stroke-linejoin":"round","stroke-linecap":"round"},bg);
+el("path",{d:"M"+D.order.map(o=>o[1].join(" ")).join("L"),fill:"none",stroke:"var(--hole)","stroke-width":2,"stroke-dasharray":"6 5"},bg);
+D.order.forEach(([k,p])=>el("circle",{cx:p[0],cy:p[1],r:6,fill:"var(--hole)"},bg));
+const s=D.order[0][1];el("circle",{cx:s[0],cy:s[1],r:12,fill:"none",stroke:"var(--accent)","stroke-width":3},bg);
+const lab=el("text",{x:400-s[0]-18,y:s[1]-20,fill:"var(--accent)","font-size":22,"font-weight":600,"font-family":"IBM Plex Sans, sans-serif","text-anchor":"end"},back);lab.textContent="data in";
+
+function show(m){
+  const on=new Set(["g","w",...shapes[m]]);
+  px.forEach(p=>{
+    const lit=on.has(p.grp);
+    p.c.setAttribute("fill",!lit?"var(--hole)":p.grp==="g"?"var(--pix-g)":p.grp==="w"?"var(--pix-w)":"var(--pix-r)");
+    p.c.style.filter=lit?"drop-shadow(0 0 5px "+(p.grp==="g"?"#25C964":p.grp==="w"?"#FFF2C0":"#FF4848")+")":"none";
+  });
+  document.querySelectorAll("[data-m]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===m));
+}
+show("rest");
+let timer=null;
+const song=[["rest",300],["small",220],["wide",380],["rest",120],["small",220],["wide",380],["rest",120],["o",300],["small",200],["wide",420],["rest",500]];
+const singBtn=document.getElementById("sing");
+function stop(){clearTimeout(timer);timer=null;singBtn.setAttribute("aria-pressed","false")}
+function play(i){if(!timer&&i)return;const [m,t]=song[i%song.length];show(m);timer=setTimeout(()=>play(i+1),t)}
+singBtn.addEventListener("click",()=>{if(timer){stop();show("rest")}else{singBtn.setAttribute("aria-pressed","true");timer=1;play(0)}});
+document.querySelectorAll("[data-m]").forEach(b=>b.addEventListener("click",()=>{stop();show(b.dataset.m)}));
+</script>
+
+</body></html>

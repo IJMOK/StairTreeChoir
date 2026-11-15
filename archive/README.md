@@ -51,5 +51,6 @@ openscad -o site-box-lid.stl     -D 'part="lid"' site-box.scad
 
 ## `docs/`
 
+- `build-pack-2026-10-17.html`: the original build pack from claude.ai (https://claude.ai/artifact/X9tCyDmTd4q82MWGGNtpmc), the "pair kit" design replaced on 20 Oct 2026. Open it in a browser.
 - `morning-notes.md`: session notes, 23-24 Oct. Its one live warning, the hand-fixed timing, is now in `xlights/README.md`.
 - `show-folder-moves.md`: old to new names from the 24 Oct xLights show folder tidy.
