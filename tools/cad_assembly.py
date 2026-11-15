@@ -475,7 +475,7 @@ def checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, ski, bx,
     # show
     out.append(f"Show: the tree's bottom edge stands {mp['ski_h']:.0f}mm above the ground on two feet "
                f"{SOCKET_BOTTOM_X[1] - SOCKET_BOTTOM_X[0]:.0f}mm apart, each two ski halves covering "
-               f"{ski.BoundBox.ZLength:.0f}mm front to back (each half {mp['half_l'] - mp['butt_gap']:.0f}mm: a P2S bed is 256). "
+               f"{ski.BoundBox.ZLength:.0f}mm front to back (each half {mp['half_l'] - mp['butt_gap']:.0f}mm; a whole set prints on one 256 bed). "
                "They slide onto the sockets' dovetail rails from front and back; the stakes lock them.")
     riser = pl(0, mp["y_out"], 0)
     skis_hi = [moved(ski, s.multiply(riser)) for s in sockets[:2]]

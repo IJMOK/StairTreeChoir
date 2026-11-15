@@ -33,7 +33,7 @@ def test_every_print_file_has_a_step_or_preview(path):
 
 
 def test_one_tree_fits_one_plate():
-    """print/tree-plate.stl: one tree's 3 sockets and 4 ski halves on one 255 x 255 plate."""
+    """print/tree-plate.stl: one tree's 3 sockets, 4 ski halves and 3 towers on one P1S plate."""
     data = (ROOT / "print" / "tree-plate.stl").read_bytes()
     n = struct.unpack("<I", data[80:84])[0]
     xs, ys = [], []
@@ -41,20 +41,25 @@ def test_one_tree_fits_one_plate():
         v = struct.unpack("<12f", data[84 + 50 * i: 84 + 50 * i + 48])
         xs += v[3::3]
         ys += v[4::3]
-    assert max(xs) - min(xs) <= 255 and max(ys) - min(ys) <= 255
+    w, d = max(xs) - min(xs), max(ys) - min(ys)
+    assert w <= 255 and d <= 255
+    # Bambu Studio centres it on the P1S's 256 bed: nothing in the front-left corner it keeps
+    # clear for the filament cutter (bed_exclude_area 18 x 28)
+    ox, oy = (256 - w) / 2 - min(xs), (256 - d) / 2 - min(ys)
+    assert not any(x + ox < 18 and y + oy < 28 for x, y in zip(xs, ys))
 
 
-def test_tree_plate_is_sliced_for_the_p2s():
-    """print/tree-plate.gcode.3mf (python -m tools.slice): sliced, for the P2S, in PETG, on the textured plate."""
+def test_tree_plate_is_sliced_for_the_p1s():
+    """print/tree-plate.gcode.3mf (python -m tools.slice): sliced, for the P1S, in PETG, on the textured plate."""
     import zipfile
     z = zipfile.ZipFile(ROOT / "print" / "tree-plate.gcode.3mf")
     head = z.read("Metadata/plate_1.gcode")[:400_000].decode("utf-8", "replace")
     tail = z.read("Metadata/plate_1.gcode")[-200_000:].decode("utf-8", "replace")
     text = head + tail
-    assert "printer_model = Bambu Lab P2S" in text
-    assert 'filament_settings_id = "Bambu PETG Basic @BBL P2S 0.4 nozzle"' in text
+    assert "printer_model = Bambu Lab P1S" in text
+    assert 'filament_settings_id = "Bambu PETG Basic @BBL X1C"' in text
     assert "curr_bed_type = Textured PEI Plate" in text
-    assert "outer_wall_speed = 200" in text          # the real P2S process, not the CLI's defaults
+    assert "default_acceleration = 10000" in text    # the real Bambu process, not the CLI's defaults
 
 
 def test_print_readme_lists_every_file():
@@ -77,7 +82,7 @@ def test_all_live_cad_is_freecad():
     for path in ROOT.rglob("*"):
         if {"archive", ".venv", ".git"} & set(path.parts) or not path.is_file():
             continue
-        if path.name.endswith(".gcode.3mf"):    # sliced print files (tools/slice.py), not CAD
+        if path.suffix.lower() == ".3mf" and path.parent == ROOT / "print":   # print files, not CAD
             continue
         assert path.suffix.lower() not in foreign, path
 
@@ -96,8 +101,8 @@ def test_mount_sizes_hang_together():
     mp = json.loads((ROOT / "cad" / "parts" / "tree-mounts-params.json").read_text(encoding="utf-8"))
     assert 0 < mp["dt_root"] < mp["dt_tip"]                   # a dovetail: wider at the tip
     assert mp["dt_tip"] <= 56                                 # fits the flat at the tree's top
-    assert mp["dt_tip"] + 2 * mp["clr"] + 8 <= mp["ski_w"]    # the ski's slot has walls
-    assert mp["dt_tip"] + 2 * mp["clr"] + 8 <= mp["col_w"]    # and the tower's
+    assert mp["dt_tip"] + 2 * mp["clr"] + 2 * mp["slot_wall"] <= mp["ski_w"]   # the ski's slot has walls
+    assert mp["dt_tip"] + 2 * mp["clr"] + 2 * mp["slot_wall"] <= mp["col_w"]   # and the tower's
     assert mp["dt_h"] + mp["clr"] + 4 <= mp["bore_yc"] - (mp["spig_d"] / 2 + mp["spig_clr"])  # 4mm wall: slot to bore
     assert mp["spig_w"] + 2 * mp["spig_clr"] < mp["col_w"]    # the recess has walls
     assert 2 * (16 - mp["wall"]) < mp["tree_t"]               # front and back screws can't meet

@@ -47,7 +47,7 @@ def tree_mounts():
       ski half   show feet (4 per tree, 2 per bottom socket): a slot running in from the inner
                  end; full size round the slot, slimmer and lower towards the outer end. One slides on from the front and one from the back until they butt
                  under the tree; staking each half down locks the joint. About 500mm of ground
-                 cover front to back, each half under 250 for a P2S bed.
+                 cover front to back; one tree's whole set prints on one 256 bed.
       tower      storage (3 per tree): a slot on the tree side, open at the top and stopped at
                  the bottom, so a tree lying face up drops onto its towers; spigot and recess to
                  stack. A rail on its outer face, so in the show it slides onto a socket lying
@@ -61,7 +61,7 @@ def tree_mounts():
         ("tree_t", 30, "tread thickness"),
         ("fit", 0.8, "total slack across the channel: the screws pull the legs tight"),
         ("", None, "Socket (3 per tree): a U over the edge, screwed both sides, a dovetail rail under it"),
-        ("leg_w", 40, "along the edge"),
+        ("leg_w", 37, "along the edge: within the rail's root, so nothing overhangs as it prints rail down"),
         ("wall", 3.5, "legs"),
         ("leg_h", 10, "up the faces from the edge: outline pixel counterbores start 12.5mm in"),
         ("screw_x", 12, "back-leg screws at +-this from the centre"),
@@ -71,16 +71,16 @@ def tree_mounts():
         ("csk_d", 9.0, "countersink, 90 deg"),
         ("", None, "Dovetail rail (socket, and the tower's outer face) and the slots that take it"),
         ("dt_h", 16, "rail height, out from the face it stands on (Rob: bigger, 15 Nov 2026)"),
-        ("dt_tip", 52, "rail width at its tip (the wide side)"),
+        ("dt_tip", 46, "rail width at its tip (the wide side): 46 so the skis are narrow enough for one plate"),
         ("dt_ang", 15, "undercut a side, deg"),
         ("dt_root", "=dt_tip - 2 * dt_h * tan(dt_ang)", "worked out: rail width at its root"),
         ("rail_half", 29, "rail runs this far either side of the tree's centre plane: 14mm past each face"),
         ("clr", 0.3, "slot clearance a side"),
         ("", None, "Ski half (4 per tree, show)"),
-        ("ski_w", 64, "across, at the inner end round the slot"),
+        ("ski_w", 54, "across, at the inner end round the slot (Rob: narrower, so a whole set fits one plate)"),
         ("ski_h", 50, "height at the inner end: the tree's bottom edge sits this far off the ground"),
         ("inner_l", 40, "full size for this far from the centre plane (the slot), then it tapers"),
-        ("ski_w_end", 36, "width at the outer end (Rob: slimmer towards the ends)"),
+        ("ski_w_end", 30, "width at the outer end (Rob: slimmer towards the ends)"),
         ("ski_h_end", 24, "height at the outer end: the sole stays flat, the top slopes down"),
         ("half_l", 190, "length from the tree's centre plane to the outer end: 4 halves + 3 sockets fit one 255 plate"),
         ("butt_gap", 0.2, "each half stops this short of the centre plane"),
@@ -91,7 +91,7 @@ def tree_mounts():
         ("skin", 2, "top skin over the ski's cavities (flat roofs, bridged: under 31mm wide)"),
         ("slot_wall", 3, "wall round the dovetail slots and the rail's core"),
         ("", None, "Storage tower (3 per tree); also the show riser"),
-        ("col_w", 62, "along the edge: the slot and a wall each side"),
+        ("col_w", 54, "along the edge: the slot and a wall each side; 54 so a whole set fits one plate"),
         ("col_d", 56, "away from the tree: the slot, then the hollow bore. Also how much a riser lifts the tree"),
         ("below", 70, "column bottom below the tree's back face: the tree box stands 60 off it"),
         ("pitch", 115, "stack pitch: tree to tree. Pixels (~9 proud) clear the box above by ~16"),
@@ -161,7 +161,26 @@ def tree_mounts():
                    f"{z1} + {P}slot_wall", f"{z2} - {P}slot_wall",
                    f"-({P}dt_tip / 2 + {t15} - {inset})", f"{P}dt_tip / 2 + {t15} - {inset}",
                    f"{z1} + {P}slot_wall", f"{z2} - {P}slot_wall")
-    F.cut(doc, "Socket", F.fuse(doc, "SocketSolid", [front_r, back_r, web, sock_rail]), [*screws, core])
+    # A cove the full height of each leg, outside the channel (Rob, 15 Nov 2026: stronger): a
+    # leg_h square bar with a leg_h-radius quarter round taken out, so each leg is buttressed
+    # from the rail to its top. Each screw gets a counterbore out through the cove, so its
+    # countersunk head seats flush on the leg's face.
+    R = f"{P}leg_h"
+    coves = []
+    for name, face, out in (("Front", f"{P}fit / 2 + {P}wall", 1), ("Back", f"{ch_lo} - {P}wall", -1)):
+        z_bar = face if out > 0 else f"{face} - {R}"
+        bar = F.box(doc, f"SockCoveBar{name}", f"{P}leg_w", R, R, f"-{P}leg_w / 2", f"-{R}", z_bar)
+        round_ = F.cyl(doc, f"SockCoveRound{name}", R, f"{P}leg_w + 2", f"-{P}leg_w / 2 - 1", f"-{R}",
+                       f"{face} + {R}" if out > 0 else f"{face} - {R}", F.Y, 90)
+        coves.append(F.cut(doc, f"SockCove{name}", bar, [round_]))
+    sock_f = F.fuse(doc, "SocketSolid", [front_r, back_r, web, sock_rail, *coves])
+    for i, sx in enumerate((f"-{P}screw_x", f"{P}screw_x")):      # heads on the back
+        screws.append(F.cyl(doc, f"SockCboreBack{i}", f"{P}csk_d / 2 + 0.2", f"{R} + 1", sx, f"{P}screw_y",
+                            f"{ch_lo} - {P}wall - {R} - 1"))
+    for i, sx in enumerate((f"-{P}front_x", f"{P}front_x")):      # heads on the front
+        screws.append(F.cyl(doc, f"SockCboreFront{i}", f"{P}csk_d / 2 + 0.2", f"{R} + 1", sx, f"{P}screw_y",
+                            f"{P}fit / 2 + {P}wall"))
+    F.cut(doc, "Socket", sock_f, [*screws, core])
 
     # --- ski half (drawn as the front half: from the centre plane forwards, +z). Full size round
     # the slot for inner_l, then tapering in width and height to the outer end, sole flat.
@@ -176,20 +195,32 @@ def tree_mounts():
     def top_y(z):          # the top surface's y (down from the tree's edge) at z
         return f"(0.3 + ({P}ski_h - 0.3 - {P}ski_h_end) * (({z}) - {P}inner_l) / {run})"
 
-    block = F.box(doc, "SkiBlock", f"{P}ski_w", f"{P}ski_h - 0.3", f"{P}inner_l - {P}butt_gap + 0.01",
-                  f"-{P}ski_w / 2", 0.3, zb)
-    # a Wedge with its Y along the ski (rotated +90 about X): its X is the width, its -Z the height
-    taper = F.wedge(doc, "SkiTaper", f"-{P}ski_w / 2", f"{P}ski_w / 2", zi, zo, f"-{P}ski_h", -0.3,
-                    f"-{P}ski_w_end / 2", f"{P}ski_w_end / 2", f"-{P}ski_h", f"-({P}ski_h - {P}ski_h_end)",
-                    0, 0, 0, F.X, 90)
+    # One ruled loft through three sections (the butt end, where the taper starts, the outer
+    # end), so there's no seam for the rounds to trip on. Then 2.5mm rounds on the top and end
+    # edges (~1.5mm of the 1.6mm shell is left at the corners); not on the shallow creases where
+    # the taper starts, where a fillet bulges outwards instead of trimming. The sole's edges stay square: they're on the bed, and a round there would cut
+    # into the walls.
+    sections = []
+    for i, (z, w, h) in enumerate(((zb, f"{P}ski_w", f"{P}ski_h - 0.3"), (zi, f"{P}ski_w", f"{P}ski_h - 0.3"),
+                                   (zo, f"{P}ski_w_end", f"{P}ski_h_end"))):
+        sec = doc.addObject("Part::Plane", f"SkiSection{i}")
+        F._set(sec, "Length", w)
+        F._set(sec, "Width", h)
+        F._place(sec, f"-({w}) / 2", f"{P}ski_h - ({h})", z)
+        sec.Visibility = False
+        sections.append(sec)
+    body_sq = doc.addObject("Part::Loft", "SkiBodySquare")
+    body_sq.Sections = sections
+    body_sq.Solid = True
+    body_sq.Ruled = True
     doc.recompute()
-    # 2.5mm rounds on the top and end edges (they leave ~1.5mm of the 1.6mm shell at the corners);
-    # the sole's edges stay square: they're on the bed, and a round there would cut into the walls
-    block_r = F.fillet(doc, "SkiBlockR", block, 2.5,
-                       lambda e, s: through(F.direction(e)) and F.mid(e).y < s.BoundBox.YMin + 0.01)
-    taper_r = F.fillet(doc, "SkiTaperR", taper, 2.5,
-                       lambda e, s: F.mid(e).z > s.BoundBox.ZMin + 0.01 and F.mid(e).y < s.BoundBox.YMax - 0.01)
-    body_r = F.fuse(doc, "SkiBody", [block_r, taper_r])
+    zi_val = doc.getObject("params").get("inner_l") - doc.getObject("params").get("tree_t") / 2
+
+    def roundable(e, s):        # top and end edges; not the sole, the butt face or the taper's start
+        m = F.mid(e)
+        return m.y < s.BoundBox.YMax - 0.01 and m.z > s.BoundBox.ZMin + 0.01 and abs(m.z - zi_val) > 0.01
+
+    body_r = F.fillet(doc, "SkiBody", body_sq, 2.5, roundable)
     ski_slot = slot("Ski", 0, f"{zb} - 1", f"{z2} + 0.5")
     stakes = [F.cyl(doc, f"SkiStake{i}", f"{P}stake_d / 2", f"{P}ski_h + 2", 0, -1, f"{zc} + {P}{k}", F.X, -90)
               for i, k in enumerate(("stake_1", "stake_2"))]

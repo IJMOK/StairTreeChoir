@@ -1,12 +1,12 @@
 {
     "type": "process",
-    "name": "Stair Tree mounts @BBL P2S",
+    "name": "Stair Tree mounts @BBL P1S",
     "from": "User",
-    "inherits": "0.20mm Standard @BBL P2S",
+    "inherits": "0.20mm Standard @BBL X1C",
     "compatible_printers": [
-        "Bambu Lab P2S 0.4 nozzle"
+        "Bambu Lab P1S 0.4 nozzle"
     ],
-    "print_settings_id": "Stair Tree mounts @BBL P2S",
+    "print_settings_id": "Stair Tree mounts @BBL P1S",
     "wall_loops": "3",
     "sparse_infill_density": "15%",
     "skirt_loops": "0",

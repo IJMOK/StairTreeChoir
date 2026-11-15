@@ -1,10 +1,9 @@
-"""Slice print files for Rob's Bambu Lab P2S with Bambu Studio's command line: python -m tools.slice
+"""Slice print files for Rob's Bambu Lab P1S with Bambu Studio's command line: python -m tools.slice
 
-  python -m tools.slice                       print/tree-plate.stl -> print/tree-plate.gcode.3mf
+  python -m tools.slice                       print/tree-plate.3mf -> print/tree-plate.gcode.3mf
   python -m tools.slice print/psu-hood.stl    any print file(s)
 
-Profiles: the printer "Bambu Lab P2S 0.4 nozzle" and the filament "Bambu PETG Basic @BBL P2S
-0.4 nozzle" from Bambu Studio's own system presets, and the process print/bambu/
+Profiles: the printer "Bambu Lab P1S 0.4 nozzle" and the filament "Bambu PETG Basic @BBL X1C" from Bambu Studio's own system presets, and the process print/bambu/
 stair-tree-mounts.json (0.20mm Standard with 3 walls and 15% infill, no skirt or brim). The
 command line doesn't resolve a preset's "inherits" chain (it quietly falls back to generic
 defaults: a 200mm bed, 60mm/s walls, no filament density), so each preset is merged here first. The .gcode.3mf holds the
@@ -28,8 +27,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PRINT = ROOT / "print"
 PROCESS = PRINT / "bambu" / "stair-tree-mounts.json"
-MACHINE = "Bambu Lab P2S 0.4 nozzle"
-FILAMENT = "Bambu PETG Basic @BBL P2S 0.4 nozzle"
+MACHINE = "Bambu Lab P1S 0.4 nozzle"
+FILAMENT = "Bambu PETG Basic @BBL X1C"          # the X1C presets are the P1S's too
 README = PRINT / "README.md"
 START, END = "<!-- sliced -->", "<!-- /sliced -->"
 
@@ -48,7 +47,7 @@ def presets() -> Path:
 def flattened(kind: str, name: str) -> dict:
     """A Bambu system preset with its whole "inherits" chain merged in. The command line doesn't
     resolve a printer preset's parents (it fell back to generic defaults: a 200mm bed, slow
-    accelerations, no P2S model), so the slicer is given the complete preset."""
+    accelerations, no printer model), so the slicer is given the complete preset."""
     path = presets() / kind / f"{name}.json"
     if not path.exists():
         raise SystemExit(f"missing Bambu preset: {path}")
@@ -73,7 +72,7 @@ def slice_one(exe: Path, stl: Path) -> dict:
     if not PROCESS.exists():
         raise SystemExit(f"missing profile: {PROCESS}")
     ours = json.loads(PROCESS.read_text(encoding="utf-8"))
-    out = stl.with_name(stl.stem + ".gcode.3mf")
+    out = stl.with_name(stl.name.split(".")[0] + ".gcode.3mf")
     with tempfile.TemporaryDirectory() as tmp:
         files = {}
         for key, data in (("machine", complete("machine", MACHINE, {"name": MACHINE})),
@@ -96,12 +95,12 @@ def slice_one(exe: Path, stl: Path) -> dict:
     info = {"file": out.name, "from": stl.name, "time": when[1].strip() if when else "?",
             "grams": round(float(grams[1])) if grams else None,
             "metres": round(float(length[1]) / 1000, 1) if length else None}
-    print(f"{out.relative_to(ROOT)}: {info['time']}, about {info['grams']}g of PETG ({info['metres']}m)")
+    print(f"{out}: {info['time']}, about {info['grams']}g of PETG ({info['metres']}m)")
     return info
 
 
 def write_readme(infos: list[dict]) -> None:
-    lines = [START, "", "## Sliced for the P2S", "",
+    lines = [START, "", "## Sliced for the P1S", "",
              f"`python -m tools.slice` (Bambu Studio's command line): printer {MACHINE}, filament {FILAMENT}, "
              "process [bambu/stair-tree-mounts.json](bambu/stair-tree-mounts.json) (0.20mm Standard, 3 walls, 15% infill). "
              "Open the `.gcode.3mf` in Bambu Studio and send it; it's already sliced.", "",
@@ -122,7 +121,7 @@ def main() -> None:
     exe = studio()
     if not exe:
         raise SystemExit("Bambu Studio not found: install it or set BAMBU_STUDIO")
-    stls = [Path(a).resolve() for a in sys.argv[1:]] or [PRINT / "tree-plate.stl"]
+    stls = [Path(a).resolve() for a in sys.argv[1:]] or [PRINT / "tree-plate.3mf"]
     write_readme([slice_one(exe, s) for s in stls])
 
 

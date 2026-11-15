@@ -155,40 +155,102 @@ def export_part(doc, o: Out) -> dict:
     return info
 
 
-PLATE = 255          # the P2S's usable bed, mm (Rob: a full set for one tree on one plate)
-GAP = 3              # between parts on the plate
+PLATE = 255          # the P1S's usable bed, mm (Rob: a full set for one tree on one plate)
+BED = 256            # the P1S's bed (Bambu preset printable_area); Bambu Studio centres the plate on it
+EXCLUDE = (18, 28)   # the P1S's bed_exclude_area, front left: kept clear for the filament cutter (Rob)
+GAP = 2.5            # between parts on the plate
 
 
 def tree_plate(doc):
-    """One tree's show set on one plate: 4 ski halves nested head to tail in two pairs, and the
-    3 sockets in a row across the end. Returns the placed shapes and the layout's size."""
+    """One tree's whole set on one plate: 4 ski halves nested head to tail in two pairs, the 3
+    sockets in a row across the end and the 3 storage towers in a column down the side.
+    Returns the placed shapes and the layout's size."""
     half = on_bed(doc.getObject("SkiHalf").Shape, (RX, -90))
     sock = on_bed(doc.getObject("Socket").Shape, (RX, -90))
     flipped = half.copy()
     flipped.rotate(half.BoundBox.Center, App.Vector(0, 0, 1), 180)
 
-    def nest(a, b):            # slide b along x until it is GAP clear of a
-        lo, hi = 0.0, a.BoundBox.XLength + GAP + 1
+    def nest(placed, b):       # slide b along x, from the last part's left edge, until it is GAP clear of ALL parts
+        last = placed[-1].BoundBox
+        everything = Part.makeCompound(placed)
+
+        def clear(x):
+            c = b.copy()
+            c.translate(App.Vector(x, 0, 0))
+            return min(c.distToShape(p)[0] for p in placed) >= GAP and c.common(everything).Volume < 1e-6
+
+        lo, hi = last.XMin, last.XMax + GAP + 1     # hi is always clear: b starts right of every part
         for _ in range(30):
             mid = (lo + hi) / 2
-            c = b.copy()
-            c.translate(App.Vector(mid, 0, 0))
-            lo, hi = (lo, mid) if c.distToShape(a)[0] >= GAP else (mid, hi)
+            lo, hi = (lo, mid) if clear(mid) else (mid, hi)
         c = b.copy()
         c.translate(App.Vector(hi, 0, 0))
         return c
 
-    parts = [half]
-    parts.append(nest(parts[-1], flipped))
-    parts.append(nest(parts[-1], half))
-    parts.append(nest(parts[-1], flipped))
-    y0 = max(p.BoundBox.YMax for p in parts) + GAP
+    # the 4 halves, nested head to tail in two pairs, behind the row of sockets
+    y_halves = sock.BoundBox.YLength + GAP
+    first = half.copy()
+    first.translate(App.Vector(0, y_halves, 0))
+    flip = flipped.copy()
+    flip.translate(App.Vector(0, y_halves, 0))
+    parts = [first]
+    parts.append(nest(parts, flip))
+    parts.append(nest(parts, first))
+    parts.append(nest(parts, flip))
+    # the 3 sockets in a row across the front, starting clear of the P1S's excluded corner
     for i in range(3):
         c = sock.copy()
-        c.translate(App.Vector(i * (sock.BoundBox.XLength + GAP), y0, 0))
+        c.translate(App.Vector(EXCLUDE[0] + GAP + i * (sock.BoundBox.XLength + GAP), 0, 0))
         parts.append(c)
+    # the 3 storage towers, upright, in a column down the right (Rob: the whole set on one plate)
+    tower = on_bed(doc.getObject("Tower").Shape, ())
+    x0 = max(p.BoundBox.XMax for p in parts) + GAP
+    for i in range(3):
+        c = tower.copy()
+        c.translate(App.Vector(x0, i * (tower.BoundBox.YLength + GAP), 0))
+        parts.append(c)
+    for i, a in enumerate(parts):          # no two parts may touch
+        for b in parts[i + 1:]:
+            if a.distToShape(b)[0] < GAP - 0.05:
+                raise RuntimeError("tree plate: parts overlap")
+    # Bambu Studio centres the plate on the bed: nothing may land in the excluded corner
+    bb = Part.makeCompound(parts).BoundBox
+    ox, oy = (BED - bb.XLength) / 2 - bb.XMin, (BED - bb.YLength) / 2 - bb.YMin
+    corner = Part.makeBox(EXCLUDE[0], EXCLUDE[1], 300, App.Vector(-ox, -oy, -1))
+    if any(p.common(corner).Volume > 0 for p in parts):
+        raise RuntimeError("tree plate: a part lands in the P1S's excluded corner")
     bb = Part.makeCompound(parts).BoundBox
     return parts, (bb.XLength, bb.YLength)
+
+
+PLATE_NAMES = [*(f"ski-half-{i}" for i in range(1, 5)), *(f"socket-{i}" for i in range(1, 4)),
+               *(f"tower-{i}" for i in range(1, 4))]
+
+
+def write_3mf(path: Path, named_shapes) -> None:
+    """A plain 3MF with one mesh object per part, each where it sits on the plate. Bambu Studio
+    keeps them as separate objects (so each is checked against the P1S's excluded corner on its
+    own, and any can be skipped), where a single STL is one object whose box covers the corner."""
+    import zipfile
+    objs = []
+    for i, (name, shape) in enumerate(named_shapes, 1):
+        mesh = MeshPart.meshFromShape(Shape=shape, LinearDeflection=LINEAR, AngularDeflection=ANGULAR, Relative=False)
+        pts, facets = mesh.Topology
+        v = "".join(f'<vertex x="{q.x:.4f}" y="{q.y:.4f}" z="{q.z:.4f}"/>' for q in pts)
+        t = "".join(f'<triangle v1="{a}" v2="{b}" v3="{c}"/>' for a, b, c in facets)
+        objs.append(f'<object id="{i}" name="{name}" type="model"><mesh><vertices>{v}</vertices>'
+                    f'<triangles>{t}</triangles></mesh></object>')
+    model = ('<?xml version="1.0" encoding="UTF-8"?>\n<model unit="millimeter" xml:lang="en-US" '
+             'xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02"><resources>' + "".join(objs)
+             + "</resources><build>" + "".join(f'<item objectid="{i}"/>' for i in range(1, len(objs) + 1))
+             + "</build></model>")
+    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("[Content_Types].xml", '<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+                   '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+                   '<Default Extension="model" ContentType="application/vnd.ms-package.3dmanufacturing-3dmodel+xml"/></Types>')
+        z.writestr("_rels/.rels", '<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+                   '<Relationship Target="/3D/3dmodel.model" Id="rel0" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/></Relationships>')
+        z.writestr("3D/3dmodel.model", model)
 
 
 def write_print_readme(infos: list[tuple[Out, dict]]) -> None:
@@ -233,10 +295,11 @@ def main(parts: bool = True, tree: bool = True, components: bool = True, assembl
         plate = Part.makeCompound(parts_)
         mesh = MeshPart.meshFromShape(Shape=plate, LinearDeflection=LINEAR, AngularDeflection=ANGULAR, Relative=False)
         mesh.write(str(PRINT_DIR / "tree-plate.stl"))
+        write_3mf(PRINT_DIR / "tree-plate.3mf", list(zip(PLATE_NAMES, parts_)))
         cad_preview.render([(plate, "#d88a3b")], str(PREVIEW_DIR / "tree-plate.png"), elev=60, azim=-90,
-                           title=f"one tree's set on one plate: {px:.0f} x {py:.0f}mm of {PLATE}", size=(5, 5))
-        infos.append((Out("tree-mounts", ["4 SkiHalf + 3 Socket"], "tree-plate", None, (), "#d88a3b", "1 per tree",
-                          "PETG, as laid out: one tree's show set (4 ski halves, 3 sockets) on one 255 plate"),
+                           title=f"one tree's whole set on one plate: {px:.0f} x {py:.0f}mm of {PLATE}", size=(5, 5))
+        infos.append((Out("tree-mounts", ["4 SkiHalf + 3 Socket + 3 Tower"], "tree-plate", None, (), "#d88a3b", "1 per tree",
+                          "PETG, as laid out: one tree's whole set (4 ski halves, 3 sockets, 3 towers) on one plate"),
                       {"volume_cm3": round(plate.Volume / 1000, 1), "bed_mm": [round(px, 1), round(py, 1),
                                                                                round(plate.BoundBox.ZLength, 1)]}))
         print(f"tree-plate: {px:.0f} x {py:.0f}mm")

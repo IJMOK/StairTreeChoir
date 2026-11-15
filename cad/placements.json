@@ -33,7 +33,7 @@
    "x": 55.9,
    "y": 0.0,
    "points": "down",
-   "width": 52,
+   "width": 46,
    "leg_h": 10,
    "depth": 16,
    "screws": [
@@ -59,7 +59,7 @@
    "x": 326.1,
    "y": 0.0,
    "points": "down",
-   "width": 52,
+   "width": 46,
    "leg_h": 10,
    "depth": 16,
    "screws": [
@@ -85,7 +85,7 @@
    "x": 191.0,
    "y": 894.0,
    "points": "up",
-   "width": 52,
+   "width": 46,
    "leg_h": 10,
    "depth": 16,
    "screws": [
