@@ -16,7 +16,7 @@ PRINT = sorted((ROOT / "print").glob("*.stl"))
 
 def test_print_files_exist():
     names = {p.stem for p in PRINT}
-    for n in ("tree-box-base", "tree-box-cover", "tree-socket", "tree-ski-half", "tree-tower", "psu-hood",
+    for n in ("tree-box-base", "tree-box-cover", "tree-socket", "tree-ski-half", "tree-tower", "tree-plate", "psu-hood",
               "pixel-disk", "step-clamp", "pod-buck-base", "pod-buck-lid"):
         assert n in names
 
@@ -30,6 +30,31 @@ def test_stls_are_binary_and_whole(path):
 @pytest.mark.parametrize("path", PRINT, ids=[p.name for p in PRINT])
 def test_every_print_file_has_a_step_or_preview(path):
     assert (ROOT / "cad" / "previews" / f"{path.stem}.png").exists()
+
+
+def test_one_tree_fits_one_plate():
+    """print/tree-plate.stl: one tree's 3 sockets and 4 ski halves on one 255 x 255 plate."""
+    data = (ROOT / "print" / "tree-plate.stl").read_bytes()
+    n = struct.unpack("<I", data[80:84])[0]
+    xs, ys = [], []
+    for i in range(n):
+        v = struct.unpack("<12f", data[84 + 50 * i: 84 + 50 * i + 48])
+        xs += v[3::3]
+        ys += v[4::3]
+    assert max(xs) - min(xs) <= 255 and max(ys) - min(ys) <= 255
+
+
+def test_tree_plate_is_sliced_for_the_p2s():
+    """print/tree-plate.gcode.3mf (python -m tools.slice): sliced, for the P2S, in PETG, on the textured plate."""
+    import zipfile
+    z = zipfile.ZipFile(ROOT / "print" / "tree-plate.gcode.3mf")
+    head = z.read("Metadata/plate_1.gcode")[:400_000].decode("utf-8", "replace")
+    tail = z.read("Metadata/plate_1.gcode")[-200_000:].decode("utf-8", "replace")
+    text = head + tail
+    assert "printer_model = Bambu Lab P2S" in text
+    assert 'filament_settings_id = "Bambu PETG Basic @BBL P2S 0.4 nozzle"' in text
+    assert "curr_bed_type = Textured PEI Plate" in text
+    assert "outer_wall_speed = 200" in text          # the real P2S process, not the CLI's defaults
 
 
 def test_print_readme_lists_every_file():
@@ -51,6 +76,8 @@ def test_all_live_cad_is_freecad():
     foreign = {".prt", ".scad", ".f3d", ".sldprt", ".gcode", ".nc", ".3mf", ".dwg"}
     for path in ROOT.rglob("*"):
         if {"archive", ".venv", ".git"} & set(path.parts) or not path.is_file():
+            continue
+        if path.name.endswith(".gcode.3mf"):    # sliced print files (tools/slice.py), not CAD
             continue
         assert path.suffix.lower() not in foreign, path
 

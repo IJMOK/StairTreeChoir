@@ -1,0 +1,15 @@
+{
+    "type": "process",
+    "name": "Stair Tree mounts @BBL P2S",
+    "from": "User",
+    "inherits": "0.20mm Standard @BBL P2S",
+    "compatible_printers": [
+        "Bambu Lab P2S 0.4 nozzle"
+    ],
+    "print_settings_id": "Stair Tree mounts @BBL P2S",
+    "wall_loops": "3",
+    "sparse_infill_density": "15%",
+    "skirt_loops": "0",
+    "brim_type": "no_brim",
+    "curr_bed_type": "Textured PEI Plate"
+}

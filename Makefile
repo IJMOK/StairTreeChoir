@@ -6,7 +6,10 @@ all:
 cad:
 	$(PY) -m tools.cad
 
+slice:
+	$(PY) -m tools.slice
+
 test:
 	$(PY) -m pytest -q
 
-.PHONY: all cad test
+.PHONY: all cad slice test

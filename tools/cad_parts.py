@@ -82,13 +82,14 @@ def tree_mounts():
         ("inner_l", 40, "full size for this far from the centre plane (the slot), then it tapers"),
         ("ski_w_end", 36, "width at the outer end (Rob: slimmer towards the ends)"),
         ("ski_h_end", 24, "height at the outer end: the sole stays flat, the top slopes down"),
-        ("half_l", 252, "length from the tree's centre plane to the outer end: a P2S bed is 256"),
+        ("half_l", 190, "length from the tree's centre plane to the outer end: 4 halves + 3 sockets fit one 255 plate"),
         ("butt_gap", 0.2, "each half stops this short of the centre plane"),
         ("stake_d", 8.8, "for 8mm peg stakes"),
-        ("stake_1", 60, "stake holes this far from the centre plane..."),
-        ("stake_2", 225, "...and this far"),
-        ("hol_wall", 4, "hollow ski: side walls and the web between the two cavities"),
-        ("skin", 7, "hollow ski: solid top over the two cavities (flat roofs, bridged: under 25mm wide)"),
+        ("stake_1", 55, "stake holes this far from the centre plane..."),
+        ("stake_2", 160, "...and this far"),
+        ("hol_wall", 1.6, "shell walls: 4 perimeters of a 0.4 nozzle (Rob: hollow, strong enough, not over-engineered)"),
+        ("skin", 2, "top skin over the ski's cavities (flat roofs, bridged: under 31mm wide)"),
+        ("slot_wall", 3, "wall round the dovetail slots and the rail's core"),
         ("", None, "Storage tower (3 per tree); also the show riser"),
         ("col_w", 62, "along the edge: the slot and a wall each side"),
         ("col_d", 56, "away from the tree: the slot, then the hollow bore. Also how much a riser lifts the tree"),
@@ -151,7 +152,16 @@ def tree_mounts():
         screws.append(F.cone(doc, f"SockFrontCsk{i}", f"{P}csk_d / 2 + 0.01", f"{P}screw_d / 2",
                              f"({P}csk_d - {P}screw_d) / 2 + 0.01", sx, f"{P}screw_y",
                              f"{P}fit / 2 + {P}wall + 0.01", F.X, 180))
-    F.cut(doc, "Socket", F.fuse(doc, "SocketSolid", [front_r, back_r, web, sock_rail]), screws)
+    # core the rail from its tip face (the bed side as printed): its flanks, ends and a skin
+    # under the legs stay slot_wall thick
+    t15 = f"tan({P}dt_ang)"
+    inset = f"({P}slot_wall / cos({P}dt_ang))"
+    core = F.wedge(doc, "SockRailCore", f"-({P}dt_root / 2 + {P}slot_wall * {t15} - {inset})",
+                   f"{P}dt_root / 2 + {P}slot_wall * {t15} - {inset}", f"{P}slot_wall", f"{P}dt_h + 1",
+                   f"{z1} + {P}slot_wall", f"{z2} - {P}slot_wall",
+                   f"-({P}dt_tip / 2 + {t15} - {inset})", f"{P}dt_tip / 2 + {t15} - {inset}",
+                   f"{z1} + {P}slot_wall", f"{z2} - {P}slot_wall")
+    F.cut(doc, "Socket", F.fuse(doc, "SocketSolid", [front_r, back_r, web, sock_rail]), [*screws, core])
 
     # --- ski half (drawn as the front half: from the centre plane forwards, +z). Full size round
     # the slot for inner_l, then tapering in width and height to the outer end, sole flat.
@@ -173,31 +183,44 @@ def tree_mounts():
                     f"-{P}ski_w_end / 2", f"{P}ski_w_end / 2", f"-{P}ski_h", f"-({P}ski_h - {P}ski_h_end)",
                     0, 0, 0, F.X, 90)
     doc.recompute()
-    block_r = F.fillet(doc, "SkiBlockR", block, 4.0, lambda e, s: through(F.direction(e)))
-    taper_r = F.fillet(doc, "SkiTaperR", taper, 4.0, lambda e, s: F.mid(e).z > s.BoundBox.ZMin + 0.01)
+    # 2.5mm rounds on the top and end edges (they leave ~1.5mm of the 1.6mm shell at the corners);
+    # the sole's edges stay square: they're on the bed, and a round there would cut into the walls
+    block_r = F.fillet(doc, "SkiBlockR", block, 2.5,
+                       lambda e, s: through(F.direction(e)) and F.mid(e).y < s.BoundBox.YMin + 0.01)
+    taper_r = F.fillet(doc, "SkiTaperR", taper, 2.5,
+                       lambda e, s: F.mid(e).z > s.BoundBox.ZMin + 0.01 and F.mid(e).y < s.BoundBox.YMax - 0.01)
     body_r = F.fuse(doc, "SkiBody", [block_r, taper_r])
     ski_slot = slot("Ski", 0, f"{zb} - 1", f"{z2} + 0.5")
     stakes = [F.cyl(doc, f"SkiStake{i}", f"{P}stake_d / 2", f"{P}ski_h + 2", 0, -1, f"{zc} + {P}{k}", F.X, -90)
               for i, k in enumerate(("stake_1", "stake_2"))]
-    # two cavities side by side, open to the sole, tapering with the ski; a web between them
-    za, zz = f"{P}inner_l + 6", f"{P}half_l - 12"
+    # A shell (Rob, 15 Nov 2026: 750g a tree was too much): two cavities side by side, open to
+    # the sole, with a web between them, under the slot and all along the taper. Walls hol_wall,
+    # a skin over the cavities, slot_wall round the slot, a tube round each stake.
+    ys = f"({P}dt_h + {P}clr + {P}slot_wall)"                  # under the slot's floor
+    z_after = f"({P}rail_half + 0.5 + {P}slot_wall)"           # past the slot's closed end
+    zz = f"{P}half_l - 6"
     hollows = []
     for i, sgn in enumerate((-1, 1)):
-        inner_x, outer_a, outer_z = f"{P}hol_wall / 2", f"{width(za)} / 2 - {P}hol_wall", f"{width(zz)} / 2 - {P}hol_wall"
-        if sgn > 0:
-            xa, xb, x2a, x2b = inner_x, outer_a, inner_x, outer_z
-        else:
-            xa, xb, x2a, x2b = f"-({outer_a})", f"-{inner_x}", f"-({outer_z})", f"-{inner_x}"
-        hollows.append(F.wedge(doc, f"SkiHollow{i}", xa, xb, f"{zc} + {za}", f"{zc} + {zz}",
-                               f"-{P}ski_h - 1", f"-({top_y(za)} + {P}skin)", x2a, x2b,
+        def xs(w):                                            # the cavity's x range in a ski w wide
+            lo, hi = f"{P}hol_wall / 2", f"{w} / 2 - {P}hol_wall"
+            return (lo, hi) if sgn > 0 else (f"-({hi})", f"-{lo}")
+        x0, x1 = xs(f"{P}ski_w")
+        hollows.append(F.box(doc, f"SkiUnderSlot{i}", f"{x1} - ({x0})", f"{P}ski_h - {ys} + 1",
+                             f"{P}inner_l - {P}butt_gap - {P}slot_wall + 0.5", x0, ys, f"{zb} + {P}slot_wall"))
+        hollows.append(F.box(doc, f"SkiPastSlot{i}", f"{x1} - ({x0})", f"{ys} - 0.3 - {P}skin + 0.5",
+                             f"{P}inner_l - {z_after} + 0.5", x0, f"0.3 + {P}skin", f"{zc} + {z_after}"))
+        xa, xb = xs(width(P + "inner_l"))
+        x2a, x2b = xs(width(zz))
+        hollows.append(F.wedge(doc, f"SkiHollow{i}", xa, xb, zi, f"{zc} + {zz}",
+                               f"-{P}ski_h - 1", f"-(0.3 + {P}skin)", x2a, x2b,
                                f"-{P}ski_h - 1", f"-({top_y(zz)} + {P}skin)", 0, 0, 0, F.X, 90))
     shell = F.cut(doc, "SkiShell", body_r, hollows)
-    bosses = []
-    for i, k in enumerate(("stake_1", "stake_2")):
-        y0 = f"({top_y(P + k)} + {P}skin - 1)"
-        bosses.append(F.cyl(doc, f"SkiBoss{i}", f"{P}stake_d / 2 + 3", f"{P}ski_h - {y0} - 0.01", 0, y0,
-                            f"{zc} + {P}{k}", F.X, -90))
-    F.cut(doc, "SkiHalf", F.fuse(doc, "SkiBossed", [shell, *bosses]), [ski_slot, *stakes])
+    bosses = [F.cyl(doc, f"SkiBoss{i}", f"{P}stake_d / 2 + {P}hol_wall", f"{P}ski_h", 0, 0.3, f"{zc} + {P}{k}", F.X, -90)
+              for i, k in enumerate(("stake_1", "stake_2"))]
+    # the tubes are trimmed to the ski's outline (its top slopes down towards the outer end)
+    tubes = F.common(doc, "SkiTubes", F.fuse(doc, "SkiTubesRaw", bosses), body_r)
+    bossed_in = F.fuse(doc, "SkiBossed", [shell, tubes])
+    F.cut(doc, "SkiHalf", bossed_in, [ski_slot, *stakes])
 
     # --- storage tower / show riser
     z0 = f"-({P}tree_t + {P}below)"
@@ -239,7 +262,17 @@ def tree_mounts():
     under = F.box(doc, "TowerRailUnder", f"{P}col_w + 2", 40, 40,
                   f"-{P}col_w / 2 - 1", f"{P}y_out + 0.01 + 40 * cos(45)", f"{z1} - 40 * sin(45)", F.X, 45)
     tower_solid = F.fuse(doc, "TowerSolid", [col_c, spigot, out_rail])
-    F.cut(doc, "Tower", tower_solid, [tower_slot, recess, bore, roof_t, hole, under])
+    # lighter: two vertical cores beside the bore, right through (they print as plain holes),
+    # and a core under the slot's stop, open at the bottom
+    cores = []
+    for i, sgn in enumerate((-1, 1)):
+        lo, hi = f"{bw} / 2 + {P}slot_wall", f"{P}col_w / 2 - {P}slot_wall"
+        x0 = lo if sgn > 0 else f"-({hi})"
+        cores.append(F.box(doc, f"TowerCore{i}", f"{hi} - ({lo})", f"{P}y_out - {P}slot_wall - ({P}dt_h + {P}clr + {P}slot_wall)",
+                           f"{P}pitch + 2", x0, f"{P}dt_h + {P}clr + {P}slot_wall", f"{z0} - 1"))
+    cores.append(F.box(doc, "TowerUnderSlot", f"{P}dt_root", f"{P}dt_h + {P}clr - {P}slot_wall - 0.3",
+                       f"({z1} - 0.5 - {P}slot_wall) - ({z0}) + 1", f"-{P}dt_root / 2", f"0.3 + {P}slot_wall", f"{z0} - 1"))
+    F.cut(doc, "Tower", tower_solid, [tower_slot, recess, bore, roof_t, hole, under, *cores])
 
     # Dovetail coupon: the inner 60mm of a ski half, to try the slide on a printed socket
     slab = F.box(doc, "CouponBox", f"{P}ski_w + 2", f"{P}ski_h + 2", f"{P}inner_l", f"-{P}ski_w / 2 - 1", -1, f"{zc}")
