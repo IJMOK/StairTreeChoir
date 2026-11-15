@@ -12,3 +12,5 @@ cad/*.log
 *.FCBak
 *.FCStd1
 archive/nx-logs/
+# gen_cnc also writes a .dxf; only the .svg is kept
+cad/*.dxf
