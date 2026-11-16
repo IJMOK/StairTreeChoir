@@ -37,7 +37,7 @@ Four songs plus short skits between them. Three set lists rotate through the eve
 
 Bramble's story (24 Oct 2026) is complete in Sets A and C: he nods off, sleeps through the next song (eyes shut, outline a slow dim blue breath, the others cover his lines; Twelve Days' fifth day goes to Jingle and Pip either side of him), and Holly wakes him after it. Little Drummer Boy and Twelve Days have him asleep throughout, so they may only follow "Bramble falls asleep" (a test checks the set lists).
 
-Between the pieces: 3–5 s of the waiting look so the songs don't run into each other.
+Between the pieces: 1 s of dark so the songs don't run into each other (Rob, 16 Nov 2026: 4 s felt like an awkward pause; the trees are dark when idle since the same day).
 
 ## The choir
 
