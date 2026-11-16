@@ -65,41 +65,49 @@ check("shelf reaches the cover's side walls",
       base.isInside(V(0.1, 20, z), 1e-6, True) and base.isInside(V(bp["box_w"] - 0.1, 20, z), 1e-6, True)
       and cover.isInside(V(bp["ix0"] - 1, 20, z), 1e-6, True))
 
-# --- tree mounts: dovetail rails and slots, the stack interlocks, the tower is hollow
+# --- tree mounts: dovetail rail and slot, tent-pole feet, the stack interlocks, the tower is hollow
 mp = json.loads((ROOT / "cad" / "parts" / "tree-mounts-params.json").read_text(encoding="utf-8"))
-sock, half, tower = (solid(f"cad/printed/tree-{n}.step") for n in ("socket", "ski-half", "tower"))
+sock, tower, stand, cap = (solid(f"cad/printed/tree-{n}.step") for n in ("socket", "tower", "stand", "pole-cap"))
 zc = -mp["tree_t"] / 2
-back = half.copy()
+back = cap.copy()
 back.rotate(V(0, 0, zc), V(0, 1, 0), 180)
-check("ski halves and tower slide on the socket's rail",
-      sock.common(half).Volume < 1e-3 and sock.common(back).Volume < 1e-3 and sock.common(tower).Volume < 1e-3
-      and half.common(back).Volume < 1e-3)
-hi_f, hi_b = half.copy(), back.copy()
-hi_f.translate(V(0, mp["y_out"], 0))
-hi_b.translate(V(0, mp["y_out"], 0))
-check("ski halves slide onto the tower's outer rail (show riser)",
-      tower.common(hi_f).Volume < 1e-3 and tower.common(hi_b).Volume < 1e-3)
+check("tower and stand slide on the socket's rail", sock.common(tower).Volume < 1e-3 and sock.common(stand).Volume < 1e-3)
 lip = mp["dt_root"] / 2 + mp["clr"] + 0.4          # just outside the rail's root, inside the slot's lip
 check("dovetail captures the rail (the slot's lip overhangs the rail's flare)",
-      half.isInside(V(lip, 0.5, zc + 10), 1e-6, True) and tower.isInside(V(lip, 0.8, zc + 10), 1e-6, True)
+      tower.isInside(V(lip, 0.8, zc + 10), 1e-6, True) and stand.isInside(V(lip, 0.8, zc + 10), 1e-6, True)
       and sock.isInside(V(lip, mp["dt_h"] - 2, zc + 10), 1e-6, True))
+pole = Part.makeCylinder(5.5, mp["pole_l"], V(0, mp["pole_y"], zc - mp["pole_l"] / 2))     # an 11mm pole
+check("tent pole runs right through the stand, near its sole",
+      stand.common(pole).Volume < 1e-3 and stand.isInside(V(0, mp["pole_y"] + 5.5 + 1, zc), 1e-6, True)
+      and pole.BoundBox.ZMin < stand.BoundBox.ZMin and pole.BoundBox.ZMax > stand.BoundBox.ZMax)
+check("stand lifts the tree at least 50mm", mp["lift"] >= 50 and abs(stand.BoundBox.YMax - mp["lift"]) < 0.01)
+ze = zc + mp["pole_l"] / 2
+peg_z = ze + mp["peg_at"]
+check("pole caps take the pole's ends and a peg each",
+      cap.common(pole).Volume < 1e-3 and back.common(pole).Volume < 1e-3
+      and cap.isInside(V(0, mp["pole_y"], ze + mp["cap_end"] / 2), 1e-6, True)
+      and not cap.isInside(V(mp["stake_d"] / 2 - 0.05, mp["lift"] - mp["pad_t"] / 2, peg_z), 1e-6, True)
+      and cap.isInside(V(mp["stake_d"] / 2 + 1, mp["lift"] - mp["pad_t"] / 2, peg_z), 1e-6, True)
+      # optimalBoundingBox: the plain BoundBox pads the round pad end and its fillets (43.3 for 40)
+      and abs(cap.optimalBoundingBox().XLength - mp["pad_w"]) < 0.01)
+check("caps and stand stand on the same ground, clear of each other",
+      abs(cap.BoundBox.YMax - stand.BoundBox.YMax) < 0.01 and cap.common(stand).Volume < 1e-3
+      and back.common(stand).Volume < 1e-3)
 up = tower.copy()
 up.translate(V(0, 0, mp["pitch"]))
 check("towers stack without clashing", tower.common(up).Volume < 1e-3 and sock.common(up).Volume < 1e-3)
-yc = mp["bore_yc"]
 z0 = -(mp["tree_t"] + mp["below"])
-check("tower bore runs right through", all(not tower.isInside(V(0, yc, z), 1e-6, True)
-                                           for z in (z0 + 1, z0 + mp["pitch"] / 2, z0 + mp["pitch"] + mp["spig_h"] - 1)))
+ty = mp["dt_h"] + mp["clr"] + 1.5 + mp["spig_t"] / 2          # the tab's centre line
+check("tower tab sits in the pocket of the tower above",
+      up.isInside(V(0, ty, z0 + mp["pitch"] + 5), 1e-6, True) is False and tower.isInside(V(0, ty, z0 + mp["pitch"] + 5), 1e-6, True)
+      and not tower.isInside(V(0, ty, z0 + 5), 1e-6, True))
+check("tower is slim under the rail's stop",
+      not tower.isInside(V(0, 5, z0 + 5), 1e-6, True) and not tower.isInside(V(mp["col_w"] / 2 - 3, ty, z0 + 5), 1e-6, True)
+      and tower.isInside(V(mp["col_w"] / 2 - 3, ty, zc), 1e-6, True))
 check("spigot sits in the recess above", up.common(tower).Volume < 1e-3 and up.BoundBox.ZMin < tower.BoundBox.ZMax)
 check("tower slot is stopped at the bottom, open at the top",
       tower.isInside(V(0, 6, zc - mp["rail_half"] - 2), 1e-6, True) and not tower.isInside(V(0, 6, z0 + mp["pitch"] - 1), 1e-6, True))
-dz = (mp["inner_l"] + 6 + mp["half_l"] - 12) / 2            # middle of the cavities, from the centre plane
-w = mp["ski_w"] + (mp["ski_w_end"] - mp["ski_w"]) * (dz - mp["inner_l"]) / (mp["half_l"] - mp["inner_l"])
-xcav = (mp["hol_wall"] / 2 + w / 2 - mp["hol_wall"]) / 2
-check("ski half is hollow, solid round its slot",
-      all(not half.isInside(V(sg * xcav, mp["ski_h"] - 2, zc + dz), 1e-6, True) for sg in (-1, 1))
-      and half.isInside(V(0, mp["dt_h"] + 3, zc + 10), 1e-6, True))
-for n, s in (("socket", sock), ("ski half", half), ("tower", tower)):
+for n, s in (("socket", sock), ("tower", tower), ("stand", stand), ("pole cap", cap)):
     check(f"{n} is one valid solid", s.isValid() and len(s.Solids) == 1)
 check("socket channel takes the tread", not sock.isInside(V(0, -mp["leg_h"] / 2, zc), 1e-6, True)
       and sock.isInside(V(0, -mp["leg_h"] / 2, mp["fit"] / 2 + mp["wall"] / 2), 1e-6, True))
@@ -138,7 +146,8 @@ doc.recompute()
 links = [o for o in doc.Objects if o.TypeId == "App::Link"]
 broken = [o.Name for o in links if o.getLinkedObject() is None or o.getLinkedObject() == o]
 names = {o.Name for o in doc.Objects}
-needed = {"StairTree", "TreeUnit", "Tree", "TreeBox", "BoxBase", "BoxCover", "Socket0", "Socket1", "Socket2", "Ski0", "Ski1",
+needed = {"StairTree", "TreeUnit", "Tree", "TreeBox", "BoxBase", "BoxCover", "Socket0", "Socket1", "Socket2", "Stand0", "Stand1",
+          "Pole0", "Pole1", "Cap0", "CapBack1",
           "Box_esp32", "Box_sp16", "Disk01", "Disk92", "Pixels"}
 check("complete tree assembly opens with every link resolved", not broken and needed <= names and len(links) > 100,
       f"broken {broken}, missing {needed - names}, {len(links)} links")

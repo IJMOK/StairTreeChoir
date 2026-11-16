@@ -4,7 +4,7 @@ A review of the tree design from the source, the data and the WLED and FPP code.
 
 Scope is December 2026: 6 trees at Site A.
 
-**Superseded in part (15 Nov 2026):** the boots are replaced by sockets, skis and storage towers, which also fix the box's position and stake the tree down against the wind question (cad/README.md); Site A's PSU is an LRS-350-12 and its amp an XH-M541; all CAD is in FreeCAD (`cad/parts/`) and the OpenSCAD files cited below are in archive/. The tree box moved to FreeCAD after this was written (now `cad/parts/tree-box.FCStd`, same geometry), so every item below still stands unless it is marked fixed. `tree-box.scad` line numbers refer to the frozen copy in `feet/old-tree-box/`.
+**Superseded in part (15 Nov 2026):** the boots are replaced by sockets, skis and storage towers (on 16 Nov 2026 the skis by display stands on tent poles, the towers slimmed to storage only), which also fix the box's position and stake the tree down against the wind question (cad/README.md); Site A's PSU is an LRS-350-12 and its amp an XH-M541; all CAD is in FreeCAD (`cad/parts/`) and the OpenSCAD files cited below are in archive/. The tree box moved to FreeCAD after this was written (now `cad/parts/tree-box.FCStd`, same geometry), so every item below still stands unless it is marked fixed. `tree-box.scad` line numbers refer to the frozen copy in `feet/old-tree-box/`.
 
 ## Fix before the first show
 

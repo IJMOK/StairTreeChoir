@@ -71,7 +71,7 @@ Box: tree ____ / site ____
 - [ ] RP-SMA bulkhead is tight and the antenna points up (tree box)
 - [ ] The box is on four 10mm spacers and four 4 × 40 wood screws (tree box); the hook caught along the plate's top edge and the cover's rim down on the plate all round
 - [ ] The SP17 plug under the shelf ends above the tree's bottom edge (tree box)
-- [ ] Three sockets per tree, each tight on the edge with 2 × 4 × 16 screws in the back leg; skis bolted in (M5) and staked
+- [ ] Three sockets per tree, each tight on the edge with 2 × 4 × 16 screws in the back leg; display stands on, a pole through each, four caps pegged; the tree doesn't creep along its poles when pushed
 - [ ] PSU hood (site box): S-400-12 input switch on **230V** before the hood went on; inlet earth to FG under 0.1Ω (meter, plug earth pin to the PSU case under 1Ω); every mains tab in an insulated crimp; the hood's two M4 × 6 screws in with washers, no longer; the inlet's fuse is T4A
 
 Rain and soak test of at least one box. **TBC (Rob):** the repo does not give a duration or method. A suggestion is an hour under a hose or watering can, from above and the sides.

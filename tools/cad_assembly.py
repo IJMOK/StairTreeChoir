@@ -2,7 +2,8 @@
 tools/cad_export.py (python -m tools.cad), after the parts are exported.
 
   cad/stair-tree-complete.FCStd  one complete tree as it stands in the show: the tree, its 92
-                               disks, pixels, tree box with every bought part, sockets and skis,
+                               disks, pixels, tree box with every bought part, sockets, display
+                               stands, tent poles and pole caps,
                                each an App::Link to its master (generated: don't edit it)
   cad/stair-tree-choir.FCStd   generated: don't edit it. Open it in FreeCAD to look round
                                the setup; every part is an App::Link to its master in
@@ -17,7 +18,7 @@ tools/cad_export.py (python -m tools.cad), after the parts are exported.
 
 World frame: mm, Z up, the ground at Z = 0, the show's front facing -Y (FreeCAD's front view).
   TreeUnit         one tree with everything screwed to it, in the tree's own frame (cad_tree.py)
-  Show             6 trees (Site A) on their skis, 0.5m apart, and the site box
+  Show             6 trees (Site A) on their display stands and tent poles, 0.5m apart, and the site box
   Storage          14 trees face up in a stack on their towers
 """
 
@@ -51,7 +52,7 @@ PLACEMENTS = ROOT / "cad" / "placements.json"
 
 V = App.Vector
 ROT0 = App.Rotation()
-# The back ski half is the front one turned round a vertical axis through the tree's centre
+# The back pole cap is the front one turned round a vertical axis through the tree's centre
 # plane (socket frame: y vertical when standing, the centre plane at z = -15).
 BACK = App.Placement(V(0, 0, 0), App.Rotation(V(0, 1, 0), 180), V(0, 0, -15))
 SHOW_TREES = 6
@@ -248,16 +249,16 @@ def main():
     for name, l in locs.items():
         src = bought.getObject(cad_components.DUPLICATES.get(name, name))
         link(cdoc, f"Box_{name}", src, l, tb, f"{name} (bought part, stand-in)")
-    lift = mp["ski_h"]
+    lift = mp["lift"]
     stand = App.Rotation(V(1, 0, 0), 90)
+    pole = pole_shape(mp)
     standing = cdoc.addObject("App::Part", "StairTree")
-    standing.Label = f"Stair tree, standing on two skis ({lift:.0f}mm off the ground)"
+    standing.Label = f"Stair tree, on two display stands and tent poles ({lift:.0f}mm off the ground)"
     standing.Placement = pl(0, 0, lift, stand)
     link(cdoc, "Unit", unit, pl(), standing, "tree unit")
     unit.Visibility = False
     for j, s in enumerate(sockets[:2]):
-        link(cdoc, f"Ski{j}", mounts.getObject("SkiHalf"), s, standing, "ski half, front")
-        link(cdoc, f"SkiBack{j}", mounts.getObject("SkiHalf"), s.multiply(BACK), standing, "ski half, back")
+        feet(cdoc, mounts, pole, s, standing, str(j))
     cdoc.recompute()
     cdoc.save()
 
@@ -272,7 +273,7 @@ def main():
 
     # ---- the show: tree frame -> world (tree Y up, front facing -Y), ground at z = 0
     show = doc.addObject("App::Part", "Show")
-    show.Label = f"Show: Site A, {SHOW_TREES} trees on skis, and the site box"
+    show.Label = f"Show: Site A, {SHOW_TREES} trees on display stands and tent poles, and the site box"
     for k in range(SHOW_TREES):
         x0 = k * (layout["blank"]["width"] + SHOW_SPACING)
         t = doc.addObject("App::Part", f"ShowTree{k + 1}")
@@ -281,8 +282,7 @@ def main():
         show.addObject(t)
         link(doc, f"ShowUnit{k + 1}", unit, pl(), t, "tree unit")
         for j, s in enumerate(sockets[:2]):
-            link(doc, f"Ski{k + 1}_{j}", mounts.getObject("SkiHalf"), s, t, "ski half, front")
-            link(doc, f"SkiBack{k + 1}_{j}", mounts.getObject("SkiHalf"), s.multiply(BACK), t, "ski half, back")
+            feet(doc, mounts, pole, s, t, f"{k + 1}_{j}")
     sb = doc.addObject("App::Part", "SiteBox")
     sb.Label = "Site A box (layout indicative)"
     sb.Placement = pl(-900, -100, 0)
@@ -297,18 +297,6 @@ def main():
     standins = site_box_standins()
     for i, (label, (shape, colour, alpha)) in enumerate(standins.items()):
         feature(doc, f"SiteItem{i}", shape, sb, label)
-
-    # ---- the show, raised: a tower lying between each bottom socket and its ski
-    riser = pl(0, mp["y_out"], 0)
-    lift_hi = lift + mp["y_out"]
-    raised = doc.addObject("App::Part", "ShowRaised")
-    raised.Label = "Show, raised: towers as risers between socket and ski"
-    raised.Placement = pl(0, 1500, lift_hi, stand)
-    link(doc, "RaisedUnit", unit, pl(), raised, "tree unit")
-    for j, s in enumerate(sockets[:2]):
-        link(doc, f"RaisedTower{j}", mounts.getObject("Tower"), s, raised, "tower (riser)")
-        link(doc, f"RaisedSki{j}", mounts.getObject("SkiHalf"), s.multiply(riser), raised, "ski half, front")
-        link(doc, f"RaisedSkiBack{j}", mounts.getObject("SkiHalf"), s.multiply(riser).multiply(BACK), raised, "ski half, back")
 
     # ---- storage: trees face up, stacked on their towers
     store = doc.addObject("App::Part", "Storage")
@@ -327,8 +315,8 @@ def main():
 
     # ---- checks and pictures, from the source shapes with the same placements
     tree = tree_doc.getObject("Tree").Shape
-    sock, half, tower = (mounts.getObject(n).Shape for n in ("Socket", "SkiHalf", "Tower"))
-    ski = Part.makeCompound([half, moved(half, BACK)])        # one foot's pair of halves, in the socket frame
+    sock, tower, stand_s, cap = (mounts.getObject(n).Shape for n in ("Socket", "Tower", "Stand", "PoleCap"))
+    foot = Part.makeCompound([stand_s, pole, cap, moved(cap, BACK)])   # one foot, in the socket frame
     pix = pixel_standins(layout)
     base, cover = box.getObject("Base").Shape, box.getObject("Cover").Shape
     box_parts = [moved(base, bplace), moved(cover, bplace)] + [
@@ -349,7 +337,7 @@ def main():
                                 for sx in (-mp["screw_x"], mp["screw_x"], -mp["front_x"], mp["front_x"])]} for s in sockets],
     }
     PLACEMENTS.write_text(json.dumps(placements, indent=1) + "\n", encoding="utf-8", newline="\n")
-    results = checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, ski, bx, by, box_clear)
+    results = checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, stand_s, pole, cap, bx, by, box_clear)
     CHECKS.write_text(checks_doc(results), encoding="utf-8", newline="\n")
     print("\n".join(results))
 
@@ -358,18 +346,14 @@ def main():
     unit_items = [(tree, wood), (Part.makeCompound(socks), "#3b7dd8"), (pix, "#f5f5f5"),
                   (Part.makeCompound(box_parts[:1] + box_parts[2:]), "#4682b4"), (box_parts[1], "#b0c4de", 0.5)]
     shown = [(moved(s, App.Placement(V(0, 0, lift), stand)), c, *a) for s, c, *a in
-             unit_items + [(Part.makeCompound([moved(ski, s) for s in sockets[:2]]), "#d88a3b")]]
+             unit_items + [(Part.makeCompound([moved(stand_s, s) for s in sockets[:2]]), "#d88a3b"),
+                           (Part.makeCompound([moved(pole, s) for s in sockets[:2]]), "#333333"),
+                           (Part.makeCompound([moved(cap, s) for s in sockets[:2]]
+                                              + [moved(cap, s.multiply(BACK)) for s in sockets[:2]]), "#d88a3b")]]
     cad_preview.render(shown, str(PREVIEW_DIR / "assembly-show-tree.png"), elev=12, azim=-70,
-                       title=f"in the show: on two skis ({lift:.0f}mm up)", size=(6, 7), deflection=2.0)
+                       title=f"in the show: on display stands and tent poles ({lift:.0f}mm up)", size=(6, 7), deflection=2.0)
     cad_preview.render(shown, str(PREVIEW_DIR / "assembly-complete-back.png"), elev=15, azim=110,
-                       title="the complete tree from behind: box, sockets, skis", size=(6, 7), deflection=2.0)
-    riser = pl(0, mp["y_out"], 0)
-    hi = App.Placement(V(0, 0, lift + mp["y_out"]), stand)
-    shown_hi = [(moved(s, hi), c, *a) for s, c, *a in
-                unit_items + [(Part.makeCompound([moved(tower, s) for s in sockets[:2]]), "#5aa05a"),
-                              (Part.makeCompound([moved(ski, s.multiply(riser)) for s in sockets[:2]]), "#d88a3b")]]
-    cad_preview.render(shown_hi, str(PREVIEW_DIR / "assembly-show-raised.png"), elev=12, azim=-70,
-                       title=f"raised: towers as risers ({lift + mp['y_out']:.0f}mm up)", size=(6, 7), deflection=2.0)
+                       title="the complete tree from behind: box, sockets, stands, poles", size=(6, 7), deflection=2.0)
     stack = []
     for k in range(3):
         place = pl(0, 0, z_bottom + k * mp["pitch"])
@@ -389,7 +373,7 @@ def main():
     step_doc = App.newDocument("choir_step")
     objs = []
     for name, s in (("tree", tree), ("pixel_disks", Part.makeCompound(disks_placed)), ("sockets", Part.makeCompound(socks)),
-                    ("skis", Part.makeCompound([moved(ski, s) for s in sockets[:2]])),
+                    ("feet", Part.makeCompound([moved(foot, s) for s in sockets[:2]])),
                     ("tree_box", Part.makeCompound(box_parts))):
         o = step_doc.addObject("Part::Feature", name)
         o.Shape = moved(s, App.Placement(V(0, 0, lift), stand))
@@ -407,7 +391,22 @@ def main():
     print(f"wrote {COMPLETE.relative_to(ROOT)}, {OUT.relative_to(ROOT)}, {STEP.relative_to(ROOT)}, {CHECKS.relative_to(ROOT)}, cad/previews/assembly-*.png")
 
 
-def checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, ski, bx, by, box_clear):
+def pole_shape(mp):
+    """The tent pole as bought (11mm), in the socket frame: front to back through the stand,
+    centred on the tree's centre plane."""
+    zc = -mp["tree_t"] / 2
+    return Part.makeCylinder(5.5, mp["pole_l"], V(0, mp["pole_y"], zc - mp["pole_l"] / 2))
+
+
+def feet(doc, mounts, pole, s, parent, tag):
+    """One bottom socket's foot: the display stand on its rail, the pole through it, a cap on each end."""
+    link(doc, f"Stand{tag}", mounts.getObject("Stand"), s, parent, "display stand")
+    feature(doc, f"Pole{tag}", moved(pole, s), parent, "11mm fibreglass tent pole (bought)")
+    link(doc, f"Cap{tag}", mounts.getObject("PoleCap"), s, parent, "pole cap, front")
+    link(doc, f"CapBack{tag}", mounts.getObject("PoleCap"), s.multiply(BACK), parent, "pole cap, back")
+
+
+def checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, stand, pole, cap, bx, by, box_clear):
     out = []
     nodes = nodes_xy(layout)
     t = layout["blank"]["thickness"]
@@ -452,7 +451,7 @@ def checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, ski, bx,
     # the SP16 plug hanging below the box
     low = bb.YMin
     out.append(f"Lowest point of the box (the SP17 plug on the SP16): {low:.0f}mm above the tree's bottom edge, "
-               f"{low + mp['ski_h']:.0f}mm above the ground in the show; the cable bends below it.")
+               f"{low + mp['lift']:.0f}mm above the ground in the show; the cable bends below it.")
     plug_hit = sum(Part.makeCompound(box_parts).common(s).Volume for s in socks)
     out.append(f"Tree box against the sockets: {plug_hit:.1f} mm³. " + ("OK." if plug_hit < 1 else "**Clash.**"))
     # storage
@@ -461,7 +460,7 @@ def checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, ski, bx,
     out.append(f"Storage pitch {p:.0f}mm: the box under each tree clears the pixels of the tree below by {gap:.1f}mm. "
                + ("OK." if gap > 5 else "**Too tight.**"))
     zt = -(mp["tree_t"] + mp["below"])
-    out.append(f"Storage stack of {STORE_TREES}: {(STORE_TREES - 1) * p + p + mp['spig_h']:.0f}mm tall to the top spigot; "
+    out.append(f"Storage stack of {STORE_TREES}: {(STORE_TREES - 1) * p + p + mp['spig_h']:.0f}mm tall to the top tabs; "
                f"each tower drops {mp['spig_h']:.0f}mm into the one above. The bottom towers stand on the floor.")
     towers = [moved(tower, s) for s in sockets]
     tw_clash = sum(tt.common(tree).Volume + tt.common(Part.makeCompound(box_parts)).Volume for tt in towers)
@@ -472,19 +471,23 @@ def checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, ski, bx,
     ok_bottom = zt <= bb.ZMin
     out.append(f"Tower bottoms are {-zt - t:.0f}mm below the back face; the box reaches {-bb.ZMin - t:.0f}mm: "
                + ("the towers carry the stack, not the boxes." if ok_bottom else "**the box hits the floor first.**"))
-    # show
-    out.append(f"Show: the tree's bottom edge stands {mp['ski_h']:.0f}mm above the ground on two feet "
-               f"{SOCKET_BOTTOM_X[1] - SOCKET_BOTTOM_X[0]:.0f}mm apart, each two ski halves covering "
-               f"{ski.BoundBox.ZLength:.0f}mm front to back (each half {mp['half_l'] - mp['butt_gap']:.0f}mm; a whole set prints on one 256 bed). "
-               "They slide onto the sockets' dovetail rails from front and back; the stakes lock them.")
-    riser = pl(0, mp["y_out"], 0)
-    skis_hi = [moved(ski, s.multiply(riser)) for s in sockets[:2]]
-    risers = [moved(tower, s) for s in sockets[:2]]
-    hit = sum(r.common(tree).Volume + r.common(Part.makeCompound(box_parts)).Volume + r.common(sk).Volume
-              for r, sk in zip(risers, skis_hi)) + sum(sk.common(tree).Volume for sk in skis_hi)
-    out.append(f"Show, raised: a tower lying between each bottom socket and its ski lifts the bottom edge to "
-               f"{mp['ski_h'] + mp['y_out']:.0f}mm. Risers against the tree, its box and the skis: "
-               f"{hit:.1f} mm³. " + ("OK." if hit < 1 else "**Clash.**"))
+    # show: a display stand on each bottom socket, a tent pole through it, a cap on each end
+    caps = Part.makeCompound([cap, moved(cap, BACK)])
+    peg = cap.BoundBox.ZMax - mp["pad_w"] / 2                 # the front peg; the back one mirrors it
+    pegs = 2 * (peg + mp["tree_t"] / 2)
+    out.append(f"Show: the tree's bottom edge stands {mp['lift']:.0f}mm above the ground on two display stands "
+               f"{SOCKET_BOTTOM_X[1] - SOCKET_BOTTOM_X[0]:.0f}mm apart, each on a {mp['pole_l']:.0f}mm tent pole "
+               f"({mp['pole_d'] - 0.6:.0f}mm) running front to back through it, its axis {mp['lift'] - mp['pole_y']:.1f}mm "
+               f"off the grass. A cap on each end; the pegs through them are {pegs:.0f}mm apart "
+               f"front to back, and the foot covers {caps.BoundBox.ZLength:.0f}mm.")
+    risers = [moved(stand, s) for s in sockets[:2]]
+    poles = [moved(pole, s) for s in sockets[:2]]
+    capped = [moved(caps, s) for s in sockets[:2]]
+    others = Part.makeCompound([tree] + box_parts)
+    hit = sum(r.common(others).Volume + p.common(r).Volume + p.common(c).Volume + c.common(r).Volume
+              + c.common(others).Volume + p.common(others).Volume for r, p, c in zip(risers, poles, capped))
+    out.append(f"Show: stands, poles and caps against each other, the tree and its box: {hit:.1f} mm³. "
+               + ("OK." if hit < 1 else "**Clash.**"))
     return out
 
 

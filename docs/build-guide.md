@@ -16,7 +16,7 @@ Two safety rules cover the whole project:
 | 4 | Finish the wood | exterior oil |
 | 5 | Glue the disks, fit the pixels | `data/tree-layout.json` |
 | 6 | Build the controller board | [electronics/README.md](../electronics/README.md) |
-| 7 | Mounts: sockets and skis | [cad/README.md](../cad/README.md#tree-mounts-socket-ski-halves-tower-rob-15-nov-2026) |
+| 7 | Mounts: sockets, display stands, tent-pole feet | [cad/README.md](../cad/README.md#tree-mounts-socket-display-stand-tent-pole-feet-storage-tower-rob-16-nov-2026) |
 | 8 | Tree box | [cad/README.md](../cad/README.md#tree-controller-box) |
 | 9 | Site box and power | [electronics/site-wiring.md](../electronics/site-wiring.md) |
 | 10 | Network | router, fixed IPs |
@@ -32,9 +32,9 @@ Two safety rules cover the whole project:
    - Board hole positions and ESP32 height in the box, the SP16 socket's nut and thread, the PG7 and RP-SMA sizes, and the insert holes ([docs/tree-box-parts.md](tree-box-parts.md)).
    - Site A's S-400-12, the IEC inlet and the XH-M541 against the hood and the site box ([cad/README.md](../cad/README.md)).
    - The outer diameter of the outdoor flex (6–10mm for the SP17's gland).
-3. Print the first-offs before the rest, from [print/](../print/README.md) (sizes, counts and settings in its table): one **tree box** with its coupon and seal test, one **socket** and the **dovetail coupon**, then two **ski halves** and two **towers**. PETG.
+3. Print the first-offs before the rest, from [print/](../print/README.md) (sizes, counts and settings in its table): one **tree box** with its coupon and seal test, one **socket** and the **dovetail coupon**, then two **display stands** and four **pole caps**. PETG.
 4. Print 4 step clamps and 4 washers for the CNC bed: PETG, 4 walls, 40% infill.
-5. The full print run, once the test fits pass (stage 7): 14 tree boxes, 42 sockets, 56 ski halves, 42 towers (for storage, before the season ends), 92 pixel disks per tree, Site A's PSU hood and buck pod.
+5. The full print run, once the test fits pass (stage 7): 14 tree boxes, 42 sockets, 28 display stands, 56 pole caps, 42 storage towers (before the season ends), 92 pixel disks per tree, Site A's PSU hood and buck pod.
 
 ## 2. Tread preparation
 
@@ -54,7 +54,7 @@ Each tree is cut in one op, front face up, with no flip and nothing cut from the
 1. **Offcut test first.** Print a few pixel disks (`print/pixel-disk.stl`). Cut one Ø19 × 6mm counterbore and a Ø15 clearance hole in an oak offcut and press a disk in. Check a pixel snaps in and its clips clear the hole. Set `hole_dia` (the disk bore) and `clearance_dia` in `tools/tree_layout.py` and run `make all`. **TBC (Rob):** the disk bore and the clip barb flare. These wait on the pixels arriving.
 2. **Op 0, once:** screw an MDF sheet to the bed and pocket it 4mm deep to the blank's shape. Don't move it again.
 3. Cut a **pilot tree first**. Op 1: drop the tread into the pocket, face up, and clamp it with the clamps clear of the counterbores. Cut the 92 counterbores, then the clearance holes through into the MDF (helical bore, clear the chips every 6 to 8mm). Watch the first tree all the way through.
-4. Fit a pixel string, the sockets and the skis to the pilot tree before cutting the other 13.
+4. Fit a pixel string, the sockets, stands and poles to the pilot tree before cutting the other 13.
 
 Safety: eye and ear protection, dust extraction for oak dust, hands clear of the bit. Packed chips are what snap a 4mm bit.
 
@@ -101,15 +101,16 @@ Follow "Building and testing one board" in [electronics/README.md](../electronic
 
 Run checklist section A for each board.
 
-## 7. Mounts: sockets and skis
+## 7. Mounts: sockets, display stands, tent-pole feet
 
-Three sockets per tree, screwed to the edge through both legs: two on the bottom edge, one on the top. In the show two ski halves slide onto each bottom socket's dovetail rail, one from the front and one from the back; in storage a tower drops onto every rail. Details and positions: [cad/README.md](../cad/README.md#tree-mounts-socket-ski-halves-tower-rob-15-nov-2026); clearances: [cad-checks.md](cad-checks.md).
+Three sockets per tree, screwed to the edge through both legs: two on the bottom edge, one on the top. In the show a display stand slides onto each bottom socket's dovetail rail, an 11mm fibreglass tent pole runs through it front to back, and a pegged cap goes on each end of the pole; in storage a slim storage tower drops onto every rail. Details and positions: [cad/README.md](../cad/README.md#tree-mounts-socket-display-stand-tent-pole-feet-storage-tower-rob-16-nov-2026); clearances: [cad-checks.md](cad-checks.md).
 
-1. **Test-fit one socket and the dovetail coupon** before printing 42. The socket should slide over the edge with a little slack (0.8mm across); the coupon should slide onto the rail by hand without rocking. Too tight or loose: change `clr` in cad/parts/tree-mounts.FCStd and `make cad`.
+1. **Test-fit one socket and the dovetail coupon** before printing 42. The socket should slide over the edge with a little slack (0.8mm across); the coupon should slide onto the rail by hand without rocking, and a pole should slide through its hole. Too tight or loose: change `clr` (or `pole_d`) in cad/parts/tree-mounts.FCStd and `make cad`.
 2. Mark the sockets: bottom ones centred 55.9mm in from each side of the bottom edge, the top one centred on the top edge. Each sits hard against the edge with its legs over both faces, the rail running front to back.
 3. Pilot (2.5mm) and drive four 4 × 16 countersunk stainless wood screws per socket: two through the back leg, two through the front leg. Each goes 12.5mm into the oak; nothing goes into the end grain of the edge.
-4. With the tree lying on its back, slide a ski half onto each bottom rail from the front and another from the back, until they butt in the middle. For the raised height, slide a tower onto the rail first (lying front to back), then the halves onto the tower's rail.
-5. Stand the tree where it lives and drive two 8mm peg stakes through each ski half. The stakes are what stop the halves sliding apart.
+4. Cut the poles: two 400mm lengths of 11mm fibreglass tent pole per tree, no ferrules (tape round the cut, fine hacksaw, sand the ends, gloves).
+5. With the tree lying on its back, slide a display stand onto each bottom rail from the front until it stops. Push a pole through each stand's tube, centred, and a cap onto each end.
+6. Stand the tree where it lives, the caps' pads outwards, and drive a peg (up to 9mm) through each cap (four per tree). If a tree creeps along its poles in testing, a cable tie on the pole either side of each stand stops it.
 
 ## 8. Tree box
 
@@ -191,14 +192,14 @@ Run [test-checklist.md](test-checklist.md) in order; its sections match the stag
 
 Setting up:
 1. Put the site box in place.
-2. With each tree on its back, slide two ski halves onto each bottom rail (front and back; or a tower first, for the raised height), stand it and stake each half with two 8mm pegs.
+2. With each tree on its back, slide a display stand onto each bottom rail from the front, push a pole through each and a cap onto each end, stand it and peg each cap (four pegs).
 3. Run each 12V flex to its tree and screw its SP17 plug onto the box's SP16.
 4. Mains last: plug the C13 lead into the inlet and the plug into the RCD socket, test the RCD, then switch on at the inlet. Then power the router, the player and the trees.
 5. Run checklist sections D and E.
 
 Taking down:
 1. Switch off at the mains and unplug before touching any 12V connection.
-2. Unscrew the SP17 plugs. Pull the stakes and slide the ski halves off.
+2. Unscrew the SP17 plugs. Pull the pegs, take the caps and poles off and slide the stands off. For storage, slide a storage tower onto each of the three rails and stack the trees face up.
 3. Dry everything before packing it.
 
 Storage: dry, the trees face up in one stack on their towers (a tower dropped onto every socket's rail; each drops into the one below, 115mm pitch, about 1.63m for 14). Boxes stay on the trees, the cord left in its groove; label each tree's flex with its number.

@@ -89,7 +89,7 @@ Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 | 1 + ~1m | Ring terminal for the 10-32 stud (about M5) + about 2.5mm² wire | PSU +12V to the fuse box, up to about 14A | £3 |
 | 6 | Small TVS diodes (optional) | Data line protection; skip for December | – |
 
-Still to buy for Site A: about **£27** plus the fasteners below (and the inlet, if not in hand). Everything printed is in [print/](../print/README.md): pixel disks (552 + spares), 6 tree boxes, 18 sockets, 12 skis, the PSU hood and the buck pod; 18 towers before the season ends.
+Still to buy for Site A: about **£27** plus the fasteners below (and the inlet, if not in hand). Everything printed is in [print/](../print/README.md): pixel disks (552 + spares), 6 tree boxes, 18 sockets, 12 display stands and 24 pole caps, the PSU hood and the buck pod; 18 storage towers before the season ends. Plus 12 lengths of 11mm fibreglass tent pole, 400mm each (below).
 
 ### Later: sites B to D, trees 7 to 14 (or 15)
 
@@ -117,7 +117,8 @@ Still to buy for Site A: about **£27** plus the fasteners below (and the inlet,
 | 3 | XH-M541 amps (or similar, 12V) | One per site |
 | 8 | Small TVS diodes (optional) | |
 | 736 + spares | Printed pixel disks (PETG) | 92 per tree × 8 (trees 7–14) |
-| 24 + 32 + 24 | Printed sockets, ski halves, towers (PETG) | Trees 7–14 |
+| 24 + 16 + 32 + 24 | Printed sockets, display stands, pole caps, storage towers (PETG) | Trees 7–14 |
+| 16 × 400mm | 11mm fibreglass tent pole | Trees 7–14, two per tree |
 
 ## Fasteners
 
@@ -131,7 +132,8 @@ Lids and box mounts use brass heat-set inserts, not captive nuts: the screws sit
 | 28 | 64 | M2 brass heat-set inserts, about 4mm long, for a 3.2mm hole | Controller board standoffs, 4 per board (Rob, 31 Oct 2026). Check the hole against the real inserts (`standoff_hole`) |
 | 28 | 64 | M2 × 6 stainless pan-head machine screws | Controller board into the standoff inserts, 4 per board |
 | 84 | 192 | 4 × 16 stainless countersunk wood screws | Sockets, 4 each (2 through the back leg, 2 through the front), 3 sockets per tree (15 Nov 2026). Not longer: two from opposite faces must not meet in 30mm of oak |
-| 56 | 128 | 8mm peg stakes, about 200mm | Two per ski half, four halves per tree (they also lock the halves on the rail) |
+| 28 | 64 | 8mm peg stakes, about 200mm | One through each pole cap's pad, four per tree (Rob, 16 Nov 2026: tent-pole feet; the hole takes up to 9mm) |
+| 12 × 400mm | 28 × 400mm | 11mm fibreglass tent pole (plain lengths: a ferrule won't go through the stand) | Feet: one through each display stand, front to back, 2 per tree. Cut with a fine hacksaw, tape round the cut, sand the ends |
 | 2 | 10 | 5 × 40 stainless exterior screws + washers | The DRiBOX to a post or fence, if it isn't left standing |
 | 4 + 4 | 4 + 4 | M6 × 70 bolts and M6 spring channel nuts (short spring, 41×21 strut) | CNC clamps (cad/parts/step-clamp.FCStd); the washers are printed. On the 18mm fixture plate (`spoil_t` 14) the echo gives 77mm: use M6 × 80 |
 | 1 pack | 1 pack | Cable ties, up to 4.8mm wide | Buck pod and PSU hood tie slots |

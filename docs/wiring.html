@@ -96,7 +96,7 @@ svg .net-text { fill: var(--net); }
 <body>
 <main>
   <header>
-    <div class="status">Stair Tree Choir · Site A, December 2026 · plan as of 16 Nov (S-400-12 with IEC hood · XH-M541 · tree box: L base + wrap-round cover · sockets and skis)</div>
+    <div class="status">Stair Tree Choir · Site A, December 2026 · plan as of 16 Nov (S-400-12 with IEC hood · XH-M541 · tree box: L base + wrap-round cover · sockets, display stands, tent-pole feet)</div>
     <h1>How the power, sound and data go together</h1>
     <p class="sub">One mains plug feeds one power supply in the site box. Every tree gets its own fused 12V run and a plug-in connector. The trees get their show over Wi-Fi, so the only cable to a tree is power.</p>
   </header>
@@ -430,7 +430,7 @@ svg .net-text { fill: var(--net); }
           <line x1="812" y1="312" x2="812" y2="360" stroke="var(--muted)" stroke-width="2"/>
           <text class="s" x="806" y="352" text-anchor="end">antenna</text>
           <text class="s" x="834" y="406" text-anchor="middle">12V run from the site box</text>
-          <text class="s" x="870" y="438" text-anchor="middle">stands on two skis in printed sockets</text>
+          <text class="s" x="870" y="438" text-anchor="middle">stands on printed display stands and tent poles</text>
         </svg>
       </div>
       <figcaption>Two Wagos split the 12V: one side feeds the pixels directly, the other is wired straight to the Mini560's IN end, at the top as it stands. Its OUT end plugs into the board on a 90° header and gives 5V to the ESP32 and level shifter. No 12V reaches the board. Pixel current never crosses the board. Data leaves JD and goes out through the PG7 gland with the pixel power. There's no fuse in the tree box, because the run is fused at the site box. The cord seals the top and sides; the bottom is left open on purpose, because rain doesn't fall upwards.</figcaption>

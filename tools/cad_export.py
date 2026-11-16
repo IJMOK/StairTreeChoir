@@ -74,12 +74,16 @@ OUTS = [
     # tree mounts (Rob, 15 Nov 2026)
     Out("tree-mounts", ["Socket"], "tree-socket", "tree-socket", (RX, -90), "#3b7dd8", "3 per tree",
         "PETG, rail down (its wide face on the bed), legs up, no supports, 4 walls, 40% infill"),
-    Out("tree-mounts", ["SkiHalf"], "tree-ski-half", "tree-ski-half", (RX, -90), "#d88a3b", "4 per tree (show)",
-        "PETG, sole on the bed, no supports, 3 walls, 15% infill; two slide onto each bottom socket (or riser) from front and back"),
     Out("tree-mounts", ["Tower"], "tree-tower", "tree-tower", (), "#5aa05a", "3 per tree (storage)",
-        "PETG, upright (spigot up), no supports, 3 walls, 15% infill; drops onto a socket's rail; also the show riser"),
-    Out("tree-mounts", ["DovetailCoupon"], "tree-dovetail-coupon", None, (RX, -90), "#d88a3b", "1, first",
-        "the inner 60mm of a ski half: print with one socket and try the slide (clearance `clr`)"),
+        "PETG, upright (tab up), no supports, 3 walls, 15% infill; a tree lying face up drops onto its three, "
+        "and each tab drops into the pocket of the tower above. Six to a plate: tower-plate.3mf"),
+    Out("tree-mounts", ["Stand"], "tree-stand", "tree-stand", (), "#d88a3b", "2 per tree (show)",
+        "PETG, upright (back end down), no supports, 3 walls, 15% infill; slides onto a bottom socket from the "
+        "front, a tent pole through it"),
+    Out("tree-mounts", ["PoleCap"], "tree-pole-cap", "tree-pole-cap", (RX, -90), "#d88a3b", "4 per tree (show)",
+        "PETG, sole on the bed, no supports, 4 walls, 40% infill; one on each end of each pole, a peg (up to 9mm) through it"),
+    Out("tree-mounts", ["DovetailCoupon"], "tree-dovetail-coupon", None, (), "#d88a3b", "1, first",
+        "the front 20mm of a stand's slot block: try it on one socket's rail (clearance `clr`); try a pole in a cap (`pole_d`)"),
     # site box
     Out("psu-cover", ["Hood"], "psu-hood", "psu-hood", (RY, -90), "#d9d9d9", "1 for Site A",
         "PETG, end wall on the bed, no supports, 4 walls, 40% infill: it carries mains"),
@@ -161,70 +165,55 @@ EXCLUDE = (18, 28)   # the P1S's bed_exclude_area, front left: kept clear for th
 GAP = 2.5            # between parts on the plate
 
 
-def tree_plate(doc):
-    """One tree's whole set on one plate: 4 ski halves nested head to tail in two pairs, the 3
-    sockets in a row across the end and the 3 storage towers in a column down the side.
-    Returns the placed shapes and the layout's size."""
-    half = on_bed(doc.getObject("SkiHalf").Shape, (RX, -90))
-    sock = on_bed(doc.getObject("Socket").Shape, (RX, -90))
-    flipped = half.copy()
-    flipped.rotate(half.BoundBox.Center, App.Vector(0, 0, 1), 180)
-
-    def nest(placed, b):       # slide b along x, from the last part's left edge, until it is GAP clear of ALL parts
-        last = placed[-1].BoundBox
-        everything = Part.makeCompound(placed)
-
-        def clear(x):
-            c = b.copy()
-            c.translate(App.Vector(x, 0, 0))
-            return min(c.distToShape(p)[0] for p in placed) >= GAP and c.common(everything).Volume < 1e-6
-
-        lo, hi = last.XMin, last.XMax + GAP + 1     # hi is always clear: b starts right of every part
-        for _ in range(30):
-            mid = (lo + hi) / 2
-            lo, hi = (lo, mid) if clear(mid) else (mid, hi)
-        c = b.copy()
-        c.translate(App.Vector(hi, 0, 0))
-        return c
-
-    # the 4 halves, nested head to tail in two pairs, behind the row of sockets
-    y_halves = sock.BoundBox.YLength + GAP
-    first = half.copy()
-    first.translate(App.Vector(0, y_halves, 0))
-    flip = flipped.copy()
-    flip.translate(App.Vector(0, y_halves, 0))
-    parts = [first]
-    parts.append(nest(parts, flip))
-    parts.append(nest(parts, first))
-    parts.append(nest(parts, flip))
-    # the 3 sockets in a row across the front, starting clear of the P1S's excluded corner
-    for i in range(3):
-        c = sock.copy()
-        c.translate(App.Vector(EXCLUDE[0] + GAP + i * (sock.BoundBox.XLength + GAP), 0, 0))
-        parts.append(c)
-    # the 3 storage towers, upright, in a column down the right (Rob: the whole set on one plate)
-    tower = on_bed(doc.getObject("Tower").Shape, ())
-    x0 = max(p.BoundBox.XMax for p in parts) + GAP
-    for i in range(3):
-        c = tower.copy()
-        c.translate(App.Vector(x0, i * (tower.BoundBox.YLength + GAP), 0))
-        parts.append(c)
-    for i, a in enumerate(parts):          # no two parts may touch
+def check_plate(parts):
+    """No two parts touching, and nothing in the P1S's excluded corner once Bambu Studio centres
+    the plate on the bed. Returns the layout's size."""
+    for i, a in enumerate(parts):
         for b in parts[i + 1:]:
             if a.distToShape(b)[0] < GAP - 0.05:
-                raise RuntimeError("tree plate: parts overlap")
-    # Bambu Studio centres the plate on the bed: nothing may land in the excluded corner
+                raise RuntimeError("plate: parts overlap")
     bb = Part.makeCompound(parts).BoundBox
     ox, oy = (BED - bb.XLength) / 2 - bb.XMin, (BED - bb.YLength) / 2 - bb.YMin
     corner = Part.makeBox(EXCLUDE[0], EXCLUDE[1], 300, App.Vector(-ox, -oy, -1))
     if any(p.common(corner).Volume > 0 for p in parts):
-        raise RuntimeError("tree plate: a part lands in the P1S's excluded corner")
-    bb = Part.makeCompound(parts).BoundBox
-    return parts, (bb.XLength, bb.YLength)
+        raise RuntimeError("plate: a part lands in the P1S's excluded corner")
+    if bb.XLength > PLATE or bb.YLength > PLATE:
+        raise RuntimeError(f"plate needs {bb.XLength:.0f} x {bb.YLength:.0f}mm: more than the {PLATE}mm plate")
+    return bb.XLength, bb.YLength
 
 
-PLATE_NAMES = [*(f"ski-half-{i}" for i in range(1, 5)), *(f"socket-{i}" for i in range(1, 4)),
-               *(f"tower-{i}" for i in range(1, 4))]
+def _at(shape, x, y):
+    c = shape.copy()
+    c.translate(App.Vector(x, y, 0))
+    return c
+
+
+def tree_plate(doc):
+    """One tree's show set on one plate: the 3 sockets in a row across the front (clear of the
+    P1S's excluded corner), the 2 display stands upright behind them and the 4 pole caps in a
+    2 x 2 block beside the stands."""
+    sock = on_bed(doc.getObject("Socket").Shape, (RX, -90))
+    stand = on_bed(doc.getObject("Stand").Shape, ())
+    cap = on_bed(doc.getObject("PoleCap").Shape, (RX, -90))
+    sb, tb, cb = sock.BoundBox, stand.BoundBox, cap.BoundBox
+    parts = [_at(sock, EXCLUDE[0] + GAP + i * (sb.XLength + GAP), 0) for i in range(3)]
+    y2 = sb.YLength + GAP
+    parts += [_at(stand, i * (tb.XLength + GAP), y2) for i in range(2)]
+    x_caps = 2 * (tb.XLength + GAP)
+    parts += [_at(cap, x_caps + (i % 2) * (cb.XLength + GAP), y2 + (i // 2) * (cb.YLength + GAP)) for i in range(4)]
+    return parts, check_plate(parts)
+
+
+def tower_plate(doc):
+    """Two trees' storage towers (6) upright on one plate, 3 x 2."""
+    tower = on_bed(doc.getObject("Tower").Shape, ())
+    b = tower.BoundBox
+    parts = [_at(tower, (i % 3) * (b.XLength + GAP), (i // 3) * (b.YLength + GAP)) for i in range(6)]
+    return parts, check_plate(parts)
+
+
+PLATE_NAMES = [*(f"socket-{i}" for i in range(1, 4)), *(f"stand-{i}" for i in range(1, 3)),
+               *(f"pole-cap-{i}" for i in range(1, 5))]
 
 
 def write_3mf(path: Path, named_shapes) -> None:
@@ -264,7 +253,8 @@ def write_print_readme(infos: list[tuple[Out, dict]]) -> None:
         if not o.stl:
             continue
         x, y, z = info["bed_mm"]
-        lines.append(f"| [{o.stl}.stl]({o.stl}.stl) | `{o.master}.FCStd` {' + '.join(o.bodies)} | {o.count} | "
+        ext = "3mf" if o.stl == "tower-plate" else "stl"
+        lines.append(f"| [{o.stl}.{ext}]({o.stl}.{ext}) | `{o.master}.FCStd` {' + '.join(o.bodies)} | {o.count} | "
                      f"{x:g} × {y:g} × {z:g} | {info['volume_cm3']:g} cm³ | {o.notes} |")
     lines += ["", "Solid volume is the part with no infill; the slicer gives the real weight.",
               "Previews of every part: [cad/previews/](../cad/previews/).", ""]
@@ -290,19 +280,26 @@ def main(parts: bool = True, tree: bool = True, components: bool = True, assembl
             infos.append((o, info))
             print(f"{o.stl or o.step}: {info['volume_cm3']} cm3" + (f", bed {info['bed_mm']}" if "bed_mm" in info else ""))
         parts_, (px, py) = tree_plate(docs["tree-mounts"])
-        if px > PLATE or py > PLATE:
-            raise RuntimeError(f"one tree's set needs {px:.0f} x {py:.0f}mm: more than the {PLATE}mm plate")
         plate = Part.makeCompound(parts_)
         mesh = MeshPart.meshFromShape(Shape=plate, LinearDeflection=LINEAR, AngularDeflection=ANGULAR, Relative=False)
         mesh.write(str(PRINT_DIR / "tree-plate.stl"))
         write_3mf(PRINT_DIR / "tree-plate.3mf", list(zip(PLATE_NAMES, parts_)))
         cad_preview.render([(plate, "#d88a3b")], str(PREVIEW_DIR / "tree-plate.png"), elev=60, azim=-90,
-                           title=f"one tree's whole set on one plate: {px:.0f} x {py:.0f}mm of {PLATE}", size=(5, 5))
-        infos.append((Out("tree-mounts", ["4 SkiHalf + 3 Socket + 3 Tower"], "tree-plate", None, (), "#d88a3b", "1 per tree",
-                          "PETG, as laid out: one tree's whole set (4 ski halves, 3 sockets, 3 towers) on one plate"),
+                           title=f"one tree's show set on one plate: {px:.0f} x {py:.0f}mm of {PLATE}", size=(5, 5))
+        infos.append((Out("tree-mounts", ["3 Socket + 2 Stand + 4 PoleCap"], "tree-plate", None, (), "#d88a3b", "1 per tree",
+                          "PETG, as laid out: one tree's show set (3 sockets, 2 display stands, 4 pole caps) on one plate"),
                       {"volume_cm3": round(plate.Volume / 1000, 1), "bed_mm": [round(px, 1), round(py, 1),
                                                                                round(plate.BoundBox.ZLength, 1)]}))
         print(f"tree-plate: {px:.0f} x {py:.0f}mm")
+        towers, (tx, ty) = tower_plate(docs["tree-mounts"])
+        tplate = Part.makeCompound(towers)
+        write_3mf(PRINT_DIR / "tower-plate.3mf", [(f"tower-{i}", t) for i, t in enumerate(towers, 1)])
+        cad_preview.render([(tplate, "#5aa05a")], str(PREVIEW_DIR / "tower-plate.png"), elev=50, azim=-70,
+                           title=f"two trees' storage towers on one plate: {tx:.0f} x {ty:.0f}mm", size=(5, 4))
+        infos.append((Out("tree-mounts", ["6 Tower"], "tower-plate", None, (), "#5aa05a", "1 per 2 trees",
+                          "PETG, as laid out (3MF, six objects): two trees' storage towers"),
+                      {"volume_cm3": round(tplate.Volume / 1000, 1), "bed_mm": [round(tx, 1), round(ty, 1),
+                                                                                round(tplate.BoundBox.ZLength, 1)]}))
         # sizes the other tools read
         for name in ("tree-box", "tree-mounts", "psu-cover"):
             (PARTS_DIR / f"{name}-params.json").write_text(json.dumps(params(docs[name]), indent=1) + "\n",

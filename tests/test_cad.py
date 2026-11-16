@@ -16,7 +16,7 @@ PRINT = sorted((ROOT / "print").glob("*.stl"))
 
 def test_print_files_exist():
     names = {p.stem for p in PRINT}
-    for n in ("tree-box-base", "tree-box-cover", "tree-socket", "tree-ski-half", "tree-tower", "tree-plate", "psu-hood",
+    for n in ("tree-box-base", "tree-box-cover", "tree-socket", "tree-tower", "tree-stand", "tree-pole-cap", "tree-plate", "psu-hood",
               "pixel-disk", "step-clamp", "pod-buck-base", "pod-buck-lid"):
         assert n in names
 
@@ -33,7 +33,7 @@ def test_every_print_file_has_a_step_or_preview(path):
 
 
 def test_one_tree_fits_one_plate():
-    """print/tree-plate.stl: one tree's 3 sockets, 4 ski halves and 3 towers on one P1S plate."""
+    """print/tree-plate.stl: one tree's show set (3 sockets, 2 stands, 4 pole caps) on one P1S plate."""
     data = (ROOT / "print" / "tree-plate.stl").read_bytes()
     n = struct.unpack("<I", data[80:84])[0]
     xs, ys = [], []
@@ -101,10 +101,14 @@ def test_mount_sizes_hang_together():
     mp = json.loads((ROOT / "cad" / "parts" / "tree-mounts-params.json").read_text(encoding="utf-8"))
     assert 0 < mp["dt_root"] < mp["dt_tip"]                   # a dovetail: wider at the tip
     assert mp["dt_tip"] <= 56                                 # fits the flat at the tree's top
-    assert mp["dt_tip"] + 2 * mp["clr"] + 2 * mp["slot_wall"] <= mp["ski_w"]   # the ski's slot has walls
-    assert mp["dt_tip"] + 2 * mp["clr"] + 2 * mp["slot_wall"] <= mp["col_w"]   # and the tower's
-    assert mp["dt_h"] + mp["clr"] + 4 <= mp["bore_yc"] - (mp["spig_d"] / 2 + mp["spig_clr"])  # 4mm wall: slot to bore
-    assert mp["spig_w"] + 2 * mp["spig_clr"] < mp["col_w"]    # the recess has walls
+    assert mp["dt_tip"] + 2 * mp["clr"] + 2 * mp["slot_wall"] <= mp["col_w"]   # the tower's slot has walls
+    assert mp["spig_w"] + 2 * mp["spig_clr"] + 2 * mp["stalk_wall"] < mp["col_w"]   # the pocket has walls
+    assert mp["col_d"] <= 30                                  # Rob: the storage tower much slimmer
+    assert mp["stake_d"] >= 9                                 # Rob: the peg hole at least 9mm
+    assert mp["stake_d"] + 2 * 8 <= mp["pad_w"]               # 8mm of pad round each peg hole
+    assert mp["peg_at"] - mp["stake_d"] / 2 >= mp["cap_end"] + 3   # the hole clears the end wall
+    assert mp["lift"] >= 50                                   # Rob: at least 50mm of lift, ideally 100
+    assert mp["pole_y"] - mp["pole_d"] / 2 >= mp["dt_h"] + mp["clr"] + mp["slot_wall"] + 3   # slot block to the pole hole
     assert 2 * (16 - mp["wall"]) < mp["tree_t"]               # front and back screws can't meet
     assert mp["front_x"] != mp["screw_x"]                     # and they're offset anyway
     assert -mp["tree_t"] / 2 + mp["rail_half"] < -(mp["tree_t"] + mp["below"]) + mp["pitch"]  # rail clears the tower above
@@ -128,9 +132,10 @@ EXPECTED = [
     "tree box base: one solid with real surfaces", "tree box cover: one solid with real surfaces",
     "tree box sizes follow the spreadsheet", "tree box base and cover don't clash",
     "cover screw clears the cover wall and the boss bore", "shelf reaches the cover's side walls",
-    "ski halves and tower slide on the socket's rail", "ski halves slide onto the tower's outer rail (show riser)",
-    "dovetail captures the rail (the slot's lip overhangs the rail's flare)", "tower slot is stopped at the bottom, open at the top", "towers stack without clashing", "tower bore runs right through",
-    "spigot sits in the recess above", "ski half is hollow, solid round its slot", "socket is one valid solid", "ski half is one valid solid", "tower is one valid solid",
+    "tower and stand slide on the socket's rail", "dovetail captures the rail (the slot's lip overhangs the rail's flare)",
+    "tent pole runs right through the stand, near its sole", "stand lifts the tree at least 50mm",
+    "pole caps take the pole's ends and a peg each", "caps and stand stand on the same ground, clear of each other", "tower slot is stopped at the bottom, open at the top", "towers stack without clashing", "tower tab sits in the pocket of the tower above", "tower is slim under the rail's stop",
+    "spigot sits in the recess above", "socket is one valid solid", "tower is one valid solid", "stand is one valid solid", "pole cap is one valid solid",
     "socket channel takes the tread", "hood is one valid solid", "hood clears the PSU",
     "hood M4 screws reach 3mm max into the S-400's case", "hood has a closed floor under the chamber's mains side",
     "hood is open under the chamber's 12V side, for the leads", "hood partition between mains and 12V", "hood inlet is in the roof over the mains side",

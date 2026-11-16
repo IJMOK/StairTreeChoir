@@ -199,6 +199,27 @@ def fillet(doc, name, base, radius, pick):
     return o
 
 
+def fillet_any(doc, name, base, radius_of):
+    """Round any edges of `base`, curved ones too (where two features meet, say):
+    radius_of(edge, shape) gives each edge's radius, or None to leave it. Picked now, from the
+    shape as built: a big change to the sheet can renumber the edges of a fused shape, so
+    check the rounds after one."""
+    doc.recompute()
+    s = base.Shape
+    edges = []
+    for i, e in enumerate(s.Edges):
+        r = radius_of(e, s)
+        if r:
+            edges.append((i + 1, r, r))
+    if not edges:
+        raise RuntimeError(f"{base.Name}: no edges picked")
+    o = doc.addObject("Part::Fillet", name)
+    o.Base = base
+    o.Edges = edges
+    base.Visibility = False
+    return o
+
+
 def chamfer(doc, name, base, size, pick):
     o = doc.addObject("Part::Chamfer", name)
     o.Base = base

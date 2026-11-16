@@ -21,6 +21,7 @@ Frames, as fitted (mm):
 
 from __future__ import annotations
 
+import math
 import sys
 from pathlib import Path
 
@@ -36,22 +37,24 @@ PARTS_DIR = ROOT / "cad" / "parts"
 # --------------------------------------------------------------------------- tree mounts
 
 def tree_mounts():
-    """Socket, two-piece ski and storage tower (Rob, 15 Nov 2026; v4: dovetails).
+    """Socket, storage tower, display stand and pole cap (Rob, 15 Nov 2026; 16 Nov 2026: tent-pole
+    feet, and the tower split into a slim storage tower and a display stand).
 
-    One joint everywhere: a dovetail rail running front to back. Sockets and towers carry
-    rails, ski halves and towers carry slots.
+    One joint: a dovetail rail running front to back. Sockets carry rails, towers carry slots.
 
       socket     on the tree (3 per tree): a U over the edge, screwed through both legs
                  (two each side, the front pair offset from the back pair), with a dovetail
                  rail under the edge that sticks out past both faces. Prints rail-down.
-      ski half   show feet (4 per tree, 2 per bottom socket): a slot running in from the inner
-                 end; full size round the slot, slimmer and lower towards the outer end. One slides on from the front and one from the back until they butt
-                 under the tree; staking each half down locks the joint. About 500mm of ground
-                 cover front to back; one tree's whole set prints on one 256 bed.
       tower      storage (3 per tree): a slot on the tree side, open at the top and stopped at
-                 the bottom, so a tree lying face up drops onto its towers; spigot and recess to
-                 stack. A rail on its outer face, so in the show it slides onto a socket lying
-                 front to back and the ski halves slide onto it: a riser.
+                 the bottom, so a tree lying face up drops onto its towers; a tab on top drops into
+                 a pocket under the tower above. Slim: storage is all it does.
+      stand      show (2 per tree): slides onto a bottom socket's rail from the front; lifts the
+                 tree (`lift`) on a light A-frame, and an 11mm fibreglass tent pole runs through
+                 it front to back along the grass (Rob, 16 Nov 2026: the skis and the chunky
+                 towers took a colossal amount of material and time for what they are).
+      pole cap   one on each end of each pole (4 per tree): a socket the pole pushes into, on a
+                 wide pad with a peg hole beyond it. Peg the caps and the poles hold the stands
+                 down. Prints sole down; the socket is a teardrop, so no supports.
 
     Fillets and chamfers are fixed at build time; the sizes follow the sheet.
     """
@@ -69,40 +72,46 @@ def tree_mounts():
         ("screw_y", -5, "screw centre, mm in from the edge (negative = on the tree)"),
         ("screw_d", 4.5, "4 x 16 countersunk stainless wood screws: 12.5mm into the oak from each side"),
         ("csk_d", 9.0, "countersink, 90 deg"),
-        ("", None, "Dovetail rail (socket, and the tower's outer face) and the slots that take it"),
+        ("", None, "Dovetail rail (socket) and the slot that takes it (tower)"),
         ("dt_h", 16, "rail height, out from the face it stands on (Rob: bigger, 15 Nov 2026)"),
-        ("dt_tip", 46, "rail width at its tip (the wide side): 46 so the skis are narrow enough for one plate"),
+        ("dt_tip", 46, "rail width at its tip (the wide side)"),
         ("dt_ang", 15, "undercut a side, deg"),
         ("dt_root", "=dt_tip - 2 * dt_h * tan(dt_ang)", "worked out: rail width at its root"),
         ("rail_half", 29, "rail runs this far either side of the tree's centre plane: 14mm past each face"),
         ("clr", 0.3, "slot clearance a side"),
-        ("", None, "Ski half (4 per tree, show)"),
-        ("ski_w", 54, "across, at the inner end round the slot (Rob: narrower, so a whole set fits one plate)"),
-        ("ski_h", 50, "height at the inner end: the tree's bottom edge sits this far off the ground"),
-        ("inner_l", 40, "full size for this far from the centre plane (the slot), then it tapers"),
-        ("ski_w_end", 30, "width at the outer end (Rob: slimmer towards the ends)"),
-        ("ski_h_end", 24, "height at the outer end: the sole stays flat, the top slopes down"),
-        ("half_l", 190, "length from the tree's centre plane to the outer end: 4 halves + 3 sockets fit one 255 plate"),
-        ("butt_gap", 0.2, "each half stops this short of the centre plane"),
-        ("stake_d", 8.8, "for 8mm peg stakes"),
-        ("stake_1", 55, "stake holes this far from the centre plane..."),
-        ("stake_2", 160, "...and this far"),
-        ("hol_wall", 1.6, "shell walls: 4 perimeters of a 0.4 nozzle (Rob: hollow, strong enough, not over-engineered)"),
-        ("skin", 2, "top skin over the ski's cavities (flat roofs, bridged: under 31mm wide)"),
+        ("hol_wall", 1.6, "thin walls: 4 perimeters of a 0.4 nozzle (Rob: hollow, strong enough, not over-engineered)"),
         ("slot_wall", 3, "wall round the dovetail slots and the rail's core"),
-        ("", None, "Storage tower (3 per tree); also the show riser"),
-        ("col_w", 54, "along the edge: the slot and a wall each side; 54 so a whole set fits one plate"),
-        ("col_d", 56, "away from the tree: the slot, then the hollow bore. Also how much a riser lifts the tree"),
+        ("", None, "Storage tower (3 per tree; v7, Rob 16 Nov 2026: storage only, much slimmer, still interlocking)"),
+        ("col_w", 54, "along the edge: the slot and a wall each side"),
+        ("col_d", "=dt_h + clr + 1.5 + spig_t + spig_clr + 2 - 0.3", "worked out: away from the tree: the slot, then the tab and its pocket behind it"),
         ("below", 70, "column bottom below the tree's back face: the tree box stands 60 off it"),
-        ("pitch", 115, "stack pitch: tree to tree. Pixels (~9 proud) clear the box above by ~16"),
-        ("spig_h", 20, "spigot height: how far each tower drops into the one above"),
-        ("spig_w", 38, "spigot base, along the edge"),
-        ("spig_d", 30, "spigot base, the other way"),
-        ("spig_taper", 2, "spigot narrower at its top by this a side"),
-        ("spig_clr", 0.4, "recess clearance a side"),
-        ("tube_t", 3, "wall of the hollow spigot: the bore runs right through, so no bridges"),
-        ("bore_yc", "=0.3 + col_d - 5 - (spig_d / 2 + spig_clr)", "worked out: bore and spigot centre, 5mm in from the column's outer face"),
-        ("y_out", "=0.3 + col_d", "worked out: the tower's outer face, where its rail stands"),
+        ("pitch", 115, "stack pitch: tree to tree, the tower's length (Rob: stays). Pixels (~9 proud) clear the box above by ~16"),
+        ("spig_h", 12, "the interlock: a tab on top, behind the slot, drops this far into a pocket under the tower above"),
+        ("spig_w", 30, "the tab, along the edge"),
+        ("spig_t", 6, "the tab's thickness, away from the tree"),
+        ("spig_taper", 0.5, "tab narrower at its top by this a side, as a lead-in"),
+        ("spig_clr", 0.4, "pocket clearance a side"),
+        ("stalk_wall", 2, "wall round the pocket below the rail's stop, where the tower slims"),
+        ("y_out", "=0.3 + col_d", "worked out: the tower's outer face"),
+        ("", None, "Display stand (2 per tree, the bottom sockets; Rob 16 Nov 2026): lift, and the tent pole through it"),
+        ("lift", 100, "the tree's bottom edge stands this far off the grass in the show (Rob: at least 50, ideally 100)"),
+        ("leg_t", 2.4, "the stand's two legs, from the slot block down to the pole tube (measured across)"),
+        ("tube_ext", 20, "the pole tube runs on this far past the stand's front, for a longer grip on the pole"),
+        ("win_h", 7, "lightening windows in the legs: diamonds this far from centre to point (45 deg: no supports)"),
+        ("win_s", 2.4, "the struts between the windows"),
+        ("", None, "Tent-pole feet (Rob, 16 Nov 2026): one pole through each display stand, a cap on each end"),
+        ("pole_d", 11.6, "hole for an 11mm fibreglass tent pole, 0.3 a side: measure yours (a ferrule won't go through)"),
+        ("pole_floor", 4, "under the pole hole, stand and cap: the pole's axis is pole_d / 2 + this off the grass"),
+        ("pole_y", "=lift - pole_d / 2 - pole_floor", "worked out: the pole's axis"),
+        ("pole_l", 400, "pole length, cut to: only the assembly uses it (the caps are drawn on its ends)"),
+        ("cap_depth", 25, "how far the pole goes into its cap"),
+        ("cap_end", 3, "the cap's end wall, beyond the pole's end"),
+        ("cap_w", 20, "the cap's body round the pole"),
+        ("pad_w", 40, "the pad under the cap (Rob, 16 Nov 2026: bigger, for stability): this wide, its end rounded round the peg"),
+        ("pad_t", 6, "the pad's thickness: the peg's head bears on it"),
+        ("stake_d", 9.4, "peg hole: at least 9mm as printed (Rob, 16 Nov 2026); vertical holes print 0.2-0.4 small"),
+        ("pad_lead", 4, "the pad runs this far past the cap's inner end, so the body stands wholly on it"),
+        ("peg_at", "=cap_end + stake_d / 2 + 7", "worked out: the peg's centre, this far past the pole's end (7mm of pad to the end wall, for the peg's head)"),
     ])
 
     P = "params."
@@ -182,78 +191,11 @@ def tree_mounts():
                             f"{P}fit / 2 + {P}wall"))
     F.cut(doc, "Socket", sock_f, [*screws, core])
 
-    # --- ski half (drawn as the front half: from the centre plane forwards, +z). Full size round
-    # the slot for inner_l, then tapering in width and height to the outer end, sole flat.
-    zb = f"{zc} + {P}butt_gap"
-    zi = f"{zc} + {P}inner_l"
-    zo = f"{zc} + {P}half_l"
-    run = f"({P}half_l - {P}inner_l)"
-
-    def width(z):          # z measured from the centre plane
-        return f"({P}ski_w + ({P}ski_w_end - {P}ski_w) * (({z}) - {P}inner_l) / {run})"
-
-    def top_y(z):          # the top surface's y (down from the tree's edge) at z
-        return f"(0.3 + ({P}ski_h - 0.3 - {P}ski_h_end) * (({z}) - {P}inner_l) / {run})"
-
-    # One ruled loft through three sections (the butt end, where the taper starts, the outer
-    # end), so there's no seam for the rounds to trip on. Then 2.5mm rounds on the top and end
-    # edges (~1.5mm of the 1.6mm shell is left at the corners); not on the shallow creases where
-    # the taper starts, where a fillet bulges outwards instead of trimming. The sole's edges stay square: they're on the bed, and a round there would cut
-    # into the walls.
-    sections = []
-    for i, (z, w, h) in enumerate(((zb, f"{P}ski_w", f"{P}ski_h - 0.3"), (zi, f"{P}ski_w", f"{P}ski_h - 0.3"),
-                                   (zo, f"{P}ski_w_end", f"{P}ski_h_end"))):
-        sec = doc.addObject("Part::Plane", f"SkiSection{i}")
-        F._set(sec, "Length", w)
-        F._set(sec, "Width", h)
-        F._place(sec, f"-({w}) / 2", f"{P}ski_h - ({h})", z)
-        sec.Visibility = False
-        sections.append(sec)
-    body_sq = doc.addObject("Part::Loft", "SkiBodySquare")
-    body_sq.Sections = sections
-    body_sq.Solid = True
-    body_sq.Ruled = True
-    doc.recompute()
-    zi_val = doc.getObject("params").get("inner_l") - doc.getObject("params").get("tree_t") / 2
-
-    def roundable(e, s):        # top and end edges; not the sole, the butt face or the taper's start
-        m = F.mid(e)
-        return m.y < s.BoundBox.YMax - 0.01 and m.z > s.BoundBox.ZMin + 0.01 and abs(m.z - zi_val) > 0.01
-
-    body_r = F.fillet(doc, "SkiBody", body_sq, 2.5, roundable)
-    ski_slot = slot("Ski", 0, f"{zb} - 1", f"{z2} + 0.5")
-    stakes = [F.cyl(doc, f"SkiStake{i}", f"{P}stake_d / 2", f"{P}ski_h + 2", 0, -1, f"{zc} + {P}{k}", F.X, -90)
-              for i, k in enumerate(("stake_1", "stake_2"))]
-    # A shell (Rob, 15 Nov 2026: 750g a tree was too much): two cavities side by side, open to
-    # the sole, with a web between them, under the slot and all along the taper. Walls hol_wall,
-    # a skin over the cavities, slot_wall round the slot, a tube round each stake.
-    ys = f"({P}dt_h + {P}clr + {P}slot_wall)"                  # under the slot's floor
-    z_after = f"({P}rail_half + 0.5 + {P}slot_wall)"           # past the slot's closed end
-    zz = f"{P}half_l - 6"
-    hollows = []
-    for i, sgn in enumerate((-1, 1)):
-        def xs(w):                                            # the cavity's x range in a ski w wide
-            lo, hi = f"{P}hol_wall / 2", f"{w} / 2 - {P}hol_wall"
-            return (lo, hi) if sgn > 0 else (f"-({hi})", f"-{lo}")
-        x0, x1 = xs(f"{P}ski_w")
-        hollows.append(F.box(doc, f"SkiUnderSlot{i}", f"{x1} - ({x0})", f"{P}ski_h - {ys} + 1",
-                             f"{P}inner_l - {P}butt_gap - {P}slot_wall + 0.5", x0, ys, f"{zb} + {P}slot_wall"))
-        hollows.append(F.box(doc, f"SkiPastSlot{i}", f"{x1} - ({x0})", f"{ys} - 0.3 - {P}skin + 0.5",
-                             f"{P}inner_l - {z_after} + 0.5", x0, f"0.3 + {P}skin", f"{zc} + {z_after}"))
-        xa, xb = xs(width(P + "inner_l"))
-        x2a, x2b = xs(width(zz))
-        hollows.append(F.wedge(doc, f"SkiHollow{i}", xa, xb, zi, f"{zc} + {zz}",
-                               f"-{P}ski_h - 1", f"-(0.3 + {P}skin)", x2a, x2b,
-                               f"-{P}ski_h - 1", f"-({top_y(zz)} + {P}skin)", 0, 0, 0, F.X, 90))
-    shell = F.cut(doc, "SkiShell", body_r, hollows)
-    bosses = [F.cyl(doc, f"SkiBoss{i}", f"{P}stake_d / 2 + {P}hol_wall", f"{P}ski_h", 0, 0.3, f"{zc} + {P}{k}", F.X, -90)
-              for i, k in enumerate(("stake_1", "stake_2"))]
-    # the tubes are trimmed to the ski's outline (its top slopes down towards the outer end)
-    tubes = F.common(doc, "SkiTubes", F.fuse(doc, "SkiTubesRaw", bosses), body_r)
-    bossed_in = F.fuse(doc, "SkiBossed", [shell, tubes])
-    F.cut(doc, "SkiHalf", bossed_in, [ski_slot, *stakes])
-
-    # --- storage tower / show riser
+    # --- storage tower (v7, Rob 16 Nov 2026: storage only, much slimmer, still interlocking). The
+    # slot, stopped at the bottom and open at the top, and a thin spine behind it; a tab on top,
+    # behind the slot (the tree's rail fills the slot to the top in storage), drops into a pocket
+    # under the tower above. Below the rail's stop it slims to the pocket and its walls, flaring
+    # up to the full section at 45 deg, so it prints upright with no supports.
     z0 = f"-({P}tree_t + {P}below)"
     col = F.box(doc, "TowerColumn", f"{P}col_w", f"{P}col_d", f"{P}pitch", f"-{P}col_w / 2", 0.3, z0)
     doc.recompute()
@@ -263,53 +205,153 @@ def tree_mounts():
                       lambda e, s: not through(F.direction(e)) and (F.mid(e).z < s.BoundBox.ZMin + 0.01
                                                                      or F.mid(e).z > s.BoundBox.ZMax - 0.01))
     tower_slot = slot("Tower", 0, f"{z1} - 0.5", f"{z0} + {P}pitch + 1")     # stopped at the bottom, open at the top
-    yc = f"{P}bore_yc"
-
-    def frustum(name, grow, h, z):
-        g = f" + {grow}" if grow else ""
-        return F.wedge(doc, name,
-                       f"-({P}spig_w / 2{g})", f"{P}spig_w / 2{g}", 0, h,
-                       f"-({P}spig_d / 2{g})", f"{P}spig_d / 2{g}",
-                       f"-({P}spig_w / 2 - {P}spig_taper{g})", f"{P}spig_w / 2 - {P}spig_taper{g}",
-                       f"-({P}spig_d / 2 - {P}spig_taper{g})", f"{P}spig_d / 2 - {P}spig_taper{g}",
-                       0, yc, z, F.X, 90)
-
-    spigot = frustum("TowerSpigot", "", f"{P}spig_h", f"{z0} + {P}pitch - 0.01")
-    recess = frustum("TowerRecess", f"{P}spig_clr", f"{P}spig_h + 0.01", f"{z0} - 0.01")
-    bw = f"({P}spig_w - 2 * {P}spig_taper + 2 * {P}spig_clr)"
-    bd = f"({P}spig_d - 2 * {P}spig_taper + 2 * {P}spig_clr)"
-    iw = f"({P}spig_w - 2 * {P}spig_taper - 2 * {P}tube_t)"
-    idp = f"({P}spig_d - 2 * {P}spig_taper - 2 * {P}tube_t)"
-    step = f"(({bw}) - ({iw})) / 2"
-    bore = F.box(doc, "TowerBore", bw, bd, f"{P}pitch - {P}spig_h - {step} + 0.02",
-                 f"-{bw} / 2", f"{yc} - {bd} / 2", f"{z0} + {P}spig_h")
-    roof_t = F.wedge(doc, "TowerBoreStep", f"-{bw} / 2", f"{bw} / 2", 0, step, f"-{bd} / 2", f"{bd} / 2",
-                     f"-{iw} / 2", f"{iw} / 2", f"-{idp} / 2", f"{idp} / 2",
-                     0, yc, f"{z0} + {P}pitch - {step}", F.X, 90)
-    hole = F.box(doc, "TowerSpigotBore", iw, idp, f"{P}spig_h + 2",
-                 f"-{iw} / 2", f"{yc} - {idp} / 2", f"{z0} + {P}pitch - 1")
-    out_rail = rail("TowerOut", f"{P}y_out")
-    # the outer rail's bottom end overhangs as the tower prints upright: cut it back at 45 deg
-    under = F.box(doc, "TowerRailUnder", f"{P}col_w + 2", 40, 40,
-                  f"-{P}col_w / 2 - 1", f"{P}y_out + 0.01 + 40 * cos(45)", f"{z1} - 40 * sin(45)", F.X, 45)
-    tower_solid = F.fuse(doc, "TowerSolid", [col_c, spigot, out_rail])
-    # lighter: two vertical cores beside the bore, right through (they print as plain holes),
-    # and a core under the slot's stop, open at the bottom
-    cores = []
+    ty0 = f"({P}dt_h + {P}clr + 1.5)"                     # the tab's face on the tree side
+    tyc = f"({ty0} + {P}spig_t / 2)"
+    tab = F.wedge(doc, "TowerTab", f"-{P}spig_w / 2", f"{P}spig_w / 2", 0, f"{P}spig_h",
+                  f"-{P}spig_t / 2", f"{P}spig_t / 2",
+                  f"-({P}spig_w / 2 - {P}spig_taper)", f"{P}spig_w / 2 - {P}spig_taper",
+                  f"-({P}spig_t / 2 - {P}spig_taper)", f"{P}spig_t / 2 - {P}spig_taper",
+                  0, tyc, f"{z0} + {P}pitch - 0.01", F.X, 90)
+    g = f"{P}spig_clr"
+    pocket = F.wedge(doc, "TowerPocket", f"-({P}spig_w / 2 + {g})", f"{P}spig_w / 2 + {g}", 0, f"{P}spig_h + 0.5",
+                     f"-({P}spig_t / 2 + {g})", f"{P}spig_t / 2 + {g}",
+                     f"-({P}spig_w / 2 - {P}spig_taper + {g})", f"{P}spig_w / 2 - {P}spig_taper + {g}",
+                     f"-({P}spig_t / 2 - {P}spig_taper + {g})", f"{P}spig_t / 2 - {P}spig_taper + {g}",
+                     0, tyc, f"{z0} - 0.01", F.X, 90)
+    # slim below the stop: trim the sides to the pocket's walls and the tree side to the pocket's
+    z_stop = f"({z1} - 0.5 - {P}slot_wall)"
+    xs = f"({P}spig_w / 2 + {g} + {P}stalk_wall)"           # the slim part's half width
+    ys = f"({ty0} - {g} - {P}stalk_wall)"                  # its face on the tree side
+    fx, fy = f"({P}col_w / 2 - {xs})", f"({ys} - 0.3)"      # the flares, at 45 deg
+    W = f"({P}col_w / 2 + 1)"
+    trims = [F.box(doc, "TowerSlimY", f"2 * {W}", f"{ys} + 1", f"{z_stop} - {fy} - ({z0}) + 1", f"-{W}", -1, f"{z0} - 1"),
+             F.wedge(doc, "TowerFlareY", f"-{W}", W, 0, fy, f"-{ys}", 1, f"-{W}", W, -0.3, 1,
+                     0, 0, f"{z_stop} - {fy}", F.X, 90)]
     for i, sgn in enumerate((-1, 1)):
-        lo, hi = f"{bw} / 2 + {P}slot_wall", f"{P}col_w / 2 - {P}slot_wall"
-        x0 = lo if sgn > 0 else f"-({hi})"
-        cores.append(F.box(doc, f"TowerCore{i}", f"{hi} - ({lo})", f"{P}y_out - {P}slot_wall - ({P}dt_h + {P}clr + {P}slot_wall)",
-                           f"{P}pitch + 2", x0, f"{P}dt_h + {P}clr + {P}slot_wall", f"{z0} - 1"))
-    cores.append(F.box(doc, "TowerUnderSlot", f"{P}dt_root", f"{P}dt_h + {P}clr - {P}slot_wall - 0.3",
-                       f"({z1} - 0.5 - {P}slot_wall) - ({z0}) + 1", f"-{P}dt_root / 2", f"0.3 + {P}slot_wall", f"{z0} - 1"))
-    F.cut(doc, "Tower", tower_solid, [tower_slot, recess, bore, roof_t, hole, under, *cores])
+        x_in, x_out = (xs, W) if sgn > 0 else (f"-{W}", f"-{xs}")
+        x2a, x2b = (f"{P}col_w / 2", W) if sgn > 0 else (f"-{W}", f"-{P}col_w / 2")
+        trims.append(F.box(doc, f"TowerSlimX{i}", f"{W} - {xs}", f"{P}y_out + 2", f"{z_stop} - {fx} - ({z0}) + 1",
+                           x_in, -1, f"{z0} - 1"))
+        trims.append(F.wedge(doc, f"TowerFlareX{i}", x_in, x_out, 0, fx, f"-({P}y_out + 1)", 1, x2a, x2b,
+                             f"-({P}y_out + 1)", 1, 0, 0, f"{z_stop} - {fx}", F.X, 90))
+    mouth = F.box(doc, "TowerPocketMouth", f"{P}spig_w + 2 * {g} + 1.2", f"{P}spig_t + 2 * {g} + 1.2", 0.6,
+                  f"-({P}spig_w / 2 + {g} + 0.6)", f"{tyc} - ({P}spig_t / 2 + {g} + 0.6)", f"{z0} - 0.01")
+    tower_solid = F.fuse(doc, "TowerSolid", [col_c, tab])
+    F.cut(doc, "Tower", tower_solid, [tower_slot, pocket, mouth, *trims])
 
-    # Dovetail coupon: the inner 60mm of a ski half, to try the slide on a printed socket
-    slab = F.box(doc, "CouponBox", f"{P}ski_w + 2", f"{P}ski_h + 2", f"{P}inner_l", f"-{P}ski_w / 2 - 1", -1, f"{zc}")
-    F.common(doc, "DovetailCoupon", doc.getObject("SkiHalf"), slab)
+    # --- display stand (2 per tree, Rob 16 Nov 2026): slides onto a bottom socket's rail from the
+    # front to a stop at the back. A slot block on top, a pole tube along the grass with a flat
+    # foot, and two thin legs between them (an A-frame across, so the tree can't rack sideways),
+    # with diamond windows. Prints upright, back end down: everything is a vertical wall or a
+    # 45 deg diamond, so no supports.
+    zb = f"({z1} - 0.5 - {P}slot_wall)"                   # the back, behind the slot's stop
+    zf = f"({z2} + 1)"                                      # the front, just past the rail
+    L = f"({zf} - {zb})"
+    yb = f"({P}dt_h + {P}clr + {P}slot_wall)"             # the slot block's underside
+    rt = f"({P}pole_d / 2 + {P}pole_floor)"               # the pole tube's radius: it meets the grass
+    block = F.box(doc, "StandBlock", f"{P}col_w", f"{yb} - 0.3", L, f"-{P}col_w / 2", 0.3, zb)
+    doc.recompute()
+    block_r = F.fillet(doc, "StandBlockR", block, 3.0,
+                       lambda e, s: through(F.direction(e)) and F.mid(e).y < s.BoundBox.YMin + 0.01)
+    legs = []
+    for i, sgn in enumerate((-1, 1)):          # outer face from the block's corner to the tube's side
+        top_o, bot_o = f"{P}col_w / 2", rt
+        if sgn > 0:
+            xa, xb_, x2a, x2b = f"{top_o} - {P}leg_t", top_o, f"{bot_o} - {P}leg_t", bot_o
+        else:
+            xa, xb_, x2a, x2b = f"-{top_o}", f"-({top_o} - {P}leg_t)", f"-{bot_o}", f"-({bot_o} - {P}leg_t)"
+        legs.append(F.wedge(doc, f"StandLeg{i}", xa, xb_, f"{yb} - 1", f"{P}pole_y", zb, zf, x2a, x2b, zb, zf))
+    tube = F.cyl(doc, "StandTube", rt, f"{L} + {P}tube_ext", 0, f"{P}pole_y", zb)
+    foot = F.box(doc, "StandFoot", f"2 * {rt}", rt, f"{L} + {P}tube_ext", f"-{rt}", f"{P}pole_y", zb)
+    stand_solid = F.fuse(doc, "StandSolid", [block_r, *legs, tube, foot])
+    stand_slot = slot("Stand", 0, f"{z1} - 0.5", f"{zf} + 1")     # stopped at the back, open at the front
+    pole_h = F.cyl(doc, "StandPole", f"{P}pole_d / 2", f"{L} + {P}tube_ext + 2", 0, f"{P}pole_y", f"{zb} - 1")
+    leads = [F.cone(doc, "StandPoleLeadBack", f"{P}pole_d / 2 + 0.8", f"{P}pole_d / 2", 0.8, 0, f"{P}pole_y", f"{zb} - 0.01"),
+             F.cone(doc, "StandPoleLeadFront", f"{P}pole_d / 2", f"{P}pole_d / 2 + 0.8", 0.8, 0, f"{P}pole_y",
+                    f"{zf} + {P}tube_ext - 0.79")]
+    # The window lattice is laid out here from the sheet's sizes (rerun the builder after changing
+    # lift, win_h or win_s): diamonds on a grid q apart, every other point, inside the legs
+    # between the block and the tube, clear of the ends.
+    pp = doc.getObject("params")
+    doc.recompute()
+    h, sw = pp.get("win_h"), pp.get("win_s")
+    q = h + sw / math.sqrt(2)
+    zlo, zhi = pp.get("tree_t") * -0.5 - pp.get("rail_half") - 0.5 - pp.get("slot_wall") + 5, \
+        pp.get("tree_t") * -0.5 + pp.get("rail_half") + 1 - 5
+    ylo = pp.get("dt_h") + pp.get("clr") + pp.get("slot_wall") + 4
+    yhi = pp.get("pole_y") - pp.get("pole_d") / 2 - pp.get("pole_floor") - 4
+    nz = int(((zhi - zlo) - 2 * h) // q)
+    ny = int(((yhi - ylo) - 2 * h) // q)
+    z_off = zlo + h + ((zhi - zlo) - 2 * h - nz * q) / 2
+    y_off = ylo + h + ((yhi - ylo) - 2 * h - ny * q) / 2
+    wins = []
+    for iz in range(nz + 1):
+        for iy in range(ny + 1):
+            if (iz + iy) % 2:
+                continue
+            zc_, yc_ = z_off + iz * q, y_off + iy * q
+            # a square on its corner (rotated 45 deg about x), half-diagonal win_h, through both legs
+            wins.append(F.box(doc, f"StandWin{len(wins)}", f"{P}col_w + 2", f"{P}win_h * sqrt(2)", f"{P}win_h * sqrt(2)",
+                              f"-({P}col_w / 2 + 1)", yc_, f"{zc_} - {P}win_h", F.X, 45))
+    F.cut(doc, "Stand", stand_solid, [stand_slot, pole_h, *leads, *wins])
 
-    F.check(doc, ["Socket", "SkiHalf", "Tower", "DovetailCoupon"])
+    # --- pole cap, drawn as the front one, on the front end of a pole_l pole centred on the
+    # tree's centre plane (the back one is it turned round). Sole on the grass at lift.
+    ze = f"({zc} + {P}pole_l / 2)"                          # the pole's front end
+    zp = f"({ze} + {P}peg_at)"                               # the peg
+    h2 = f"2 * ({P}lift - {P}pole_y)"                       # the pole in the middle of the body's height
+    body = F.box(doc, "CapBody", f"{P}cap_w", h2, f"{P}cap_depth + {P}cap_end",
+                 f"-{P}cap_w / 2", f"{P}lift - {h2}", f"{ze} - {P}cap_depth")
+    doc.recompute()
+    body_r = F.fillet(doc, "CapBodyR", body, 3.0,                # every edge but the sole's
+                      lambda e, s: F.mid(e).y < s.BoundBox.YMax - 0.01)
+    # the pad: pad_w wide under the whole cap, its inner corners rounded, its outer end a half
+    # round centred on the peg
+    pad = F.box(doc, "CapPad", f"{P}pad_w", f"{P}pad_t", f"{zp} - ({ze} - {P}cap_depth - {P}pad_lead)",
+                f"-{P}pad_w / 2", f"{P}lift - {P}pad_t", f"{ze} - {P}cap_depth - {P}pad_lead")
+    doc.recompute()
+    pad_r = F.fillet(doc, "CapPadR", pad, 8.0, lambda e, s: abs(F.direction(e).y) > 0.99
+                     and F.mid(e).z < s.BoundBox.ZMin + 0.01)
+    pad_end = F.cyl(doc, "CapPadEnd", f"{P}pad_w / 2", f"{P}pad_t", 0, f"{P}lift - {P}pad_t", zp, F.X, -90)
+    cap_sq = F.fuse(doc, "CapSolidSquare", [body_r, pad_r, pad_end])
+    # Rounds (Rob, 16 Nov 2026: fillets and rads): the pad's top edge 2.5, and a 2mm fillet
+    # where the body stands on the pad. The sole's edges stay square: they're on the bed.
+    doc.recompute()
+    pp = doc.getObject("params")
+    y_pad = pp.get("lift") - pp.get("pad_t")
+    half_body = pp.get("cap_w") / 2 + 0.01
+    ze_v = -pp.get("tree_t") / 2 + pp.get("pole_l") / 2
+    body_z = (ze_v - pp.get("cap_depth") - 0.01, ze_v + pp.get("cap_end") + 0.01)
+
+    def on_pad(e):
+        return all(abs(v.Point.y - y_pad) < 0.01 for v in e.Vertexes) and abs(F.mid(e).y - y_pad) < 0.01
+
+    def under_body(e):
+        m = F.mid(e)
+        return abs(m.x) <= half_body and body_z[0] <= m.z <= body_z[1]
+
+    # two steps: OCC won't do both loops in one fillet
+    pad_round = F.fillet_any(doc, "CapPadRound", cap_sq, lambda e, s: 2.5 if on_pad(e) and not under_body(e) else None)
+    cap_solid = F.fillet_any(doc, "CapSolid", pad_round, lambda e, s: 2.0 if on_pad(e) and under_body(e) else None)
+    # the bore runs on through the pad's lead as a channel (the pole sits lower than the pad's top)
+    bore_c = F.cyl(doc, "CapBore", f"{P}pole_d / 2", f"{P}cap_depth + {P}pad_lead + 1", 0, f"{P}pole_y",
+                   f"{ze} - {P}cap_depth - {P}pad_lead - 1")
+    # a teardrop roof over the bore (it prints lying down): a square on the axis, corner up
+    tear = F.box(doc, "CapBoreRoof", f"{P}pole_d / 2", f"{P}pole_d / 2", f"{P}cap_depth + 1",
+                 0, f"{P}pole_y", f"{ze} - {P}cap_depth - 1", F.Z, 225)
+    mouth = F.cone(doc, "CapMouth", f"{P}pole_d / 2 + 0.8", f"{P}pole_d / 2", 0.8, 0, f"{P}pole_y",
+                   f"{ze} - {P}cap_depth - 0.01")
+    peg = F.cyl(doc, "CapPeg", f"{P}stake_d / 2", f"{P}pad_t + 2", 0, f"{P}lift - {P}pad_t - 1", zp, F.X, -90)
+    peg_csk = F.cone(doc, "CapPegCsk", f"{P}stake_d / 2 + 1", f"{P}stake_d / 2", 1, 0,       # its top edge
+                     f"{P}lift - {P}pad_t - 0.01", zp, F.X, -90)
+    F.cut(doc, "PoleCap", cap_solid, [bore_c, tear, mouth, peg, peg_csk])
+
+    # Dovetail coupon: the slot block at the front of a stand (its open end), 20mm long, to try the
+    # slide on a printed socket; the pole fit is tried on a cap
+    slab = F.box(doc, "CouponBox", f"{P}col_w + 2", f"{yb} + 1", 20, f"-{P}col_w / 2 - 1", -1, f"{zf} - 20")
+    F.common(doc, "DovetailCoupon", doc.getObject("Stand"), slab)
+
+    F.check(doc, ["Socket", "Tower", "Stand", "PoleCap", "DovetailCoupon"])
     return doc
 
 
