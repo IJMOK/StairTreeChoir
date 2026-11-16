@@ -16,7 +16,12 @@ WLED v16.0.1 (tag v16.0.1, commit 29b389d), github.com/wled/WLED, wled00/:
                  psk is read when present and is never written back: serializeConfig() only
                  writes its length as "pskl")
     hw.led.total, hw.led.ins[] -> start, len, pin[], order, rev, skip, type, ref
-    if.live.en -> receiveDirect (the "Receive UDP realtime" box; DDP on UDP 4048 is switched on by
+    def.on -> turnOnAtBoot (cfg.cpp: CJSON(turnOnAtBoot, def["on"]); default true, which boots
+                 into the default orange at bri 128). False: the trees sit dark between shows.
+                 Realtime still shows while off: udp.cpp realtimeLock() sets the strip to
+                 briLast when briT16 == 0, and exitRealtime() puts it back to bri (0) once
+                 realtimeTimeoutMs (wled.h, 2500ms) passes with no frames. (WLED main, 16 Nov 2026.)
+  if.live.en -> receiveDirect (the "Receive UDP realtime" box; DDP on UDP 4048 is switched on by
                  it, see udp.cpp and wled.cpp ddp.begin(false, DDP_DEFAULT_PORT))
   const.h  TYPE_WS2812_RGB = 22; COL_ORDER_GRB = 0, RGB = 1, BRG = 2, RBG = 3, BGR = 4, GBR = 5
   cfg.cpp  every field is read with CJSON(a, b) = "b | a": a key that is missing keeps the
@@ -281,6 +286,7 @@ def wled_config(tree: int, ssid: str = SSID_PLACEHOLDER) -> dict:
                      "rev": False, "skip": 0, "type": LED_TYPE_WS281X, "ref": False,
                      "ledma": LED_MA, "maxpwr": LIMIT_MA}],
         }},
+        "def": {"on": False},     # dark at power-on and between songs (Rob, 16 Nov 2026)
         "if": {"live": {"en": True}},
     }
 
