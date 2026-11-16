@@ -107,12 +107,22 @@ check("socket channel takes the tread", not sock.isInside(V(0, -mp["leg_h"] / 2,
 # --- PSU hood
 hp = json.loads((ROOT / "cad" / "parts" / "psu-cover-params.json").read_text(encoding="utf-8"))
 hood = solid("cad/printed/psu-hood.step")
-psu = Part.makeBox(215, hp["psu_w"], hp["psu_h"])
+# the S-400-12 with its open terminal recess (the partition hangs into it, above the terminals)
+psu = Part.makeBox(hp["psu_l"], hp["psu_w"], hp["psu_h"]).cut(
+    Part.makeBox(hp["lid_x"] + 1, hp["psu_w"] - 6, hp["psu_h"] - hp["rib_z"] + 1, V(-1, 3, hp["rib_z"])))
 check("hood is one valid solid", hood.isValid() and len(hood.Solids) == 1)
 check("hood clears the PSU", hood.common(psu).Volume < 1e-3)
-check("hood M4 screws reach 5mm max into the case", hp["wall"] + 3 <= 6 + 0.01, "M4 x 6 through a 3mm wall")
-check("hood has a closed floor under the chamber", hood.isInside(V(-hp["cham_l"] / 2, 60, hp["wall"] / 2), 1e-6, True))
-check("hood partition between mains and 12V", hood.isInside(V(-10, hp["rib_y"], 30), 1e-6, True))
+check("hood M4 screws reach 3mm max into the S-400's case", 6 - hp["wall"] <= 3 + 0.01, "M4 x 6 through a 3mm wall")
+check("hood has a closed floor under the chamber's mains side",
+      hood.isInside(V(-hp["cham_l"] / 2, hp["rib_y"] / 2, hp["wall"] / 2), 1e-6, True))
+check("hood is open under the chamber's 12V side, for the leads",
+      not hood.isInside(V(-hp["cham_l"] / 2, hp["dc_y"], hp["wall"] / 2), 1e-6, True))
+check("hood partition between mains and 12V", hood.isInside(V(-10, hp["rib_y"], 30), 1e-6, True)
+      and hood.isInside(V(5, hp["rib_y"], hp["rib_z"] + 5), 1e-6, True))
+check("hood inlet is in the roof over the mains side",
+      not hood.isInside(V(hp["iec_x"], hp["iec_y"], hp["hood_h"] - hp["wall"] / 2), 1e-6, True)
+      and hp["iec_y"] + hp["iec_cut_w"] / 2 < hp["rib_y"] - hp["rib_t"] / 2
+      and hp["iec_x"] + hp["iec_cut_h"] / 2 < 0)
 
 # --- masters recompute cleanly
 for name in ("tree-box", "player-pods", "psu-cover", "tree-mounts", "pixel-disk", "step-clamp"):

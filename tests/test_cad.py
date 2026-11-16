@@ -132,8 +132,8 @@ EXPECTED = [
     "dovetail captures the rail (the slot's lip overhangs the rail's flare)", "tower slot is stopped at the bottom, open at the top", "towers stack without clashing", "tower bore runs right through",
     "spigot sits in the recess above", "ski half is hollow, solid round its slot", "socket is one valid solid", "ski half is one valid solid", "tower is one valid solid",
     "socket channel takes the tread", "hood is one valid solid", "hood clears the PSU",
-    "hood M4 screws reach 5mm max into the case", "hood has a closed floor under the chamber",
-    "hood partition between mains and 12V",
+    "hood M4 screws reach 3mm max into the S-400's case", "hood has a closed floor under the chamber's mains side",
+    "hood is open under the chamber's 12V side, for the leads", "hood partition between mains and 12V", "hood inlet is in the roof over the mains side",
     "complete tree assembly opens with every link resolved",
     *[f"master {n} recomputes" for n in ("tree-box", "player-pods", "psu-cover", "tree-mounts", "pixel-disk", "step-clamp")],
 ]

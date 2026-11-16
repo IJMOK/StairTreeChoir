@@ -149,7 +149,7 @@ def write_md(plans: list[dict], confirmed: bool, path: Path = MD_FILE) -> None:
         f"The PSU is the smallest that carries the site at no more than {PSU_MAX_LOAD:.0%}.",
         "",
         "The PSU's mains terminals sit under a printed hood carrying a fused, switched IEC C14 inlet "
-        "(Site A's LRS-350-12: cad/parts/psu-cover.FCStd), so mains arrives on a C13 lead from an RCD-protected "
+        "(Site A's S-400-12: cad/parts/psu-cover.FCStd), so mains arrives on a C13 lead from an RCD-protected "
         "outdoor socket and nothing is wired to a loose cable. Other sites' hoods are still to draw for their PSUs.",
         "",
     ]

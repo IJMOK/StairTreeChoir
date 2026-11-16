@@ -72,7 +72,7 @@ Box: tree ____ / site ____
 - [ ] The box is on four 10mm spacers and four 4 × 40 wood screws (tree box); the hook caught along the plate's top edge and the cover's rim down on the plate all round
 - [ ] The SP17 plug under the shelf ends above the tree's bottom edge (tree box)
 - [ ] Three sockets per tree, each tight on the edge with 2 × 4 × 16 screws in the back leg; skis bolted in (M5) and staked
-- [ ] PSU hood (site box): LRS-350-12 input switch on **230V** before the hood went on; inlet earth to FG under 0.1Ω (meter, plug earth pin to the PSU case under 1Ω); every mains tab in an insulated crimp; the hood's two M4 × 6 screws in, no longer; the inlet's fuse is T4A
+- [ ] PSU hood (site box): S-400-12 input switch on **230V** before the hood went on; inlet earth to FG under 0.1Ω (meter, plug earth pin to the PSU case under 1Ω); every mains tab in an insulated crimp; the hood's two M4 × 6 screws in with washers, no longer; the inlet's fuse is T4A
 
 Rain and soak test of at least one box. **TBC (Rob):** the repo does not give a duration or method. A suggestion is an hour under a hose or watering can, from above and the sides.
 - [ ] Box fully built with cables in its glands
@@ -99,7 +99,7 @@ Site load, all trees at full white with the player running. WLED's limiter shoul
 
 | Site | PSU | Expected | Measured |
 |---|---|---|---|
-| A (6 trees) | LRS-350-12, 29A | 14.1A | ____ A |
+| A (6 trees) | S-400-12, 33A | 14.1A | ____ A |
 | B (4 trees) | LRS-150-12, 12.5A | 10.9A | ____ A |
 | C, D (2 trees) | LRS-100-12, 8.5A | 6.7A | ____ A |
 

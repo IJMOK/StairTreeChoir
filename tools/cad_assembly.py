@@ -287,11 +287,11 @@ def main():
     sb.Label = "Site A box (layout indicative)"
     sb.Placement = pl(-900, -100, 0)
     show.addObject(sb)
-    psu_at = pl(20 + 53, 230 - 20 - 118.5, 0)                 # PSU frame in the box: hood end at x = 20
+    psu_at = pl(20 + 53, 230 - 20 - 117.5, 0)                 # PSU frame in the box: hood end at x = 20
     link(doc, "Hood", hood.getObject("Hood"), psu_at, sb, "PSU hood with IEC inlet")
-    link(doc, "Psu", hood.getObject("RefPsu"), psu_at, sb, "LRS-350-12")
+    link(doc, "Psu", hood.getObject("RefPsu"), psu_at, sb, "S-400-12")
     link(doc, "Iec", hood.getObject("RefIecFlange"), psu_at, sb, "IEC inlet flange")
-    buck_at = pl(160, 150, 63)                                # on the hood's roof, 12V side
+    buck_at = pl(25, 150, 54)                                 # on the hood's roof, 12V side, beside the inlet
     link(doc, "BuckBase", pods.getObject("BuckBase"), buck_at, sb, "buck pod (on the hood)")
     link(doc, "BuckLid", pods.getObject("BuckLid"), buck_at, sb, "buck pod lid")
     standins = site_box_standins()

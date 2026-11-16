@@ -193,7 +193,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <ul>
 <li>ESP32 board header row spacing (assumed 25.4mm), Mini560 size and pad positions, and that the 5×7cm board is 24×18 holes (<a href="../electronics/README.md" target="_blank" rel="noopener">electronics/README.md</a>).</li>
 <li>Board hole positions and ESP32 height in the box, the SP16 socket's nut and thread, the PG7 and RP-SMA sizes, and the insert holes (<a href="#tree-box-parts">docs/tree-box-parts.md</a>).</li>
-<li>Site A's LRS-350-12, the IEC inlet and the XH-M541 against the hood and the site box (<a href="#cad">cad/README.md</a>).</li>
+<li>Site A's S-400-12, the IEC inlet and the XH-M541 against the hood and the site box (<a href="#cad">cad/README.md</a>).</li>
 <li>The outer diameter of the outdoor flex (6–10mm for the SP17's gland).</li>
 </ul>
 </li>
@@ -323,10 +323,10 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 </ol>
 <h2 id="build-guide/9-site-box-and-power">9. Site box and power</h2>
 <p>Each site's PSUs, fuses and runs are in <a href="../electronics/site-wiring.md" target="_blank" rel="noopener">electronics/site-wiring.md</a>, generated from <code>data/sites.json</code>. <strong>TBC (Rob):</strong> the tree counts per site and every run length are defaults, not confirmed. Edit <code>data/sites.json</code> and run <code>make all</code> when they are. Current defaults: Site A 6 trees (Pi 5), Site B 4 trees (Pi 3), Sites C and D 2 trees each (Pi still to buy).</p>
-<p><strong>Mains</strong> (Site A, Rob, 15 Nov 2026). A C13 lead (13A plug, 5A fuse) from an RCD-protected outdoor socket, through a lid seal, into the IEC inlet on the PSU's printed hood. Inside the hood: the inlet's L (through its fuse and switch) and N to the LRS-350-12's AC/L and AC/N, its earth to FG, all on fully insulated crimps. Mains goes nowhere else in the box. Wiring and tests: <a href="site-box-wiring.html" target="_blank" rel="noopener">site-box-wiring.html</a>. <strong>TBC (Rob):</strong> have the mains side checked by a competent electrician.</p>
+<p><strong>Mains</strong> (Site A, Rob, 15 Nov 2026). A C13 lead (13A plug, 5A fuse) from an RCD-protected outdoor socket, through a lid seal, into the IEC inlet on the PSU's printed hood. Inside the hood: the inlet's L (through its fuse and switch) and N to the S-400-12's L and N, its earth to FG, all on fully insulated crimps. Mains goes nowhere else in the box. Wiring and tests: <a href="site-box-wiring.html" target="_blank" rel="noopener">site-box-wiring.html</a>. <strong>TBC (Rob):</strong> have the mains side checked by a competent electrician.</p>
 <p>The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals in its lid, so it needs no glands. Its inside tapers towards the floor, with ribs: measure it. Parts are stuck down on pads, no plate (Rob, 10 Nov 2026); the assembly (<a href="../cad/stair-tree-choir.FCStd" target="_blank" rel="noopener">cad/stair-tree-choir.FCStd</a>) shows an indicative layout.</p>
 <ol>
-<li>Set the LRS-350-12's input switch to <strong>230V</strong>. Wire the mains side, fit the hood (two M4 × 6 into the case's side holes, no longer) and stand the PSU along the back of the floor, fan side up and clear.</li>
+<li>Set the S-400-12's input switch to <strong>230V</strong>. Wire the 12V leads straight onto +V and −V and the inlet (in the hood's roof) to L, N and earth, lower the hood on (two M4 × 6 with washers into the case's side holes, no longer) and stand the PSU along the back of the floor, fan side up and clear.</li>
 <li>Fit the 10-way blade fuse box: the PSU's +12V to its input stud; the PSU's 0V to two linked Wago 221-415 beside it. One way per tree run (3A), one for the Pi's buck (3A), one for the amp (3A), one for the router where it's on the PSU (2A); every negative to the Wagos.</li>
 <li>Fit the Pi with its 12V-to-USB buck in the printed buck pod, and the XH-M541 amp (12V off its own fuse; the USB sound card plugs into the Pi and a short 3.5mm lead goes to the amp's input). Each speaker gets its own 2-core run from the amp.</li>
 <li>Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the SP17 cable plug of an SP16/SP17 2-pin aviation connector on the tree end (screw terminals, no solder; tighten its gland nut on the sheath). Red to +, the same pin every time. Label both ends with the tree number.</li>
@@ -413,7 +413,7 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 </article>
 <article data-doc="bom" data-title="Bill of materials" hidden>
 <h1 id="bom/bill-of-materials">Bill of materials</h1>
-<p>Kept current from CLAUDE.md §4. 14 trees (maybe 15), each with its own ESP32 controller; one show player per site (4 sites). First goal: 6 trees at Site A by 1 Dec 2026. Updated 24 Oct 2026 with deliveries; pixel disks and the fixture plate added 25 Oct 2026; the 27 Oct orders added 28 Oct 2026; LRS-350-12, IEC inlet, XH-M541 and the tree mounts 15 Nov 2026.</p>
+<p>Kept current from CLAUDE.md §4. 14 trees (maybe 15), each with its own ESP32 controller; one show player per site (4 sites). First goal: 6 trees at Site A by 1 Dec 2026. Updated 24 Oct 2026 with deliveries; pixel disks and the fixture plate added 25 Oct 2026; the 27 Oct orders added 28 Oct 2026; LRS-350-12, IEC inlet, XH-M541 and the tree mounts 15 Nov 2026; back to the S-400-12 16 Nov 2026.</p>
 <h2 id="bom/bought">Bought</h2>
 <p>AliExpress order of 18 Oct 2026 (£277.80, due 25–31 Oct), plus the ESP32 order of 22 Oct.</p>
 <table>
@@ -641,9 +641,9 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <tbody>
 <tr>
 <td>1</td>
-<td>Mean Well LRS-350-12 (12V 29A, 215 × 115 × 30mm, enclosed, temperature-controlled fan, 115/230V switch)</td>
-<td>Site A's PSU, replacing the S-400-12: 14.1A of 29A. Datasheet LRS-350-SPEC (2025-09-12). Under the printed hood <code>print/psu-hood.stl</code></td>
-<td>Ordered</td>
+<td>S-400-12 (12V 33A, 217 × 114 × 50mm, fan, 115/230V switch)</td>
+<td>Site A's PSU: 14.1A of 33A. The LRS-350-12 ordered for it arrived as an LRS-350-24 (16 Nov 2026), which is no use at 12V. Under the printed hood <code>print/psu-hood.stl</code></td>
+<td>Have</td>
 </tr>
 <tr>
 <td>1</td>
@@ -691,19 +691,19 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <tr>
 <td>1</td>
 <td>IEC C13 mains lead, 13A plug with a <strong>5A</strong> fuse, 2m+ (or an angled C13)</td>
-<td>Into the PSU hood's inlet, through a lid seal. 5A in the plug for the LRS-350's 60A cold-start inrush; the inlet holds the T-fuse</td>
+<td>Into the PSU hood's inlet, through a lid seal. 5A in the plug for the PSU's cold-start inrush (the S-400-12's isn't known: bench it); the inlet holds the T-fuse</td>
 <td>£5</td>
 </tr>
 <tr>
 <td>2</td>
 <td>5 × 20mm time-lag fuses, T4A 250V (ceramic, H)</td>
-<td>The IEC inlet: one fitted, one spare. The LRS-350-12 draws 3.4A at 230V flat out, under 1A for Site A's load</td>
+<td>The IEC inlet: one fitted, one spare. Under 1A at 230V for Site A's load</td>
 <td>£2</td>
 </tr>
 <tr>
 <td>4 + 2</td>
-<td>M4 × 6 stainless pan head; M3 × 10 + M3 nyloc</td>
-<td>Hood to the PSU's side holes (no longer than 6: 5mm max into the case); the inlet to the hood</td>
+<td>M4 × 6 stainless pan head + M4 washer; M3 × 10 + M3 nyloc</td>
+<td>Hood to the PSU's side holes (no longer than 6, with the washer: about 3mm max into the S-400's case); the inlet to the hood</td>
 <td>£2</td>
 </tr>
 <tr>
@@ -1053,8 +1053,8 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <td><a href="../print/psu-hood.stl" target="_blank" rel="noopener">psu-hood.stl</a></td>
 <td><code>psu-cover.FCStd</code> Hood</td>
 <td>1 for Site A</td>
-<td>63 × 122 × 97.2</td>
-<td>103.9 cm³</td>
+<td>54 × 121 × 100.6</td>
+<td>79.9 cm³</td>
 <td>PETG, end wall on the bed, no supports, 4 walls, 40% infill: it carries mains</td>
 </tr>
 <tr>
@@ -1275,15 +1275,17 @@ Previews of every part: <a href="../cad/previews" target="_blank" rel="noopener"
 <li><strong>Test first:</strong> print one socket and the <strong>dovetail coupon</strong> (<code>tree-dovetail-coupon.stl</code>, the inner 40mm of a ski half). It should slide on by hand with no rock; tune <code>clr</code> (0.3 a side) in the sheet. Check the channel on a real tread (<code>fit</code>, 0.8 total) and the screw positions against your tree.</li>
 <li>The fillet and chamfer sizes are set in <a href="../tools/cad_parts.py" target="_blank" rel="noopener">tools/cad_parts.py</a> when the part is built, not in the sheet; the sizes they round follow the sheet.</li>
 </ul>
-<h3 id="cad/psu-hood-with-iec-inlet-rob-15-nov-2026">PSU hood with IEC inlet (Rob, 15 Nov 2026)</h3>
-<p>For Site A's Mean Well <strong>LRS-350-12</strong> (replacing the S-400-12 and its cover). Sizes from Mean Well's datasheet (LRS-350-SPEC, 2025-09-12, case 207A): 215 × 115 × 30, terminals 1–9 at 9.5 pitch along one end (1 AC/L, 2 AC/N, 3 FG, 4–6 −V, 7–9 +V), M4 side holes 32.5mm from that end and 12.5mm up, <strong>5mm max</strong> into the case; a temperature-controlled fan on top, well clear of the hood.</p>
+<h3 id="cad/psu-hood-with-iec-inlet-rob-15-nov-2026-s-400-12-inlet-on-top-16-nov-2026">PSU hood with IEC inlet (Rob, 15 Nov 2026; S-400-12, inlet on top, 16 Nov 2026)</h3>
+<p>For Site A's <strong>S-400-12</strong>. The LRS-350-12 it was drawn for on 15 Nov arrived as an LRS-350-24, so the S-400 carries the show (Rob, 16 Nov 2026; the LRS version is in git at edd7308). Case 217 × 114 × 50 (Rob's size); the rest read off his photos of 16 Nov against a ruler: the terminals sit in an open recess at the end, the lid stopping about 20mm in (<code>lid_x</code>) and its top vents starting at about 29; facing the terminals, left to right, ADJ, +V × 3, −V × 3, earth, N, L (earth about 38mm from the L side, the first −V about 47); threaded M4 side holes 32mm in and 38mm up on both sides. The fan is at the far end and the 115/230V switch about 150mm along the ADJ side, both clear of the hood.</p>
 <ul>
-<li>A box over the terminal end, one height all through (63mm), with a closed wiring chamber beyond the case (floored) and a partition between pin 3 and pin 4, so the mains side and the 12V side are separate. Two <strong>M4 × 6</strong> screws through its side walls into the case's side holes (3mm into the case).</li>
-<li>The fused, switched <strong>IEC C14 inlet</strong> (the 3-in-1 module in Rob's drawing: cut-out 47.3 × 27.4, two M3 holes 40 apart) sits in the mains side wall over the chamber, switch at the bottom. Mains arrives on a C13 lead; nothing is wired to a loose mains cable.</li>
-<li>12V leaves through a window in the roof over the chamber's 12V side, with cable-tie slots beside it. Vent slots on the 12V side only, over the case's own side vents. A slot in the roof reaches the +V ADJ pot.</li>
-<li>Prints standing on its end wall with no supports. PETG, 4 walls, 40% infill.</li>
+<li>A box over the terminal end, 54mm tall (just over the case), with a wiring chamber beyond the case and a partition between earth and −V (<code>rib_y</code> 42.5), so the mains side and the 12V side are separate. The partition runs floor to roof in the chamber and hangs on 10mm into the terminal recess, down to 25mm above the base (<code>rib_z</code>), over the terminal block.</li>
+<li>The fused, switched <strong>IEC C14 inlet</strong> (the 3-in-1 module in Rob's drawing: cut-out 47.3 × 27.4, two M3 holes 40 apart across the 27.4, flange 54.4 × 49.2) sits <strong>in the roof</strong> over the chamber's mains side (Rob, 16 Nov 2026), its long side along the hood; the C13 plug goes in from above. The chamber's mains side is closed: floor, L side wall, end wall, partition, roof. Mains arrives on a C13 lead; nothing is wired to a loose mains cable.</li>
+<li><strong>12V leads go straight onto the PSU's terminals</strong> (Rob, 16 Nov 2026) and run out along the box floor: the chamber has no floor on its 12V side and a 50 × 22mm notch in the end wall, open at the bottom, so the hood drops on over leads that are already wired.</li>
+<li>Over the case the roof and full sides stop at 26mm (<code>roof_l</code>), past the lid's edge and short of its vents; past that only <strong>side tabs</strong> go on (z 8–44, to 42mm) to reach the side holes, staying under the lid's side vents. The holes in the tabs are short <strong>slots</strong> (±2.5mm along, ±0.75mm up and down, since the positions come from photos). Two <strong>M4 × 6 with washers</strong> (about 2mm into the case; never longer).</li>
+<li>Vent slots in the 12V side wall over the case's own side vents by the terminals (the mains side wall is left closed, so the case's vents on that side are covered). A slot in the roof over the ADJ pot.</li>
+<li>Prints standing on its end wall with no supports. PETG, 4 walls, 40% infill. About 80cm³.</li>
 <li><strong>This puts mains inside a printed part</strong> (the brief's old rule said never; Rob chose the inlet, 15 Nov 2026). See the safety notes in <a href="site-box-wiring.html" target="_blank" rel="noopener">docs/site-box-wiring.html</a>: earth from the inlet to FG, insulated crimps on every mains tab, set the PSU's 115/230V switch to 230V before fitting the hood.</li>
-<li><strong>Measure before printing:</strong> the PSU itself (±1mm on the drawing), the terminal positions (scaled off the drawing: the partition, <code>rib_y</code>, must fall between pins 3 and 4), the ADJ pot (<code>adj_x</code>, <code>adj_y</code>), and the inlet's body depth behind the panel and its tabs (about 17 + 8mm from the drawing).</li>
+<li><strong>Check before printing</strong> (all in the sheet): the terminal positions (the partition, <code>rib_y</code>, must fall between earth and the first −V, and the terminal block must stay under <code>rib_z</code>), where the lid stops (<code>lid_x</code>), the side holes (<code>side_x</code>, <code>side_z</code>), the ADJ pot (<code>adj_x</code>, <code>adj_y</code>), and the inlet's body depth behind the panel and its tabs (about 17 + 8mm from the drawing: it has to clear the chamber floor, 54 − 25 = 29mm up). Leave room above the hood for the C13 plug under the DRiBOX lid (an angled C13 helps).</li>
 </ul>
 <h3 id="cad/tree-controller-box">Tree controller box</h3>
 <p>An L base plus a wrap-round cover on 10mm spacers on the back of the tree (Rob, 31 Oct 2026), placed low on the node-1 side so the 12V run's SP17 plug, screwed on under the shelf, ends at least 20mm above the tree's bottom edge. The base carries the board on four M2 heat-set standoffs, the Mini560 standing on it, two Wago 221-413s, and the SP16 socket (17mm hole, two flats 15.7mm apart), PG7 gland and RP-SMA bulkhead firing down through the 3.5mm shelf, so nothing unplugs when the cover comes off. The cover hooks over the plate's top edge, swings in, and takes one M3 × 10 at 45° into an insert in a boss on the shelf (push the insert in flush; the hole goes right through). A 2.7mm cord in a groove seals the top and sides; the bottom is open on purpose (rain doesn't fall upwards). About 117 × 53 × 110 overall. Print the coupon and the seal test first. <strong>Unverified:</strong> the board's hole positions, the SP16 nut and thread length, the PG7 and RP-SMA sizes, the insert holes, the cord's squeeze (<a href="#tree-box-parts">docs/tree-box-parts.md</a>).</p>
@@ -1641,7 +1643,7 @@ Previews of every part: <a href="../cad/previews" target="_blank" rel="noopener"
 <li class="tick"><input type="checkbox" disabled> The box is on four 10mm spacers and four 4 × 40 wood screws (tree box); the hook caught along the plate's top edge and the cover's rim down on the plate all round</li>
 <li class="tick"><input type="checkbox" disabled> The SP17 plug under the shelf ends above the tree's bottom edge (tree box)</li>
 <li class="tick"><input type="checkbox" disabled> Three sockets per tree, each tight on the edge with 2 × 4 × 16 screws in the back leg; skis bolted in (M5) and staked</li>
-<li class="tick"><input type="checkbox" disabled> PSU hood (site box): LRS-350-12 input switch on <strong>230V</strong> before the hood went on; inlet earth to FG under 0.1Ω (meter, plug earth pin to the PSU case under 1Ω); every mains tab in an insulated crimp; the hood's two M4 × 6 screws in, no longer; the inlet's fuse is T4A</li>
+<li class="tick"><input type="checkbox" disabled> PSU hood (site box): S-400-12 input switch on <strong>230V</strong> before the hood went on; inlet earth to FG under 0.1Ω (meter, plug earth pin to the PSU case under 1Ω); every mains tab in an insulated crimp; the hood's two M4 × 6 screws in with washers, no longer; the inlet's fuse is T4A</li>
 </ul>
 <p>Rain and soak test of at least one box. <strong>TBC (Rob):</strong> the repo does not give a duration or method. A suggestion is an hour under a hose or watering can, from above and the sides.</p>
 <ul>
@@ -1677,7 +1679,7 @@ Previews of every part: <a href="../cad/previews" target="_blank" rel="noopener"
 <tbody>
 <tr>
 <td>A (6 trees)</td>
-<td>LRS-350-12, 29A</td>
+<td>S-400-12, 33A</td>
 <td>14.1A</td>
 <td>____ A</td>
 </tr>

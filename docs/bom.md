@@ -1,6 +1,6 @@
 # Bill of materials
 
-Kept current from CLAUDE.md §4. 14 trees (maybe 15), each with its own ESP32 controller; one show player per site (4 sites). First goal: 6 trees at Site A by 1 Dec 2026. Updated 24 Oct 2026 with deliveries; pixel disks and the fixture plate added 25 Oct 2026; the 27 Oct orders added 28 Oct 2026; LRS-350-12, IEC inlet, XH-M541 and the tree mounts 15 Nov 2026.
+Kept current from CLAUDE.md §4. 14 trees (maybe 15), each with its own ESP32 controller; one show player per site (4 sites). First goal: 6 trees at Site A by 1 Dec 2026. Updated 24 Oct 2026 with deliveries; pixel disks and the fixture plate added 25 Oct 2026; the 27 Oct orders added 28 Oct 2026; LRS-350-12, IEC inlet, XH-M541 and the tree mounts 15 Nov 2026; back to the S-400-12 16 Nov 2026.
 
 ## Bought
 
@@ -52,7 +52,7 @@ Orders of mid-November 2026 (Rob, 15 Nov 2026):
 
 | Qty | Item | Notes | Status |
 |---|---|---|---|
-| 1 | Mean Well LRS-350-12 (12V 29A, 215 × 115 × 30mm, enclosed, temperature-controlled fan, 115/230V switch) | Site A's PSU, replacing the S-400-12: 14.1A of 29A. Datasheet LRS-350-SPEC (2025-09-12). Under the printed hood `print/psu-hood.stl` | Ordered |
+| 1 | S-400-12 (12V 33A, 217 × 114 × 50mm, fan, 115/230V switch) | Site A's PSU: 14.1A of 33A. The LRS-350-12 ordered for it arrived as an LRS-350-24 (16 Nov 2026), which is no use at 12V. Under the printed hood `print/psu-hood.stl` | Have |
 | 1 | XH-M541 stereo amp board (TPA3116D2, DC 12–24V, 3.5mm input, screw speaker terminals) | Site A's amp, replacing the PAM8610. Listings disagree on power (50–60W a channel into 4Ω; far less into the 8Ω BGO40s at 12V, plenty). **Measure it** and its power input (likely a 5.5 × 2.1 barrel) when it arrives | On order |
 | 1 | 3-in-1 IEC C14 inlet module: fused (5 × 20mm), switched, screw mounting (panel cut-out 47.3 × 27.4, holes 3.5mm, 40 apart) | In the PSU hood's mains side wall. Rob's drawing, 15 Nov 2026 | To buy if not in hand |
 
@@ -78,9 +78,9 @@ Trimmed with Rob on 26 Oct 2026 to what he doesn't already have.
 | Qty | Item | Notes | Approx. |
 |---|---|---|---|
 | 6 | 2-way 5.08mm PCB screw terminal | JD (data out), 1 per board. Rob found some KF2EDG-2P: count them first | £2 |
-| 1 | IEC C13 mains lead, 13A plug with a **5A** fuse, 2m+ (or an angled C13) | Into the PSU hood's inlet, through a lid seal. 5A in the plug for the LRS-350's 60A cold-start inrush; the inlet holds the T-fuse | £5 |
-| 2 | 5 × 20mm time-lag fuses, T4A 250V (ceramic, H) | The IEC inlet: one fitted, one spare. The LRS-350-12 draws 3.4A at 230V flat out, under 1A for Site A's load | £2 |
-| 4 + 2 | M4 × 6 stainless pan head; M3 × 10 + M3 nyloc | Hood to the PSU's side holes (no longer than 6: 5mm max into the case); the inlet to the hood | £2 |
+| 1 | IEC C13 mains lead, 13A plug with a **5A** fuse, 2m+ (or an angled C13) | Into the PSU hood's inlet, through a lid seal. 5A in the plug for the PSU's cold-start inrush (the S-400-12's isn't known: bench it); the inlet holds the T-fuse | £5 |
+| 2 | 5 × 20mm time-lag fuses, T4A 250V (ceramic, H) | The IEC inlet: one fitted, one spare. Under 1A at 230V for Site A's load | £2 |
+| 4 + 2 | M4 × 6 stainless pan head + M4 washer; M3 × 10 + M3 nyloc | Hood to the PSU's side holes (no longer than 6, with the washer: about 3mm max into the S-400's case); the inlet to the hood | £2 |
 | 1 pack | Fully insulated 6.3mm female spade crimps (0.5–1.5mm²) and fork crimps for M3.5 terminals | Every mains tab on the inlet, and the PSU's terminals | £4 |
 | 1 | 3.5mm stereo jack lead, 30cm | Sound card to the XH-M541's input | £2 |
 | 1 | DC barrel lead (5.5 × 2.1, check the XH-M541) with bare ends | Amp power from its fuse and the 0V Wago | £2 |

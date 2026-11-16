@@ -1,4 +1,4 @@
-<!-- Site A site box: full wiring (10 Nov 2026; LRS-350-12 with the IEC hood and the XH-M541, 15 Nov 2026). Hand-made, not generated. Parts stuck down with adhesive pads, no plate. Companion to docs/wiring.html. -->
+<!-- Site A site box: full wiring (10 Nov 2026; the IEC hood and the XH-M541, 15 Nov 2026; back to the S-400-12, 16 Nov 2026). Hand-made, not generated. Parts stuck down with adhesive pads, no plate. Companion to docs/wiring.html. -->
 <title>Site A Box Wiring</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -100,9 +100,9 @@ svg .band { fill: var(--fg); }
 
 <main>
   <header>
-    <div class="status">Stair Tree Choir · Site A site box · 15 Nov 2026 · LRS-350-12 + IEC hood · XH-M541 · parts stuck down on pads, no plate</div>
+    <div class="status">Stair Tree Choir · Site A site box · 16 Nov 2026 · S-400-12 + IEC hood · XH-M541 · parts stuck down on pads, no plate</div>
     <h1>Wiring the Site A box</h1>
-    <p class="sub">Every wire in the DRiBOX: mains on a C13 lead into the IEC inlet on the printed hood, then into the LRS-350-12; 12V out through the blade fuse box to six trees; the Pi on its own 5V buck; and the XH-M541 driving the two speakers. Wire it in the order at the bottom of the page, testing as you go.</p>
+    <p class="sub">Every wire in the DRiBOX: mains on a C13 lead into the IEC inlet on the printed hood, then into the S-400-12; 12V out through the blade fuse box to six trees; the Pi on its own 5V buck; and the XH-M541 driving the two speakers. Wire it in the order at the bottom of the page, testing as you go.</p>
   </header>
 
   <section aria-label="Wire colours">
@@ -120,15 +120,15 @@ svg .band { fill: var(--fg); }
     <h2>The whole box</h2>
     <figure>
       <div class="scroll">
-        <svg viewBox="0 0 1030 820" role="img" aria-label="Schematic of the site box. The C13 lead comes in at the top right to the fused, switched IEC inlet on the PSU's printed hood, which goes to the PSU's FG, AC/N and AC/L terminals under the printed cover. PSU +V goes on 2.5mm² wire to the fuse box stud. PSU −V goes to Wago W1, linked to W2 and then W3. Fuses F1 to F6 feed trees 1 to 6, each tree's 0V coming from W1 or W2. F7 feeds the Mini560, which feeds the Pi on GPIO pins 2, 4, 6 and 9. F8 feeds the XH-M541. W3 carries the buck and amp 0V. The Pi feeds the USB sound card, whose 3.5mm output goes to the amp input. The amp drives the right and left speakers. The Pi's Ethernet goes out to the router indoors.">
+        <svg viewBox="0 0 1030 820" role="img" aria-label="Schematic of the site box. The C13 lead comes in at the top right to the fused, switched IEC inlet on the PSU's printed hood, which goes to the PSU's FG, N and L terminals under the printed cover. PSU +V goes on 2.5mm² wire to the fuse box stud. PSU −V goes to Wago W1, linked to W2 and then W3. Fuses F1 to F6 feed trees 1 to 6, each tree's 0V coming from W1 or W2. F7 feeds the Mini560, which feeds the Pi on GPIO pins 2, 4, 6 and 9. F8 feeds the XH-M541. W3 carries the buck and amp 0V. The Pi feeds the USB sound card, whose 3.5mm output goes to the amp input. The amp drives the right and left speakers. The Pi's Ethernet goes out to the router indoors.">
           <!-- box -->
           <rect class="enclosure" x="40" y="40" width="760" height="765" rx="10"/>
           <text class="t" x="56" y="66">SITE BOX · DRiBOX Large</text>
 
           <!-- PSU -->
           <rect class="part" x="190" y="88" width="420" height="82" rx="4"/>
-          <text x="320" y="110" text-anchor="middle">LRS-350-12 power supply</text>
-          <text class="s" x="320" y="126" text-anchor="middle">230V in → 12V, 29A · fan · switch on 230V</text>
+          <text x="320" y="110" text-anchor="middle">S-400-12 power supply</text>
+          <text class="s" x="320" y="126" text-anchor="middle">230V in → 12V, 33A · fan · switch on 230V</text>
           <rect class="cover" x="476" y="96" width="122" height="78" rx="3"/>
           <text class="m" x="537" y="110" text-anchor="middle">printed hood</text>
           <g>
@@ -398,8 +398,8 @@ svg .band { fill: var(--fg); }
         <thead><tr><th>#</th><th>From</th><th>To</th><th>Wire</th><th>Carries</th><th>Notes</th></tr></thead>
         <tbody>
           <tr class="group"><td colspan="6">Mains (inside the hood only; fully insulated crimps on every tab)</td></tr>
-          <tr><td class="num">1</td><td>IEC inlet, switched L tab (after its fuse and switch)</td><td>PSU AC/L (pin 1)</td><td>1.0mm² brown, insulated spade + fork crimps</td><td class="num">≈1A</td><td>Check which tab is the switched live with a meter (continuity from the inlet's L pin, switch on)</td></tr>
-          <tr><td class="num">2</td><td>IEC inlet, N tab (switched N if it's double-pole)</td><td>PSU AC/N (pin 2)</td><td>1.0mm² blue, same crimps</td><td></td><td></td></tr>
+          <tr><td class="num">1</td><td>IEC inlet, switched L tab (after its fuse and switch)</td><td>PSU L</td><td>1.0mm² brown, insulated spade + fork crimps</td><td class="num">≈1A</td><td>Check which tab is the switched live with a meter (continuity from the inlet's L pin, switch on)</td></tr>
+          <tr><td class="num">2</td><td>IEC inlet, N tab (switched N if it's double-pole)</td><td>PSU N</td><td>1.0mm² blue, same crimps</td><td></td><td></td></tr>
           <tr><td class="num">3</td><td>IEC inlet, earth tab</td><td>PSU FG ⏚ (pin 3)</td><td>1.0mm² green/yellow, same crimps</td><td></td><td>A little longer than L and N. The C13 lead (13A plug, 5A fuse) plugs into the inlet from outside the hood</td></tr>
           <tr class="group"><td colspan="6">12V distribution</td></tr>
           <tr><td class="num">4</td><td>PSU +V</td><td>Fuse box stud</td><td>2.5mm² red, ring terminal (about M5)</td><td class="num">up to 14A</td><td>Not the 18AWG silicone: too thin for this one</td></tr>
@@ -429,8 +429,8 @@ svg .band { fill: var(--fg); }
   <section>
     <h2>Order of work, with a meter</h2>
     <ol class="steps">
-      <li><strong>Lay it out dry</strong> before sticking anything: PSU and hood along the back with air over its fan (the hood's inlet faces the front; leave room for the C13 plug), fuse box and Wagos near where the runs leave, Pi and amp where their leads reach. If the floor is too tight, the end walls work: the box is 140mm deep.</li>
-      <li><strong>Mains, unplugged.</strong> Set the PSU's input switch to <strong>230V</strong> first: the hood covers it. Fit the inlet in the hood (two M3 × 10 and nylocs) with a T4A fuse in its drawer. Wires 1–3 on insulated crimps, then slide the hood on and fit its two M4 × 6 screws (no longer: 5mm max into the case). With a meter and the C13 lead plugged into the inlet: plug earth pin to the PSU case under 1Ω; L and N pins to case open circuit; with the inlet switched on, L pin to PSU AC/L and N pin to AC/N under 1Ω; switched off, L open.</li>
+      <li><strong>Lay it out dry</strong> before sticking anything: PSU and hood along the back with air over its fan (the hood's inlet is on its roof: leave room above it for the C13 plug under the lid; an angled C13 helps), fuse box and Wagos near where the runs leave, Pi and amp where their leads reach. If the floor is too tight, the end walls work: the box is 140mm deep.</li>
+      <li><strong>Mains, unplugged.</strong> Set the PSU's input switch to <strong>230V</strong> first. Fit the inlet in the hood (two M3 × 10 and nylocs) with a T4A fuse in its drawer. Wires 1–3 on insulated crimps from the inlet’s tabs to the PSU’s L, N and earth terminals (the 12V leads go straight onto +V and −V, and can be on already: the hood’s 12V side is open underneath with a notch in its end wall), then lower the hood on and fit its two M4 × 6 screws with washers (no longer: about 3mm max into the S-400’s case). With a meter and the C13 lead plugged into the inlet: plug earth pin to the PSU case under 1Ω; L and N pins to case open circuit; with the inlet switched on, L pin to PSU L and N pin to PSU N under 1Ω; switched off, L open.</li>
       <li><strong>First power-up, no fuses in.</strong> Plug into the RCD socket and switch on at the inlet. PSU +V to −V: 12.0V (trim with ADJ through the slot in the hood's roof, to 12.0–12.3V, if needed). Switch off and unplug.</li>
       <li><strong>12V side.</strong> Wires 4–7. Fit F7 only, power up, check the USB buck's port reads 5.0–5.25V (meter on the outer two pins of the USB-A socket). Unplug.</li>
       <li><strong>Pi.</strong> Wires 16–19. Power up. Once FPP has booted, <code>vcgencmd get_throttled</code> should say <code>0x0</code> (no under-voltage).</li>
@@ -446,7 +446,7 @@ svg .band { fill: var(--fg); }
     <ul class="notes">
       <li><strong>Test the pads first.</strong> Weatherproof boxes are often polypropylene, which ordinary foam pads don't grip. Stick one pad and one tie mount to the floor overnight and try to pull them off. If they lift, use 3M VHB, or pads sold for low-surface-energy plastics.</li>
       <li><strong>Stick indoors, warm.</strong> Wipe both faces with isopropyl, press hard for 30 seconds, and leave it 24 hours before loading. Adhesive put on cold, outside in November, barely grabs.</li>
-      <li><strong>Don't trust pads alone for the PSU.</strong> It weighs 0.76kg with its hood on top of that, and has a fan. Stick it, then strap it down with a cable tie through a tie mount on each side, or two.</li>
+      <li><strong>Don't trust pads alone for the PSU.</strong> It weighs about 1kg with its hood, and has a fan. Stick it, then strap it down with a cable tie through a tie mount on each side, or two.</li>
       <li><strong>Leave the fan face clear</strong> by 20mm or more.</li>
       <li><strong>Pi:</strong> stick its case down, not the bare board, so you can lift it out to get at the microSD.</li>
       <li><strong>The Pi's USB buck</strong> goes in the printed buck pod (<code>print/pod-buck-*.stl</code>): the board sits on a foam pad in the tray, the clip-on lid holds it down (push the hooks in through the side windows to open it), and the end flanges take cable ties. Stick the pod down, not the board. <strong>The XH-M541</strong> goes on the box wall by its own holes or on pads once it's here and measured; the sound card hangs off the Pi.</li>

@@ -30,7 +30,7 @@ Two safety rules cover the whole project:
 2. Measure the parts the design only assumes. The READMEs list these as unverified, and they may change files before you print or cut 14 of anything:
    - ESP32 board header row spacing (assumed 25.4mm), Mini560 size and pad positions, and that the 5×7cm board is 24×18 holes ([electronics/README.md](../electronics/README.md)).
    - Board hole positions and ESP32 height in the box, the SP16 socket's nut and thread, the PG7 and RP-SMA sizes, and the insert holes ([docs/tree-box-parts.md](tree-box-parts.md)).
-   - Site A's LRS-350-12, the IEC inlet and the XH-M541 against the hood and the site box ([cad/README.md](../cad/README.md)).
+   - Site A's S-400-12, the IEC inlet and the XH-M541 against the hood and the site box ([cad/README.md](../cad/README.md)).
    - The outer diameter of the outdoor flex (6–10mm for the SP17's gland).
 3. Print the first-offs before the rest, from [print/](../print/README.md) (sizes, counts and settings in its table): one **tree box** with its coupon and seal test, one **socket** and the **dovetail coupon**, then two **ski halves** and two **towers**. PETG.
 4. Print 4 step clamps and 4 washers for the CNC bed: PETG, 4 walls, 40% infill.
@@ -128,11 +128,11 @@ L base + wrap-round cover; details in [cad/README.md](../cad/README.md#tree-cont
 
 Each site's PSUs, fuses and runs are in [electronics/site-wiring.md](../electronics/site-wiring.md), generated from `data/sites.json`. **TBC (Rob):** the tree counts per site and every run length are defaults, not confirmed. Edit `data/sites.json` and run `make all` when they are. Current defaults: Site A 6 trees (Pi 5), Site B 4 trees (Pi 3), Sites C and D 2 trees each (Pi still to buy).
 
-**Mains** (Site A, Rob, 15 Nov 2026). A C13 lead (13A plug, 5A fuse) from an RCD-protected outdoor socket, through a lid seal, into the IEC inlet on the PSU's printed hood. Inside the hood: the inlet's L (through its fuse and switch) and N to the LRS-350-12's AC/L and AC/N, its earth to FG, all on fully insulated crimps. Mains goes nowhere else in the box. Wiring and tests: [site-box-wiring.html](site-box-wiring.html). **TBC (Rob):** have the mains side checked by a competent electrician.
+**Mains** (Site A, Rob, 15 Nov 2026). A C13 lead (13A plug, 5A fuse) from an RCD-protected outdoor socket, through a lid seal, into the IEC inlet on the PSU's printed hood. Inside the hood: the inlet's L (through its fuse and switch) and N to the S-400-12's L and N, its earth to FG, all on fully insulated crimps. Mains goes nowhere else in the box. Wiring and tests: [site-box-wiring.html](site-box-wiring.html). **TBC (Rob):** have the mains side checked by a competent electrician.
 
 The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals in its lid, so it needs no glands. Its inside tapers towards the floor, with ribs: measure it. Parts are stuck down on pads, no plate (Rob, 10 Nov 2026); the assembly ([cad/stair-tree-choir.FCStd](../cad/stair-tree-choir.FCStd)) shows an indicative layout.
 
-1. Set the LRS-350-12's input switch to **230V**. Wire the mains side, fit the hood (two M4 × 6 into the case's side holes, no longer) and stand the PSU along the back of the floor, fan side up and clear.
+1. Set the S-400-12's input switch to **230V**. Wire the 12V leads straight onto +V and −V and the inlet (in the hood's roof) to L, N and earth, lower the hood on (two M4 × 6 with washers into the case's side holes, no longer) and stand the PSU along the back of the floor, fan side up and clear.
 2. Fit the 10-way blade fuse box: the PSU's +12V to its input stud; the PSU's 0V to two linked Wago 221-415 beside it. One way per tree run (3A), one for the Pi's buck (3A), one for the amp (3A), one for the router where it's on the PSU (2A); every negative to the Wagos.
 3. Fit the Pi with its 12V-to-USB buck in the printed buck pod, and the XH-M541 amp (12V off its own fuse; the USB sound card plugs into the Pi and a short 3.5mm lead goes to the amp's input). Each speaker gets its own 2-core run from the amp.
 4. Make up each run: 2-core 0.75mm² outdoor flex (good for about 6A) up to about 7m, 1.5mm² beyond, with the SP17 cable plug of an SP16/SP17 2-pin aviation connector on the tree end (screw terminals, no solder; tighten its gland nut on the sheath). Red to +, the same pin every time. Label both ends with the tree number.
