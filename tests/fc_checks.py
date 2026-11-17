@@ -67,7 +67,7 @@ check("shelf reaches the cover's side walls",
 
 # --- tree mounts: dovetail rail and slot, tent-pole feet, the stack interlocks, the tower is hollow
 mp = json.loads((ROOT / "cad" / "parts" / "tree-mounts-params.json").read_text(encoding="utf-8"))
-sock, tower, stand, cap = (solid(f"cad/printed/tree-{n}.step") for n in ("socket", "tower", "stand", "pole-cap"))
+sock, tower, stand, cap, jig = (solid(f"cad/printed/tree-{n}.step") for n in ("socket", "tower", "stand", "pole-cap", "drill-jig"))
 zc = -mp["tree_t"] / 2
 back = cap.copy()
 back.rotate(V(0, 0, zc), V(0, 1, 0), 180)
@@ -75,29 +75,33 @@ check("tower and stand slide on the socket's rail", sock.common(tower).Volume < 
 lip = mp["dt_root"] / 2 + mp["clr"] + 0.4          # just outside the rail's root, inside the slot's lip
 check("dovetail captures the rail (the slot's lip overhangs the rail's flare)",
       tower.isInside(V(lip, 0.8, zc + 10), 1e-6, True) and stand.isInside(V(lip, 0.8, zc + 10), 1e-6, True)
-      and sock.isInside(V(lip, mp["dt_h"] - 2, zc + 10), 1e-6, True))
+      and sock.isInside(V(mp["dt_root"] / 2 + mp["clr"] + 1.5, mp["dt_h"] - 2, zc + 10), 1e-6, True))
 pole = Part.makeCylinder(5.5, mp["pole_l"], V(0, mp["pole_y"], zc - mp["pole_l"] / 2))     # an 11mm pole
 check("tent pole runs right through the stand, near its sole",
       stand.common(pole).Volume < 1e-3 and stand.isInside(V(0, mp["pole_y"] + 5.5 + 1, zc), 1e-6, True)
       and pole.BoundBox.ZMin < stand.BoundBox.ZMin and pole.BoundBox.ZMax > stand.BoundBox.ZMax)
 check("stand lifts the tree at least 50mm", mp["lift"] >= 50 and abs(stand.BoundBox.YMax - mp["lift"]) < 0.01)
 ze = zc + mp["pole_l"] / 2
-peg_z = ze + mp["peg_at"]
-check("pole caps take the pole's ends and a peg each",
-      cap.common(pole).Volume < 1e-3 and back.common(pole).Volume < 1e-3
+zq = ze + mp["peg_at"]                       # v2: the peg's axis meets the grass here, at 45 deg
+fits = Part.makeCylinder(mp["cap_rib_id"] / 2 - 0.05, mp["pole_l"], V(0, mp["pole_y"], zc - mp["pole_l"] / 2))
+check("pole caps take the pole's ends (a pole just under the ribs slides in) and the ribs grip an 11mm one",
+      cap.common(fits).Volume < 1e-3 and back.common(fits).Volume < 1e-3 and cap.common(pole).Volume > 0.5
       and cap.isInside(V(0, mp["pole_y"], ze + mp["cap_end"] / 2), 1e-6, True)
-      and not cap.isInside(V(mp["stake_d"] / 2 - 0.05, mp["lift"] - mp["pad_t"] / 2, peg_z), 1e-6, True)
-      and cap.isInside(V(mp["stake_d"] / 2 + 1, mp["lift"] - mp["pad_t"] / 2, peg_z), 1e-6, True)
       # optimalBoundingBox: the plain BoundBox pads the round pad end and its fillets (43.3 for 40)
       and abs(cap.optimalBoundingBox().XLength - mp["pad_w"]) < 0.01)
+check("peg hole runs at 45 deg, tip toward the tree, through the pad and its boss",
+      all(not cap.isInside(V(0, mp["lift"] - h, zq + h), 1e-6, True)
+          and not cap.isInside(V(mp["stake_d"] / 2 - 0.05, mp["lift"] - h, zq + h), 1e-6, True)
+          and cap.isInside(V(mp["stake_d"] / 2 + 1, mp["lift"] - h, zq + h), 1e-6, True) for h in (1, 4, 8))
+      and mp["peg_at"] - mp["stake_d"] / 2 * 2 ** 0.5 >= mp["cap_end"] + 1)
 check("caps and stand stand on the same ground, clear of each other",
-      abs(cap.BoundBox.YMax - stand.BoundBox.YMax) < 0.01 and cap.common(stand).Volume < 1e-3
+      abs(cap.optimalBoundingBox().YMax - stand.optimalBoundingBox().YMax) < 0.01 and cap.common(stand).Volume < 1e-3
       and back.common(stand).Volume < 1e-3)
 up = tower.copy()
 up.translate(V(0, 0, mp["pitch"]))
 check("towers stack without clashing", tower.common(up).Volume < 1e-3 and sock.common(up).Volume < 1e-3)
 z0 = -(mp["tree_t"] + mp["below"])
-ty = mp["dt_h"] + mp["clr"] + 1.5 + mp["spig_t"] / 2          # the tab's centre line
+ty = mp["y_out"] - mp["spig_t"] / 2                          # the tab's centre line (v2: flush with the back)
 check("tower tab sits in the pocket of the tower above",
       up.isInside(V(0, ty, z0 + mp["pitch"] + 5), 1e-6, True) is False and tower.isInside(V(0, ty, z0 + mp["pitch"] + 5), 1e-6, True)
       and not tower.isInside(V(0, ty, z0 + 5), 1e-6, True))
@@ -107,7 +111,38 @@ check("tower is slim under the rail's stop",
 check("spigot sits in the recess above", up.common(tower).Volume < 1e-3 and up.BoundBox.ZMin < tower.BoundBox.ZMax)
 check("tower slot is stopped at the bottom, open at the top",
       tower.isInside(V(0, 6, zc - mp["rail_half"] - 2), 1e-6, True) and not tower.isInside(V(0, 6, z0 + mp["pitch"] - 1), 1e-6, True))
-for n, s in (("socket", sock), ("tower", tower), ("stand", stand), ("pole cap", cap)):
+z1 = zc - mp["rail_half"]
+fl = mp["dt_h"] + mp["clr"]
+check("stand latch: a bump on a free tongue, just inside the rail's end wall when seated",
+      stand.isInside(V(0, fl - mp["latch_h"] / 2, z1 + mp["latch_at"]), 1e-6, True)
+      and not stand.isInside(V(mp["tongue_w"] / 2 + mp["tongue_gap"] / 2, fl + 1.5, z1 + 10), 1e-6, True)
+      and mp["latch_at"] - mp["latch_r"] < mp["slot_wall"] + 1 and mp["latch_at"] - 2 > mp["slot_wall"] - 1)
+check("socket: edge screw holes open through the rail, solid round them, no face screws",
+      all(not sock.isInside(V(sx, y, zc), 1e-6, True) for sx in (-mp["edge_x"], mp["edge_x"]) for y in (0.5, 5, 12, mp["dt_h"] - 0.5))
+      and all(sock.isInside(V(sx * (1 - 4 / mp["edge_x"]), 6, zc), 1e-6, True) for sx in (-mp["edge_x"], mp["edge_x"]))
+      and sock.isInside(V(4, -5, mp["fit"] / 2 + mp["wall"] / 2), 1e-6, True))
+check("socket is solid (v2), with the latch groove across its rail's tip",
+      sock.isInside(V(0, mp["dt_h"] / 2, zc), 1e-6, True) and sock.isInside(V(0, mp["dt_h"] / 2, z1 + 5), 1e-6, True)
+      and not sock.isInside(V(0, mp["dt_h"] - mp["latch_groove"] / 2, z1 + mp["latch_at"]), 1e-6, True)
+      and sock.isInside(V(0, mp["dt_h"] - mp["latch_groove"] - 0.2, z1 + mp["latch_at"]), 1e-6, True))
+check("tower latch: a bump on a free tongue, a window behind it out through the back",
+      tower.isInside(V(0, fl - mp["latch_h"] / 2, z1 + mp["latch_at"]), 1e-6, True)
+      and not tower.isInside(V(mp["tongue_w"] / 2 + mp["tongue_gap"] / 2, fl + 1.5, z1 + 10), 1e-6, True)
+      and not tower.isInside(V(0, mp["y_out"] - 0.5, z1 + 10), 1e-6, True)
+      and tower.isInside(V(0, fl + mp["tower_tongue_t"] / 2, z1 + 10), 1e-6, True))
+check("tower tab is flush with the back face and a dovetail (narrower at the back)",
+      tower.isInside(V(mp["spig_w"] / 2 - 0.5, mp["y_out"] - 0.3, -(mp["tree_t"] + mp["below"]) + mp["pitch"] + 5), 1e-6, True)
+      and not tower.isInside(V(mp["spig_w"] / 2 + 0.5, mp["y_out"] - 0.3, -(mp["tree_t"] + mp["below"]) + mp["pitch"] + 5), 1e-6, True)
+      and tower.isInside(V(mp["spig_w"] / 2 + 0.5, mp["y_out"] - mp["spig_t"] + 0.3, -(mp["tree_t"] + mp["below"]) + mp["pitch"] + 5), 1e-6, True))
+check("socket crush ribs stand into the channel",
+      sock.isInside(V(0, -4, mp["fit"] / 2 - mp["rib_in"] + 0.1), 1e-6, True)
+      and not sock.isInside(V(6, -4, mp["fit"] / 2 - mp["rib_in"] + 0.1), 1e-6, True))
+check("drilling jig: guides over the screw positions, a hole on the pixel above, snug over the edge",
+      all(not jig.isInside(V(sx, mp["jig_base"] / 2, zc), 1e-6, True) for sx in (-mp["edge_x"], mp["edge_x"]))
+      and not jig.isInside(V(0, -mp["jig_pixel_in"], mp["jig_fit"] / 2 + mp["jig_plate_t"] / 2), 1e-6, True)
+      and jig.isInside(V(0, -mp["jig_pixel_in"] + mp["jig_flange_d"] / 2 + 1, mp["jig_fit"] / 2 + mp["jig_plate_t"] / 2), 1e-6, True)
+      and not jig.isInside(V(0, -mp["leg_h"] / 2, zc), 1e-6, True))
+for n, s in (("socket", sock), ("tower", tower), ("stand", stand), ("pole cap", cap), ("drill jig", jig)):
     check(f"{n} is one valid solid", s.isValid() and len(s.Solids) == 1)
 check("socket channel takes the tread", not sock.isInside(V(0, -mp["leg_h"] / 2, zc), 1e-6, True)
       and sock.isInside(V(0, -mp["leg_h"] / 2, mp["fit"] / 2 + mp["wall"] / 2), 1e-6, True))

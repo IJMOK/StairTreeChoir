@@ -32,7 +32,7 @@ Two safety rules cover the whole project:
    - Board hole positions and ESP32 height in the box, the SP16 socket's nut and thread, the PG7 and RP-SMA sizes, and the insert holes ([docs/tree-box-parts.md](tree-box-parts.md)).
    - Site A's S-400-12, the IEC inlet and the XH-M541 against the hood and the site box ([cad/README.md](../cad/README.md)).
    - The outer diameter of the outdoor flex (6–10mm for the SP17's gland).
-3. Print the first-offs before the rest, from [print/](../print/README.md) (sizes, counts and settings in its table): one **tree box** with its coupon and seal test, one **socket** and the **dovetail coupon**, then two **display stands** and four **pole caps**. PETG.
+3. Print the first-offs before the rest, from [print/](../print/README.md) (sizes, counts and settings in its table): one **tree box** with its coupon and seal test, the **dovetail coupon**, one **socket** and the **drilling jig**, then two **display stands** and four **pole caps**. PETG.
 4. Print 4 step clamps and 4 washers for the CNC bed: PETG, 4 walls, 40% infill.
 5. The full print run, once the test fits pass (stage 7): 14 tree boxes, 42 sockets, 28 display stands, 56 pole caps, 42 storage towers (before the season ends), 92 pixel disks per tree, Site A's PSU hood and buck pod.
 

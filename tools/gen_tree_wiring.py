@@ -55,6 +55,8 @@ def tree_svg(layout: dict, place: dict | None) -> str:
             else:
                 y_top, y_bot = Yt(h + body), Yt(h - leg)
             out.append(f'<rect x="{f(X(s["x"] - sw / 2))}" y="{f(y_top)}" width="{f(sw)}" height="{f(y_bot - y_top)}" rx="3" class="sock"/>')
+            for (ax, ay), (bx, by) in s.get("screw_lines", []):
+                out.append(f'<line x1="{f(X(ax))}" y1="{f(Yt(ay))}" x2="{f(X(bx))}" y2="{f(Yt(by))}" class="screwline"/>')
             for qx, qy in s["screws"]:
                 out.append(f'<circle cx="{f(X(qx))}" cy="{f(Yt(qy))}" r="2.5" class="screw"/>')
     for n in nodes:
@@ -109,6 +111,7 @@ svg{width:100%;height:auto;display:block}
 .box{fill:var(--panel);fill-opacity:.55;stroke:var(--fg);stroke-width:2;stroke-dasharray:7 5}
 .sock{fill:var(--sock);fill-opacity:.35;stroke:var(--sock);stroke-width:1.5}
 .screw{fill:var(--fg)}
+.screwline{stroke:var(--fg);stroke-width:2.5;stroke-linecap:round;opacity:.6}
 .blk{fill:var(--bg);stroke:var(--fg);stroke-width:1.5}
 .blk.site{stroke:var(--p12)}.blk.out{stroke:var(--hi);stroke-width:2.5}.blk.esp{stroke:var(--p5)}.blk.jd{stroke:var(--dat)}
 .bt{font:600 16px var(--disp);letter-spacing:.04em;fill:var(--fg)}
@@ -126,7 +129,7 @@ def page(layout: dict, place: dict | None) -> str:
         tb = place["tree_box"]
         where = (f"The box (dashed, on the back face) sits with its plate {tb['plate_left_x']:g}mm in from the tree's "
                  f"left edge and its cover's bottom {tb['cover_bottom_y']:g}mm up, so the 12V plug under it ends above "
-                 "the bottom edge; black dots are its four ear screws and the sockets' screws, all clear of the pixel holes. "
+                 "the bottom edge; black dots are its four ear screws; the lines up from the edges are the sockets' screws, all clear of the pixel holes. "
                  "The blue blocks are the three sockets (cad/parts/tree-mounts.FCStd).")
     else:
         where = "Run python -m tools.cad to place the box and the sockets."
@@ -154,7 +157,7 @@ def page(layout: dict, place: dict | None) -> str:
 <li>Then mouth wide {rng("mouth_wide")} (left to right), mouth small {rng("mouth_small")} (right to left), lip {rng("lip")} (left to right), the viewer's right eye {rng("eye_right")}, the viewer's left eye {rng("eye_left")}. Dashed grey lines are leads that hop between groups on the back.</li>
 <li>Pixel 1 takes the 5V data wire from the 74AHCT125 through R1 (33 ohm) and the JD terminal. The pixel lead leaves through the PG7 gland in the shelf and meets the tree's own lead at the xConnect plug.</li>
 <li>Pixel power (about 2.1A per tree) goes from the Wagos straight to the string. 12V reaches the board only at the Mini560 input.</li>
-<li>The sockets' screws go into the back face 5mm in from the edge, 12mm deep; the leads run between the pixel holes 22mm in, so keep the leads off the bottom 12mm of the back face.</li>
+<li>Each socket (v2) is held by two 5mm screws (5 x 45 in the bottom sockets, 5 x 35 in the top one) up through its rail into the tree's edge, on the centre plane, 14mm either side of the pixel straight above it (drawn as lines, the dot is the tip). Drill the pilots through the drilling jig, which sits on that pixel. Nothing goes into the faces, so the leads can run anywhere on the back.</li>
 </ul></section>
 </div>
 <p>Check the xConnect wire colours with a meter before powering. Clearances: docs/cad-checks.md. The board itself: electronics/README.md.</p>

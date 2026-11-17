@@ -72,6 +72,11 @@ def slice_one(exe: Path, stl: Path) -> dict:
     if not PROCESS.exists():
         raise SystemExit(f"missing profile: {PROCESS}")
     ours = json.loads(PROCESS.read_text(encoding="utf-8"))
+    if stl.name.startswith("tower"):
+        # v2 towers print on their backs (Rob, 17 Nov 2026) with a little support under the latch
+        # tongue, from the plate up through the window behind it; bridges (the notch's roof) aren't
+        ours = {**ours, "enable_support": "1", "support_type": "normal(auto)", "support_on_build_plate_only": "1",
+                "bridge_no_support": "1", "support_threshold_angle": "30"}
     out = stl.with_name(stl.name.split(".")[0] + ".gcode.3mf")
     with tempfile.TemporaryDirectory() as tmp:
         files = {}

@@ -73,17 +73,24 @@ OUTS = [
         "the cord squeeze from the hook and one screw"),
     # tree mounts (Rob, 15 Nov 2026)
     Out("tree-mounts", ["Socket"], "tree-socket", "tree-socket", (RX, -90), "#3b7dd8", "3 per tree",
-        "PETG, rail down (its wide face on the bed), legs up, no supports, 4 walls, 40% infill"),
-    Out("tree-mounts", ["Tower"], "tree-tower", "tree-tower", (), "#5aa05a", "3 per tree (storage)",
-        "PETG, upright (tab up), no supports, 3 walls, 15% infill; a tree lying face up drops onto its three, "
+        "PETG, rail down (its wide face on the bed), legs up, no supports, 4 walls, 40% infill; v2: crush ribs grip the "
+        "tread, two 5mm countersunk screws up into the edge (5 x 45 bottom, 5 x 35 top) through the jig's pilots"),
+    Out("tree-mounts", ["Tower"], "tree-tower", "tree-tower", (RX, -90), "#5aa05a", "3 per tree (storage)",
+        "PETG, on its back, 3 walls, 15% infill, support on the build plate only, under the latch tongue (snap it out "
+        "through the window); a tree lying face up drops onto its three and clicks in, "
         "and each tab drops into the pocket of the tower above. Six to a plate: tower-plate.3mf"),
     Out("tree-mounts", ["Stand"], "tree-stand", "tree-stand", (), "#d88a3b", "2 per tree (show)",
         "PETG, upright (back end down), no supports, 3 walls, 15% infill; slides onto a bottom socket from the "
-        "front, a tent pole through it"),
+        "front and clicks home on its latch, a tent pole through it"),
     Out("tree-mounts", ["PoleCap"], "tree-pole-cap", "tree-pole-cap", (RX, -90), "#d88a3b", "4 per tree (show)",
-        "PETG, sole on the bed, no supports, 4 walls, 40% infill; one on each end of each pole, a peg (up to 9mm) through it"),
+        "PETG, sole on the bed, no supports, 4 walls, 40% infill; one on each end of each pole (crush ribs grip it), "
+        "a peg (up to 9mm) through it at 45 deg, its tip under the tree"),
     Out("tree-mounts", ["DovetailCoupon"], "tree-dovetail-coupon", None, (), "#d88a3b", "1, first",
-        "the front 20mm of a stand's slot block: try it on one socket's rail (clearance `clr`); try a pole in a cap (`pole_d`)"),
+        "the back 30mm of a stand's slot block, its stop and latch: try the slide (`clr`) and the click on one socket's rail; "
+        "try a pole in a cap (`cap_rib_id`)"),
+    Out("tree-mounts", ["DrillJig"], "tree-drill-jig", "tree-drill-jig", (RX, -90), "#999999", "1 (or 2)",
+        "PETG, base on the bed, no supports, 4 walls, 40% infill: drop it over the edge with its hole on the pixel "
+        "straight above the socket, clamp, drill the two 3.5mm pilots about 45 deep"),
     # site box
     Out("psu-cover", ["Hood"], "psu-hood", "psu-hood", (RY, -90), "#d9d9d9", "1 for Site A",
         "PETG, end wall on the bed, no supports, 4 walls, 40% infill: it carries mains"),
@@ -207,10 +214,14 @@ def tree_plate(doc):
 
 
 def tower_plate(doc):
-    """Two trees' storage towers (6) upright on one plate, 3 x 2."""
-    tower = on_bed(doc.getObject("Tower").Shape, ())
-    b = tower.BoundBox
-    parts = [_at(tower, (i % 3) * (b.XLength + GAP), (i // 3) * (b.YLength + GAP)) for i in range(6)]
+    """Two trees' storage towers (6) on their backs on one plate (v2, Rob 17 Nov 2026): four
+    side by side along the back, clear of the excluded corner, and two turned across in front."""
+    tower = on_bed(doc.getObject("Tower").Shape, (RX, -90))
+    across = on_bed(tower, (App.Vector(0, 0, 1), 90))
+    b, a = tower.BoundBox, across.BoundBox
+    y_back = 2 * (a.YLength + GAP)
+    parts = [_at(tower, EXCLUDE[0] + GAP + i * (b.XLength + GAP), y_back) for i in range(4)]
+    parts += [_at(across, EXCLUDE[0] + GAP + 40, j * (a.YLength + GAP)) for j in range(2)]
     return parts, check_plate(parts)
 
 

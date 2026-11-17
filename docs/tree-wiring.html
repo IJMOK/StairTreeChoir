@@ -34,6 +34,7 @@ svg{width:100%;height:auto;display:block}
 .box{fill:var(--panel);fill-opacity:.55;stroke:var(--fg);stroke-width:2;stroke-dasharray:7 5}
 .sock{fill:var(--sock);fill-opacity:.35;stroke:var(--sock);stroke-width:1.5}
 .screw{fill:var(--fg)}
+.screwline{stroke:var(--fg);stroke-width:2.5;stroke-linecap:round;opacity:.6}
 .blk{fill:var(--bg);stroke:var(--fg);stroke-width:1.5}
 .blk.site{stroke:var(--p12)}.blk.out{stroke:var(--hi);stroke-width:2.5}.blk.esp{stroke:var(--p5)}.blk.jd{stroke:var(--dat)}
 .bt{font:600 16px var(--disp);letter-spacing:.04em;fill:var(--fg)}
@@ -46,7 +47,7 @@ ul{margin:10px 0 0;padding-left:1.1em;color:var(--mut);line-height:1.5}li{max-wi
 </head>
 <body>
 <main>
-<header><h1>Stair Tree Choir tree wiring</h1><p>One tree, seen from the front, to scale. The string runs in wiring order from pixel 1 at the base-left corner. The box (dashed, on the back face) sits with its plate 83mm in from the tree's left edge and its cover's bottom 126mm up, so the 12V plug under it ends above the bottom edge; black dots are its four ear screws and the sockets' screws, all clear of the pixel holes. The blue blocks are the three sockets (cad/parts/tree-mounts.FCStd).</p></header>
+<header><h1>Stair Tree Choir tree wiring</h1><p>One tree, seen from the front, to scale. The string runs in wiring order from pixel 1 at the base-left corner. The box (dashed, on the back face) sits with its plate 83mm in from the tree's left edge and its cover's bottom 126mm up, so the 12V plug under it ends above the bottom edge; black dots are its four ear screws; the lines up from the edges are the sockets' screws, all clear of the pixel holes. The blue blocks are the three sockets (cad/parts/tree-mounts.FCStd).</p></header>
 <div class="grid">
 <section class="card"><h2>Pixel layout, 92 nodes</h2><svg viewBox="0 0 502 1014" role="img" aria-label="Front view of the tree with all 92 pixels in wiring order, the controller box and the three sockets">
 <polygon points="60,954 442,954 297,60 205,60" class="blank" stroke-linejoin="round"/>
@@ -149,20 +150,20 @@ ul{margin:10px 0 0;padding-left:1.1em;color:var(--mut);line-height:1.5}li{max-wi
 <circle cx="237.5" cy="810" r="3" class="screw"/>
 <circle cx="237.5" cy="748" r="3" class="screw"/>
 <rect x="92.9" y="944" width="46" height="26" rx="3" class="sock"/>
-<circle cx="127.9" cy="949" r="2.5" class="screw"/>
-<circle cx="103.9" cy="949" r="2.5" class="screw"/>
-<circle cx="119.9" cy="949" r="2.5" class="screw"/>
-<circle cx="111.9" cy="949" r="2.5" class="screw"/>
+<line x1="129.9" y1="954" x2="129.9" y2="917" class="screwline"/>
+<line x1="101.9" y1="954" x2="101.9" y2="917" class="screwline"/>
+<circle cx="129.9" cy="917" r="2.5" class="screw"/>
+<circle cx="101.9" cy="917" r="2.5" class="screw"/>
 <rect x="363.1" y="944" width="46" height="26" rx="3" class="sock"/>
-<circle cx="398.1" cy="949" r="2.5" class="screw"/>
-<circle cx="374.1" cy="949" r="2.5" class="screw"/>
-<circle cx="390.1" cy="949" r="2.5" class="screw"/>
-<circle cx="382.1" cy="949" r="2.5" class="screw"/>
+<line x1="400.1" y1="954" x2="400.1" y2="917" class="screwline"/>
+<line x1="372.1" y1="954" x2="372.1" y2="917" class="screwline"/>
+<circle cx="400.1" cy="917" r="2.5" class="screw"/>
+<circle cx="372.1" cy="917" r="2.5" class="screw"/>
 <rect x="228" y="44" width="46" height="26" rx="3" class="sock"/>
-<circle cx="239" cy="65" r="2.5" class="screw"/>
-<circle cx="263" cy="65" r="2.5" class="screw"/>
-<circle cx="247" cy="65" r="2.5" class="screw"/>
-<circle cx="255" cy="65" r="2.5" class="screw"/>
+<line x1="237" y1="60" x2="237" y2="87" class="screwline"/>
+<line x1="265" y1="60" x2="265" y2="87" class="screwline"/>
+<circle cx="237" cy="87" r="2.5" class="screw"/>
+<circle cx="265" cy="87" r="2.5" class="screw"/>
 <circle cx="85.9" cy="932" r="11" fill="var(--c-out)" class="px p1"/>
 <circle cx="115.9" cy="932" r="7" fill="var(--c-out)" class="px"/>
 <circle cx="145.9" cy="932" r="7" fill="var(--c-out)" class="px"/>
@@ -282,7 +283,7 @@ ul{margin:10px 0 0;padding-left:1.1em;color:var(--mut);line-height:1.5}li{max-wi
 <li>Then mouth wide 60-68 (left to right), mouth small 69-73 (right to left), lip 74-80 (left to right), the viewer's right eye 81-86, the viewer's left eye 87-92. Dashed grey lines are leads that hop between groups on the back.</li>
 <li>Pixel 1 takes the 5V data wire from the 74AHCT125 through R1 (33 ohm) and the JD terminal. The pixel lead leaves through the PG7 gland in the shelf and meets the tree's own lead at the xConnect plug.</li>
 <li>Pixel power (about 2.1A per tree) goes from the Wagos straight to the string. 12V reaches the board only at the Mini560 input.</li>
-<li>The sockets' screws go into the back face 5mm in from the edge, 12mm deep; the leads run between the pixel holes 22mm in, so keep the leads off the bottom 12mm of the back face.</li>
+<li>Each socket (v2) is held by two 5mm screws (5 x 45 in the bottom sockets, 5 x 35 in the top one) up through its rail into the tree's edge, on the centre plane, 14mm either side of the pixel straight above it (drawn as lines, the dot is the tip). Drill the pilots through the drilling jig, which sits on that pixel. Nothing goes into the faces, so the leads can run anywhere on the back.</li>
 </ul></section>
 </div>
 <p>Check the xConnect wire colours with a meter before powering. Clearances: docs/cad-checks.md. The board itself: electronics/README.md.</p>

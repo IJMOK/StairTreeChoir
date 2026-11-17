@@ -60,8 +60,9 @@ STORE_TREES = 14
 SHOW_SPACING = 500
 
 # Where things sit on the tree, in its frame (X right from the front, Y up, front face Z = 0).
-# Bottom sockets: centred midway between base-row pixels, so their back-leg screws fall
-# between pixel holes (the base row is every 30mm from x = 25.9).
+# Bottom sockets: centred straight under the base row's second and eleventh pixels (the base row
+# is every 30mm from x = 25.9, 22mm up); v2's edge screws go up between that pixel and the next.
+# The drilling jig locates on that pixel (and on the apex pixel for the top socket).
 SOCKET_BOTTOM_X = (55.9, 326.1)
 PIXEL_FLANGE = (13.6, 1.0)        # bullet pixel flange: diameter, thickness proud of the disk
 PIXEL_DOME = (12.0, 8.0)          # dome: diameter, height in front of the flange (Ray Wu listing)
@@ -141,6 +142,12 @@ def ear_screws(p, place):
         for z in (p["mount_z0"], p["mount_z1"]):
             pts.append(place.multVec(V(x, -p["spacer_l"], z)))
     return pts
+
+
+def screw_len(mp, i):
+    """v2 edge screws: 5 x 45 in the bottom sockets (0, 1), 5 x 35 in the top one (2), each clear
+    of the old stair pilot holes."""
+    return mp["edge_l_top"] if i == 2 else mp["edge_l"]
 
 
 def nodes_xy(layout):
@@ -333,8 +340,13 @@ def main():
                      "ear_screws": [[round(q.x, 1), round(q.y, 1)] for q in ear_screws(bp, bplace)]},
         "sockets": [{"x": round(s.Base.x, 1), "y": round(s.Base.y, 1), "points": "down" if s.Base.y < 1 else "up",
                      "width": mp["dt_tip"], "leg_h": mp["leg_h"], "depth": mp["dt_h"],
-                     "screws": [[round(s.multVec(V(sx, mp["screw_y"], 0)).x, 1), round(s.multVec(V(sx, mp["screw_y"], 0)).y, 1)]
-                                for sx in (-mp["screw_x"], mp["screw_x"], -mp["front_x"], mp["front_x"])]} for s in sockets],
+                     # v2 edge screws: where each one enters the edge and where its tip ends up
+                     "screws": [[round(s.multVec(V(sx, mp["edge_seat"] - screw_len(mp, si), 0)).x, 1),
+                                 round(s.multVec(V(sx, mp["edge_seat"] - screw_len(mp, si), 0)).y, 1)]
+                                for sx in (-mp["edge_x"], mp["edge_x"])],
+                     "screw_lines": [[[round(s.multVec(V(sx, y, 0)).x, 1), round(s.multVec(V(sx, y, 0)).y, 1)]
+                                      for y in (0, mp["edge_seat"] - screw_len(mp, si))]
+                                     for sx in (-mp["edge_x"], mp["edge_x"])]} for si, s in enumerate(sockets)],
     }
     PLACEMENTS.write_text(json.dumps(placements, indent=1) + "\n", encoding="utf-8", newline="\n")
     results = checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, stand_s, pole, cap, bx, by, box_clear)
@@ -411,36 +423,43 @@ def checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, stand, p
     nodes = nodes_xy(layout)
     t = layout["blank"]["thickness"]
     pr = layout["params"]
-    # socket screws on the back face
-    worst, front = [], []
-    for s in sockets:
-        for sx in (-mp["screw_x"], mp["screw_x"]):
-            worst.append(nearest(s.multVec(V(sx, mp["screw_y"], -t)), nodes))
-        for sx in (-mp["front_x"], mp["front_x"]):
-            front.append(nearest(s.multVec(V(sx, mp["screw_y"], 0)), nodes))
+    # v2 socket screws: two per socket up through the rail into the tree's edge, on the centre
+    # plane; the pixels' clearance holes go right through, so the check is in the tree's plane
     hole_r = pr["clearance_dia"] / 2
-    cb_r = pr["front_counterbore_dia"] / 2
-    out.append(f"Socket front screws (2 per socket, 4 × 16 into the front face beside the legs): nearest pixel centre "
-               f"{min(front):.1f}mm away, {min(front) - cb_r - mp['screw_d'] / 2:.1f}mm of oak to its counterbore. "
-               + ("OK." if min(front) - cb_r - mp["screw_d"] / 2 >= 3 else "**Too close.**"))
-    out.append(f"Socket back screws (2 per socket, 4 × 16 into the back face, {16 - mp['wall']:.0f}mm into the oak; "
-               f"the front pair is offset {mp['screw_x'] - mp['front_x']:.0f}mm along the edge and each goes "
-               f"{16 - mp['wall']:.0f}mm in, so they can't meet in the {t:.0f}mm): nearest pixel hole centre {min(worst):.1f}mm away, so "
-               f"{min(worst) - hole_r - mp['screw_d'] / 2:.1f}mm of oak to the clearance hole. "
-               f"They sit {abs(mp['screw_y']):.0f}mm in from the edge; the pixel leads run between holes "
-               f"{pr['edge_inset']:.0f}mm in. " + ("OK." if min(worst) - hole_r - mp["screw_d"] / 2 >= 3 else "**Too close.**"))
+    screw_r = 2.5                                     # 5mm screws
+
+    def seg_dist(a, b, q):
+        ab, aq = b - a, V(q[0], q[1], 0) - a
+        u = max(0.0, min(1.0, ab.dot(aq) / ab.dot(ab)))
+        return (a + ab * u - V(q[0], q[1], 0)).Length
+
+    segs = []
+    for si, s in enumerate(sockets):
+        for sx in (-mp["edge_x"], mp["edge_x"]):
+            a_, b_ = s.multVec(V(sx, 0, 0)), s.multVec(V(sx, mp["edge_seat"] - screw_len(mp, si), 0))
+            segs.append((V(a_.x, a_.y, 0), V(b_.x, b_.y, 0)))
+    to_px = min(seg_dist(a_, b_, q) for a_, b_ in segs for q in nodes) - hole_r - screw_r
+    out.append(f"Socket edge screws (v2: 2 per socket up through the rail into the edge, on the centre plane, "
+               f"±{mp['edge_x']:.0f}mm either side of the pixel straight above; 5 × {mp['edge_l']:.0f} in the bottom sockets, "
+               f"{mp['edge_l'] - mp['edge_seat']:.0f}mm into the oak, 5 × {mp['edge_l_top']:.0f} in the top one, "
+               f"{mp['edge_l_top'] - mp['edge_seat']:.0f}mm): "
+               f"{to_px:.1f}mm of oak to the nearest pixel clearance hole. " + ("OK." if to_px >= 3 else "**Too close.**"))
     old = [(h["name"], h["x"], layout["blank"]["height"] - h["y"], h["dia"] / 2) for h in layout["blank"]["existing_holes"]]
-    near_old = min(math.hypot(s.multVec(V(sx, mp["screw_y"], 0)).x - ox, s.multVec(V(sx, mp["screw_y"], 0)).y - oy) - r
-                   for s in sockets for sx in (-mp["screw_x"], mp["screw_x"], -mp["front_x"], mp["front_x"])
-                   for _, ox, oy, r in old)
-    out.append(f"Socket screws to the old stair holes: {near_old:.1f}mm at the nearest. "
-               + ("OK." if near_old > 5 else "**Too close.**"))
+    near_old = min(seg_dist(a_, b_, (ox, oy)) - r - screw_r for a_, b_ in segs for _, ox, oy, r in old)
+    out.append(f"Socket edge screws to the old stair holes and their pilots (23mm deep from the back, so they reach "
+               f"the centre plane): {near_old:.1f}mm of oak at the nearest. " + ("OK." if near_old >= 3 else "**Too close.**"))
     # legs against the counterbores (front) and holes
     cb = Part.makeCompound([Part.makeCylinder(pr["front_counterbore_dia"] / 2, t, V(x, y, -t)) for x, y in nodes])
     leg_gap = min(s.distToShape(cb)[0] for s in socks)
     out.append(f"Socket legs to the nearest pixel counterbore: {leg_gap:.1f}mm. " + ("OK." if leg_gap > 1 else "**Too close.**"))
     clash = sum(s.common(tree).Volume for s in socks)
-    out.append(f"Sockets against the tree: {clash:.1f} mm³ of overlap. " + ("OK." if clash < 1 else "**Clash.**"))
+    # v2: the crush ribs are meant to bite (rib_in less half the fit, a side); nothing else may
+    d = mp["rib_in"] - mp["fit"] / 2
+    r_ = mp["rib_r"]
+    seg_a = r_ ** 2 * math.acos((r_ - d) / r_) - (r_ - d) * math.sqrt(2 * r_ * d - d * d)
+    bite = len(socks) * 6 * seg_a * (mp["leg_h"] - 2.5)
+    out.append(f"Sockets against the tree: {clash:.1f} mm³ of overlap, the crush ribs biting {d:.1f}mm a side "
+               f"(up to {bite:.0f} mm³ expected). " + ("OK." if 0 < clash <= bite * 1.05 + 1 else "**Clash.**"))
     # tree box
     out.append(f"Tree box: plate's left edge at X = {bx}mm, cover bottom at Y = {by}mm (from the tree's bottom-left), "
                f"node 1's side. Its ear screws are {box_clear:.1f}mm from the nearest pixel hole centre. "
@@ -473,21 +492,27 @@ def checks(layout, mp, bp, tree, socks, sockets, box_parts, pix, tower, stand, p
                + ("the towers carry the stack, not the boxes." if ok_bottom else "**the box hits the floor first.**"))
     # show: a display stand on each bottom socket, a tent pole through it, a cap on each end
     caps = Part.makeCompound([cap, moved(cap, BACK)])
-    peg = cap.BoundBox.ZMax - mp["pad_w"] / 2                 # the front peg; the back one mirrors it
-    pegs = 2 * (peg + mp["tree_t"] / 2)
+    pegs = mp["pole_l"] + 2 * mp["peg_at"]                   # where the pegs enter the grass, front to back
     out.append(f"Show: the tree's bottom edge stands {mp['lift']:.0f}mm above the ground on two display stands "
                f"{SOCKET_BOTTOM_X[1] - SOCKET_BOTTOM_X[0]:.0f}mm apart, each on a {mp['pole_l']:.0f}mm tent pole "
-               f"({mp['pole_d'] - 0.6:.0f}mm) running front to back through it, its axis {mp['lift'] - mp['pole_y']:.1f}mm "
-               f"off the grass. A cap on each end; the pegs through them are {pegs:.0f}mm apart "
+               f"(11mm, a slide fit in {mp['pole_d']:.1f}) running front to back through it, its axis {mp['lift'] - mp['pole_y']:.1f}mm "
+               f"off the grass. A cap on each end (ribs gripping to {mp['cap_rib_id']:.1f}); the pegs go in at 45 deg, tips under the tree, entering the grass {pegs:.0f}mm apart "
                f"front to back, and the foot covers {caps.BoundBox.ZLength:.0f}mm.")
     risers = [moved(stand, s) for s in sockets[:2]]
     poles = [moved(pole, s) for s in sockets[:2]]
     capped = [moved(caps, s) for s in sockets[:2]]
     others = Part.makeCompound([tree] + box_parts)
-    hit = sum(r.common(others).Volume + p.common(r).Volume + p.common(c).Volume + c.common(r).Volume
+    hit = sum(r.common(others).Volume + p.common(r).Volume + c.common(r).Volume
               + c.common(others).Volume + p.common(others).Volume for r, p, c in zip(risers, poles, capped))
     out.append(f"Show: stands, poles and caps against each other, the tree and its box: {hit:.1f} mm³. "
                + ("OK." if hit < 1 else "**Clash.**"))
+    # v2: the caps' ribs are meant to bite the pole (11.0 against cap_rib_id)
+    grip = sum(p.common(c).Volume for p, c in zip(poles, capped))
+    d, r_ = (11.0 - mp["cap_rib_id"]) / 2, mp["cap_rib_r"]
+    seg_a = r_ ** 2 * math.acos((r_ - d) / r_) - (r_ - d) * math.sqrt(2 * r_ * d - d * d)
+    expect = 4 * 3 * seg_a * (mp["cap_depth"] - 2)
+    out.append(f"Show: the caps' crush ribs bite the 11.0 pole {d:.1f}mm each, {grip:.1f} mm³ in all "
+               f"(up to {expect:.0f} mm³ expected). " + ("OK." if 0 < grip <= expect * 1.05 + 1 else "**Check the cap bore.**"))
     return out
 
 
