@@ -53,6 +53,7 @@ Orders of mid-November 2026 (Rob, 15 Nov 2026):
 | Qty | Item | Notes | Status |
 |---|---|---|---|
 | 1 | S-400-12 (12V 33A, 217 × 114 × 50mm, fan, 115/230V switch) | Site A's PSU: 14.1A of 33A. The LRS-350-12 ordered for it arrived as an LRS-350-24 (16 Nov 2026), which is no use at 12V. Under the printed hood `print/psu-hood.stl` | Have |
+| 1 | Mean Well LRS-350-12 (215 × 115 × 30) | Ordered again 17 Nov 2026 as Site A's other option; its own hood `print/psu-hood-lrs.stl` | Ordered |
 | 1 | XH-M541 stereo amp board (TPA3116D2, DC 12–24V, 3.5mm input, screw speaker terminals) | Site A's amp, replacing the PAM8610. Listings disagree on power (50–60W a channel into 4Ω; far less into the 8Ω BGO40s at 12V, plenty). **Measure it** and its power input (likely a 5.5 × 2.1 barrel) when it arrives | On order |
 | 1 | 3-in-1 IEC C14 inlet module: fused (5 × 20mm), switched, screw mounting (panel cut-out 47.3 × 27.4, holes 3.5mm, 40 apart) | In the PSU hood's mains side wall. Rob's drawing, 15 Nov 2026 | To buy if not in hand |
 

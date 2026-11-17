@@ -648,6 +648,12 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 </tr>
 <tr>
 <td>1</td>
+<td>Mean Well LRS-350-12 (215 × 115 × 30)</td>
+<td>Ordered again 17 Nov 2026 as Site A's other option; its own hood <code>print/psu-hood-lrs.stl</code></td>
+<td>Ordered</td>
+</tr>
+<tr>
+<td>1</td>
 <td>XH-M541 stereo amp board (TPA3116D2, DC 12–24V, 3.5mm input, screw speaker terminals)</td>
 <td>Site A's amp, replacing the PAM8610. Listings disagree on power (50–60W a channel into 4Ω; far less into the 8Ω BGO40s at 12V, plenty). <strong>Measure it</strong> and its power input (likely a 5.5 × 2.1 barrel) when it arrives</td>
 <td>On order</td>
@@ -1074,7 +1080,15 @@ hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
 <td><code>psu-cover.FCStd</code> Hood</td>
 <td>1 for Site A</td>
 <td>54 × 121 × 100.6</td>
-<td>79.9 cm³</td>
+<td>79.8 cm³</td>
+<td>PETG, end wall on the bed, no supports, 4 walls, 40% infill: it carries mains</td>
+</tr>
+<tr>
+<td><a href="../print/psu-hood-lrs.stl" target="_blank" rel="noopener">psu-hood-lrs.stl</a></td>
+<td><code>psu-cover-lrs.FCStd</code> Hood</td>
+<td>1 if Site A runs on the LRS-350-12</td>
+<td>72 × 122 × 86.2</td>
+<td>84.3 cm³</td>
 <td>PETG, end wall on the bed, no supports, 4 walls, 40% infill: it carries mains</td>
 </tr>
 <tr>
@@ -1260,8 +1274,13 @@ Previews of every part: <a href="../cad/previews" target="_blank" rel="noopener"
 </tr>
 <tr>
 <td><a href="../cad/parts/psu-cover.FCStd" target="_blank" rel="noopener">psu-cover.FCStd</a></td>
-<td>Hood over Site A's LRS-350-12 terminals, with the IEC inlet; RefPsu and the inlet as reference solids</td>
+<td>Hood over Site A's S-400-12 terminals, with the IEC inlet; RefPsu and the inlet as reference solids</td>
 <td><code>psu-hood.stl</code></td>
+</tr>
+<tr>
+<td><a href="../cad/parts/psu-cover-lrs.FCStd" target="_blank" rel="noopener">psu-cover-lrs.FCStd</a></td>
+<td>The same for the LRS-350-12 (ordered again 17 Nov 2026): the inlet over the lid, a short chamber</td>
+<td><code>psu-hood-lrs.stl</code></td>
 </tr>
 <tr>
 <td><a href="../cad/parts/player-pods.FCStd" target="_blank" rel="noopener">player-pods.FCStd</a></td>
@@ -1293,7 +1312,7 @@ Previews of every part: <a href="../cad/previews" target="_blank" rel="noopener"
 <li><strong>Tree</strong> (stair-tree.FCStd, and the TreeUnit in the assembly): Z up out of the front face (front at Z = 0, back at −30), X right seen from the front, Y up the tree, origin at the bottom-left of the blank's bounding box.</li>
 <li><strong>Socket frame</strong> (tree-mounts): x along the tree's edge (0 at the socket's centre), y out of the edge (0 at the edge), z = the tree's Z. The tower, the stand and the front pole cap are drawn in it as fitted (the cap on the front end of a <code>pole_l</code> pole centred on the tree's centre plane); the back cap is the front one turned round a vertical through that plane.</li>
 <li><strong>Tree box</strong> (tree-box): x across the plate, y back from the plate's tree face, z up from the cover's bottom edge.</li>
-<li><strong>PSU</strong> (psu-cover): x along the case from its terminal end, y across from the pin 1 side, z up from its base.</li>
+<li><strong>PSU</strong> (psu-cover, psu-cover-lrs): x along the case from its terminal end, y across from the L (pin 1) side, z up from its base.</li>
 <li><strong>Assembly world</strong>: Z up with the ground at 0; the show faces −Y (FreeCAD's front view).</li>
 </ul>
 <h2 id="cad/part-notes">Part notes</h2>
@@ -1315,13 +1334,21 @@ Previews of every part: <a href="../cad/previews" target="_blank" rel="noopener"
 <p>For Site A's <strong>S-400-12</strong>. The LRS-350-12 it was drawn for on 15 Nov arrived as an LRS-350-24, so the S-400 carries the show (Rob, 16 Nov 2026; the LRS version is in git at edd7308). Case 217 × 114 × 50 (Rob's size); the rest read off his photos of 16 Nov against a ruler: the terminals sit in an open recess at the end, the lid stopping about 20mm in (<code>lid_x</code>) and its top vents starting at about 29; facing the terminals, left to right, ADJ, +V × 3, −V × 3, earth, N, L (earth about 38mm from the L side, the first −V about 47); threaded M4 side holes 32mm in and 38mm up on both sides. The fan is at the far end and the 115/230V switch about 150mm along the ADJ side, both clear of the hood.</p>
 <ul>
 <li>A box over the terminal end, 54mm tall (just over the case), with a wiring chamber beyond the case and a partition between earth and −V (<code>rib_y</code> 42.5), so the mains side and the 12V side are separate. The partition runs floor to roof in the chamber and hangs on 10mm into the terminal recess, down to 25mm above the base (<code>rib_z</code>), over the terminal block.</li>
-<li>The fused, switched <strong>IEC C14 inlet</strong> (the 3-in-1 module in Rob's drawing: cut-out 47.3 × 27.4, two M3 holes 40 apart across the 27.4, flange 54.4 × 49.2) sits <strong>in the roof</strong> over the chamber's mains side (Rob, 16 Nov 2026), its long side along the hood; the C13 plug goes in from above. The chamber's mains side is closed: floor, L side wall, end wall, partition, roof. Mains arrives on a C13 lead; nothing is wired to a loose mains cable.</li>
+<li>The fused, switched <strong>IEC C14 inlet</strong> (the 3-in-1 module: cut-out <strong>48.5 × 28</strong>, Rob 17 Nov 2026, off the printed hood (the drawing's 47.3 × 27.4 was too small); two M3 holes 40 apart across it, flange 54.4 × 49.2 from the drawing). The bigger cut-out still fits the 56mm chamber, so the hood is no longer. A hood printed before 17 Nov can be filed out: 0.6mm off each end, 0.3mm off each side sits <strong>in the roof</strong> over the chamber's mains side (Rob, 16 Nov 2026), its long side along the hood; the C13 plug goes in from above. The chamber's mains side is closed: floor, L side wall, end wall, partition, roof. Mains arrives on a C13 lead; nothing is wired to a loose mains cable.</li>
 <li><strong>12V leads go straight onto the PSU's terminals</strong> (Rob, 16 Nov 2026) and run out along the box floor: the chamber has no floor on its 12V side and a 50 × 22mm notch in the end wall, open at the bottom, so the hood drops on over leads that are already wired.</li>
 <li>Over the case the roof and full sides stop at 26mm (<code>roof_l</code>), past the lid's edge and short of its vents; past that only <strong>side tabs</strong> go on (z 8–44, to 42mm) to reach the side holes, staying under the lid's side vents. The holes in the tabs are short <strong>slots</strong> (±2.5mm along, ±0.75mm up and down, since the positions come from photos). Two <strong>M4 × 6 with washers</strong> (about 2mm into the case; never longer).</li>
 <li>Vent slots in the 12V side wall over the case's own side vents by the terminals (the mains side wall is left closed, so the case's vents on that side are covered). A slot in the roof over the ADJ pot.</li>
 <li>Prints standing on its end wall with no supports. PETG, 4 walls, 40% infill. About 80cm³.</li>
 <li><strong>This puts mains inside a printed part</strong> (the brief's old rule said never; Rob chose the inlet, 15 Nov 2026). See the safety notes in <a href="site-box-wiring.html" target="_blank" rel="noopener">docs/site-box-wiring.html</a>: earth from the inlet to FG, insulated crimps on every mains tab, set the PSU's 115/230V switch to 230V before fitting the hood.</li>
 <li><strong>Check before printing</strong> (all in the sheet): the terminal positions (the partition, <code>rib_y</code>, must fall between earth and the first −V, and the terminal block must stay under <code>rib_z</code>), where the lid stops (<code>lid_x</code>), the side holes (<code>side_x</code>, <code>side_z</code>), the ADJ pot (<code>adj_x</code>, <code>adj_y</code>), and the inlet's body depth behind the panel and its tabs (about 17 + 8mm from the drawing: it has to clear the chamber floor, 54 − 25 = 29mm up). Leave room above the hood for the C13 plug under the DRiBOX lid (an angled C13 helps).</li>
+</ul>
+<h3 id="cad/psu-hood-for-the-lrs-350-12-rob-17-nov-2026">PSU hood for the LRS-350-12 (Rob, 17 Nov 2026)</h3>
+<p>Rob ordered the LRS-350-12 again, so it has its own hood, <a href="../cad/parts/psu-cover-lrs.FCStd" target="_blank" rel="noopener">psu-cover-lrs.FCStd</a>, with the same inlet (48.5 × 28 cut-out), built to stick out as little as possible past the PSU's end. Sizes from the Mean Well datasheet (215 × 115 × 30, terminals 1–9 on the end at 9.5 pitch: L, N, FG, −V × 3, +V × 3; M4 side holes 32.5 in, 12.5 up): measure the real one.</p>
+<ul>
+<li>The 30mm case is too low for the inlet to hang in a chamber beside it: on its side wall or in the roof over a chamber, the inlet's flange and the room the leads need in front of the terminals made the chamber 50–65mm long. So the inlet sits <strong>in the roof over the lid</strong> (<code>iec_x</code> 25.5: its body runs 1–50mm along the case), its tabs 14mm above the lid (<code>spade_h</code>) for insulated spades, and the chamber (<code>cham_l</code> 24) only holds the leads off the terminals: the mains ones bend up to the inlet, and the 12V ones run straight out through the open floor on the 12V side and a 52 × 30 notch in the end wall, as on the S-400 hood.</li>
+<li>87 long × 122 × 72 tall; <strong>27mm past the PSU's end</strong> (the S-400 hood: 59; the 15 Nov LRS hood with the inlet on its side: 53). In the DRiBOX, the PSU and hood take 242mm of the 290 floor and leave about 68mm over the hood for the C13 plug.</li>
+<li>Partition between FG and −V (<code>rib_y</code> 36.25) in the chamber; the inlet's tabs over the lid sit across that line, so take the L, N and earth leads over the lid to the chamber's mains side. Plain M4 holes (datasheet positions), M4 × 6. Vents over the case's side vents on the 12V side, a slot over the ADJ pot.</li>
+<li><strong>Check before printing</strong>: the case and terminal positions, and the inlet's flange (<code>iec_fl_l</code>, <code>iec_fl_w</code>: still the drawing's) and its depth behind the panel (<code>iec_depth</code> 25). The hood's height follows from <code>spade_h</code> + <code>iec_depth</code>. About 84cm³, PETG, end wall on the bed, no supports.</li>
 </ul>
 <h3 id="cad/tree-controller-box">Tree controller box</h3>
 <p>An L base plus a wrap-round cover on 10mm spacers on the back of the tree (Rob, 31 Oct 2026), placed low on the node-1 side so the 12V run's SP17 plug, screwed on under the shelf, ends at least 20mm above the tree's bottom edge. The base carries the board on four M2 heat-set standoffs, the Mini560 standing on it, two Wago 221-413s, and the SP16 socket (17mm hole, two flats 15.7mm apart), PG7 gland and RP-SMA bulkhead firing down through the 3.5mm shelf, so nothing unplugs when the cover comes off. The cover hooks over the plate's top edge, swings in, and takes one M3 × 10 at 45° into an insert in a boss on the shelf (push the insert in flush; the hole goes right through). A 2.7mm cord in a groove seals the top and sides; the bottom is open on purpose (rain doesn't fall upwards). About 117 × 53 × 110 overall. Print the coupon and the seal test first. <strong>Unverified:</strong> the board's hole positions, the SP16 nut and thread length, the PG7 and RP-SMA sizes, the insert holes, the cord's squeeze (<a href="#tree-box-parts">docs/tree-box-parts.md</a>).</p>

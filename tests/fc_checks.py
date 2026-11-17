@@ -132,8 +132,28 @@ check("hood inlet is in the roof over the mains side",
       and hp["iec_y"] + hp["iec_cut_w"] / 2 < hp["rib_y"] - hp["rib_t"] / 2
       and hp["iec_x"] + hp["iec_cut_h"] / 2 < 0)
 
+# --- LRS-350-12 hood: the inlet over the lid, the chamber only for the leads
+lp = json.loads((ROOT / "cad" / "parts" / "psu-cover-lrs-params.json").read_text(encoding="utf-8"))
+lhood = solid("cad/printed/psu-hood-lrs.step")
+lpsu = Part.makeBox(lp["psu_l"], lp["psu_w"], lp["psu_h"])
+lz = lp["hood_h"] - lp["wall"] - lp["iec_depth"]               # bottom of the inlet's tabs
+lbody = Part.makeBox(lp["iec_cut_h"], lp["iec_cut_w"], lp["iec_depth"],
+                     V(lp["iec_x"] - lp["iec_cut_h"] / 2, lp["iec_y"] - lp["iec_cut_w"] / 2, lz))
+check("LRS hood is one valid solid", lhood.isValid() and len(lhood.Solids) == 1)
+check("LRS hood clears the PSU", lhood.common(lpsu).Volume < 1e-3)
+check("LRS hood M4 screws reach 5mm max into the case", 6 - lp["wall"] <= 5 + 0.01, "M4 x 6 through a 3mm wall")
+check("LRS inlet sits over the lid, clear of the hood, spade room under it",
+      lbody.common(lhood).Volume < 1e-3 and lbody.BoundBox.XMin > 0 and lz - lp["psu_h"] >= 12,
+      f"tabs {lz - lp['psu_h']:.1f} over the lid")
+check("LRS hood has a closed floor under the chamber's mains side",
+      lhood.isInside(V(-lp["cham_l"] / 2, lp["rib_y"] / 2, lp["wall"] / 2), 1e-6, True))
+check("LRS hood is open under the chamber's 12V side, for the leads",
+      not lhood.isInside(V(-lp["cham_l"] / 2, lp["dc_y"], lp["wall"] / 2), 1e-6, True))
+check("LRS hood partition between mains and 12V", lhood.isInside(V(-lp["cham_l"] / 2, lp["rib_y"], 20), 1e-6, True))
+check("LRS hood is short past the PSU's end", -lhood.BoundBox.XMin <= 30, f"{-lhood.BoundBox.XMin:.1f}")
+
 # --- masters recompute cleanly
-for name in ("tree-box", "player-pods", "psu-cover", "tree-mounts", "pixel-disk", "step-clamp"):
+for name in ("tree-box", "player-pods", "psu-cover", "psu-cover-lrs", "tree-mounts", "pixel-disk", "step-clamp"):
     doc = App.openDocument(str(ROOT / "cad" / "parts" / f"{name}.FCStd"))
     doc.recompute()
     bad = [o.Name for o in doc.Objects if not o.isValid()]

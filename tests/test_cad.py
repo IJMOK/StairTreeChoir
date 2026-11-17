@@ -139,8 +139,12 @@ EXPECTED = [
     "socket channel takes the tread", "hood is one valid solid", "hood clears the PSU",
     "hood M4 screws reach 3mm max into the S-400's case", "hood has a closed floor under the chamber's mains side",
     "hood is open under the chamber's 12V side, for the leads", "hood partition between mains and 12V", "hood inlet is in the roof over the mains side",
+    "LRS hood is one valid solid", "LRS hood clears the PSU", "LRS hood M4 screws reach 5mm max into the case",
+    "LRS inlet sits over the lid, clear of the hood, spade room under it", "LRS hood has a closed floor under the chamber's mains side",
+    "LRS hood is open under the chamber's 12V side, for the leads", "LRS hood partition between mains and 12V",
+    "LRS hood is short past the PSU's end",
     "complete tree assembly opens with every link resolved",
-    *[f"master {n} recomputes" for n in ("tree-box", "player-pods", "psu-cover", "tree-mounts", "pixel-disk", "step-clamp")],
+    *[f"master {n} recomputes" for n in ("tree-box", "player-pods", "psu-cover", "psu-cover-lrs", "tree-mounts", "pixel-disk", "step-clamp")],
 ]
 
 

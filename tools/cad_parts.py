@@ -15,6 +15,7 @@ Frames, as fitted (mm):
                 the front face at 0 and the back at -tree_t (the tree's own Z)
   psu-cover     the PSU's frame: x along its length from the terminal end (0) to 217,
                 y across from the L side (0) to 114, z up from its base (0)
+  psu-cover-lrs the same for the LRS-350-12 (215 x 115 x 30, y from pin 1, AC/L)
   pixel-disk    front face (under the pixel flange) at z = 0, back at +z
   step-clamp    the right way up, heel on the bed at z = 0, x along the bar from the nose
 """
@@ -370,9 +371,10 @@ def psu_cover():
     The inlet sits in the ROOF over the mains side (Rob, 16 Nov 2026), and the 12V leads
     run straight off the terminals and out through the chamber's open 12V side and a
     notch in the end wall, so the hood slides on over them. Inlet: the 3-in-1 module
-    drawing Rob sent (panel cut-out 47.3 x 27.4, two 3.5mm holes 40 apart across the
-    27.4, flange 54.4 x 49.2, ~17mm behind the panel plus ~8mm tabs). The 15 Nov
-    LRS-350-12 version is in git (edd7308)."""
+    drawing Rob sent (two 3.5mm holes 40 apart across the cut-out, flange 54.4 x 49.2,
+    ~17mm behind the panel plus ~8mm tabs), but his inlet needs a 48.5 x 28 cut-out
+    (Rob, 17 Nov 2026, off the printed hood); it still fits the 56mm chamber. The
+    LRS-350-12 has its own hood: psu_cover_lrs."""
     doc = F.new_doc("psu_cover")
     F.sheet(doc, [
         ("", None, "S-400-12 (Rob's case size; the rest read off his photos: check before printing)"),
@@ -405,8 +407,8 @@ def psu_cover():
         ("", None, "IEC inlet in the roof over the chamber's mains side (3-in-1 C14 + fuse + switch, Rob's drawing)"),
         ("iec_x", -26.5, "centre along the hood: body in the chamber, flange on the flat of the roof"),
         ("iec_y", 26.5, "centre across: body on the mains side of the partition, flange clear of the edge round"),
-        ("iec_cut_w", 27.4, "panel cut-out, across the hood"),
-        ("iec_cut_h", 47.3, "panel cut-out, along the hood"),
+        ("iec_cut_w", 28, "panel cut-out, across the hood (Rob's inlet, 17 Nov 2026; the drawing said 27.4)"),
+        ("iec_cut_h", 48.5, "panel cut-out, along the hood (Rob, 17 Nov 2026; the drawing said 47.3)"),
         ("iec_hole_d", 3.4, "M3 x 10 + nyloc"),
         ("iec_hole_pitch", 40, "the two holes, either side of the cut-out across the hood"),
         ("", None, "12V out: the leads go straight onto the terminals and out through a notch in the end wall"),
@@ -471,6 +473,102 @@ def psu_cover():
     ref_iec = F.box(doc, "RefIec", f"{P}iec_cut_h", f"{P}iec_cut_w", 25,
                     f"{P}iec_x - {P}iec_cut_h / 2", f"{P}iec_y - {P}iec_cut_w / 2", f"{P}hood_h - 25")
     ref_flange = F.box(doc, "RefIecFlange", 54.4, 49.2, 4, f"{P}iec_x - 27.2", f"{P}iec_y - 24.6", f"{P}hood_h")
+    F.group(doc, "Reference", [ref_psu, ref_iec, ref_flange])
+    F.check(doc, ["Hood"])
+    return doc
+
+
+def psu_cover_lrs():
+    """Terminal hood for a Mean Well LRS-350-12 (Rob ordered one again, 17 Nov 2026) with
+    the same fused, switched IEC C14 inlet, built as short as it goes past the PSU's end.
+    PSU sizes from the Mean Well datasheet (LRS-350-SPEC, case 207A): 215 x 115 x 30,
+    terminals 1-9 on the end at 9.5 pitch (1 AC/L, 2 AC/N, 3 FG, 4-6 -V, 7-9 +V), the
+    leads going in level and the screws from the top; M4 side holes 32.5 from that end
+    and 12.5 up, max 5mm into the case. The 30mm case is too low for the inlet to hang in
+    a chamber beside it (that needed 50-65mm of chamber), so the inlet sits in the roof
+    OVER THE LID, its body and tabs above the case with room for insulated spades under
+    them, and the chamber holds only the leads off the terminals: the mains ones bend up
+    to the inlet, the 12V ones run straight out through the open floor and a notch in the
+    end wall, as on the S-400 hood. Taller than the 15 Nov hood (edd7308), much shorter."""
+    doc = F.new_doc("psu_cover_lrs")
+    F.sheet(doc, [
+        ("", None, "LRS-350-12 (datasheet: measure the real one before printing)"),
+        ("psu_l", 215, "length"),
+        ("psu_w", 115, "across, pin 1 (L) side at 0"),
+        ("psu_h", 30, "height"),
+        ("side_x", 32.5, "M4 side holes from the terminal end, both sides"),
+        ("side_z", 12.5, "and above the base"),
+        ("adj_x", 6, "+V ADJ pot and LED: access slot over them (scaled off the drawing)"),
+        ("adj_y", 98, ""),
+        ("", None, "Hood: one height all through, so it prints standing on its end wall with no supports"),
+        ("fit", 0.5, "gap a side round the case"),
+        ("wall", 3, "M4 x 6 through the wall leaves 3mm in the case (5 max)"),
+        ("cham_l", 24, "wiring chamber beyond the terminal end (inside): the leads' forks and a bend"),
+        ("over_l", 60, "roof and sides over the case: past the inlet's flange (and the side holes)"),
+        ("spade_h", 14, "clear height between the lid and the inlet's tabs, for insulated spades"),
+        ("hood_h", "=psu_h + spade_h + iec_depth + wall", "outside height"),
+        ("rib_y", 36.25, "partition between pins 3 (FG, y 29) and 4 (-V, y 38.5): mains side and 12V side"),
+        ("rib_t", 2, ""),
+        ("m4_d", 4.5, "M4 clearance"),
+        ("vent_l", 14, "vent slots in the 12V side wall only, over the case's own side vents"),
+        ("vent_h", 2.5, "4 slots, 5mm apart from z = 5"),
+        ("", None, "IEC inlet in the roof over the lid (3-in-1 C14 + fuse + switch)"),
+        ("iec_x", 25.5, "centre along the hood: the body all over the case, its flange on the flat of the roof"),
+        ("iec_y", 26.5, "centre across: flange clear of the side's edge round"),
+        ("iec_cut_w", 28, "panel cut-out, across the hood (Rob's inlet, 17 Nov 2026)"),
+        ("iec_cut_h", 48.5, "panel cut-out, along the hood"),
+        ("iec_depth", 25, "behind the panel: ~17 body + ~8 tabs (drawing)"),
+        ("iec_fl_l", 54.4, "flange along the hood (drawing: check on the real inlet)"),
+        ("iec_fl_w", 49.2, "flange across"),
+        ("iec_hole_d", 3.4, "M3 x 10 + nyloc"),
+        ("iec_hole_pitch", 40, "the two holes, either side of the cut-out across the hood"),
+        ("", None, "12V out: the leads go straight onto the terminals and out through a notch in the end wall"),
+        ("dc_w", 52, "notch width, on the 12V side (pins 4-9 at y 38.5-86), open at the bottom"),
+        ("dc_y", 64, "notch centre"),
+        ("dc_h", 30, "notch height: up to the case's top"),
+    ])
+    P = "params."
+    yl = f"-({P}fit + {P}wall)"
+    W = f"{P}psu_w + 2 * ({P}fit + {P}wall)"
+    x0 = f"-({P}cham_l + {P}wall)"
+    zin = f"{P}hood_h - {P}wall"
+    outer = F.box(doc, "Outer", f"{P}cham_l + {P}wall + {P}over_l", W, f"{P}hood_h", x0, yl, 0)
+    over_in = F.box(doc, "OverIn", f"{P}over_l + 1.01", f"{P}psu_w + 2 * {P}fit", f"{zin} + 1",
+                    -0.01, f"-{P}fit", -1)
+    cham_in = F.box(doc, "ChamberIn", f"{P}cham_l + 0.02", f"{P}psu_w + 2 * {P}fit", f"{zin} - {P}wall",
+                    f"-{P}cham_l", f"-{P}fit", f"{P}wall")
+    rib = F.box(doc, "Rib", f"{P}cham_l - {P}fit + 0.01", f"{P}rib_t", f"{zin} - {P}wall + 0.02",
+                f"-{P}cham_l - 0.01", f"{P}rib_y - {P}rib_t / 2", f"{P}wall - 0.01")
+    m4 = [F.cyl(doc, f"M4{i}", f"{P}m4_d / 2", f"{P}wall + 2", f"{P}side_x", y, f"{P}side_z", F.X, -90)
+          for i, y in enumerate((f"{yl} - 1", f"{P}psu_w - 1"))]
+    vents = [F.box(doc, f"Vent{i}", f"{P}vent_l", f"{P}wall + 2", f"{P}vent_h",
+                   5, f"{P}psu_w + {P}fit - 1", f"5 + {i} * 5") for i in range(4)]
+    adj = F.box(doc, "AdjSlot", 6, 16, f"{P}wall + 2", f"{P}adj_x - 3", f"{P}adj_y - 8", f"{zin} - 1")
+    iec = F.box(doc, "IecCut", f"{P}iec_cut_h", f"{P}iec_cut_w", f"{P}wall + 2",
+                f"{P}iec_x - {P}iec_cut_h / 2", f"{P}iec_y - {P}iec_cut_w / 2", f"{zin} - 1")
+    iec_holes = [F.cyl(doc, f"IecHole{i}", f"{P}iec_hole_d / 2", f"{P}wall + 2",
+                       f"{P}iec_x", f"{P}iec_y {s} {P}iec_hole_pitch / 2", f"{zin} - 1") for i, s in enumerate("-+")]
+    floor12 = F.box(doc, "Floor12V", f"{P}cham_l + 0.02", f"{P}psu_w + {P}fit - {P}rib_y - {P}rib_t / 2 + 0.01",
+                    f"{P}wall + 2", f"-{P}cham_l - 0.01", f"{P}rib_y + {P}rib_t / 2", -1)
+    dc = F.box(doc, "DcNotch", f"{P}wall + 2", f"{P}dc_w", f"{P}dc_h + 1", f"{x0} - 1", f"{P}dc_y - {P}dc_w / 2", -1)
+    # the S-400 hood's finish: 5mm rounds outside but the floor's, 0.8 chamfer round it, a lead-in
+    doc.recompute()
+    outer_r = F.fillet(doc, "OuterR", outer, 5.0, lambda e, s: F.mid(e).z > 0.5)
+    doc.recompute()
+    outer_c = F.chamfer(doc, "OuterC", outer_r, 0.8, lambda e, s: F.mid(e).z < 0.01)
+    lead = F.wedge(doc, "LeadIn", f"-({P}psu_w + {P}fit)", f"{P}fit", f"{P}over_l - 1.5", f"{P}over_l + 0.01",
+                   -1, f"{zin}", f"-({P}psu_w + {P}fit) - 1.5", f"{P}fit + 1.5", -1, f"{zin} + 1.5",
+                   0, 0, 0, F.Z, -90)
+    shell = F.cut(doc, "HoodShell", outer_c, [over_in, cham_in, lead])
+    ribbed = F.fuse(doc, "HoodRibbed", [shell, rib])
+    F.cut(doc, "Hood", ribbed, [*m4, *vents, adj, iec, *iec_holes, floor12, dc])
+
+    # reference solids (not printed): the PSU, the inlet's body and tabs, its flange
+    ref_psu = F.box(doc, "RefPsu", f"{P}psu_l", f"{P}psu_w", f"{P}psu_h", 0, 0, 0)
+    ref_iec = F.box(doc, "RefIec", f"{P}iec_cut_h", f"{P}iec_cut_w", f"{P}iec_depth + {P}wall",
+                    f"{P}iec_x - {P}iec_cut_h / 2", f"{P}iec_y - {P}iec_cut_w / 2", f"{zin} - {P}iec_depth")
+    ref_flange = F.box(doc, "RefIecFlange", f"{P}iec_fl_l", f"{P}iec_fl_w", 4, f"{P}iec_x - {P}iec_fl_l / 2",
+                       f"{P}iec_y - {P}iec_fl_w / 2", f"{P}hood_h")
     F.group(doc, "Reference", [ref_psu, ref_iec, ref_flange])
     F.check(doc, ["Hood"])
     return doc
@@ -567,7 +665,8 @@ def step_clamp():
     return doc
 
 
-BUILDERS = {"tree-mounts": tree_mounts, "psu-cover": psu_cover, "pixel-disk": pixel_disk, "step-clamp": step_clamp}
+BUILDERS = {"tree-mounts": tree_mounts, "psu-cover": psu_cover, "psu-cover-lrs": psu_cover_lrs,
+            "pixel-disk": pixel_disk, "step-clamp": step_clamp}
 
 
 def main(names=None, force=False):

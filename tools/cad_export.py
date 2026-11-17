@@ -87,6 +87,8 @@ OUTS = [
     # site box
     Out("psu-cover", ["Hood"], "psu-hood", "psu-hood", (RY, -90), "#d9d9d9", "1 for Site A",
         "PETG, end wall on the bed, no supports, 4 walls, 40% infill: it carries mains"),
+    Out("psu-cover-lrs", ["Hood"], "psu-hood-lrs", "psu-hood-lrs", (RY, -90), "#c8c8c8", "1 if Site A runs on the LRS-350-12",
+        "PETG, end wall on the bed, no supports, 4 walls, 40% infill: it carries mains"),
     Out("player-pods", ["BuckBase"], "pod-buck-base", "pod-buck-base", (), "#7a9cc6", "1 per site",
         "floor on the bed, no supports"),
     Out("player-pods", ["BuckLid"], "pod-buck-lid", "pod-buck-lid", (RX, 180), "#a9c1de", "1 per site",
@@ -301,7 +303,7 @@ def main(parts: bool = True, tree: bool = True, components: bool = True, assembl
                       {"volume_cm3": round(tplate.Volume / 1000, 1), "bed_mm": [round(tx, 1), round(ty, 1),
                                                                                 round(tplate.BoundBox.ZLength, 1)]}))
         # sizes the other tools read
-        for name in ("tree-box", "tree-mounts", "psu-cover"):
+        for name in ("tree-box", "tree-mounts", "psu-cover", "psu-cover-lrs"):
             (PARTS_DIR / f"{name}-params.json").write_text(json.dumps(params(docs[name]), indent=1) + "\n",
                                                            encoding="utf-8", newline="\n")
         for d in docs.values():
