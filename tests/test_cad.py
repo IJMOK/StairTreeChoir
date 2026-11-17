@@ -143,6 +143,8 @@ EXPECTED = [
     "LRS inlet sits over the lid, clear of the hood, spade room under it", "LRS hood has a closed floor under the chamber's mains side",
     "LRS hood is open under the chamber's 12V side, for the leads", "LRS hood partition between mains and 12V",
     "LRS hood is short past the PSU's end",
+    "LRS shelf shuts the chamber's 12V side off from the turret", "LRS hood is low over the 12V side",
+    "LRS side walls open over the case's vent slots",
     "complete tree assembly opens with every link resolved",
     *[f"master {n} recomputes" for n in ("tree-box", "player-pods", "psu-cover", "psu-cover-lrs", "tree-mounts", "pixel-disk", "step-clamp")],
 ]

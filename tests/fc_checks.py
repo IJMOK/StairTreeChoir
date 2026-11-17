@@ -143,14 +143,22 @@ check("LRS hood is one valid solid", lhood.isValid() and len(lhood.Solids) == 1)
 check("LRS hood clears the PSU", lhood.common(lpsu).Volume < 1e-3)
 check("LRS hood M4 screws reach 5mm max into the case", 6 - lp["wall"] <= 5 + 0.01, "M4 x 6 through a 3mm wall")
 check("LRS inlet sits over the lid, clear of the hood, spade room under it",
-      lbody.common(lhood).Volume < 1e-3 and lbody.BoundBox.XMin > 0 and lz - lp["psu_h"] >= 12,
+      lbody.common(lhood).Volume < 1e-3 and lbody.BoundBox.XMin > 0 and lz - lp["psu_h"] >= 8,
       f"tabs {lz - lp['psu_h']:.1f} over the lid")
 check("LRS hood has a closed floor under the chamber's mains side",
       lhood.isInside(V(-lp["cham_l"] / 2, lp["rib_y"] / 2, lp["wall"] / 2), 1e-6, True))
 check("LRS hood is open under the chamber's 12V side, for the leads",
       not lhood.isInside(V(-lp["cham_l"] / 2, lp["dc_y"], lp["wall"] / 2), 1e-6, True))
 check("LRS hood partition between mains and 12V", lhood.isInside(V(-lp["cham_l"] / 2, lp["rib_y"], 20), 1e-6, True))
-check("LRS hood is short past the PSU's end", -lhood.BoundBox.XMin <= 30, f"{-lhood.BoundBox.XMin:.1f}")
+check("LRS hood is short past the PSU's end", -lhood.BoundBox.XMin <= 15.01, f"{-lhood.BoundBox.XMin:.1f}")
+lyt = -(lp["fit"] + lp["wall"]) + lp["tur_w"] - lp["wall"]     # the turret's 12V-side wall, inside
+check("LRS shelf shuts the chamber's 12V side off from the turret",
+      lhood.isInside(V(-lp["cham_l"] / 2, (lp["rib_y"] + lyt) / 2, lp["low_h"] - lp["wall"] / 2), 1e-6, True))
+check("LRS hood is low over the 12V side",
+      lhood.common(Part.makeBox(300, 50, 100, V(-100, lyt + lp["wall"] + 1, lp["low_h"] + 0.01))).Volume < 1e-3)
+check("LRS side walls open over the case's vent slots",
+      not lhood.isInside(V((lp["vw_x0"] + lp["vw_x1"]) / 2, -lp["fit"] - lp["wall"] / 2, 15), 1e-6, True)
+      and not lhood.isInside(V((lp["vw_x0"] + lp["vw_x1"]) / 2, lp["psu_w"] + lp["fit"] + lp["wall"] / 2, 15), 1e-6, True))
 
 # --- masters recompute cleanly
 for name in ("tree-box", "player-pods", "psu-cover", "psu-cover-lrs", "tree-mounts", "pixel-disk", "step-clamp"):

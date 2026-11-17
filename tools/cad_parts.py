@@ -481,38 +481,53 @@ def psu_cover():
 def psu_cover_lrs():
     """Terminal hood for a Mean Well LRS-350-12 (Rob ordered one again, 17 Nov 2026) with
     the same fused, switched IEC C14 inlet, built as short as it goes past the PSU's end.
-    PSU sizes from the Mean Well datasheet (LRS-350-SPEC, case 207A): 215 x 115 x 30,
-    terminals 1-9 on the end at 9.5 pitch (1 AC/L, 2 AC/N, 3 FG, 4-6 -V, 7-9 +V), the
-    leads going in level and the screws from the top; M4 side holes 32.5 from that end
-    and 12.5 up, max 5mm into the case. The 30mm case is too low for the inlet to hang in
-    a chamber beside it (that needed 50-65mm of chamber), so the inlet sits in the roof
-    OVER THE LID, its body and tabs above the case with room for insulated spades under
-    them, and the chamber holds only the leads off the terminals: the mains ones bend up
-    to the inlet, the 12V ones run straight out through the open floor and a notch in the
-    end wall, as on the S-400 hood. Taller than the 15 Nov hood (edd7308), much shorter."""
+    PSU sizes from the Mean Well drawing (case 207A, Rob sent it 17 Nov 2026): 215 x 115
+    x 30, terminals 1-9 on the end at 9.5 pitch (1 AC/L, 2 AC/N, 3 FG, 4-6 -V, 7-9 +V),
+    the leads going in level and the screws from the top, the LED and +V ADJ beside pin 9;
+    M4 side holes 32.5 from that end and 12.5 up (L = 5mm max); the fan on the lid at the
+    far end blows in, and the air leaves by the side slots (6.6-10.3, 14.4-18.5 and either
+    side of the M4 hole near the terminals, scaled off the drawing).
+    The 30mm case is too low for the inlet to hang in a chamber beside it (that needed
+    50-65mm of chamber), so the inlet sits in the roof over the lid, its tabs 8mm above it
+    (90-degree flag spades), and the chamber holds only the leads off the terminals.
+    Rob, 17 Nov 2026 ("the LRS hood is HUGE"): only the mains side stands tall, a turret
+    over the inlet; the 12V side is a low cap just over the lid (a shelf over the chamber's
+    12V side closes the turret off from it), and the side walls have windows over the
+    case's vent slots. The 12V leads run straight out through the open floor and a notch
+    in the end wall, as on the S-400 hood."""
     doc = F.new_doc("psu_cover_lrs")
     F.sheet(doc, [
-        ("", None, "LRS-350-12 (datasheet: measure the real one before printing)"),
+        ("", None, "LRS-350-12 (Mean Well drawing, case 207A: measure the real one before printing)"),
         ("psu_l", 215, "length"),
         ("psu_w", 115, "across, pin 1 (L) side at 0"),
         ("psu_h", 30, "height"),
         ("side_x", 32.5, "M4 side holes from the terminal end, both sides"),
         ("side_z", 12.5, "and above the base"),
-        ("adj_x", 6, "+V ADJ pot and LED: access slot over them (scaled off the drawing)"),
-        ("adj_y", 98, ""),
-        ("", None, "Hood: one height all through, so it prints standing on its end wall with no supports"),
+        ("adj_x", 6, "+V ADJ pot and LED beside pin 9: one slot over both"),
+        ("adj_y", 100, ""),
+        ("", None, "Hood: prints standing on its end wall with no supports"),
         ("fit", 0.5, "gap a side round the case"),
         ("wall", 3, "M4 x 6 through the wall leaves 3mm in the case (5 max)"),
-        ("cham_l", 24, "wiring chamber beyond the terminal end (inside): the leads' forks and a bend"),
-        ("over_l", 60, "roof and sides over the case: past the inlet's flange (and the side holes)"),
-        ("spade_h", 14, "clear height between the lid and the inlet's tabs, for insulated spades"),
-        ("hood_h", "=psu_h + spade_h + iec_depth + wall", "outside height"),
+        ("cham_l", 12, "wiring chamber beyond the terminal end (inside): 15 outside (Rob, 17 Nov 2026); ferrules, not forks"),
+        ("over_l", 59, "the turret over the case: past the inlet's flange, short of the slots at 60"),
+        ("low_l", 46, "the low cap over the case's 12V side: past the side holes and the slot beyond them"),
+        ("tur_w", 60, "turret width from the L side (outside): the flange on the flat of its roof"),
+        ("spade_h", 8, "clear height between the lid and the inlet's tabs: 90-degree flag spades"),
+        ("hood_h", "=psu_h + spade_h + iec_depth + wall", "turret height (outside)"),
+        ("low_h", "=psu_h + fit + wall", "the 12V side's height (outside): just over the lid"),
         ("rib_y", 36.25, "partition between pins 3 (FG, y 29) and 4 (-V, y 38.5): mains side and 12V side"),
         ("rib_t", 2, ""),
         ("m4_d", 4.5, "M4 clearance"),
-        ("vent_l", 14, "vent slots in the 12V side wall only, over the case's own side vents"),
-        ("vent_h", 2.5, "4 slots, 5mm apart from z = 5"),
-        ("", None, "IEC inlet in the roof over the lid (3-in-1 C14 + fuse + switch)"),
+        ("", None, "Windows in both side walls over the case's vent slots (drawing)"),
+        ("vw_x0", 5, "the pair of tall slots by the terminals (6.6-18.5)"),
+        ("vw_x1", 20, ""),
+        ("vw_z0", 3, ""),
+        ("vw_z1", 27, ""),
+        ("vs_dx", 7, "the small slots either side of the M4 hole, centres from it"),
+        ("vs_w", 4, ""),
+        ("vs_z0", 9, ""),
+        ("vs_z1", 21, ""),
+        ("", None, "IEC inlet in the turret's roof over the lid (3-in-1 C14 + fuse + switch)"),
         ("iec_x", 25.5, "centre along the hood: the body all over the case, its flange on the flat of the roof"),
         ("iec_y", 26.5, "centre across: flange clear of the side's edge round"),
         ("iec_cut_w", 28, "panel cut-out, across the hood (Rob's inlet, 17 Nov 2026)"),
@@ -525,25 +540,53 @@ def psu_cover_lrs():
         ("", None, "12V out: the leads go straight onto the terminals and out through a notch in the end wall"),
         ("dc_w", 52, "notch width, on the 12V side (pins 4-9 at y 38.5-86), open at the bottom"),
         ("dc_y", 64, "notch centre"),
-        ("dc_h", 30, "notch height: up to the case's top"),
+        ("dc_h", 25, "notch height (the low end wall stops at 33.5)"),
     ])
     P = "params."
     yl = f"-({P}fit + {P}wall)"
     W = f"{P}psu_w + 2 * ({P}fit + {P}wall)"
     x0 = f"-({P}cham_l + {P}wall)"
-    zin = f"{P}hood_h - {P}wall"
-    outer = F.box(doc, "Outer", f"{P}cham_l + {P}wall + {P}over_l", W, f"{P}hood_h", x0, yl, 0)
-    over_in = F.box(doc, "OverIn", f"{P}over_l + 1.01", f"{P}psu_w + 2 * {P}fit", f"{zin} + 1",
-                    -0.01, f"-{P}fit", -1)
-    cham_in = F.box(doc, "ChamberIn", f"{P}cham_l + 0.02", f"{P}psu_w + 2 * {P}fit", f"{zin} - {P}wall",
-                    f"-{P}cham_l", f"-{P}fit", f"{P}wall")
-    rib = F.box(doc, "Rib", f"{P}cham_l - {P}fit + 0.01", f"{P}rib_t", f"{zin} - {P}wall + 0.02",
+    zin = f"{P}hood_h - {P}wall"                     # the turret's roof, inside
+    zlo = f"{P}low_h - {P}wall"                      # the low cap's roof, inside: 0.5 over the lid
+    ytin = f"{yl} + {P}tur_w - {P}wall"              # the turret's 12V-side wall, inside face
+    turret = F.box(doc, "Turret", f"{P}cham_l + {P}wall + {P}over_l", f"{P}tur_w", f"{P}hood_h", x0, yl, 0)
+    # the low part starts inside the turret, so no faces or rounds coincide
+    low = F.box(doc, "Low", f"{P}cham_l + {P}wall + {P}low_l", f"{W} - 14", f"{P}low_h", x0, f"{yl} + 14", 0)
+    doc.recompute()
+    turret_r = F.fillet(doc, "TurretR", turret, 5.0, lambda e, s: F.mid(e).z > 0.5)
+    low_r = F.fillet(doc, "LowR", low, 5.0, lambda e, s: F.mid(e).z > 0.5)
+    outer = F.fuse(doc, "Outer", [turret_r, low_r])
+    doc.recompute()
+    outer_c = F.chamfer(doc, "OuterC", outer, 0.8, lambda e, s: F.mid(e).z < 0.01)
+    # inside: the PSU's room all along, the turret over the case (closed at its far end),
+    # the chamber's turret part and its low 12V part
+    psu_in = F.box(doc, "PsuIn", f"{P}over_l + 1.01", f"{P}psu_w + 2 * {P}fit", f"{zlo} + 1", -0.01, f"-{P}fit", -1)
+    tur_in = F.box(doc, "TurretIn", f"{P}over_l - {P}wall + 0.01", f"{ytin} + {P}fit", f"{zin} + 1",
+                   -0.01, f"-{P}fit", -1)
+    cham_tur = F.box(doc, "ChamberTurret", f"{P}cham_l + 0.02", f"{ytin} + {P}fit", f"{zin} - {P}wall",
+                     f"-{P}cham_l", f"-{P}fit", f"{P}wall")
+    cham_low = F.box(doc, "ChamberLow", f"{P}cham_l + 0.02", f"{P}psu_w + 2 * {P}fit", f"{zlo} - {P}wall",
+                     f"-{P}cham_l", f"-{P}fit", f"{P}wall")
+    lead = F.wedge(doc, "LeadIn", f"-({P}psu_w + {P}fit)", f"{P}fit", f"{P}low_l - 1.5", f"{P}low_l + 0.01",
+                   -1, f"{zlo}", f"-({P}psu_w + {P}fit) - 1.5", f"{P}fit + 1.5", -1, f"{zlo} + 1.5",
+                   0, 0, 0, F.Z, -90)
+    shell = F.cut(doc, "HoodShell", outer_c, [psu_in, tur_in, cham_tur, cham_low, lead])
+    # partition: the rib floor to the low roof, and a shelf from it to the turret's wall at the
+    # low roof's height, so the 12V side of the chamber is shut off from the turret
+    rib = F.box(doc, "Rib", f"{P}cham_l - {P}fit + 0.01", f"{P}rib_t", f"{zlo} - {P}wall + 0.02",
                 f"-{P}cham_l - 0.01", f"{P}rib_y - {P}rib_t / 2", f"{P}wall - 0.01")
+    shelf = F.box(doc, "Shelf", f"{P}cham_l + 0.01", f"{ytin} - {P}rib_y + {P}rib_t / 2 + 0.01", f"{P}wall",
+                  f"-{P}cham_l - 0.01", f"{P}rib_y - {P}rib_t / 2", f"{zlo}")
+    ribbed = F.fuse(doc, "HoodRibbed", [shell, rib, shelf])
     m4 = [F.cyl(doc, f"M4{i}", f"{P}m4_d / 2", f"{P}wall + 2", f"{P}side_x", y, f"{P}side_z", F.X, -90)
           for i, y in enumerate((f"{yl} - 1", f"{P}psu_w - 1"))]
-    vents = [F.box(doc, f"Vent{i}", f"{P}vent_l", f"{P}wall + 2", f"{P}vent_h",
-                   5, f"{P}psu_w + {P}fit - 1", f"5 + {i} * 5") for i in range(4)]
-    adj = F.box(doc, "AdjSlot", 6, 16, f"{P}wall + 2", f"{P}adj_x - 3", f"{P}adj_y - 8", f"{zin} - 1")
+    wins = []
+    for i, y in enumerate((f"{yl} - 1", f"{P}psu_w - 1")):
+        wins.append(F.box(doc, f"Win{i}", f"{P}vw_x1 - {P}vw_x0", f"{P}wall + 2", f"{P}vw_z1 - {P}vw_z0",
+                          f"{P}vw_x0", y, f"{P}vw_z0"))
+        wins += [F.box(doc, f"WinS{i}{j}", f"{P}vs_w", f"{P}wall + 2", f"{P}vs_z1 - {P}vs_z0",
+                       f"{P}side_x {s} {P}vs_dx - {P}vs_w / 2", y, f"{P}vs_z0") for j, s in enumerate("-+")]
+    adj = F.box(doc, "AdjSlot", 6, 22, f"{P}wall + 2", f"{P}adj_x - 3", f"{P}adj_y - 11", f"{zlo} - 1")
     iec = F.box(doc, "IecCut", f"{P}iec_cut_h", f"{P}iec_cut_w", f"{P}wall + 2",
                 f"{P}iec_x - {P}iec_cut_h / 2", f"{P}iec_y - {P}iec_cut_w / 2", f"{zin} - 1")
     iec_holes = [F.cyl(doc, f"IecHole{i}", f"{P}iec_hole_d / 2", f"{P}wall + 2",
@@ -551,17 +594,7 @@ def psu_cover_lrs():
     floor12 = F.box(doc, "Floor12V", f"{P}cham_l + 0.02", f"{P}psu_w + {P}fit - {P}rib_y - {P}rib_t / 2 + 0.01",
                     f"{P}wall + 2", f"-{P}cham_l - 0.01", f"{P}rib_y + {P}rib_t / 2", -1)
     dc = F.box(doc, "DcNotch", f"{P}wall + 2", f"{P}dc_w", f"{P}dc_h + 1", f"{x0} - 1", f"{P}dc_y - {P}dc_w / 2", -1)
-    # the S-400 hood's finish: 5mm rounds outside but the floor's, 0.8 chamfer round it, a lead-in
-    doc.recompute()
-    outer_r = F.fillet(doc, "OuterR", outer, 5.0, lambda e, s: F.mid(e).z > 0.5)
-    doc.recompute()
-    outer_c = F.chamfer(doc, "OuterC", outer_r, 0.8, lambda e, s: F.mid(e).z < 0.01)
-    lead = F.wedge(doc, "LeadIn", f"-({P}psu_w + {P}fit)", f"{P}fit", f"{P}over_l - 1.5", f"{P}over_l + 0.01",
-                   -1, f"{zin}", f"-({P}psu_w + {P}fit) - 1.5", f"{P}fit + 1.5", -1, f"{zin} + 1.5",
-                   0, 0, 0, F.Z, -90)
-    shell = F.cut(doc, "HoodShell", outer_c, [over_in, cham_in, lead])
-    ribbed = F.fuse(doc, "HoodRibbed", [shell, rib])
-    F.cut(doc, "Hood", ribbed, [*m4, *vents, adj, iec, *iec_holes, floor12, dc])
+    F.cut(doc, "Hood", ribbed, [*m4, *wins, adj, iec, *iec_holes, floor12, dc])
 
     # reference solids (not printed): the PSU, the inlet's body and tabs, its flange
     ref_psu = F.box(doc, "RefPsu", f"{P}psu_l", f"{P}psu_w", f"{P}psu_h", 0, 0, 0)
@@ -572,7 +605,6 @@ def psu_cover_lrs():
     F.group(doc, "Reference", [ref_psu, ref_iec, ref_flange])
     F.check(doc, ["Hood"])
     return doc
-
 
 # --------------------------------------------------------------------------- pixel disk
 
