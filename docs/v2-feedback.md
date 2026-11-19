@@ -146,5 +146,15 @@ error. The same `slot()` cuts the towers and the stands, so both are loose.
 
 ---
 
+## v3 tweaks (Rob, 19 Nov 2026, after printing v2)
+
+The sockets are printed and **don't change** (their STL and STEP rebuild byte-identical).
+
+7. **Screw plugs:** push-fit caps over the edge screws' counterbores (`ScrewPlug`, `print/tree-screw-plug.stl`, 6 per tree). A 9.8 core with six crush ribs to 10.5 in the 10.4 counterbore (prints 0.2-0.4 small), 5 long, its face 0.3 under the rail's tip so the slots slide over it, 2.7mm clear of the screw head. A 2.5 hole in its face: drive a small screw in to pull it out.
+8. **Latch not positive enough** (stand and tower): the groove in the printed sockets is fixed (0.9 deep, r 3, 12 long), so the stiffness goes into the tongue: 18 wide (was 10), 18 long (was 20), bump 0.9 tall (was 0.8), still 10 wide. About 3x the force to click on and off. The stand's tongue bends across its layers (it prints back end down), at about 2% strain, up from 1.2%; if one cracks at its root, go back to `tongue_l` 20.
+9. **Stand gusset** (front to back): a 3mm gusset on the centre plane from the pole tube's front end up to the slot block's front edge, carried on inside the A-frame as a web down to the tube with its back edge at 45°. A strut alone at 45° would only meet the tube at the stand's back end. The stand is 63 cm³, up from 57; the show plate is 225g / 6h44, up from 210g / 6h13.
+
+---
+
 ## Still open
 - Cross pin through stand and rail: deferred by Rob. A latch (item 6) may make it unnecessary.

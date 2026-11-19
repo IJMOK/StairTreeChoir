@@ -56,6 +56,8 @@ def tree_mounts():
       pole cap   one on each end of each pole (4 per tree): a socket the pole pushes into, on a
                  wide pad with a peg hole beyond it. Peg the caps and the poles hold the stands
                  down. Prints sole down; the socket is a teardrop, so no supports.
+      screw plug v3 (Rob, 19 Nov 2026), 2 per socket: pushes into the counterbore over each edge
+                 screw, flush under the rail's tip. The printed sockets don't change.
 
     Fillets and chamfers are fixed at build time; the sizes follow the sheet.
     """
@@ -114,11 +116,14 @@ def tree_mounts():
         ("tube_ext", 20, "the pole tube runs on this far past the stand's front, for a longer grip on the pole"),
         ("win_h", 7, "lightening windows in the legs: diamonds this far from centre to point (45 deg: no supports)"),
         ("win_s", 2.4, "the struts between the windows"),
+        ("gus_t", 3, "v3 (Rob 19 Nov 2026: stronger front to back): a gusset on the centre plane from the pole tube's front end up to the slot block, this thick"),
+        ("gus_strut", 10, "and inside the A-frame a web down to the tube, its back edge at 45 deg: this long under the block"),
         ("latch_at", 5.2, "v2 latch (Rob 17 Nov 2026): a bump on a flexing tongue in the slot's floor, this far in from the rail's back end, clicks in behind the rail's end wall"),
-        ("latch_h", 0.8, "the bump's height"),
+        ("latch_h", 0.9, "the bump's height (v3, Rob 19 Nov 2026: more positive; 0.8 before): it fills the printed sockets' 0.9 groove"),
         ("latch_r", 3, "its radius: a gentle ramp both ways, so it pulls off by hand"),
-        ("tongue_w", 10, "the tongue, across"),
-        ("tongue_l", 20, "and along, from its free end at the back"),
+        ("bump_w", 10, "the bump, across: the groove in the printed sockets is bump_w + 2 = 12 long, so this stays 10"),
+        ("tongue_w", 18, "the tongue, across (v3: 10 before; wider is stiffer, and the bump stays bump_w)"),
+        ("tongue_l", 18, "and along, from its free end at the back (v3: 20 before; shorter is stiffer). About 3x the click of v2"),
         ("tongue_gap", 1, "the cut round it"),
         ("latch_groove", 0.9, "the groove across the rail's tip that the bump drops into (the socket is solid, v2): this deep"),
         ("tower_tongue_t", 2.4, "the tower's latch tongue (Rob 17 Nov 2026: the towers latch too): this thick, with a relief behind it"),
@@ -142,6 +147,13 @@ def tree_mounts():
         ("peg_boss", 14, "a boss round the angled hole, this long up the peg from the grass, so it holds the peg at the angle"),
         ("peg_boss_wall", 3, "the boss's wall round the hole"),
         ("pad_end", "=peg_at + 4", "worked out: the pad's round end is centred this far past the pole's end: it carries the boss"),
+        ("", None, "Screw plugs (v3, Rob 19 Nov 2026: push-fit caps over the socket's screw holes; the printed sockets don't change)"),
+        ("plug_d", 9.8, "the plug's core: the counterbore is edge_head_d (10.4) as drawn and prints 0.2-0.4 small"),
+        ("plug_rib_od", 10.5, "six crush ribs on the core, gripping to this"),
+        ("plug_rib_r", 0.5, "the ribs' radius"),
+        ("plug_l", 5, "the plug's length: its inner end stays clear of the screw head"),
+        ("plug_recess", 0.3, "its outer face sits this far below the rail's tip, so the slots slide over it"),
+        ("plug_pull", 2.5, "a blind hole in its face: drive a small screw in to pull it out"),
     ])
 
     P = "params."
@@ -190,10 +202,10 @@ def tree_mounts():
             cuts.append(F.box(doc, f"{prefix}TongueRelief", f"2 * ({tw} + {m})", relief,
                               f"{z_root} - ({zt} + {t} - {g}) + 2 * {m}",
                               f"-({tw} + {m})", f"{fl} + {t}", f"{zt} + {t} - {g} - {m}"))
-        bump_c = F.cyl(doc, f"{prefix}BumpRound", f"{P}latch_r", f"{P}tongue_w", f"-{P}tongue_w / 2",
+        bump_c = F.cyl(doc, f"{prefix}BumpRound", f"{P}latch_r", f"{P}bump_w", f"-{P}bump_w / 2",
                        f"{fl} - {P}latch_h + {P}latch_r", f"{z1} + {P}latch_at", F.Y, 90)
-        bump_lim = F.box(doc, f"{prefix}BumpLimit", f"{P}tongue_w", f"{P}latch_h + 0.6", f"2 * {P}latch_r + 2",
-                         f"-{P}tongue_w / 2", f"{fl} - {P}latch_h - 0.1", f"{z1} + {P}latch_at - {P}latch_r - 1")
+        bump_lim = F.box(doc, f"{prefix}BumpLimit", f"{P}bump_w", f"{P}latch_h + 0.6", f"2 * {P}latch_r + 2",
+                         f"-{P}bump_w / 2", f"{fl} - {P}latch_h - 0.1", f"{z1} + {P}latch_at - {P}latch_r - 1")
         return cuts, F.common(doc, f"{prefix}Bump", bump_c, bump_lim)
 
     # --- socket (v2, Rob 17 Nov 2026): a snug U over the edge (crush ribs up the legs), the rail
@@ -245,9 +257,29 @@ def tree_mounts():
                             f"{P}edge_seat - 0.01", zc, F.X, -90))
     # the latch groove: across the rail's tip, latch_at in from its back end, where the bump on
     # the stand's or tower's tongue drops in when the rail is home on their stop
-    screws.append(F.cyl(doc, "SockLatchGroove", f"{P}latch_r", f"{P}tongue_w + 2", f"-({P}tongue_w / 2 + 1)",
+    screws.append(F.cyl(doc, "SockLatchGroove", f"{P}latch_r", f"{P}bump_w + 2", f"-({P}bump_w / 2 + 1)",
                         f"{P}dt_h - {P}latch_groove + {P}latch_r", f"{z1} + {P}latch_at", F.Y, 90))
     F.cut(doc, "Socket", sock_f, screws)
+
+    # --- screw plug (v3, Rob 19 Nov 2026: push-fit caps over the screw holes; the sockets are
+    # printed, so they don't change). Drawn as fitted in the +x counterbore: a core just under
+    # the hole with six crush ribs, its face plug_recess below the rail's tip, a lead-in on its
+    # inner end and a blind hole in its face to pull it out with a screw. Prints face down.
+    y_in = f"({P}dt_h - {P}plug_recess - {P}plug_l)"
+    core = F.cyl(doc, "PlugCore", f"{P}plug_d / 2", f"{P}plug_l - 0.6", f"{P}edge_x", f"{y_in} + 0.6", zc, F.X, -90)
+    core_lead = F.cone(doc, "PlugLead", f"{P}plug_d / 2 - 0.6", f"{P}plug_d / 2", 0.6 + 0.01, f"{P}edge_x", y_in, zc,
+                       F.X, -90)
+    p_ribs = []
+    rr = f"({P}plug_rib_od / 2 - {P}plug_rib_r)"
+    for i in range(6):
+        a = 60 * i + 30                                   # none on the seam at 0
+        px, pz = f"{P}edge_x + {rr} * cos({a})", f"{zc} + {rr} * sin({a})"
+        p_ribs.append(F.cyl(doc, f"PlugRib{i}", f"{P}plug_rib_r", f"{P}plug_l - 1.5", px, f"{y_in} + 1.5", pz, F.X, -90))
+        p_ribs.append(F.cone(doc, f"PlugRibLead{i}", f"{P}plug_rib_r - 0.35", f"{P}plug_rib_r", 1.01, px,
+                             f"{y_in} + 0.5", pz, F.X, -90))
+    plug_s = F.fuse(doc, "PlugSolid", [core, core_lead, *p_ribs])
+    pull = F.cyl(doc, "PlugPull", f"{P}plug_pull / 2", 3.01, f"{P}edge_x", f"{P}dt_h - {P}plug_recess - 3", zc, F.X, -90)
+    F.cut(doc, "ScrewPlug", plug_s, [pull])
 
     # --- storage tower (v7, Rob 16 Nov 2026: storage only, much slimmer, still interlocking). The
     # slot, stopped at the bottom and open at the top, and a thin spine behind it; a tab on top,
@@ -332,7 +364,22 @@ def tree_mounts():
         legs.append(F.wedge(doc, f"StandLeg{i}", xa, xb_, f"{yb} - 1", f"{P}pole_y", zb, zf, x2a, x2b, zb, zf))
     tube = F.cyl(doc, "StandTube", rt, f"{L} + {P}tube_ext", 0, f"{P}pole_y", zb)
     foot = F.box(doc, "StandFoot", f"2 * {rt}", rt, f"{L} + {P}tube_ext", f"-{rt}", f"{P}pole_y", zb)
-    stand_solid = F.fuse(doc, "StandSolid", [block_r, *legs, tube, foot])
+    # v3 (Rob, 19 Nov 2026: a gusset, for strength front to back): on the centre plane, a gusset
+    # from the tube's front end up to the slot block's front edge, and inside the A-frame a web
+    # down the front to the tube, its back edge at 45 deg (a strut alone would meet the tube only
+    # at the stand's back end), so the block can't rack along the pole.
+    # Both lean at 45 deg or steeper as it prints (back end down), so no supports; both stay
+    # well in front of the latch tongue, which flexes down under the slot's floor at the back.
+    gt = f"{P}gus_t / 2"
+    yg = f"({yb} - 0.5)"                                   # just inside the block's underside
+    dy = f"({P}pole_y - {yg})"
+    gus_out = F.wedge(doc, "StandGusset", f"-{gt}", gt, yg, f"{P}pole_y", f"{zf} - 1", zf,
+                      f"-{gt}", gt, f"{zf} - 1", f"{zf} + {P}tube_ext - 1")
+    strut = F.wedge(doc, "StandStrutRaw", f"-{gt}", gt, yg, f"{P}pole_y", f"{zf} - {P}gus_strut", f"{zf} - 0.5",
+                    f"-{gt}", gt, f"{zf} - {P}gus_strut - {dy}", f"{zf} - 0.5")
+    strut_lim = F.box(doc, "StandStrutLimit", f"{P}col_w", f"{P}lift", f"{zf} - {zb}", f"-{P}col_w / 2", 0, zb)
+    strut_c = F.common(doc, "StandStrut", strut, strut_lim)
+    stand_solid = F.fuse(doc, "StandSolid", [block_r, *legs, tube, foot, gus_out, strut_c])
     stand_slot = slot("Stand", 0, f"{z1} - 0.5", f"{zf} + 1")     # stopped at the back, open at the front
     pole_h = F.cyl(doc, "StandPole", f"{P}pole_d / 2", f"{L} + {P}tube_ext + 2", 0, f"{P}pole_y", f"{zb} - 1")
     leads = [F.cone(doc, "StandPoleLeadBack", f"{P}pole_d / 2 + 0.8", f"{P}pole_d / 2", 0.8, 0, f"{P}pole_y", f"{zb} - 0.01"),
@@ -448,7 +495,7 @@ def tree_mounts():
 
     drill_jig(doc, P, zc, ch_lo)
 
-    F.check(doc, ["Socket", "Tower", "Stand", "PoleCap", "DovetailCoupon", "DrillJig"])
+    F.check(doc, ["Socket", "ScrewPlug", "Tower", "Stand", "PoleCap", "DovetailCoupon", "DrillJig"])
     return doc
 
 

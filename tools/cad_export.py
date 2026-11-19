@@ -75,6 +75,9 @@ OUTS = [
     Out("tree-mounts", ["Socket"], "tree-socket", "tree-socket", (RX, -90), "#3b7dd8", "3 per tree",
         "PETG, rail down (its wide face on the bed), legs up, no supports, 4 walls, 40% infill; v2: crush ribs grip the "
         "tread, two 5mm countersunk screws up into the edge (5 x 45 bottom, 5 x 35 top) through the jig's pilots"),
+    Out("tree-mounts", ["ScrewPlug"], "tree-screw-plug", "tree-screw-plug", (RX, -90), "#3b7dd8", "6 per tree (2 per socket)",
+        "PETG, face on the bed, no supports, 100% infill: push one into each socket's screw counterbore, flush under "
+        "the rail's tip; to pull it out, drive a small screw into the hole in its face (v3, Rob 19 Nov 2026)"),
     Out("tree-mounts", ["Tower"], "tree-tower", "tree-tower", (RX, -90), "#5aa05a", "3 per tree (storage)",
         "PETG, on its back, 3 walls, 15% infill, support on the build plate only, under the latch tongue (snap it out "
         "through the window); a tree lying face up drops onto its three and clicks in, "

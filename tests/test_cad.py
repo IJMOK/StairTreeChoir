@@ -16,7 +16,7 @@ PRINT = sorted((ROOT / "print").glob("*.stl"))
 
 def test_print_files_exist():
     names = {p.stem for p in PRINT}
-    for n in ("tree-box-base", "tree-box-cover", "tree-socket", "tree-tower", "tree-stand", "tree-pole-cap", "tree-drill-jig", "tree-plate", "psu-hood",
+    for n in ("tree-box-base", "tree-box-cover", "tree-socket", "tree-screw-plug", "tree-tower", "tree-stand", "tree-pole-cap", "tree-drill-jig", "tree-plate", "psu-hood",
               "pixel-disk", "step-clamp", "pod-buck-base", "pod-buck-lid"):
         assert n in names
 
@@ -111,6 +111,10 @@ def test_mount_sizes_hang_together():
     assert mp["pole_y"] - mp["pole_d"] / 2 >= mp["dt_h"] + mp["clr"] + mp["slot_wall"] + 3   # slot block to the pole hole
     assert mp["edge_head_d"] / 2 + 1.5 < mp["edge_x"]         # the two screw heads' counterbores stay apart
     assert 30 - mp["edge_x"] - 7.5 - 2.5 >= 3 and mp["edge_x"] - 7.5 - 2.5 >= 3   # 3mm of oak to the pixel holes either side
+    assert mp["bump_w"] + 2 == 12                             # the groove in the printed sockets (v2) is 12 long
+    assert mp["latch_h"] <= mp["latch_groove"]                # the bump fits the printed groove
+    assert mp["plug_d"] < mp["edge_head_d"] < mp["plug_rib_od"]   # the plug's ribs grip the counterbore, its core clears
+    assert mp["plug_l"] + mp["plug_recess"] <= mp["dt_h"] - mp["edge_seat"] - 1   # clear of the screw head
     assert mp["cap_rib_id"] < 11.0 < mp["pole_d"]             # Rob: caps grip the 11.0 pole, the stand slides on it
     assert -mp["tree_t"] / 2 + mp["rail_half"] < -(mp["tree_t"] + mp["below"]) + mp["pitch"]  # rail clears the tower above
 
@@ -141,6 +145,8 @@ EXPECTED = [
     "socket: edge screw holes open through the rail, solid round them, no face screws",
     "socket is solid (v2), with the latch groove across its rail's tip",
     "tower latch: a bump on a free tongue, a window behind it out through the back",
+    "screw plug (v3): in the +x counterbore, under the rail's tip, clear of the screw head, its ribs gripping the wall",
+    "stand gusset (v3): on the centre plane past the front and down the front inside, the latch tongue still free to flex",
     "tower tab is flush with the back face and a dovetail (narrower at the back)",
     "socket crush ribs stand into the channel",
     "drilling jig: guides over the screw positions, a hole on the pixel above, snug over the edge",

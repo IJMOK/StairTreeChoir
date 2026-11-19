@@ -130,6 +130,19 @@ check("tower latch: a bump on a free tongue, a window behind it out through the 
       and not tower.isInside(V(mp["tongue_w"] / 2 + mp["tongue_gap"] / 2, fl + 1.5, z1 + 10), 1e-6, True)
       and not tower.isInside(V(0, mp["y_out"] - 0.5, z1 + 10), 1e-6, True)
       and tower.isInside(V(0, fl + mp["tower_tongue_t"] / 2, z1 + 10), 1e-6, True))
+plug = solid("cad/printed/tree-screw-plug.step")
+core = Part.makeCylinder(mp["plug_d"] / 2 - 0.02, plug.BoundBox.YLength, V(mp["edge_x"], plug.BoundBox.YMin, zc), V(0, 1, 0))
+check("screw plug (v3): in the +x counterbore, under the rail's tip, clear of the screw head, its ribs gripping the wall",
+      plug.isValid() and len(plug.Solids) == 1
+      and plug.BoundBox.YMax <= mp["dt_h"] - 0.2 and plug.BoundBox.YMin >= mp["edge_seat"] + 1
+      and plug.common(sock).Volume > 0.1 and core.common(sock).Volume < 1e-3)   # the ribs overlap the hole as drawn (it prints small)
+yb = fl + mp["slot_wall"]
+zf = zc + mp["rail_half"] + 1
+check("stand gusset (v3): on the centre plane past the front and down the front inside, the latch tongue still free to flex",
+      stand.isInside(V(0, (yb + mp["pole_y"]) / 2, zf + 2), 1e-6, True)
+      and stand.isInside(V(0, (yb + mp["pole_y"]) / 2, zf - 10), 1e-6, True)
+      and not stand.isInside(V(mp["gus_t"] / 2 + 0.5, (yb + mp["pole_y"]) / 2, zf + 2), 1e-6, True)
+      and not stand.isInside(V(0, yb + 1.5, z1 + 10), 1e-6, True))
 check("tower tab is flush with the back face and a dovetail (narrower at the back)",
       tower.isInside(V(mp["spig_w"] / 2 - 0.5, mp["y_out"] - 0.3, -(mp["tree_t"] + mp["below"]) + mp["pitch"] + 5), 1e-6, True)
       and not tower.isInside(V(mp["spig_w"] / 2 + 0.5, mp["y_out"] - 0.3, -(mp["tree_t"] + mp["below"]) + mp["pitch"] + 5), 1e-6, True)
