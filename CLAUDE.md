@@ -34,7 +34,7 @@ Fallback if Wi-Fi streaming jitters in testing: ESPixelStick firmware in FPP Rem
 Audio: USB sound card → XH-M541 amp (TPA3116D2) → speakers, at the player.
 
 Addressing
-Tree IDs 1–14 are physical: hostname stairtree-NN, fixed IP 192.168.8.(100+NN) (set as the site router's LAN, with the router at 192.168.8.1). Same on every site router, by default.
+Tree IDs 1–14 are physical: hostname stairtree-NN, fixed address 192.168.8.(100+NN) on the site router's LAN (router at 192.168.8.1). Same on every site router, by default. Every tree's WLED stays on DHCP and the address is a reservation on the site router (Rob, 21 Nov 2026: a static IP set in WLED would strand a tree on any other network), so a tree works on any network.
 Site A exception (Rob, 11 Nov 2026): the Cudy extends Rob's home network and the player plugs into it, so Site A runs on 192.168.0.x: tree NN at 192.168.0.(220+NN), FPP at .220, gateway the Huawei B818 at .1. The trees stay on DHCP and get those addresses from reservations on the Zyxel OpenWrt (192.168.0.3), which hands out the home network's addresses (pool .6–.200). A site's addressing lives in data/sites.json ("network"); tools/gen_site_wiring.ip() is the one place it's computed.
 Sequence slots 1–6 are the 6 trees in the xLights sequence. Each site's config maps slots to tree IDs (data/sites.json, M5); a 2-tree site uses slots 1–2, a 4-tree site slots 1–4.
 
@@ -154,7 +154,7 @@ Site wiring diagram: PSU → fused splits → trees; player, amp, speaker.
 
 M5. Site and tree configuration
 data/sites.json lists the sites and maps sequence slots to tree IDs. tools/gen_site_config.py generates:
-per tree: WLED config (hostname stairtree-NN, static IP, LED count 92, data pin, colour order TBC from first light, realtime/DDP receive enabled, site Wi-Fi credentials kept out of git)
+per tree: WLED config (hostname stairtree-NN, DHCP (address reserved on the site router), dark at boot, LED count 92, data pin, colour order TBC from first light, realtime/DDP receive enabled, site Wi-Fi credentials kept out of git)
 per site: FPP channel outputs (one DDP output per tree: IP, start channel of its slot, 276 channels), playlist and a nightly schedule that stops the show cleanly
 Unverified: WLED's config JSON schema and FPP's channel output JSON schema. Read them from the source or from a backup exported from a running device. Prefer WLED's /json/cfg backup/restore and FPP's settings backup or API over writing files into filesystems.
 A provisioning checklist: flash ESP32 → apply config → join site router → test pattern; flash Pi → apply site config → audio test.

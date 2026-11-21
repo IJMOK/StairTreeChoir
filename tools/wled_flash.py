@@ -2,8 +2,8 @@
 
 Erases the ESP32, flashes WLED 16.0.1, joins it to Wi-Fi over Improv serial, POSTs the tree's
 config, then reads it back. Bench mode (the default) leaves the board on DHCP on the Wi-Fi it
-joined; --site also sets the tree's site network from data/sites.json (a fixed 192.168.8.x address
-unless the site uses DHCP reservations), after which the PC may only reach
+joined; --site also sets the tree's site network from data/sites.json (DHCP, with
+the address reserved on the site router), after which the PC may only reach
 it through the site router.
 
     python -m tools.wled_flash --identify           # read-only: port, MAC, flash size, what's on it

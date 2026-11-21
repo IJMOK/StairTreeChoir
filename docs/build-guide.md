@@ -147,7 +147,7 @@ The site box is a DRiBOX Large (Rob, 26 Oct 2026). Cables pass through the seals
 1. One router per site: a Cudy WR3000 (about £30–40) flashed with vanilla OpenWrt. Set every site up identically, with the same SSID, password and subnet. **No Wi-Fi password goes in git.**
 2. The show runs on 2.4 GHz only, because the ESP32s are 2.4 GHz. Give it a fixed channel (1, 6 or 11, 20 MHz wide), picking whichever is quietest at the site. The 5 GHz radio isn't used for the show.
 3. Subnet: 192.168.8.x, with the router at 192.168.8.1. OpenWrt starts at 192.168.1.1, so change the LAN address at first set-up.
-4. Fixed addresses: tree NN is `stairtree-NN` at `192.168.8.(100+NN)`, the same at every site. Tree 7 is `stairtree-07` at 192.168.8.107. Reserve each IP in the router as well as setting it in WLED. Site A is the exception: it runs on the home network, with tree NN reserved at `192.168.0.(220+NN)` on the Zyxel OpenWrt and WLED left on DHCP (data/sites.json).
+4. Fixed addresses: tree NN is `stairtree-NN` at `192.168.8.(100+NN)`, the same at every site. Tree 7 is `stairtree-07` at 192.168.8.107. WLED stays on DHCP; reserve each tree's IP on the router by its MAC (wled/provisioned.csv). Site A runs on the home network instead, with tree NN reserved at `192.168.0.(220+NN)` on the Zyxel OpenWrt (data/sites.json).
 5. Each router keeps two configs. "Show" is the setup above. "Home" makes it an 802.11s mesh node of Rob's home OpenWrt network for the rest of the year (5 GHz backhaul, home SSID on 2.4 GHz). Save both as `sysupgrade -b` backups outside git, because they hold the Wi-Fi passwords. Restore "show" before each season.
 6. Not in the site box: inside the DRiBOX the router's 175mm antennas would lie flat over the PSU at ground level. Put it up high with its antennas upright (Site A: indoors at the front window, about 5ft from the trees). Keep each tree's antenna in view of it where possible: 30mm of wet oak costs signal.
 7. Site A: the router stands indoors at the front window, about 5ft from the trees, with its antennas upright, on its own mains adapter. Other sites: in a small covered box mounted high, on the site PSU through its own 2A fuse (the WR3000 takes 12V 1A, the WR3000H 1.5A; check the label and the barrel's polarity). Set `"router"` in `data/sites.json` to match.
@@ -164,7 +164,7 @@ For each ESP32, follow "Setting up a tree controller by hand" in [wled/README.md
 1. Flash the plain ESP32 build of WLED (16.0.1 was tested) from install.wled.me.
 2. LED preferences: length 92, data GPIO 16, WS281x, colour order RGB (confirmed at first light on tree 1), brightness limiter on. The limiter assumes 5V pixels, so recheck it for the 12V strings.
 3. Sync interfaces: tick Receive UDP realtime (DDP).
-4. Set the hostname `stairtree-NN`, the static IP 192.168.8.(100+NN) and the site Wi-Fi.
+4. Set the hostname `stairtree-NN` and the site Wi-Fi; leave it on DHCP (the router reserves 192.168.8.(100+NN)).
 5. Label the ESP32 and its box with the tree number.
 
 **What M5 will generate.** `tools/gen_site_config.py` (milestone M5, not written yet) is to produce, per tree, a WLED config (hostname, static IP, 92 LEDs, GPIO 16, colour order, realtime on, no Wi-Fi credentials) and, per site, an FPP config (one DDP output per tree, a playlist, and a nightly schedule that stops the show cleanly). Until it exists, do these by hand. The WLED and FPP config schemas are unverified: prefer WLED's `/json/cfg` backup and restore and FPP's settings backup over writing files.

@@ -44,7 +44,7 @@ The controller entry xLights saved (`Documents\xLights\xlights_networks.xml`), k
 | Setting | Key | Value |
 |---|---|---|
 | Hostname / mDNS name | `id.mdns` (and `id.name`) | `stairtree-NN` |
-| Static IP, gateway, mask | `nw.ins[0].ip / gw / sn` | `192.168.8.(100+NN)`, `192.168.8.1`, `255.255.255.0` by default; `0.0.0.0` (DHCP) at a site whose `network.static` is false in data/sites.json (Site A: the home router reserves 192.168.0.(220+NN)) |
+| Static IP, gateway, mask | `nw.ins[0].ip / gw / sn` | `0.0.0.0` (DHCP) at every site by default: the site router reserves 192.168.8.(100+NN) (Site A: the home router reserves 192.168.0.(220+NN)). Only a site with `network.static: true` in data/sites.json bakes the address into WLED |
 | Wi-Fi name | `nw.ins[0].ssid` | placeholder `CHANGE-ME-SSID`, replaced at provisioning |
 | LED count | `hw.led.total`, `hw.led.ins[0].len` | 92 |
 | Data pin | `hw.led.ins[0].pin` | `[16]` |
@@ -64,7 +64,7 @@ Not set, so left at the device's value: the brightness limiter (`hw.led.maxpwr`;
     .venv/Scripts/python -m tools.wled_flash --identify      # changes nothing
     .venv/Scripts/python -m tools.wled_flash 3 --port COM7   # erases the board
 
-It erases, flashes WLED 16.0.1 with the layout install.wled.me uses, joins Wi-Fi over Improv serial, POSTs the tree's config and reads it back. The default is bench mode: the board stays on DHCP on the Wi-Fi it joined. `--site` also sets the site's addressing from data/sites.json (a fixed 192.168.8.x address by default; DHCP at Site A), after which only the site network may reach it, so that result isn't read back. Each pass is added to `wled/provisioned.csv`, which maps trees to MACs. It refuses the wreath, the old wreath ESP8266, WLED_Star and WLED-SoundReactive.
+It erases, flashes WLED 16.0.1 with the layout install.wled.me uses, joins Wi-Fi over Improv serial, POSTs the tree's config and reads it back. The default is bench mode: the board stays on DHCP on the Wi-Fi it joined. `--site` also sets the site's addressing from data/sites.json (DHCP, with the address reserved on the site router), after which only the site network may reach it, so that result isn't read back. Each pass is added to `wled/provisioned.csv`, which maps trees to MACs. It refuses the wreath, the old wreath ESP8266, WLED_Star and WLED-SoundReactive.
 
 Wi-Fi details come from `STAIRTREE_WIFI_SSID` and `STAIRTREE_WIFI_PSK`, else `~/.stairtree_wifi.json` (`{"ssid": "...", "psk": "..."}`), which is outside every repo. Needs `pip install -r requirements-flash.txt`.
 
@@ -80,7 +80,7 @@ Wi-Fi details come from `STAIRTREE_WIFI_SSID` and `STAIRTREE_WIFI_PSK`, else `~/
    .venv/Scripts/python -m tools.wled_apply 3 4.3.2.1
    ```
    (tree 3, device currently at 4.3.2.1; `--dry-run` shows what would be sent with the password hidden.) By hand instead: `curl -X POST -H "Content-Type: application/json" --data-binary @copy.json http://<device>/json/cfg` where `copy.json` is a copy of the tree's file with the real Wi-Fi name and a `psk` added; never commit that copy. WLED answers `{"success":true}` and reboots.
-3. **Join**: the tree reboots, joins the site router and takes `192.168.8.1NN`. Open it there (http://stairtree-NN.local if mDNS works on your PC, otherwise the IP). Check Config > LED Preferences shows 92 LEDs on GPIO 16 and Config > Sync Interfaces has "Receive UDP realtime" ticked. If it could not join (wrong Wi-Fi name or password), it opens `WLED-AP` again after boot (`apBehavior` default); apply again with the right values.
+3. **Join**: the tree reboots, joins the site router and takes its reserved `192.168.8.1NN`. Open it there (http://stairtree-NN.local if mDNS works on your PC, otherwise the IP). Check Config > LED Preferences shows 92 LEDs on GPIO 16 and Config > Sync Interfaces has "Receive UDP realtime" ticked. If it could not join (wrong Wi-Fi name or password), it opens `WLED-AP` again after boot (`apBehavior` default); apply again with the right values.
 4. **Colour order**: send red, green and blue (the colour picker, or xLights Test) and if they come out wrong, change `COLOR_ORDER` in the generator (WLED's numbers: 0 GRB, 1 RGB, 2 BRG, 3 RBG, 4 BGR, 5 GBR), rebuild and apply again. Also check node 1 is the base-left corner.
 5. **Test pattern**: with the Pi (or xLights) sending to it, the Peek view and the tree show the frames; Info shows realtime mode DDP and the sender's IP. Reserve the IP in the router too if it lets you.
 

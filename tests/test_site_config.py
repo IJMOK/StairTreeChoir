@@ -48,8 +48,9 @@ def test_ips_and_hostnames_unique_across_all_sites():
 def test_wled_config_content():
     c = sc.wled_config(7)
     assert c["id"]["mdns"] == "stairtree-07"
-    w = c["nw"]["ins"][0]       # tree 7 is at a default-network site: fixed IP set in WLED
-    assert w["ip"] == [192, 168, 8, 107] and w["gw"] == [192, 168, 8, 1] and w["sn"] == [255, 255, 255, 0]
+    w = c["nw"]["ins"][0]       # tree 7 is at a default-network site: DHCP, reserved on the site router
+    assert w["ip"] == [0, 0, 0, 0] and w["gw"] == [0, 0, 0, 0] and w["sn"] == [255, 255, 255, 0]
+    assert ip(7) == "192.168.8.107"
     led = c["hw"]["led"]["ins"][0]
     assert (led["start"], led["len"], led["pin"], led["type"]) == (0, 92, [16], 22)
     assert c["hw"]["led"]["total"] == 92

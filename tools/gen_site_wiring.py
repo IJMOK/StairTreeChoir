@@ -42,11 +42,12 @@ SPARE = 1.1                         # buy 10% more flex than the runs add up to
 
 
 # A site's network (data/sites.json "network", merged over this). The plan (CLAUDE.md §2) is a
-# dedicated router per site on 192.168.8.x with each tree's fixed IP set in WLED ("static").
-# Site A instead runs on Rob's home network (the Cudy extends it; Rob, 11 Nov 2026): the trees
-# stay on DHCP and get fixed addresses from reservations on the home router.
+# dedicated router per site on 192.168.8.x. Every tree stays on DHCP and gets its fixed address
+# from a reservation on the site's router (Rob, 21 Nov 2026: a static IP baked into WLED strands a
+# tree on any other network). Site A runs on Rob's home network (the Cudy extends it; Rob,
+# 11 Nov 2026), reserved on the home router. "static": true would bake ip(tree) into WLED instead.
 DEFAULT_NETWORK = {"prefix": "192.168.8", "tree_base": 100, "gateway": "192.168.8.1",
-                   "player": "192.168.8.20", "static": True}
+                   "player": "192.168.8.20", "static": False}
 
 
 def network(site: dict) -> dict:

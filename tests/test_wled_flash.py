@@ -53,9 +53,9 @@ def test_bench_config_keeps_wifi_off_the_wire():
     assert cfg["id"]["mdns"] == "stairtree-03" and cfg["hw"]["led"]["ins"][0]["pin"] == [16]
 
 
-def test_site_config_carries_fixed_ip_and_wifi():
+def test_site_config_carries_wifi_on_dhcp():
     wifi = wf.tree_config(7, True, "SiteNet", "s3cret")["nw"]["ins"][0]
-    assert wifi["ssid"] == "SiteNet" and wifi["psk"] == "s3cret" and wifi["ip"] == [192, 168, 8, 107]
+    assert wifi["ssid"] == "SiteNet" and wifi["psk"] == "s3cret" and wifi["ip"] == [0, 0, 0, 0]
 
 
 def test_log_keeps_one_row_per_tree_and_board(tmp_path):
