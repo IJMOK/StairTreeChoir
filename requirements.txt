@@ -1,4 +1,6 @@
 ezdxf>=1.4
+shapely>=2.0  # tools/gen_pcb.py: PCB copper, isolation toolpaths, G-code checks
+matplotlib>=3.8  # tools/gen_pcb.py: the engraved label font (also used by the CAD previews)
 markdown-it-py>=3
 pytest>=8
 pillow>=10

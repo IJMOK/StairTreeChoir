@@ -1,8 +1,8 @@
 """Regenerate the generated files: python -m tools.build (make all). The printed parts and the
 assembly come from the FreeCAD masters: python -m tools.cad (make cad), a few minutes."""
 
-from tools import (cad, gen_cnc, gen_controller, gen_docs_site, gen_site_config, gen_site_wiring, gen_tree_wiring,
-                   gen_xmodel, tree_layout)
+from tools import (cad, gen_cnc, gen_controller, gen_docs_site, gen_pcb, gen_site_config, gen_site_wiring,
+                   gen_tree_wiring, gen_xmodel, tree_layout)
 
 
 def main() -> None:
@@ -16,6 +16,7 @@ def main() -> None:
         print("skipped cad/tree/stair-tree.*: freecadcmd not found (FreeCAD 1.1)")
     gen_xmodel.main()
     gen_controller.main()
+    gen_pcb.main()          # milled controller PCB + PrintNC G-code (~20s)
     gen_site_wiring.main()
     gen_site_config.main()
     gen_tree_wiring.main()

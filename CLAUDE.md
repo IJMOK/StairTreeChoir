@@ -81,7 +81,7 @@ CAD (Rob, 15 Nov 2026: one source of truth, all in FreeCAD 1.1; cad/README.md is
 
 4. Hardware (decided unless marked TBC)
 Part    Decision
-Tree controller    ESP32 running WLED, one per tree (14). Decided by Rob, 21 Oct 2026: DIY. ESP32-DevKitC-32U (38-pin) with a U.FL to RP-SMA antenna, plugged into female headers on a 5×7cm prototype board with the level shifter and Mini560 (electronics/, M4). 16 ordered (2 spare).
+Tree controller    ESP32 running WLED, one per tree (14). Decided by Rob, 21 Oct 2026: DIY. ESP32-DevKitC-32U (38-pin) with a U.FL to RP-SMA antenna, plugged into female headers on a 5×7cm prototype board with the level shifter and Mini560 (electronics/, M4). 16 ordered (2 spare). The last five trees (Rob, 25 Nov 2026) get a milled single-sided 1.2mm FR4 PCB instead, all cut with one 1.0mm flat end mill (Rob: one tool, one isolation pass, so 1.0mm between nets and 1.5mm-wide pads on 2.54 pitch): same circuit, outline, fixing holes and ESP32/U1/Mini560 holes (R1, R2, C1, C2, JD moved for the routing), cut 6-up (one spare) on Rob's PrintNC from copper clad on double-sided tape; tools/gen_pcb.py → electronics/pcb/ (one-file G-code job, Gerbers, drawings, and checks that re-read the G-code against the netlist).
 ESP32 data pin    GPIO16 (not a strapping pin; proven in the M0 prototype with WLED 16.0.1). GPIO 5/18/19/23 kept free for an optional SD breakout (ESPixelStick fallback).
 Level shifter    74AHCT125N (DIP-14, soldered in: no sockets, Rob 28 Oct 2026), one channel used per tree, 33Ω series resistor on the data line, 10k pull-down on its input, 100µF across 5V, 0.1µF at the chip.
 Tree logic power    Mini560 fixed 5V buck (12V in) for the ESP32 and level shifter.
@@ -113,6 +113,7 @@ tools/cad.py                   # python -m tools.cad: runs tools/cad_export.py i
 tools/slice.py                 # python -m tools.slice: Bambu Studio CLI, P1S + PETG -> print/*.gcode.3mf
 tools/gen_cnc.py               # -> cad/*.svg, cad/*.dxf (2D reference)
 tools/gen_xmodel.py            # -> xlights/StairTree.xmodel (M2)
+tools/gen_pcb.py               # -> electronics/pcb/ (milled controller PCB: PrintNC G-code, Gerbers, checks)
 tools/gen_site_wiring.py       # -> electronics/site-wiring.md, electronics/<site>.svg
 tools/gen_site_config.py       # -> fpp/<site>/ outputs, wled/stairtree-NN.json (M5)
 tools/build.py                 # python -m tools.build (make all) regenerates everything but the printed parts (make cad)
