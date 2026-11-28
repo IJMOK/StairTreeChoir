@@ -114,6 +114,7 @@ DOW_SATURDAY = 6                         # ScheduleEntry.h INX_SAT
 DOW_SUN_TO_FRI = 0x10000 | 0x07E00       # INX_DAY_MASK | every day's bit but INX_DAY_MASK_SATURDAY (0x00100)
 STOP_GRACEFUL, STOP_HARD, STOP_AFTER_LOOP = 0, 1, 2
 SEASON_START = "2026-12-01"      # Rob to confirm
+PRESEASON_START = "2026-11-28"   # trees out early (Rob, 28 Nov 2026): silent loops only until SEASON_START
 SEASON_END = "2027-01-01"        # New Year's Day (docs/specials.md)
 NYE_WEEK_START = "2026-12-27"    # thank-yous plug New Year's Eve from here
 NYE, NYD = "2026-12-31", "2027-01-01"
@@ -514,6 +515,14 @@ def normal_night(dates: tuple[str, str], suffix: str = "", day: int = DOW_EVERY_
     return plan
 
 
+def preseason_night(dates: tuple[str, str]) -> list[dict]:
+    """Before the season (Rob, 28 Nov 2026): the trees are out but nobody sings. Only the silent
+    loops: Waiting 16:00-21:00, then Night (no Goodnight, it has audio) until Home Assistant's
+    lights out or the 23:30 backstop. Night outranks Waiting, so at 21:00 it takes over at once."""
+    return [_e(NIGHT, "night", GOODNIGHT_AT, NIGHT_END, dates, STOP_GRACEFUL, 1),
+            _e(WAITING, "waiting", WAITING_FROM, WAITING_TO, dates, STOP_HARD, 1)]
+
+
 def nye_night() -> list[dict]:
     """New Year's Eve: shows to 22:00, Bramble's late show, the countdown at midnight."""
     d = (NYE, NYE)
@@ -569,7 +578,8 @@ def schedule_plan() -> list[dict]:
                            DOW_SUN_TO_FRI)
             + normal_night(december, "", DOW_SATURDAY, shows={17: SAT_TEASER, 18: SAT_SPECIAL}, announce=SAT_ANNOUNCE)
             + normal_night((NYE_WEEK_START, _day_before(NYE)), " NYE week")
-            + nye_night() + nyd_night())
+            + nye_night() + nyd_night()
+            + preseason_night((PRESEASON_START, _day_before(SEASON_START))))
     return sorted(plan, key=lambda e: CLASS_RANK[e["cls"]])   # stable: keeps time order within a class
 
 

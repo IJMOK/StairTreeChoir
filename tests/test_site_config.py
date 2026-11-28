@@ -149,9 +149,15 @@ def test_every_night_of_the_season_is_covered_once():
             d = a + datetime.timedelta(days=k)
             if (d.weekday() + 1) % 7 in sc.weekdays(e["day"]):   # FPP counts from Sunday = 0
                 days.setdefault(d, set()).add((e["dates"], e["day"]))
-    first, last = (datetime.date.fromisoformat(x) for x in (sc.SEASON_START, sc.SEASON_END))
+    first, last = (datetime.date.fromisoformat(x) for x in (sc.PRESEASON_START, sc.SEASON_END))
     assert sorted(days) == [first + datetime.timedelta(days=k) for k in range((last - first).days + 1)]
     assert all(len(v) == 1 for v in days.values())   # one kind of night per date
+
+
+def test_preseason_is_silent_loops_only():
+    pre = [e for e in sc.schedule_plan() if e["dates"][0] < sc.SEASON_START]
+    assert {e["playlist"] for e in pre} == {sc.WAITING, sc.NIGHT}   # no singing before the season
+    assert all(e["dates"] == (sc.PRESEASON_START, sc._day_before(sc.SEASON_START)) for e in pre)
 
 
 def test_fpp_day_codes():
